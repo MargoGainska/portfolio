@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#FFFFFF">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect x="120" y="150" width="300" height="500" rx="12" fill="#F2F4F7"/>
+    <rect x="150" y="200" width="240" height="64" rx="8" fill="#FFFFFF" stroke="#EAECF0" stroke-width="3"/>
+    <rect x="150" y="288" width="240" height="64" rx="8" fill="#FFFFFF" stroke="#EAECF0" stroke-width="3"/>
+    <g transform="translate(780,400)">
+      <circle r="190" fill="none" stroke="#EDEFF2" stroke-width="26"/>
+      <circle r="190" fill="none" stroke="#DD2590" stroke-width="26" stroke-dasharray="150 60 90 40 200 50 120 30"/>
+      <circle r="148" fill="none" stroke="#D0D5DD" stroke-width="14" stroke-dasharray="6 10"/>
+      <circle r="112" fill="none" stroke="#16B364" stroke-width="10" stroke-dasharray="40 22"/>
+    </g>
+  </svg>
+</template>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=IBM+Plex+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+  <style>
+    html,body{margin:0;padding:0;height:100%;background:#FFFFFF;}
+    *{box-sizing:border-box;}
+    a{color:inherit;}
+    .sp-scroll::-webkit-scrollbar{width:11px;height:11px;}
+    .sp-scroll::-webkit-scrollbar-thumb{background:#D0D5DD;border-radius:99px;border:3px solid #FFFFFF;}
+    @keyframes lm-dot{0%,80%,100%{opacity:0.25;}40%{opacity:1;}}
+  details.ws>summary{list-style:none}details.ws>summary::-webkit-details-marker{display:none}details.ws[open]>summary{background:#F2F4F7}
+</style>
+</helmet>
+<div data-unified-nav="" style="display:grid;grid-template-columns:248px minmax(0,1fr);height:100vh;font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:14px;line-height:20px;color:#101828">
+<aside style="width:248px;box-sizing:border-box;background:#fff;border-right:1px solid #EAECF0;display:flex;flex-direction:column;padding:0 10px 12px;gap:2px;min-height:0;min-width:0;overflow:visible;white-space:nowrap;position:relative;z-index:5">
+    <div style="height:56px;flex:none;display:flex;align-items:center;margin:0 -10px 10px;padding:0 10px;border-bottom:1px solid #EAECF0;box-sizing:border-box"><details class="ws" style="position:relative;flex:1;min-width:0">
+      <summary style="display:flex;align-items:center;gap:10px;padding:6px 8px;color:#344054;font-weight:600;border-radius:6px;cursor:pointer">
+      <span style="width:22px;height:22px;border-radius:4px;background:#F2F4F7;border:1px solid #EAECF0;box-sizing:border-box;color:#344054;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none">S</span>
+      <span>Solu lab · St. Agnes</span>
+      <svg style="margin-left:auto;color:#98A2B3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 9l6 6 6-6"></path></svg>
+    </summary>
+      <div style="position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:20;background:#fff;border:1px solid #EAECF0;border-radius:10px;box-shadow:0 12px 24px -6px rgba(16,24,40,0.12),0 4px 8px -4px rgba(16,24,40,0.06);padding:6px;display:flex;flex-direction:column;gap:2px;white-space:nowrap">
+        <span style="padding:6px 8px 4px;font-size:12px;color:#667085">Workspaces</span>
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;background:#F9FAFB;color:#101828;font-weight:500"><span>Solu lab · St. Agnes</span><svg style="margin-left:auto;color:#099250" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB"><span>Regional surveillance</span><span style="margin-left:auto;font-size:12px;padding:0 8px;border-radius:999px;background:#EEF4FF;color:#3538CD;line-height:20px">Shared</span></div>
+        <div style="height:1px;background:#EAECF0;margin:4px 2px"></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB"><svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg><span>Settings</span></div>
+      </div>
+    </details></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg><span>Home</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;background:#EDFCF2;color:#087443;font-weight:500;cursor:pointer">
+      <svg style="flex:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L5 19a1.5 1.5 0 0 0 1.3 2h11.4a1.5 1.5 0 0 0 1.3-2L14 9V3"></path></svg><span>Samples</span><span style="margin-left:auto;font-size:12px;color:#099250">128</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="flex:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4.5" stroke-dasharray="3 2.4"></circle></svg><span>Plasmids</span><span style="margin-left:auto;font-size:12px;color:#667085">23</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Collections</span><span style="margin-left:auto;font-size:12px;color:#667085">12</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="19" r="2"></circle><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="7" cy="7" r="1.4"></circle><circle cx="17" cy="17" r="1.4"></circle><circle cx="17" cy="7" r="1.4"></circle><circle cx="7" cy="17" r="1.4"></circle></svg><span>Clusters</span><span style="margin-left:auto;font-size:12px;color:#667085">4</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"></path><path d="M14 3v5h5M9 13h6M9 17h6"></path></svg><span>Reports</span><span style="margin-left:auto;font-size:12px;color:#667085">4</span>
+    </div>
+    <div style="margin-top:auto;height:1px;background:#EAECF0;margin-left:6px;margin-right:6px;margin-bottom:8px"></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6M12 17h.01"></path></svg><span>Help &amp; feedback</span>
+    </div>
+  </aside>
+<div style="min-width:0;min-height:0"><div style="height:100vh;max-height:100vh;display:flex;flex-direction:column;background:#FFFFFF;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#101828;-webkit-font-smoothing:antialiased;overflow:hidden;">
+
+  <div style="display:flex;align-items:center;gap:8px;padding:0 24px;height:56px;border-bottom:1px solid #EAECF0;flex:none;">
+    <div style="display:flex;align-items:center;gap:8px;font-size:14px;">
+      <span style="color:#667085;">Samples</span>
+      <span style="color:#D0D5DD;">/</span>
+      <span style="color:#101828;font-weight:600;">MS7925_assembly</span>
+    </div>
+    <button style="margin-left:auto;border:none;display:inline-flex;align-items:center;gap:8px;border-radius:4px;background:#099250;color:#fff;box-shadow:0 1px 2px rgba(16,24,40,0.05);font-family:inherit;cursor:pointer;height:36px;padding:0 14px;font-size:14px;line-height:20px;font-weight:600;box-sizing:border-box" style-hover="background:#087443">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      Add samples
+    </button>
+  </div>
+
+  <div class="sp-scroll" style="flex:1;min-height:0;overflow-y:auto;">
+    <div style="max-width:1320px;margin:0 auto;padding:26px 26px 60px;">
+
+      <div style="display:flex;align-items:flex-start;gap:24px;margin-bottom:22px;">
+        <div style="min-width:0;">
+          <h1 style="margin:0;font-size:27px;font-weight:600;letter-spacing:-0.02em;color:#101828;">MS7925_assembly</h1>
+          <div style="font-size:14px;color:#667085;margin-top:4px;">Uploaded 18 hours ago by Margo G</div>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:26px;flex:none;">
+          <button style="display:inline-flex;align-items:center;gap:8px;background:none;border:none;color:#099250;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;padding:0;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M11.5 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v3.5"></path><path d="M17 16v6M14 19h6"></path></svg>
+            Create new report
+          </button>
+          <button style="display:inline-flex;align-items:center;gap:8px;background:none;border:none;color:#099250;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;padding:0;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Export .xlsx
+          </button>
+          <button style="display:inline-flex;align-items:center;gap:8px;background:none;border:none;color:#099250;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;padding:0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+            Edit
+          </button>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:30px;border-bottom:1px solid #EAECF0;margin-bottom:26px;overflow-x:auto;">
+        <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="9">
+          <div style="{{ tab.style }}">{{ tab.label }}<span style="{{ tab.countStyle }}">{{ tab.count }}</span></div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;">
+        <h2 style="margin:0;font-size:20px;font-weight:600;letter-spacing:-0.01em;">Plasmids</h2>
+        <span style="font-size:12.5px;font-weight:500;color:#475467;white-space:nowrap;padding:5px 12px;border:1px solid #EAECF0;border-radius:999px;background:#FFFFFF;">{{ quotaLabel }}</span>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:12px;font-weight:600;color:#667085;flex:none;">Show</span>
+          <div style="position:relative;">
+            <select value="{{ filterValue }}" onChange="{{ onFilterChange }}" style="appearance:none;-webkit-appearance:none;font-family:inherit;font-size:12.5px;font-weight:500;color:#344054;background:#FFFFFF;border:1px solid #D0D5DD;border-radius:8px;padding:7px 32px 7px 12px;cursor:pointer;">
+              <sc-for list="{{ filterOptions }}" as="o" hint-placeholder-count="3">
+                <option value="{{ o.value }}">{{ o.label }}</option>
+              </sc-for>
+            </select>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;border:1px solid #EAECF0;border-radius:12px;overflow:hidden;height:660px;box-shadow:0 1px 2px rgba(16,24,40,0.04);">
+
+        <div class="sp-scroll" style="width:328px;flex:none;border-right:1px solid #EAECF0;display:flex;flex-direction:column;overflow-y:auto;background:#FCFCFD;">
+          <sc-for list="{{ listRows }}" as="r" hint-placeholder-count="4">
+            <div onClick="{{ r.onOpen }}" onMouseEnter="{{ r.onEnter }}" onMouseLeave="{{ r.onLeave }}" style="{{ r.rowStyle }}">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:14px;font-weight:600;color:#101828;">{{ r.id }}</span>
+                <sc-if value="{{ r.analyzed }}" hint-placeholder-val="{{ true }}">
+                  <span title="Analyzed" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:999px;border:1.5px solid #099250;flex:none;">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#099250" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </span>
+                </sc-if>
+                <sc-if value="{{ r.running }}" hint-placeholder-val="{{ false }}">
+                  <span title="Analysis running" style="display:inline-flex;align-items:center;gap:3px;flex:none;">
+                    <span style="width:4px;height:4px;border-radius:999px;background:#099250;animation:lm-dot 1.1s infinite ease-in-out;"></span>
+                    <span style="width:4px;height:4px;border-radius:999px;background:#099250;animation:lm-dot 1.1s infinite ease-in-out 0.18s;"></span>
+                    <span style="width:4px;height:4px;border-radius:999px;background:#099250;animation:lm-dot 1.1s infinite ease-in-out 0.36s;"></span>
+                  </span>
+                </sc-if>
+                <sc-if value="{{ r.notAnalyzed }}" hint-placeholder-val="{{ false }}">
+                  <span title="Not analyzed yet" style="width:13px;height:13px;border-radius:999px;border:1.5px dashed #CBD2DC;flex:none;"></span>
+                </sc-if>
+                <span style="font-size:12px;color:#98A2B3;font-variant-numeric:tabular-nums;margin-left:auto;">{{ r.sizeLabel }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <span style="{{ r.badgeStyle }}">{{ r.mobility }}</span>
+                <sc-if value="{{ r.hasArgs }}" hint-placeholder-val="{{ true }}">
+                  <span style="font-size:11px;font-weight:600;color:#C11574;background:transparent;border:1px solid #FBB6E2;border-radius:999px;padding:2px 8px;white-space:nowrap;">{{ r.amrCount }} AMR</span>
+                </sc-if>
+              </div>
+              <div style="font-size:11.5px;color:#98A2B3;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.replicons }}</div>
+            </div>
+          </sc-for>
+          <div style="padding:12px 18px;font-size:11.5px;color:#98A2B3;border-top:1px solid #F2F4F7;margin-top:auto;">MOB-suite 3.1.9 · ANI from Mash distance</div>
+        </div>
+
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;background:#FFFFFF;">
+          <div style="flex:1;min-height:0;position:relative;">
+            <sc-if value="{{ showToggle }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:13px;right:150px;z-index:50;display:flex;align-items:center;gap:10px;">
+                <div style="display:inline-flex;background:#F2F4F7;border-radius:8px;padding:3px;gap:2px;box-shadow:0 0 0 1px #EAECF0;">
+                  <div style="position:relative;" onMouseEnter="{{ circHintEnter }}" onMouseLeave="{{ circHintLeave }}">
+                    <button onClick="{{ setCircular }}" style="{{ circBtnStyle }}">
+                      <sc-if value="{{ circWarn }}" hint-placeholder-val="{{ false }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DC6803" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                      </sc-if>
+                      Circular
+                    </button>
+                    <sc-if value="{{ showCircHint }}" hint-placeholder-val="{{ false }}">
+                      <div style="position:absolute;top:calc(100% + 8px);right:0;z-index:60;width:236px;background:#101828;color:#fff;border-radius:9px;padding:10px 12px;font-size:11.5px;line-height:1.5;box-shadow:0 10px 28px rgba(16,24,40,0.28);text-align:left;">
+                        <div style="display:flex;align-items:center;gap:6px;font-weight:600;margin-bottom:4px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FEC84B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Unverified for short-read</div>
+                        <div style="color:rgba(255,255,255,0.78);">Short-read data is fragmented, so a circular layout is only an estimate. Gene order and closure are not confirmed.</div>
+                      </div>
+                    </sc-if>
+                  </div>
+                  <button onClick="{{ setLinear }}" style="{{ linBtnStyle }}">Linear</button>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isLinear }}" hint-placeholder-val="{{ true }}">
+              <dc-import name="Plasmid Map Linear" embedded="{{ true }}" plasmid-name="{{ modal.name }}" plasmid-length-bp="{{ modal.length }}" replicon-type="{{ modal.replicon }}" relaxase-type="{{ modal.relaxase }}" mpf-type="{{ modal.mpf }}" predicted-mobility="{{ modal.mobility }}" style="display:block;width:100%;height:100%;" hint-size="100%,100%"></dc-import>
+            </sc-if>
+            <sc-if value="{{ isCircular }}" hint-placeholder-val="{{ false }}">
+                            <dc-import name="Plasmid Map" embedded="{{ true }}" teaser="{{ notRun }}" plan="{{ plan }}" annotations-used="{{ annotationsUsed }}" inferred="{{ showInferredOnMap }}" broken-ring="{{ showInferredOnMap }}" on-start-analysis="{{ startAnalysis }}" plasmid-name="{{ modal.name }}" plasmid-length-bp="{{ modal.length }}" replicon-type="{{ modal.replicon }}" cluster-id="{{ modal.cluster }}" relaxase-type="{{ modal.relaxase }}" mpf-type="{{ modal.mpf }}" predicted-mobility="{{ modal.mobility }}" closest-neighbor="{{ modal.neighbor }}" closest-ani="{{ modal.simLabel }}" style="display:block;width:100%;height:100%;" hint-size="100%,100%"></dc-import>
+            </sc-if>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div></div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1320,&quot;height&quot;:900},&quot;plan&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;trial&quot;,&quot;research&quot;,&quot;surveillance&quot;],&quot;default&quot;:&quot;trial&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Plan &amp; usage&quot;},&quot;annotationsUsed&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;min&quot;:0,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Plan &amp; usage&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = { view:'table', selected:0, analyzed:{0:true}, running:{1:true}, mapView:null };
+    this.assembly = 'short'; // sample-level sequencing: 'short' (draft, linear default) or 'long' (complete, circular default)
+    this.plan = (props && props.plan) || 'trial'; // account plan: 'trial' (3) | 'research' (10) | 'surveillance' (30)
+    this.annotationsUsed = (props && props.annotationsUsed!=null) ? props.annotationsUsed : 2; // plasmid analyses consumed (account-level)
+    this.plasmids = [
+      { id:'AA739', size:324596, amr:17, replicons:['IncHI2A','rep_cluster_1088'], relaxase:'MOBH', mpf:'MPF_F', orit:'MOBH', neighbor:'KX810825', dist:0.000880953, distStr:'0.000880953', mobility:'conjugative' },
+      { id:'AA474', size:86359,  amr:4,  replicons:['IncI-gamma/K1'],               relaxase:'MOBP', mpf:'MPF_I', orit:'MOBP', neighbor:'CP024292', dist:0.00229842,  distStr:'0.00229842',  mobility:'conjugative', args:['blaCTX-M-15','sul2','tet(A)','dfrA12'] },
+      { id:'AA159', size:6826,   amr:0,  replicons:['rep_cluster_2350'],            relaxase:'MOBP', mpf:'-',     orit:'MOBP', neighbor:'CP027259', dist:0.00115999,  distStr:'0.00115999',  mobility:'mobilizable' },
+      { id:'AF232', size:6518,   amr:0,  replicons:[],                              relaxase:'-',    mpf:'-',     orit:'-',    neighbor:'CP034740', dist:0.0352724,   distStr:'0.0352724',   mobility:'non-mobilizable' }
+    ];
+    const CLASS_COLOR = { Carbapenem:'#C11574', ESBL:'#DC6803', Aminoglycoside:'#155EEF', Sulfonamide:'#0BA5EC', Tetracycline:'#16B364', Trimethoprim:'#2E90FA', Macrolide:'#4E5BA6', Fluoroquinolone:'#7A5AF8', Phenicol:'#875BF7', Bleomycin:'#475467', Rifamycin:'#B42318', Biocide:'#667085' };
+    const GENE_CLASS = { 'blaNDM-1':'Carbapenem','blaSHV-12':'ESBL','blaCTX-M-15':'ESBL',"aac(6')-Ib":'Aminoglycoside','armA':'Aminoglycoside','aadA2':'Aminoglycoside','sul1':'Sulfonamide','sul2':'Sulfonamide','tet(A)':'Tetracycline','dfrA12':'Trimethoprim','mph(A)':'Macrolide','ere(A)':'Macrolide','qnrS1':'Fluoroquinolone','catA1':'Phenicol','ble':'Bleomycin','arr-3':'Rifamycin','qacEdelta1':'Biocide' };
+    this.geneColor = g => CLASS_COLOR[GENE_CLASS[g]] || '#667085';
+    this.plasmids[0].args = ['blaNDM-1','blaSHV-12','blaCTX-M-15',"aac(6')-Ib",'armA','aadA2','sul1','sul2','tet(A)','dfrA12','mph(A)','ere(A)','qnrS1','catA1','ble','arr-3','qacEdelta1'];
+    this.plasmids.forEach((p,i)=>{ p.idx=i; p.kb = this._kb(p.size); if(!p.args) p.args=[]; });
+  }
+  _rng(seed){ let t=seed>>>0; return ()=>{ t+=0x6D2B79F5; let r=Math.imul(t^(t>>>15),1|t); r^=r+Math.imul(r^(r>>>7),61|r); return ((r^(r>>>14))>>>0)/4294967296; }; }
+  _kb(n){ return n>=100000 ? Math.round(n/1000)+' kb' : (n/1000).toFixed(n<10000?1:0)+' kb'; }
+  fmt(n){ return Math.round(n).toLocaleString('en-US'); }
+  _segStyle(active){ return { display:'inline-flex', alignItems:'center', gap:'5px', padding:'5px 13px', fontSize:'12.5px', fontWeight:600, borderRadius:'6px', border:'none', cursor:'pointer', fontFamily:'inherit', transition:'all 120ms', color: active?'#101828':'#667085', background: active?'#FFFFFF':'transparent', boxShadow: active?'0 1px 2px rgba(16,24,40,0.10),0 0 0 1px #EAECF0':'none' }; }
+
+  _ring(p){
+    const E=React.createElement, C=100, PI=Math.PI;
+    const P=(r,d)=>{ const a=d*PI/180; return { x:C+r*Math.sin(a), y:C-r*Math.cos(a) }; };
+    const arcD=(r,d0,d1)=>{ const p0=P(r,d0),p1=P(r,d1),large=(d1-d0)>180?1:0; return `M${p0.x.toFixed(1)} ${p0.y.toFixed(1)}A${r} ${r} 0 ${large} 1 ${p1.x.toFixed(1)} ${p1.y.toFixed(1)}`; };
+    const seed=[...(''+p.id)].reduce((a,c)=>a+c.charCodeAt(0),0);
+    const rnd=this._rng(seed*131+17);
+    const els=[ E('rect',{key:'bg',x:0,y:0,width:200,height:200,fill:'#FFFFFF'}) ];
+    els.push(E('circle',{key:'bb',cx:C,cy:C,r:78,fill:'none',stroke:'#EDEFF2',strokeWidth:13}));
+    // GC content area (subtle inner ring)
+    const N=120, base=58, amp=7;
+    let arr=Array.from({length:N},()=>rnd()-0.5);
+    for(let s=0;s<5;s++){ const b=arr.slice(); for(let i=0;i<N;i++){ let v=0; for(let k=-2;k<=2;k++) v+=arr[(i+k+N)%N]; b[i]=v/5; } arr=b; }
+    let mx=0.0001; arr.forEach(v=>mx=Math.max(mx,Math.abs(v)));
+    const pts=[];
+    for(let i=0;i<N;i++) pts.push(P(base+arr[i]/mx*amp, i/N*360));
+    for(let i=N-1;i>=0;i--) pts.push(P(base, i/N*360));
+    els.push(E('path',{key:'gc',d:'M'+pts.map(q=>q.x.toFixed(1)+' '+q.y.toFixed(1)).join('L')+'Z',fill:'#D0D5DD',fillOpacity:0.5}));
+    els.push(E('circle',{key:'gcl',cx:C,cy:C,r:base,fill:'none',stroke:'#EAECF0',strokeWidth:0.8}));
+    // feature arcs
+    const n=Math.min(58,Math.max(7,Math.round(p.size/5200)));
+    const cell=360/n;
+    const amrStart=Math.floor(rnd()*n);
+    const amrN=Math.min(n,p.amr);
+    const mob1=(amrStart-1+n)%n, mob2=(amrStart+amrN)%n;
+    for(let i=0;i<n;i++){
+      const d0=i*cell+cell*0.18, d1=(i+1)*cell-cell*0.18;
+      let col='#A6B0BF', w=10;
+      const inAmr = amrN>0 && ((i-amrStart+n)%n) < amrN;
+      if(inAmr){ col='#DD2590'; w=15; }
+      else if(p.mobility!=='non-mobilizable' && (i===mob1||i===mob2)){ col='#F79009'; w=12; }
+      els.push(E('path',{key:'f'+i,d:arcD(78,d0,d1),fill:'none',stroke:col,strokeWidth:w,strokeLinecap:'butt'}));
+    }
+    els.push(E('text',{key:'kb',x:C,y:C-1,fill:'#101828',fontSize:19,fontWeight:600,fontFamily:"'IBM Plex Sans',sans-serif",textAnchor:'middle',dominantBaseline:'central'},p.kb));
+    els.push(E('text',{key:'id',x:C,y:C+17,fill:'#98A2B3',fontSize:9.5,fontFamily:"'IBM Plex Sans',sans-serif",textAnchor:'middle',dominantBaseline:'central'},p.id));
+    return E('svg',{key:'svg',viewBox:'0 0 200 200',width:'100%',height:'100%',style:{display:'block',maxHeight:'100%'}},els);
+  }
+
+  _badge(m){
+    // outline-style badges; green reserved for the active row, so mobility uses amber / gray
+    const map = { 'conjugative':['#B54708','#FEDF89'], 'mobilizable':['#B54708','#FEDF89'], 'non-mobilizable':['#475467','#D0D5DD'] };
+    const [c,bd]=map[m]||map['non-mobilizable'];
+    return { color:c, background:'transparent', border:'1px solid '+bd, borderRadius:'999px', padding:'3px 10px', fontSize:'11.5px', fontWeight:600, whiteSpace:'nowrap', flex:'none', display:'inline-block' };
+  }
+  _typing(p){
+    const parts=[]; if(p.relaxase!=='-') parts.push(p.relaxase); if(p.mpf!=='-') parts.push(p.mpf); if(p.orit!=='-') parts.push('oriT '+p.orit);
+    return parts.length ? parts.join('  ·  ') : 'No mobility machinery detected';
+  }
+  _closeTag(d){ return d<0.001?'Near-identical': d<0.005?'Very high similarity': d<0.02?'High similarity':'Moderate similarity'; }
+
+  renderVals(){
+    const st=this.state;
+    const tabsDef = [['Overview'],['Quality control'],['MLST'],['AMR','19'],['Virulence'],['Plasmids','4',true],['Similar public genomes'],['Comparison'],['Files']];
+    const tabs = tabsDef.map(([label,count,active])=>({
+      label, count:count||'',
+      style:{ display:'inline-flex', alignItems:'center', gap:'7px', padding:'12px 0', fontSize:'15px', fontWeight: active?600:400, color: active?'#101828':'#667085', borderBottom: active?'2px solid #099250':'2px solid transparent', marginBottom:'-1px', cursor:'pointer', whiteSpace:'nowrap' },
+      countStyle:{ fontSize:'13px', fontWeight:400, color:'#98A2B3', display: count?'inline':'none' }
+    }));
+
+    const total = this.plasmids.length;
+    const totalBp = this.plasmids.reduce((s,p)=>s+p.size,0);
+    const conj = this.plasmids.filter(p=>p.mobility==='conjugative').length;
+    const amrP = this.plasmids.filter(p=>p.amr>0);
+    const amrGenes = this.plasmids.reduce((s,p)=>s+p.amr,0);
+
+    const kpis = [
+      { label:'Plasmids', value:total, note:'in this sample' },
+      { label:'Total plasmid DNA', value:this.fmt(totalBp), note:'bp' },
+      { label:'Conjugative', value:conj, note:'self-transmissible' },
+      { label:'Carrying AMR', value:amrP.length, note: amrGenes?('· '+amrGenes+' genes'):'none' }
+    ];
+
+    let matchAlert = null;
+    const nearest = this.plasmids.slice().sort((a,b)=>a.dist-b.dist)[0];
+    if(nearest && nearest.dist < 0.001){
+      const ani=((1-nearest.dist)*100).toFixed(2);
+      matchAlert = {
+        pre: `${nearest.id} is near-identical (~${ani}% ANI) to public plasmid `,
+        neighbor: nearest.neighbor,
+        href: 'https://www.ncbi.nlm.nih.gov/nuccore/'+nearest.neighbor,
+        post: '. The same plasmid lineage has been reported elsewhere.'
+      };
+    }
+
+    const cards = this.plasmids.map(p=>{
+      const ani=(1-p.dist)*100;
+      const fill=Math.max(5,Math.min(100,(ani-95)/5*100));
+      return {
+        id:p.id,
+        replicons: p.replicons.length ? p.replicons.join(', ') : 'No replicon typed',
+        mobility:p.mobility, badgeStyle:this._badge(p.mobility),
+        ring:this._ring(p),
+        sizeLabel:this.fmt(p.size),
+        amrLabel: p.amr>0 ? (p.amr+' AMR genes') : 'No AMR genes',
+        amrStyle: p.amr>0
+          ? { color:'#C11574', background:'#FCE7F6', border:'1px solid #FBB6E2', borderRadius:'999px', padding:'3px 10px', fontSize:'12px', fontWeight:600, whiteSpace:'nowrap', display:'inline-block' }
+          : { color:'#98A2B3', fontSize:'12.5px', fontWeight:500, whiteSpace:'nowrap', display:'inline-block' },
+        typing:this._typing(p),
+        neighbor:p.neighbor, neighborHref:'https://www.ncbi.nlm.nih.gov/nuccore/'+p.neighbor,
+        simLabel:(ani>=99.95?ani.toFixed(2):ani.toFixed(1))+'% ANI',
+        barStyle:{ width:fill+'%', height:'100%', background:'#099250', borderRadius:'999px' },
+        distLabel:'Mash '+p.distStr,
+        closeTag:this._closeTag(p.dist),
+        onOpen:()=>this.setState({selected:p.idx}),
+        stop:(e)=>{ e.stopPropagation(); }
+      };
+    });
+
+    const sel = st.selected!=null ? this.plasmids[st.selected] : null;
+    const mapView = st.mapView || (this.assembly==='long' ? 'circular' : 'linear');
+    const capMob = m => m==='conjugative'?'Conjugative': m==='mobilizable'?'Mobilizable':'Non-mobilizable';
+    let modal = {};
+    if(sel){
+      const ani=(1-sel.dist)*100, fill=Math.max(5,Math.min(100,(ani-95)/5*100));
+      modal = {
+        name: sel.id,
+        length: sel.size,
+        cluster: sel.id,
+        replicon: sel.replicons.length ? sel.replicons.join(', ') : 'None typed',
+        relaxase: sel.relaxase==='-'?'—':sel.relaxase,
+        mpf: sel.mpf==='-'?'—':sel.mpf,
+        mobility: capMob(sel.mobility),
+        neighbor: sel.neighbor,
+        neighborHref: 'https://www.ncbi.nlm.nih.gov/nuccore/'+sel.neighbor,
+        simLabel: (ani>=99.95?ani.toFixed(2):ani.toFixed(1))+'%',
+        barStyle: { width:fill+'%', height:'100%', background:'#099250', borderRadius:'999px' },
+        distLabel: 'Mash '+sel.distStr,
+        closeTag: this._closeTag(sel.dist)
+      };
+    }
+
+    const richRows = this.plasmids.map(p=>{
+      const ani=(1-p.dist)*100;
+      return {
+        id:p.id, sizeLabel:p.kb,
+        replicons:p.replicons, hasReplicon:p.replicons.length>0, noReplicon:!p.replicons.length,
+        mobility:capMob(p.mobility), badgeStyle:this._badge(p.mobility),
+        args: p.args.map(g=>({ name:g, style:{ fontSize:'11.5px', fontWeight:500, fontStyle:'italic', color:this.geneColor(g), background:this.geneColor(g)+'14', border:'1px solid '+this.geneColor(g)+'33', borderRadius:'5px', padding:'2px 7px', whiteSpace:'nowrap' } })),
+        hasArgs:p.args.length>0, noArgs:!p.args.length,
+        neighbor:p.neighbor, neighborHref:'https://www.ncbi.nlm.nih.gov/nuccore/'+p.neighbor,
+        simLabel:(ani>=99.95?ani.toFixed(2):ani.toFixed(1))+'%',
+        onOpen:()=>this.setState({selected:p.idx}), stop:(e)=>e.stopPropagation()
+      };
+    });
+
+    const sideRows = this.plasmids.map(p=>{
+      const active = st.selected===p.idx;
+      const done = !!st.analyzed[p.idx];
+      const busy = !done && !!st.running[p.idx];
+      return {
+        id:p.id, sizeLabel:p.kb, mobility:capMob(p.mobility), badgeStyle:this._badge(p.mobility),
+        replicons: p.replicons.length ? p.replicons.join(', ') : 'No replicon typed',
+        hasArgs:p.amr>0, amrCount:p.amr, isConjugative:p.mobility==='conjugative',
+        analyzed:done, running:busy, notAnalyzed:!done && !busy,
+        onOpen:()=>this.setState({selected:p.idx}),
+        onEnter:(e)=>{ if(!active) e.currentTarget.style.background='#F9FAFB'; },
+        onLeave:(e)=>{ if(!active) e.currentTarget.style.background='transparent'; },
+        rowStyle:{ display:'flex', flexDirection:'column', gap:'7px', padding:'13px 18px', cursor:'pointer', borderBottom:'1px solid #F2F4F7', borderLeft:'3px solid '+(active?'#099250':'transparent'), background: active?'#F6FEF9':'transparent', transition:'background 120ms' }
+      };
+    });
+    const amrRows = sideRows.filter(r=>r.hasArgs);
+    const otherRows = sideRows.filter(r=>!r.hasArgs);
+    const ordered = [...amrRows, ...otherRows];
+    const filt = st.filter || 'all';
+    const conjCount = ordered.filter(r=>r.isConjugative).length;
+    let listRows = ordered;
+    if(filt==='amr') listRows = amrRows;
+    else if(filt==='conjugative') listRows = ordered.filter(r=>r.isConjugative);
+    const filterOptions = [
+      { value:'all', label:'All plasmids ('+this.plasmids.length+')' },
+      { value:'amr', label:'Carrying AMR ('+amrRows.length+')' },
+      { value:'conjugative', label:'Conjugative ('+conjCount+')' }
+    ];
+
+    return {
+      tabs, kpis,
+      hasAlert: !!matchAlert, alert: matchAlert || {},
+      count: this.plasmids.length,
+      listRows, filterOptions, filterValue: filt,
+      onFilterChange:(e)=>this.setState({filter:e.target.value}),
+      notRun: !st.analyzed[st.selected],
+      plan: this.plan, annotationsUsed: this.annotationsUsed,
+      ...(()=>{ const limits={trial:3,research:10,surveillance:30}; const limit=limits[this.plan]||3; const used=Math.max(0,Math.min(limit,this.annotationsUsed)); return {
+        quotaLabel: used+' / '+limit+' plasmid analyses used in your plan',
+        quotaNoop:(e)=>{ e.preventDefault(); }
+      }; })(),
+      startAnalysis:()=>this.setState(s=>({analyzed:{...s.analyzed,[s.selected]:true}})),
+      hasSel: !!sel, modal,
+      mapView, isCircular: (!st.analyzed[st.selected]) || mapView==='circular', isLinear: st.analyzed[st.selected] && mapView==='linear',
+      showToggle: !!st.analyzed[st.selected],
+      circBtnStyle: this._segStyle(mapView==='circular'),
+      linBtnStyle: this._segStyle(mapView==='linear'),
+      setCircular:()=>this.setState({mapView:'circular'}),
+      setLinear:()=>this.setState({mapView:'linear'}),
+      showCaveat: false,
+      showInferredOnMap: st.analyzed[st.selected] && this.assembly==='short' && mapView==='circular',
+      circWarn: this.assembly==='short',
+      showCircHint: !!st.circHint && this.assembly==='short',
+      circHintEnter:()=>this.setState({circHint:true}),
+      circHintLeave:()=>this.setState({circHint:false}),
+      caveatOpen: !!st.caveatOpen,
+      caveatEnter:()=>this.setState({caveatOpen:true}),
+      caveatLeave:()=>this.setState({caveatOpen:false}),
+      richRows
+    };
+  }
+}
+</script>
+</body>
+</html>

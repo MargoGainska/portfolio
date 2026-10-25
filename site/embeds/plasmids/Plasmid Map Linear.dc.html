@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    html,body{margin:0;padding:0;height:100%;background:#F9FAFB;}
+    *{box-sizing:border-box;}
+    .lm-scroll::-webkit-scrollbar{width:11px;height:11px;}
+    .lm-scroll::-webkit-scrollbar-thumb{background:#D0D5DD;border-radius:99px;border:3px solid #FFFFFF;}
+  </style>
+</helmet>
+<div style="{{ rootStyle }}">
+  <div style="{{ cardStyle }}">
+
+    <div style="display:flex;align-items:center;gap:16px;padding:15px 22px;border-bottom:1px solid #EAECF0;flex:none;">
+      <div style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="font-size:17px;font-weight:600;letter-spacing:-0.01em;">Plasmid map</div>
+          <span style="font-size:11px;font-weight:600;color:#3538CD;background:#EEF4FF;border:1px solid #C7D7FE;border-radius:999px;padding:2px 9px;white-space:nowrap;">Linear · short-read</span>
+        </div>
+        <div style="font-size:12.5px;color:#667085;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap;"><span style="font-style:italic;">{{ plasmidName }}</span> · {{ contigSummary }}</div>
+      </div>
+      <div style="margin-left:auto;position:relative;">
+        <button onClick="{{ toggleExport }}" onMouseEnter="{{ exportHover }}" onMouseLeave="{{ exportLeave }}" style="display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;border:1px solid #D0D5DD;background:#FFFFFF;color:#344054;font-size:13.5px;font-weight:600;font-family:inherit;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,0.05);transition:background 120ms;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Export PNG
+        </button>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:stretch;border-bottom:1px solid #EAECF0;background:#FCFCFD;flex:none;">
+      <sc-for list="{{ mobMeta }}" as="m" hint-placeholder-count="4">
+        <div style="{{ m.cellStyle }}" onMouseEnter="{{ m.onEnter }}" onMouseLeave="{{ m.onLeave }}">
+          <div style="display:flex;align-items:baseline;gap:8px;min-width:0;">
+            <span style="font-size:11.5px;color:#667085;font-weight:500;flex:none;">{{ m.label }}</span>
+            <span style="font-size:14.5px;font-weight:600;color:#101828;letter-spacing:-0.01em;min-width:0;line-height:1.25;overflow-wrap:anywhere;">{{ m.value }}</span>
+          </div>
+          <div style="font-size:11px;color:#98A2B3;margin-top:2px;">{{ m.subtitle }}</div>
+          <sc-if value="{{ m.hovered }}" hint-placeholder-val="{{ false }}">
+            <div style="{{ m.tipStyle }}">
+              <div style="{{ m.caretStyle }}"></div>
+              <div style="font-size:12px;line-height:1.5;color:rgba(255,255,255,0.86);">{{ m.help }}</div>
+              <sc-if value="{{ m.hasDetail }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:11.5px;color:rgba(255,255,255,0.95);margin-top:8px;font-weight:500;">{{ m.detail }}</div>
+              </sc-if>
+              <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:8px;font-weight:500;">Method · {{ m.method }}</div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="flex:1;display:flex;min-height:0;">
+      <div ref="{{ wrapRef }}" onMouseMove="{{ onMove }}" class="lm-scroll" style="flex:1;min-width:0;overflow:auto;position:relative;background:#FFFFFF;">
+        <div style="padding:18px 24px 26px;min-width:max-content;">
+          {{ combined }}
+        </div>
+        <sc-if value="{{ tip }}" hint-placeholder-val="{{ false }}">
+          <div style="{{ tipStyle }}">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;">
+              <span style="{{ tipDotStyle }}"></span>
+              <span style="font-style:italic;font-weight:600;font-size:13px;">{{ tipTitle }}</span>
+            </div>
+            <div style="font-size:11px;line-height:1.5;color:rgba(255,255,255,0.78);margin-bottom:8px;">{{ tipNote }}</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <sc-for list="{{ tipRows }}" as="row" hint-placeholder-count="3">
+                <div style="display:flex;justify-content:space-between;gap:14px;font-size:11.5px;"><span style="color:rgba(255,255,255,0.5);">{{ row.l }}</span><span style="color:#fff;">{{ row.v }}</span></div>
+              </sc-for>
+            </div>
+            <div style="font-size:10.5px;color:rgba(255,255,255,0.6);margin-top:8px;padding-top:7px;border-top:1px solid rgba(255,255,255,0.12);">Click to pin this section</div>
+          </div>
+        </sc-if>
+      </div>
+
+      <div class="lm-scroll" style="width:300px;flex:none;border-left:1px solid #EAECF0;display:flex;flex-direction:column;overflow-y:auto;background:#FFFFFF;">
+        <div style="padding:15px 18px 3px 18px;">
+          <div style="font-size:12.5px;color:#475467;font-weight:600;margin-bottom:8px;">Display</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;">
+            <sc-for list="{{ chips }}" as="chip" hint-placeholder-count="4">
+              <div style="position:relative;">
+                <button onClick="{{ chip.onClick }}" onMouseEnter="{{ chip.onEnter }}" onMouseLeave="{{ chip.onLeave }}" style="{{ chip.style }}"><span style="{{ chip.dotStyle }}"></span>{{ chip.label }}</button>
+                <sc-if value="{{ chip.hasHelp }}" hint-placeholder-val="{{ false }}">
+                  <div style="{{ chip.tipStyle }}">{{ chip.help }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:11px 18px 3px 18px;border-top:1px solid #F2F4F7;margin-top:7px;">
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+            <div style="font-size:12.5px;color:#475467;font-weight:600;">Feature types</div>
+            <span style="font-size:11px;color:#98A2B3;">tap to show / hide</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;">
+            <sc-for list="{{ typeChips }}" as="tc" hint-placeholder-count="5">
+              <div style="position:relative;">
+                <button onClick="{{ tc.onClick }}" onMouseEnter="{{ tc.onEnter }}" onMouseLeave="{{ tc.onLeave }}" style="{{ tc.style }}"><span style="{{ tc.dotStyle }}"></span>{{ tc.label }}</button>
+                <sc-if value="{{ tc.hasHelp }}" hint-placeholder-val="{{ false }}">
+                  <div style="{{ tc.tipStyle }}">{{ tc.help }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:11px 18px 3px 18px;border-top:1px solid #F2F4F7;margin-top:7px;">
+          <div style="font-size:12.5px;color:#475467;font-weight:600;margin-bottom:6px;">AMR &amp; virulence</div>
+          <div style="display:flex;flex-direction:column;">
+            <sc-for list="{{ amrItems }}" as="amr" hint-placeholder-count="4">
+              <button onClick="{{ amr.onClick }}" onMouseEnter="{{ amr.onEnter }}" onMouseLeave="{{ amr.onLeave }}" style="{{ amr.style }}">
+                <span style="{{ amr.dotStyle }}"></span>
+                <span style="font-style:italic;font-size:12.5px;color:#101828;flex:none;white-space:nowrap;">{{ amr.name }}</span>
+                <span style="font-size:11px;color:#98A2B3;margin-left:auto;">{{ amr.posLabel }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:11px 18px;border-top:1px solid #F2F4F7;margin-top:7px;">
+          <div style="font-size:12.5px;color:#475467;font-weight:600;margin-bottom:8px;">Zoom</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button onClick="{{ zoomOut }}" style="width:30px;height:30px;border:1px solid #D0D5DD;border-radius:7px;background:#FFFFFF;color:#344054;font-size:17px;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none;">−</button>
+            <input type="range" min="1" max="10" step="0.1" value="{{ zoomValue }}" onInput="{{ onZoom }}" style="flex:1;accent-color:#099250;cursor:pointer;"/>
+            <button onClick="{{ zoomIn }}" style="width:30px;height:30px;border:1px solid #D0D5DD;border-radius:7px;background:#FFFFFF;color:#344054;font-size:17px;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none;">+</button>
+          </div>
+          <div style="font-size:11.5px;color:#98A2B3;margin-top:9px;line-height:1.5;">Drag the panel to pan. Short-read assemblies often break the plasmid into several contigs, shown here as separate lanes.</div>
+        </div>
+
+        <div style="margin-top:auto;position:sticky;bottom:0;border-top:1px solid #EAECF0;background:#FCFCFD;padding:12px 18px 14px 18px;box-shadow:0 -10px 18px -10px rgba(16,24,40,0.12);">
+          <sc-if value="{{ hasDetail }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:9px;">
+                <span style="{{ detailSwatchStyle }}"></span>
+                <span style="font-style:italic;font-size:14px;font-weight:600;color:#101828;flex:none;">{{ detailName }}</span>
+                <button onClick="{{ clearPin }}" title="Unpin" style="margin-left:auto;flex:none;width:22px;height:22px;display:grid;place-items:center;border-radius:6px;border:none;background:#F2F4F7;color:#667085;cursor:pointer;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+              <div style="font-size:11.5px;color:#667085;line-height:1.45;">{{ detailCategory }} · {{ detailLen }} · {{ detailStrand }}</div>
+              <div style="font-size:11.5px;color:#667085;">{{ detailContig }} · {{ detailPos }}</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noDetail }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#98A2B3;line-height:1.5;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B0B7C3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Click a feature to pin its details here.</span>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:720},&quot;plasmidName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;pNDM-EcHK001&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;repliconType&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;IncX3&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;relaxaseType&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;MOB_F&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;mpfType&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;MPF_T&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;predictedMobility&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Conjugative&quot;,&quot;Mobilizable&quot;,&quot;Non-mobilizable&quot;],&quot;default&quot;:&quot;Conjugative&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;embedded&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = {
+      show: { gc:true, skewPos:true, skewNeg:true, scale:true },
+      showType: { amr:true, mobile:true, virulence:true, rna:true, cds:true },
+      zoom: 1, width: 760,
+      pinned:null, hoverGene:null, hoverChip:null, hoverType:null, hoverMeta:null,
+      tip:null, tipLeft:0, tipTop:0
+    };
+    this._wrapRef = (el)=>{ if(el){ this._wrap=el; if(!this._ro){ this._ro=new ResizeObserver(()=>{ const w=Math.floor(el.clientWidth); if(w>0 && Math.abs(w-this.state.width)>2) this.setState({width:w}); }); this._ro.observe(el); } } };
+    this._build();
+  }
+  componentWillUnmount(){ if(this._ro) this._ro.disconnect(); }
+  _rng(seed){ let t=seed>>>0; return ()=>{ t+=0x6D2B79F5; let r=Math.imul(t^(t>>>15),1|t); r^=r+Math.imul(r^(r>>>7),61|r); return ((r^(r>>>14))>>>0)/4294967296; }; }
+  _smooth(arr,passes){ let a=arr.slice(); const n=a.length; for(let p=0;p<passes;p++){ const b=a.slice(); for(let i=0;i<n;i++){ let s=0,c=0; for(let k=-2;k<=2;k++){ const j=i+k; if(j>=0&&j<n){s+=a[j];c++;} } b[i]=s/c; } a=b; } return a; }
+  fmt(n){ return Math.round(n).toLocaleString('en-US'); }
+
+  _build(){
+    const TYPES = {
+      amr:       { label:'AMR gene',       color:'#DD2590' },
+      mobile:    { label:'Mobile element', color:'#F79009' },
+      virulence: { label:'Virulence',      color:'#155EEF' },
+      rna:       { label:'rRNA / tRNA',    color:'#0BA5EC' },
+      cds:       { label:'CDS',            color:'#98A2B3' }
+    };
+    this.TYPES = TYPES;
+    const defs = [
+      ['repB','cds',1100],['repA','cds',900],['parA','cds',1100],['stbA','cds',600],['parM','cds',1000],
+      ['ISL3','mobile',1300],['umuD','cds',420],['IS26','mobile',820],['blaSHV-12','amr',861],['intI1','mobile',1014],
+      ['groEL','cds',1650],['cutA1','cds',370],['dsbC','cds',710],['ble','amr',375],['blaNDM-1','amr',813],
+      ['ISAba125','mobile',1050],['IS5','mobile',1195],['Tn3','mobile',3050],
+      ['topB','cds',1980],['parB','cds',900],['kikA','cds',600],
+      ['taxB','cds',2400],['pilX5','cds',1080],['pilX3','cds',900],['pilX1','cds',1320],['taxA','cds',700],['taxC','cds',1500],
+      ['trnK','rna',76],['dnaJ','cds',1130],['senB','virulence',700],['orf1','cds',300],['rrf','rna',120]
+    ];
+    const strandRuns = [1,1,1,-1,-1, -1,-1,-1,-1,-1, 1,1,1,-1,-1, -1,-1,-1, 1,1,1, 1,1,1,1,1,1, -1,1,1,-1,-1];
+    // Short-read assembly fragments the plasmid into contigs. Breaks occur at repeats /
+    // IS elements, so the IS-rich resistance region shatters into small contigs.
+    // Each entry: [first gene index, last gene index (inclusive), coverage].
+    const contigDefs = [
+      [0,4, 142],     // backbone
+      [5,9, 88],      // IS + blaSHV + intI1 (collapsed repeats, higher cov)
+      [10,14, 96],    // groEL..blaNDM-1
+      [15,17, 71],    // ISAba125..Tn3 (IS-heavy fragment)
+      [18,26, 121],   // transfer module
+      [27,31, 134]    // small features
+    ];
+    const rg = this._rng(13);
+    const contigs = [];
+    let cidx = 0;
+    for(const [a,b,cov] of contigDefs){
+      let cursor = 200 + rg()*400; // small flank before first gene
+      const genes = [];
+      for(let i=a;i<=b;i++){
+        const [name,type,len] = defs[i];
+        const gap = (i===a)?0:(60 + rg()*260 + (rg()>0.85?rg()*700:0));
+        cursor += gap;
+        const start = cursor, end = cursor+len;
+        genes.push({ name, type, category:TYPES[type].label, lenBp:len, start, end, mid:(start+end)/2,
+          color:TYPES[type].color, strand: strandRuns[i]||1,
+          res:type==='amr', mob:type==='mobile', vir:type==='virulence', rna:type==='rna', contig:cidx });
+        cursor = end;
+      }
+      const len = Math.round(cursor + 200 + rg()*400);
+      contigs.push({ idx:cidx, name:'contig_'+(cidx+1), len, cov, genes });
+      cidx++;
+    }
+    // GC content + skew per contig
+    contigs.forEach(c=>{
+      const N = Math.max(40, Math.round(c.len/220));
+      const rA=this._rng(91+c.idx*17), rB=this._rng(53+c.idx*29);
+      const gArr=this._smooth(Array.from({length:N},()=>rA()-0.5),6);
+      const sArr=this._smooth(Array.from({length:N},()=>rB()-0.5),4);
+      const win=[]; let sum=0;
+      // mark island windows where AMR/mobile sit, for a GC dip
+      const amrSpans = c.genes.filter(g=>g.res||g.mob).map(g=>[g.start/c.len, g.end/c.len]);
+      for(let i=0;i<N;i++){
+        const f=i/(N-1);
+        let gc=0.525 + gArr[i]*1.15;
+        if(amrSpans.some(([s,e])=> f>=s-0.03 && f<=e+0.03)) gc -= 0.05;
+        gc=Math.max(0.30,Math.min(0.68,gc));
+        let skew=0.09*Math.sin(2*Math.PI*f*1.3) + sArr[i]*0.22;
+        win.push({f,gc,skew}); sum+=gc;
+      }
+      const mean=sum/N; let md=0,ms=0; win.forEach(w=>{md=Math.max(md,Math.abs(w.gc-mean));ms=Math.max(ms,Math.abs(w.skew));});
+      c.win=win; c.gcMean=mean; c.maxDev=md||1; c.maxSkew=ms||1;
+    });
+    this.contigs = contigs;
+    this.genes = contigs.flatMap(c=>c.genes);
+    this.totalBp = contigs.reduce((s,c)=>s+c.len,0);
+    this.maxLen = Math.max(...contigs.map(c=>c.len));
+  }
+
+  // ---- single-line layout: all contigs end-to-end with clear breaks between them ----
+  _combinedSVG(pxPerBp){
+    const E=React.createElement;
+    const show=this.state.show, tShow=this.state.showType, hover=this.state.hoverGene, pinned=this.state.pinned;
+    const breakGap=34;
+    const headH=34, featTop=headH+10, featH=26, featMid=featTop+featH/2;
+    const gcTop=featTop+featH+12, gcH=22;
+    const skewTop=gcTop+gcH+8, skewH=24, skewMid=skewTop+skewH/2;
+    const rulerY=skewTop+skewH+13;
+    const H=rulerY+18;
+    // place contigs left to right
+    let cursor=0; const placed=[];
+    this.contigs.forEach(c=>{ const w=Math.max(70, Math.round(c.len*pxPerBp)); placed.push({c,offset:cursor,w}); cursor+=w+breakGap; });
+    const totalW=Math.max(60, cursor-breakGap);
+    const els=[];
+    placed.forEach(({c,offset,w},ci)=>{
+      const X=bp=> offset + (bp/c.len)*w;
+      // contig header
+      const amrN=c.genes.filter(g=>g.res).length;
+      els.push(E('text',{key:'cn'+ci,x:offset,y:14,fill:'#101828',fontSize:12.5,fontWeight:600,fontFamily:"'IBM Plex Sans',sans-serif"},c.name));
+      els.push(E('text',{key:'cm'+ci,x:offset,y:27,fill:'#98A2B3',fontSize:10.5,fontFamily:"'IBM Plex Sans',sans-serif"},this.fmt(c.len)+' bp · '+c.cov+'×'+(amrN?'  ·  '+amrN+' AMR':'')));
+      // backbone segment
+      els.push(E('line',{key:'bb'+ci,x1:offset,y1:featMid,x2:offset+w,y2:featMid,stroke:'#E4E7EC',strokeWidth:featH,strokeLinecap:'butt'}));
+      // features
+      let lastLabelR=-1e9;
+      c.genes.forEach(g=>{
+        if(!tShow[g.type]) return;
+        const x0=X(g.start), x1=X(g.end), ww=Math.max(3,x1-x0);
+        const dim=(hover&&hover!==g.name)||(pinned&&pinned!==g.name&&!hover);
+        const head=Math.min(ww,9);
+        let d;
+        if(g.strand>=0){ const hx=x1-head; d=`M${x0} ${featTop}L${Math.max(x0,hx)} ${featTop}L${x1} ${featMid}L${Math.max(x0,hx)} ${featTop+featH}L${x0} ${featTop+featH}Z`; }
+        else { const hx=x0+head; d=`M${x1} ${featTop}L${Math.min(x1,hx)} ${featTop}L${x0} ${featMid}L${Math.min(x1,hx)} ${featTop+featH}L${x1} ${featTop+featH}Z`; }
+        els.push(E('path',{key:'g'+g.name,d,fill:g.color,stroke:pinned===g.name?'#101828':'rgba(16,24,40,0.28)',strokeWidth:pinned===g.name?1.4:0.5,strokeLinejoin:'round',opacity:dim?0.26:1,style:{cursor:'pointer'},
+          onMouseEnter:(e)=>this._enterGene(g,e),onMouseMove:(e)=>this._moveTip(e),onMouseLeave:()=>this._leaveGene(),onClick:(e)=>{e.stopPropagation();this._pin(g);}}));
+        if(ww>26||g.res||g.vir||g.mob){ const cx=(x0+x1)/2; const halfW=g.name.length*2.8+2; if(cx-halfW>lastLabelR){ lastLabelR=cx+halfW; els.push(E('text',{key:'t'+g.name,x:cx,y:featTop-3,fill:(g.res?'#9E165F':g.vir?'#1849A9':g.mob?'#B54708':'#475467'),fontSize:9.5,fontWeight:(g.res||g.vir)?600:400,fontStyle:(g.res||g.vir||g.mob)?'italic':'normal',fontFamily:"'IBM Plex Sans',sans-serif",textAnchor:'middle'},g.name)); } }
+      });
+      // GC content
+      if(show.gc){ const base=gcTop+gcH/2, amp=gcH/2-1; let d='M'+offset+' '+base; c.win.forEach(wn=>{ const x=offset+wn.f*w; const y=base-Math.max(-1,Math.min(1,(wn.gc-c.gcMean)/c.maxDev))*amp; d+=`L${x.toFixed(1)} ${y.toFixed(1)}`; }); d+=`L${offset+w} ${base}Z`; els.push(E('path',{key:'gc'+ci,d,fill:'#344054',fillOpacity:0.9})); els.push(E('line',{key:'gcl'+ci,x1:offset,y1:base,x2:offset+w,y2:base,stroke:'#EAECF0',strokeWidth:0.7})); }
+      // GC skew
+      if(show.skewPos||show.skewNeg){ const base=skewMid, amp=skewH/2-1; els.push(E('line',{key:'skl'+ci,x1:offset,y1:base,x2:offset+w,y2:base,stroke:'#EAECF0',strokeWidth:0.7}));
+        if(show.skewPos){ let d='M'+offset+' '+base; c.win.forEach(wn=>{ const x=offset+wn.f*w; const y=base-Math.max(0,wn.skew)/c.maxSkew*amp; d+=`L${x.toFixed(1)} ${y.toFixed(1)}`; }); d+=`L${offset+w} ${base}Z`; els.push(E('path',{key:'skp'+ci,d,fill:'#16B364',fillOpacity:0.85})); }
+        if(show.skewNeg){ let d='M'+offset+' '+base; c.win.forEach(wn=>{ const x=offset+wn.f*w; const y=base+Math.max(0,-wn.skew)/c.maxSkew*amp; d+=`L${x.toFixed(1)} ${y.toFixed(1)}`; }); d+=`L${offset+w} ${base}Z`; els.push(E('path',{key:'skn'+ci,d,fill:'#7A5AF8',fillOpacity:0.6})); }
+      }
+      // ruler ticks (baseline drawn once, continuously, after the loop)
+      if(show.scale){
+        const step=c.len<=8000?1000:c.len<=20000?2000:5000;
+        for(let t=0;t<=c.len;t+=step){ const x=X(t); const anchor=t===0?'start':(t+step>c.len?'end':'middle'); els.push(E('line',{key:'tk'+ci+'_'+t,x1:x,y1:rulerY,x2:x,y2:rulerY-4,stroke:'#C0C7D1',strokeWidth:1})); els.push(E('text',{key:'tl'+ci+'_'+t,x:x,y:rulerY+9,fill:'#98A2B3',fontSize:8,fontFamily:"'IBM Plex Sans',sans-serif",textAnchor:anchor},(t/1000)+(t===0?' kb':''))); }
+      }
+      // subtle break between contigs: a small gap with one faint hairline tick
+      if(ci<placed.length-1){
+        const gx=offset+w+breakGap/2;
+        els.push(E('line',{key:'bs'+ci,x1:gx-2,y1:featMid+5,x2:gx+2,y2:featMid-5,stroke:'#D0D5DD',strokeWidth:1.2,strokeLinecap:'round'}));
+      }
+    });
+    // one continuous baseline under all contigs (drawn first so ticks sit on top)
+    if(this.state.show.scale) els.unshift(E('line',{key:'baseline',x1:0,y1:rulerY,x2:totalW,y2:rulerY,stroke:'#E4E7EC',strokeWidth:1}));
+    return E('svg',{key:'combined',width:totalW,height:H,viewBox:`0 0 ${totalW} ${H}`,style:{display:'block'}},els);
+  }
+
+  // ---- linear lane SVG (legacy stacked) ----
+  _laneSVG(c, pxPerBp){
+    const E=React.createElement;
+    const W = Math.max(120, Math.round(c.len*pxPerBp));
+    const padL=2, innerW=W-padL*2;
+    const X = bp => padL + (bp/c.len)*innerW;
+    const show=this.state.show, tShow=this.state.showType;
+    const featTop=18, featH=26, featMid=featTop+featH/2;
+    const gcTop=featTop+featH+10, gcH=22;
+    const skewTop=gcTop+gcH+8, skewH=24, skewMid=skewTop+skewH/2;
+    const rulerY=skewTop+skewH+13;
+    const H=rulerY+16;
+    const els=[];
+    // backbone line
+    els.push(E('line',{key:'bb',x1:padL,y1:featMid,x2:W-padL,y2:featMid,stroke:'#E4E7EC',strokeWidth:featH,strokeLinecap:'round'}));
+    // features as block arrows
+    const hover=this.state.hoverGene, pinned=this.state.pinned;
+    c.genes.forEach(g=>{
+      if(!tShow[g.type]) return;
+      const x0=X(g.start), x1=X(g.end), w=Math.max(3,x1-x0);
+      const dim = (hover&&hover!==g.name) || (pinned&&pinned!==g.name&&!hover);
+      const head=Math.min(w,9);
+      let d;
+      if(g.strand>=0){ const hx=x1-head; d=`M${x0} ${featTop}L${Math.max(x0,hx)} ${featTop}L${x1} ${featMid}L${Math.max(x0,hx)} ${featTop+featH}L${x0} ${featTop+featH}Z`; }
+      else { const hx=x0+head; d=`M${x1} ${featTop}L${Math.min(x1,hx)} ${featTop}L${x0} ${featMid}L${Math.min(x1,hx)} ${featTop+featH}L${x1} ${featTop+featH}Z`; }
+      els.push(E('path',{ key:'g'+g.name, d, fill:g.color, stroke: pinned===g.name?'#101828':'rgba(16,24,40,0.28)', strokeWidth: pinned===g.name?1.4:0.5, strokeLinejoin:'round', opacity:dim?0.26:1, style:{cursor:'pointer'},
+        onMouseEnter:(e)=>this._enterGene(g,e), onMouseMove:(e)=>this._moveTip(e), onMouseLeave:()=>this._leaveGene(), onClick:(e)=>{e.stopPropagation();this._pin(g);} }));
+      // label if wide enough or important
+      if(w>26 || g.res || g.vir || g.mob){
+        const cx=(x0+x1)/2;
+        els.push(E('text',{key:'t'+g.name,x:cx,y:featTop-3,fill:(g.res?'#9E165F':g.vir?'#1849A9':g.mob?'#B54708':'#475467'),fontSize:9.5,fontWeight:(g.res||g.vir)?600:400,fontStyle:(g.res||g.vir||g.mob)?'italic':'normal',fontFamily:"'IBM Plex Sans',sans-serif",textAnchor:'middle'},g.name));
+      }
+    });
+    // GC content area
+    if(show.gc){
+      const base=gcTop+gcH/2, amp=gcH/2-1;
+      let d='M'+padL+' '+base;
+      c.win.forEach(w=>{ const x=padL+w.f*innerW; const y=base - Math.max(-1,Math.min(1,(w.gc-c.gcMean)/c.maxDev))*amp; d+=`L${x.toFixed(1)} ${y.toFixed(1)}`; });
+      d+=`L${W-padL} ${base}Z`;
+      els.push(E('path',{key:'gc',d,fill:'#344054',fillOpacity:0.9}));
+      els.push(E('line',{key:'gcl',x1:padL,y1:base,x2:W-padL,y2:base,stroke:'#EAECF0',strokeWidth:0.7}));
+    }
+    // GC skew
+    if(show.skewPos||show.skewNeg){
+      const base=skewMid, amp=skewH/2-1;
+      els.push(E('line',{key:'skl',x1:padL,y1:base,x2:W-padL,y2:base,stroke:'#EAECF0',strokeWidth:0.7}));
+      if(show.skewPos){ let d='M'+padL+' '+base; c.win.forEach(w=>{ const x=padL+w.f*innerW; const y=base - Math.max(0,w.skew)/c.maxSkew*amp; d+=`L${x.toFixed(1)} ${y.toFixed(1)}`; }); d+=`L${W-padL} ${base}Z`; els.push(E('path',{key:'skp',d,fill:'#16B364',fillOpacity:0.85})); }
+      if(show.skewNeg){ let d='M'+padL+' '+base; c.win.forEach(w=>{ const x=padL+w.f*innerW; const y=base + Math.max(0,-w.skew)/c.maxSkew*amp; d+=`L${x.toFixed(1)} ${y.toFixed(1)}`; }); d+=`L${W-padL} ${base}Z`; els.push(E('path',{key:'skn',d,fill:'#7A5AF8',fillOpacity:0.6})); }
+    }
+    // ruler
+    if(show.scale){
+      els.push(E('line',{key:'rl',x1:padL,y1:rulerY,x2:W-padL,y2:rulerY,stroke:'#D0D5DD',strokeWidth:1}));
+      const step = c.len<=8000?1000: c.len<=20000?2000:5000;
+      for(let t=0;t<=c.len;t+=step){ const x=X(t); const anchor=t===0?'start':(t+step>c.len?'end':'middle'); els.push(E('line',{key:'tk'+t,x1:x,y1:rulerY,x2:x,y2:rulerY-4,stroke:'#98A2B3',strokeWidth:1})); els.push(E('text',{key:'tl'+t,x:x,y:rulerY+9,fill:'#98A2B3',fontSize:8,fontFamily:"'IBM Plex Sans',sans-serif",textAnchor:anchor},(t/1000)+(t===0?' kb':''))); }
+    }
+    return E('svg',{key:'svg'+c.idx,width:W,height:H,viewBox:`0 0 ${W} ${H}`,style:{display:'block'}},els);
+  }
+
+  _enterGene(g,e){
+    const noteMap={ amr:'A gene that makes the bacterium resistant to an antibiotic.', mobile:'A jumping DNA element (IS / transposon) that can shuttle nearby genes between plasmids.', virulence:'A gene that helps the bacterium cause disease.', rna:'A structural RNA gene (ribosomal or transfer RNA).', cds:'A protein-coding gene.' };
+    this.setState({ hoverGene:g.name, detailGene:g, tip:{
+      accent:g.color, title:g.name, note:noteMap[g.type]||'',
+      rows:[ {l:'contig', v:this.contigs[g.contig].name}, {l:'position', v:this.fmt(g.start)+'–'+this.fmt(g.end)+' bp'}, {l:'length', v:this.fmt(g.lenBp)+' bp'}, {l:'strand', v:g.strand>0?'+ forward':'− reverse'}, {l:'type', v:g.category} ]
+    }});
+    this._moveTip(e);
+  }
+  _moveTip(e){ const wrap=this._wrap; if(!wrap) return; const r=wrap.getBoundingClientRect(); this.setState({ tipLeft:e.clientX-r.left+wrap.scrollLeft, tipTop:e.clientY-r.top+wrap.scrollTop }); }
+  _leaveGene(){ this.setState(s=>({ hoverGene:null, tip: s.pinned?s.tip&&null:null })); this.setState({tip:null}); }
+  onMove(e){ if(this.state.tip) this._moveTip(e); }
+  _pin(g){ this.setState(s=>({ pinned: s.pinned===g.name?null:g.name, detailGene:g, tip:null })); }
+
+  _badge(m){ const map={'Conjugative':['#B54708','#FEDF89'],'Mobilizable':['#B54708','#FEDF89'],'Non-mobilizable':['#475467','#D0D5DD']}; const [c,bd]=map[m]||map['Non-mobilizable']; return {color:c,border:'1px solid '+bd}; }
+
+  renderVals(){
+    const st=this.state, show=st.show, tShow=st.showType;
+    // available width for lanes; scale so the longest contig fits at zoom 1
+    // single-line: fit all contigs + break gaps into the available width at zoom 1
+    const avail = Math.max(200, st.width - 48);
+    // single continuous line: all contigs end-to-end with clear // breaks between them
+    const nGaps = Math.max(0, this.contigs.length-1);
+    const pxPerBp = ((avail - nGaps*34) / this.totalBp) * st.zoom;
+    const combined = this._combinedSVG(pxPerBp);
+
+    // Display chips
+    const chipDef=[ ['skewPos','GC skew +','#16B364'], ['skewNeg','GC skew −','#7A5AF8'], ['gc','GC content','#344054'], ['scale','Scale','#98A2B3'] ];
+    const chipHelp={ skewPos:'Where G outweighs C on the strand. With skew −, the crossover marks where DNA copying begins or ends.', skewNeg:'Where C outweighs G on the strand. With skew +, the crossovers hint at the replication origin and terminus.', gc:'How G/C-rich each stretch of DNA is, compared with the contig average. Stretches that stand out can hint at acquired DNA.', scale:'A position ruler along each contig, marked in kilobases (kb).' };
+    const mkChip=(key,label,dot,hoverKey,help,onState,toggle)=>{
+      const on=onState, hv=this.state[hoverKey]===key;
+      const baseBg=on?'#FFFFFF':'#F9FAFB', baseBorder=on?'#D0D5DD':'#EAECF0', baseColor=on?'#344054':'#98A2B3';
+      const hvBg=on?'#F2F4F7':'#EFF1F5', hvColor=on?'#101828':'#667085';
+      return { label, hasHelp:hv&&!!help, help, onClick:toggle,
+        onEnter:()=>this.setState({[hoverKey]:key}), onLeave:()=>this.setState(s=> s[hoverKey]===key?{[hoverKey]:null}:{}),
+        style:{ display:'inline-flex',alignItems:'center',gap:'7px',padding:'6px 11px',borderRadius:'999px',cursor:'pointer',fontFamily:'inherit',fontSize:'12.5px',fontWeight:500,transition:'all 120ms',whiteSpace:'nowrap',
+          border:'1px solid '+(hv?'#B0B7C3':baseBorder), background:hv?hvBg:baseBg, color:hv?hvColor:baseColor, boxShadow:hv?'0 1px 2px rgba(16,24,40,0.06)':'none', textDecoration:on?'none':'line-through', textDecorationColor:'#D0D5DD' },
+        dotStyle:{ width:'9px',height:'9px',borderRadius:'3px',background:dot,flex:'none',opacity:on?1:0.4 },
+        tipStyle:{ position:'absolute',top:'calc(100% + 7px)',left:0,zIndex:40,width:'210px',background:'#101828',color:'#fff',borderRadius:'9px',padding:'9px 11px',fontSize:'11.5px',lineHeight:1.5,fontWeight:400,boxShadow:'0 10px 28px rgba(16,24,40,0.28)',pointerEvents:'none' } };
+    };
+    const chips = chipDef.map(([key,label,dot])=> mkChip(key,label,dot,'hoverChip',chipHelp[key], !!show[key], ()=>this.setState(s=>({show:{...s.show,[key]:!s.show[key]}}))));
+
+    const typeHelp={ amr:'A gene that makes the bacterium resistant to an antibiotic.', mobile:'A jumping DNA element (IS / transposon) that can shuttle nearby genes between plasmids.', virulence:'A gene that helps the bacterium cause disease.', rna:'A structural RNA gene (ribosomal or transfer RNA).', cds:'A protein-coding gene with no specialised annotation.' };
+    const typeChips = [['amr','AMR gene'],['mobile','Mobile element'],['virulence','Virulence'],['rna','rRNA / tRNA'],['cds','CDS / other']].map(([key,label])=>
+      mkChip(key,label,this.TYPES[key].color,'hoverType',typeHelp[key], !!tShow[key], ()=>this.setState(s=>({showType:{...s.showType,[key]:!s.showType[key]}}))) );
+
+    const amrItems = this.genes.filter(g=>g.res||g.vir).map(g=>{
+      const color=g.vir?'#155EEF':'#DD2590';
+      const active=(st.hoverGene===g.name)||(st.pinned===g.name);
+      return { name:g.name, posLabel:this.contigs[g.contig].name,
+        onEnter:()=>this.setState({hoverGene:g.name,detailGene:g}), onLeave:()=>this.setState({hoverGene:null}),
+        onClick:()=>this.setState(s=>({pinned:s.pinned===g.name?null:g.name,detailGene:g})),
+        style:{ display:'flex',alignItems:'center',gap:'9px',width:'100%',textAlign:'left',padding:'4px 8px',borderRadius:'7px',border:'none',cursor:'pointer',fontFamily:'inherit',background:active?'#F2F4F7':'transparent',transition:'background 100ms' },
+        dotStyle:{ width:'8px',height:'8px',borderRadius:'999px',background:color,flex:'none' } };
+    });
+
+    // pinned detail
+    const dg = st.pinned ? this.genes.find(g=>g.name===st.pinned) : null;
+    const detail = dg ? {
+      hasDetail:true, noDetail:false, detailName:dg.name, detailCategory:dg.category,
+      detailLen:this.fmt(dg.lenBp)+' bp', detailStrand:dg.strand>0?'+ forward':'− reverse',
+      detailContig:this.contigs[dg.contig].name, detailPos:this.fmt(dg.start)+'–'+this.fmt(dg.end)+' bp',
+      detailSwatchStyle:{ width:'12px',height:'12px',borderRadius:'4px',background:dg.vir?'#155EEF':dg.color,flex:'none' },
+      clearPin:()=>this.setState({pinned:null})
+    } : { hasDetail:false, noDetail:true, detailName:'',detailCategory:'',detailLen:'',detailStrand:'',detailContig:'',detailPos:'',detailSwatchStyle:{}, clearPin:()=>{} };
+
+    // tooltip
+    const tip=st.tip;
+    const tipStyle = tip ? { position:'absolute', left:Math.max(8,st.tipLeft+14)+'px', top:(st.tipTop+14)+'px', pointerEvents:'none', background:'#101828', color:'#fff', borderRadius:'9px', padding:'10px 12px', minWidth:'170px', maxWidth:'230px', boxShadow:'0 8px 24px rgba(16,24,40,0.28)', zIndex:20 } : {};
+
+    // MOB-suite typing strip
+    const valHelp={ 'IncX3':'A small, broad-host-range plasmid family known for spreading blaNDM carbapenemase genes.', 'MOB_F':'A relaxase family typical of large, F-like conjugative plasmids.', 'Conjugative':'Has everything it needs to copy itself into another bacterium on its own.', 'Mobilizable':'Can move to another bacterium, but only with help from another plasmid.', 'Non-mobilizable':'No machinery for moving to another bacterium was found.' };
+    const relaxase=this.props.relaxaseType||'MOB_F', mpf=this.props.mpfType||'MPF_T';
+    const present=v=>v&&v!=='-'&&v!=='None'&&v!=='';
+    const metaCats=[
+      {label:'Replicon',value:this.props.repliconType||'IncX3',subtitle:'Incompatibility group',generic:'The system the plasmid uses to copy itself. It marks which plasmid family it belongs to.'},
+      {label:'Relaxase',value:present(relaxase)?relaxase:'None',subtitle:'Transfer enzyme (MOB)',generic:'The enzyme that nicks the plasmid’s DNA to start copying it into another bacterium.'},
+      {label:'Mobility',value:this.props.predictedMobility||'Conjugative',generic:'Whether this plasmid can move itself to another bacterium, and how.'}
+    ];
+    const mobSub={'Conjugative':'Self-transmissible','Mobilizable':'Needs a helper plasmid','Non-mobilizable':'No transfer machinery'};
+    const mobMeta = metaCats.map((c,i)=>{
+      const hovered=st.hoverMeta===c.label;
+      return { label:c.label, value:c.value, subtitle: c.label==='Mobility'?(mobSub[c.value]||''):c.subtitle,
+        help: valHelp[c.value]||c.generic, hasDetail:c.label==='Mobility',
+        detail: c.label==='Mobility' ? (present(relaxase)||present(mpf) ? 'Machinery: '+[present(relaxase)?'relaxase '+relaxase:null,present(mpf)?'MPF '+mpf:null].filter(Boolean).join(' + ') : 'No transfer machinery detected') : '',
+        method:'MOB-suite v3.1.0', hovered,
+        cellStyle:{ flex:'1',minWidth:'0',padding:'13px 16px',paddingLeft:i===0?'22px':'16px',display:'flex',flexDirection:'column',justifyContent:'center',position:'relative',cursor:'help',transition:'background 120ms',borderLeft:i>0?'1px solid #EAECF0':'none',background:hovered?'#F2F4F7':'transparent' },
+        tipStyle:{ position:'absolute',top:'calc(100% + 9px)',left:'12px',zIndex:40,width:'268px',background:'#101828',borderRadius:'10px',padding:'11px 13px',boxShadow:'0 12px 30px rgba(16,24,40,0.3)' },
+        caretStyle:{ position:'absolute',top:'-4px',left:'22px',width:'9px',height:'9px',background:'#101828',transform:'rotate(45deg)' },
+        onEnter:()=>this.setState({hoverMeta:c.label}), onLeave:()=>this.setState({hoverMeta:null}) };
+    });
+
+    const embedded = !!this.props.embedded;
+    const fontCss="'IBM Plex Sans',system-ui,sans-serif";
+    const rootStyle = { height:'100%',minHeight:'100%',maxHeight:'100%',display:'flex',padding:embedded?0:'24px',background:embedded?'#FFFFFF':'#F9FAFB',fontFamily:fontCss,color:'#101828',WebkitFontSmoothing:'antialiased',overflow:'hidden' };
+    const cardStyle = { flex:1,display:'flex',flexDirection:'column',background:'#FFFFFF',border:embedded?'none':'1px solid #EAECF0',borderRadius:embedded?0:'16px',boxShadow:embedded?'none':'0 1px 3px rgba(16,24,40,0.06),0 12px 32px -8px rgba(16,24,40,0.08)',overflow:'hidden',minWidth:0 };
+
+    return {
+      rootStyle, cardStyle,
+      plasmidName: this.props.plasmidName||'pNDM-EcHK001',
+      contigSummary: this.contigs.length+' contigs · '+this.fmt(this.totalBp)+' bp total',
+      combined, chips, typeChips, amrItems, mobMeta,
+      ...detail,
+      tip: !!tip, tipTitle: tip?tip.title:'', tipNote: tip?tip.note:'', tipRows: tip?tip.rows:[],
+      tipDotStyle: tip?{ width:'8px',height:'8px',borderRadius:'3px',background:tip.accent,flex:'none' }:{}, tipLeft:st.tipLeft, tipTop:st.tipTop, tipStyle,
+      wrapRef:this._wrapRef, onMove:(e)=>this.onMove(e),
+      zoomValue: st.zoom.toFixed(1), onZoom:(e)=>this.setState({zoom:parseFloat(e.target.value)}),
+      zoomIn:()=>this.setState(s=>({zoom:Math.min(10,s.zoom*1.3)})), zoomOut:()=>this.setState(s=>({zoom:Math.max(1,s.zoom/1.3)})),
+      exportHover:(e)=>{ e.currentTarget.style.background='#F9FAFB'; }, exportLeave:(e)=>{ e.currentTarget.style.background='#FFFFFF'; },
+      toggleExport:()=>{}, exportOpen:false, closeExport:()=>{}, onExportPNG:()=>{}, itemHover:()=>{}, itemLeave:()=>{}
+    };
+  }
+}
+</script>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0d0d0e"/><circle cx="50" cy="50" r="3" fill="#0d0d0e"/></svg></template>
+</body>
+</html>

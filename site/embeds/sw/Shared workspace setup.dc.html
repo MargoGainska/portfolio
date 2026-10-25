@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/solu-design-system-cf3ac4b7-7f06-4208-a098-b65db4c8c25c/tokens/fonts.css">
+  <script src="icons/solu-icons.js"></script>
+  <style>
+    body { margin: 0; background: #fff; }
+    a { color: #099250; text-decoration: none; }
+    a:hover { color: #087443; }
+    @keyframes swIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    @keyframes swStep { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+    @keyframes swPop { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
+    @keyframes swMenu { from { opacity: 0; transform: translateY(-4px) scale(.97); } to { opacity: 1; transform: none; } }
+    @keyframes swCheck { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
+    @keyframes swRipple { from { opacity: .9; transform: scale(.4); } to { opacity: 0; transform: scale(1.6); } }
+    @keyframes swEnter { from { opacity: 0; transform: translateY(3px) scale(.97); } to { opacity: 1; transform: none; } }
+    @keyframes swGlow { 0% { box-shadow: 0 0 0 0 rgba(9,146,80,.16); } 100% { box-shadow: 0 0 0 4px rgba(9,146,80,0); } }
+    @keyframes swLeave { to { opacity: 0; transform: scale(.97); } }
+    @keyframes swCommit { 0% { transform: none; } 35% { transform: scale(1.05); } 100% { opacity: 0; transform: translateY(-12px) scale(.9); } }
+    @keyframes swExpand { from { opacity: .3; max-width: 120px; } to { opacity: 1; max-width: 260px; } }
+    @keyframes swShimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+    @keyframes swShake { 0%, 100% { transform: none; } 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  </style>
+</helmet>
+
+<div style="font-family:'IBM Plex Sans',-apple-system,sans-serif;font-size:13px;line-height:20px;color:#405448;background:#fff;min-height:100vh;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))">
+
+  <div style="display:flex;flex-direction:column;height:100vh;position:sticky;top:0;width:100%;border-right:1px solid #E6E9E8;box-sizing:border-box;background:#fff;z-index:2">
+    <div style="height:64px;display:flex;align-items:center;gap:12px;padding:0 max(40px, calc((100% - 480px) / 2));flex:none">
+      <img src="assets/solu-logo.svg" alt="Solu" style="height:18px;width:auto;display:block">
+      <span style="flex:1"></span>
+      <span style="color:#9EAAA5;font-size:12px;min-width:64px;text-align:right">{{ stepCount }}</span>
+    </div>
+
+    <div style="flex:0 1 min(10vh,96px);min-height:0"></div>
+    <div style="padding:8px max(40px, calc((100% - 480px) / 2)) 0;display:flex;gap:6px;flex:none">
+      <sc-for list="{{ stepper }}" as="st" hint-placeholder-count="3">
+        <button onClick="{{ st.go }}" title="{{ st.label }}" style="flex:1;height:20px;display:flex;align-items:center;background:transparent;border:none;padding:0;cursor:{{ st.cursor }}">
+          <span style="display:block;height:4px;width:100%;border-radius:1000px;background:#F0F1F1;overflow:hidden"><span style="display:block;height:100%;width:{{ st.fill }};background:#099250;border-radius:1000px;transition:width 560ms cubic-bezier(.22,1,.36,1)"></span></span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="flex:0 1 auto;min-height:0;overflow:{{ contentOverflow }};padding:32px max(40px, calc((100% - 480px) / 2)) 8px;position:relative;z-index:{{ contentZ }}">
+
+      <sc-if value="{{ isDetails }}" hint-placeholder-val="{{ true }}">
+        <div data-screen-label="Name" style="animation:swStep 420ms cubic-bezier(.22,1,.36,1) backwards;display:flex;flex-direction:column;gap:28px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.01em;color:#152F25">Set up a shared workspace</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-weight:500;color:#405448">Name</span>
+            <input value="{{ name }}" onChange="{{ onName }}" placeholder="e.g. Regional Surveillance" style="height:44px;padding:0 14px;font-family:inherit;font-size:14px;color:#152F25;background:#fff;border:1px solid #CFD6D3;border-radius:4px;box-shadow:0 1px 2px rgba(16,24,40,0.05);outline:none;box-sizing:border-box;transition:border-color 160ms,box-shadow 160ms" style-focus="border-color:#099250;box-shadow:0 0 0 4px #ECFDF3">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-weight:500;color:#405448">Description <span style="font-weight:400;color:#9EAAA5">(optional)</span></span>
+            <textarea value="{{ desc }}" onChange="{{ onDesc }}" placeholder="What this workspace is for" rows="3" style="padding:11px 14px;font-family:inherit;font-size:14px;line-height:22px;color:#152F25;background:#fff;border:1px solid #CFD6D3;border-radius:4px;box-shadow:0 1px 2px rgba(16,24,40,0.05);outline:none;box-sizing:border-box;resize:vertical;transition:border-color 160ms,box-shadow 160ms" style-focus="border-color:#099250;box-shadow:0 0 0 4px #ECFDF3"></textarea>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px;padding:16px 18px;border:1px solid #E6E9E8;border-radius:8px;background:#F9F9F9">
+            <sc-for list="{{ facts }}" as="fa" hint-placeholder-count="3">
+              <span style="display:flex;align-items:flex-start;gap:10px">
+                <span style="width:24px;height:24px;border-radius:8px;background:#fff;border:1px solid #E6E9E8;box-sizing:border-box;display:flex;align-items:center;justify-content:center;color:#556759;flex:none"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="{{ fa.icon }}" size="13" hint-size="13px,13px"></x-import></span>
+                <span style="flex:1;min-width:0;padding-top:2px;color:#405448;text-wrap:pretty">{{ fa.text }}</span>
+              </span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isFields }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Included metadata" style="animation:swStep 420ms cubic-bezier(.22,1,.36,1) backwards;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.01em;color:#152F25">Choose the metadata to share</span>
+            <span style="font-size:14px;line-height:22px;color:#556759;text-wrap:pretty">These fields are shared from {{ homeName }}. Workspaces you invite match their own fields to these when they join.</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-weight:500;color:#405448">Your workspace</span>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid #E6E9E8;border-radius:8px;background:#F9F9F9">
+              <span style="width:28px;height:28px;border-radius:5px;border:1px solid #E6E9E8;box-sizing:border-box;background:#fff;color:#556759;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none">{{ homeInitial }}</span>
+              <span style="flex:1;min-width:0;font-weight:500;color:#152F25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ homeName }}</span>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:baseline;gap:8px">
+              <span style="font-weight:500;color:#405448">Included</span>
+              <span style="font-size:12px;color:#9EAAA5">{{ fieldsCount }}</span>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <span style="display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;background:#F5F6F6;border:1px solid #E6E9E8;border-radius:1000px;box-sizing:border-box;font-size:13px;font-weight:500;color:#556759;white-space:nowrap"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Lock01" size="13" hint-size="13px,13px"></x-import>Sample ID, species, results</span>
+              <sc-for list="{{ includedPills }}" as="p" hint-placeholder-count="3">
+                <span style="animation:{{ p.anim }};display:flex;align-items:center;gap:4px;height:32px;padding:0 5px 0 12px;background:#ECFDF3;border:1px solid #ABEFC6;border-radius:1000px;box-sizing:border-box;font-size:13px;font-weight:500;color:#067647;white-space:nowrap">{{ p.label }}
+                  <button onClick="{{ p.remove }}" title="Remove" style="width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;border-radius:1000px;color:#067647;cursor:pointer;padding:0;transition:background 140ms" style-hover="background:#D3F8DF"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="XClose" size="13" hint-size="13px,13px"></x-import></button>
+                </span>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+            <sc-for list="{{ availablePills }}" as="p" hint-placeholder-count="4">
+              <button onClick="{{ p.add }}" title="{{ p.hint }}" style="animation:{{ p.anim }};display:flex;align-items:center;gap:6px;height:32px;padding:0 12px 0 10px;background:#fff;border:1px dashed #CFD6D3;border-radius:1000px;font-family:inherit;font-size:13px;font-weight:500;color:#405448;cursor:pointer;white-space:nowrap;transition:border-color 160ms,color 160ms,background 160ms,transform 160ms" style-hover="border-color:#099250;color:#067647;background:#F6FEF9;transform:translateY(-1px)" style-active="transform:scale(.96)">
+                <span style="display:flex;color:#9EAAA5"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Plus" size="14" hint-size="14px,14px"></x-import></span>{{ p.label }}
+              </button>
+            </sc-for>
+            <span style="display:flex;width:220px;flex:none">
+            <span onClick="{{ startAdding }}" style="position:relative;display:flex;align-items:center;flex:none;height:32px;width:{{ apWidth }};border:1px {{ apBorderStyle }} {{ apBorderColor }};border-radius:1000px;background:{{ apBg }};box-shadow:{{ apRing }};box-sizing:border-box;overflow:hidden;cursor:{{ apCursor }};transition:{{ apBoxTr }}" style-hover="border-color:#099250">
+              <span style="position:absolute;left:10px;top:0;bottom:0;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#405448;white-space:nowrap;opacity:{{ apLabelOpacity }};transform:translateX({{ apLabelX }});transition:{{ apLabelTr }};pointer-events:none">
+                <span style="display:flex;color:#9EAAA5"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Plus" size="14" hint-size="14px,14px"></x-import></span>Add new field
+              </span>
+              <input ref="{{ inputRef }}" value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onDraftKey }}" onBlur="{{ onDraftBlur }}" placeholder="Field name" tabIndex="{{ apTab }}" style="position:absolute;left:14px;right:36px;top:0;bottom:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:13px;font-weight:500;color:#152F25;opacity:{{ apInputOpacity }};transition:{{ apInputTr }};pointer-events:{{ apPointer }}">
+              <button onMouseDown="{{ addDraftDown }}" title="Add" style="position:absolute;right:3px;top:3px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:#099250;border:none;border-radius:1000px;color:#fff;cursor:pointer;padding:0;opacity:{{ apInputOpacity }};transform:scale({{ apCheckScale }});transition:{{ apCheckTr }};pointer-events:{{ apPointer }}"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Check" size="13" hint-size="13px,13px"></x-import></button>
+            </span>
+            </span>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isInvite }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Invite workspaces" style="animation:swStep 420ms cubic-bezier(.22,1,.36,1) backwards;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.01em;color:#152F25">Invite people</span>
+            <span style="font-size:14px;line-height:22px;color:#556759;text-wrap:pretty">Invite the people who will add samples or follow the results. Each person can add samples from the workspaces they work in.</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:6px;position:relative;z-index:30">
+            <span style="font-weight:500;color:#405448">Person</span>
+            <div style="display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;background:#fff;border:1px solid {{ emailBorder }};border-radius:4px;box-shadow:{{ searchRing }};box-sizing:border-box;color:#9EAAA5;transition:border-color 160ms,box-shadow 160ms">
+              <x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="SearchLg" size="16" hint-size="16px,16px"></x-import>
+              <input value="{{ email }}" onChange="{{ onEmail }}" onKeyDown="{{ onEmailKey }}" placeholder="Search by name or enter an email" style="flex:1;min-width:0;height:100%;border:none;outline:none;font-family:inherit;font-size:13px;color:#152F25;background:transparent">
+            </div>
+            <sc-if value="{{ showResults }}" hint-placeholder-val="{{ false }}">
+              <div style="transform-origin:top left;animation:swMenu 180ms cubic-bezier(.22,1,.36,1) backwards;position:absolute;left:0;right:0;top:68px;background:#fff;border:1px solid #E6E9E8;border-radius:8px;box-shadow:0 16px 32px -8px rgba(16,24,40,0.16);padding:5px;display:flex;flex-direction:column;gap:2px">
+                <sc-if value="{{ hasOrgResults }}" hint-placeholder-val="{{ true }}">
+                  <span style="font-size:11px;font-weight:500;color:#9EAAA5;padding:6px 10px 4px">In your organization</span>
+                </sc-if>
+                <sc-for list="{{ results }}" as="r" hint-placeholder-count="3">
+                  <button onClick="{{ r.pick }}" style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:transparent;border:none;border-radius:4px;font-family:inherit;text-align:left;cursor:pointer;width:100%" style-hover="background:#F9F9F9">
+                    <span style="width:28px;height:28px;border-radius:1000px;background:{{ r.bg }};color:{{ r.fg }};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex:none">{{ r.initial }}</span>
+                    <span style="flex:1;min-width:0;display:flex;flex-direction:column">
+                      <span style="font-size:13px;font-weight:500;color:#152F25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span>
+                      <span style="font-size:12px;color:#9EAAA5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.sub }}</span>
+                    </span>
+                  </button>
+                </sc-for>
+                <sc-if value="{{ showEmailOption }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ addEmail }}" style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:transparent;border:none;border-top:{{ emailOptionBorder }};border-radius:4px;font-family:inherit;text-align:left;cursor:pointer;width:100%" style-hover="background:#F9F9F9">
+                    <span style="width:28px;height:28px;border-radius:5px;background:#ECFDF3;border:1px solid #ABEFC6;box-sizing:border-box;color:#099250;display:flex;align-items:center;justify-content:center;flex:none"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Mail01" size="14" hint-size="14px,14px"></x-import></span>
+                    <span style="flex:1;min-width:0;display:flex;flex-direction:column">
+                      <span style="font-size:13px;font-weight:500;color:#152F25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Invite {{ email }}</span>
+                      <span style="font-size:12px;color:#9EAAA5">Person outside your organization</span>
+                    </span>
+                  </button>
+                </sc-if>
+                <sc-if value="{{ showNoResults }}" hint-placeholder-val="{{ false }}">
+                  <span style="padding:10px;font-size:12px;color:#556759;text-wrap:pretty">No one found in your organization. To invite someone outside it, enter their email.</span>
+                </sc-if>
+              </div>
+            </sc-if>
+            <sc-if value="{{ emailError }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:12px;color:#D92D20;animation:swShake 260ms ease">{{ emailError }}</span>
+            </sc-if>
+          </div>
+
+          <div style="display:flex;flex-direction:column">
+            <sc-for list="{{ people }}" as="p" hint-placeholder-count="3">
+              <div style="animation:swIn 320ms cubic-bezier(.22,1,.36,1) backwards;display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #E6E9E8;position:relative;z-index:{{ p.z }}">
+                <span style="width:32px;height:32px;border-radius:1000px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex:none;background:{{ p.bg }};color:{{ p.fg }}">{{ p.initials }}</span>
+                <span style="flex:1;min-width:0;display:flex;flex-direction:column">
+                  <span style="font-weight:500;color:#152F25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</span>
+                  <span style="font-size:12px;color:#9EAAA5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.sub }}</span>
+                </span>
+                <div style="position:relative;flex:none">
+                  <button onClick="{{ p.toggleMenu }}" style="display:flex;align-items:center;gap:6px;background:{{ p.btnBg }};border:1px solid {{ p.btnBorder }};border-radius:4px;font-family:inherit;color:#152F25;cursor:{{ p.cursor }};transition:background 140ms;height:32px;padding:0 12px;font-size:13px;line-height:18px;font-weight:600;box-sizing:border-box" style-hover="background:#F9F9F9">
+                    {{ p.role }}<span style="display:{{ p.caretDisplay }};color:#556759"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="ChevronDown" size="15" hint-size="15px,15px"></x-import></span>
+                  </button>
+                  <sc-if value="{{ p.menuOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="transform-origin:{{ p.menuOrigin }};animation:swMenu 180ms cubic-bezier(.22,1,.36,1) backwards;position:absolute;right:0;top:{{ p.menuTop }};bottom:{{ p.menuBottom }};width:270px;background:#fff;border:1px solid #E6E9E8;border-radius:8px;box-shadow:0 16px 32px -8px rgba(16,24,40,0.16);padding:5px;display:flex;flex-direction:column;gap:2px">
+                      <sc-for list="{{ p.options }}" as="o" hint-placeholder-count="3">
+                        <button onClick="{{ o.pick }}" style="display:flex;align-items:flex-start;gap:10px;padding:9px 10px;background:{{ o.bg }};border:none;border-radius:4px;cursor:pointer;text-align:left;width:100%;font-family:inherit" style-hover="background:#F9F9F9">
+                          <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px">
+                            <span style="font-size:13px;font-weight:500;color:#152F25">{{ o.label }}</span>
+                            <span style="font-size:12px;line-height:17px;color:#556759">{{ o.hint }}</span>
+                          </span>
+                          <span style="display:{{ o.checkDisplay }};color:#099250;flex:none;padding-top:3px"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Check" size="15" hint-size="15px,15px"></x-import></span>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+                <button onClick="{{ p.remove }}" title="Remove" style="display:{{ p.removeDisplay }};width:32px;height:32px;align-items:center;justify-content:center;background:transparent;border:none;border-radius:4px;color:#9EAAA5;cursor:pointer;flex:none;transition:background 140ms,color 140ms" style-hover="background:#F5F6F6;color:#B42318"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="XClose" size="16" hint-size="16px,16px"></x-import></button>
+                <span style="display:{{ p.spacerDisplay }};width:32px;flex:none"></span>
+              </div>
+            </sc-for>
+          </div>
+          
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Done" style="animation:swStep 420ms cubic-bezier(.22,1,.36,1) backwards;display:flex;flex-direction:column;gap:28px;padding-top:16px">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <span style="animation:swCheck 560ms cubic-bezier(.22,1,.36,1) 80ms backwards;width:52px;height:52px;border-radius:1000px;background:#ECFDF3;border:1px solid #ABEFC6;box-sizing:border-box;color:#099250;display:flex;align-items:center;justify-content:center"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="CheckCircle" size="24" hint-size="24px,24px"></x-import></span>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.01em;color:#152F25">{{ nameOrDefault }} is ready</span>
+              <span style="font-size:14px;line-height:22px;color:#556759;text-wrap:pretty">{{ doneHint }}</span>
+            </div>
+          </div>
+          <div style="animation:swIn 420ms cubic-bezier(.22,1,.36,1) 160ms backwards;display:flex;flex-direction:column;gap:14px;padding:18px;border:1px solid #E6E9E8;border-radius:8px">
+            <span style="font-weight:600;color:#152F25">Add samples</span>
+            <sc-for list="{{ demoSteps }}" as="d" hint-placeholder-count="3">
+              <span style="display:flex;align-items:center;gap:10px;color:{{ d.fg }};font-weight:{{ d.weight }};transition:color 240ms">
+                <span style="width:24px;height:24px;border-radius:1000px;background:{{ d.bg }};border:1px solid {{ d.border }};box-sizing:border-box;color:{{ d.numFg }};font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;transition:background 240ms,border-color 240ms,color 240ms">{{ d.n }}</span>
+                <span>{{ d.text }}</span>
+              </span>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px">
+            <button onClick="{{ goAddSamples }}" style="display:flex;align-items:center;gap:8px;white-space:nowrap;background:#099250;border:1px solid #099250;border-radius:4px;box-shadow:0 1px 2px rgba(16,24,40,0.05);font-family:inherit;color:#fff;cursor:pointer;transition:background 160ms;height:36px;padding:0 14px;font-size:14px;line-height:20px;font-weight:600;box-sizing:border-box" style-hover="background:#087443" style-active="transform:scale(.98)"><span>Add samples</span><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="ArrowRight" size="16" hint-size="16px,16px"></x-import></button>
+            <button onClick="{{ goShared }}" style="display:flex;align-items:center;white-space:nowrap;background:transparent;border:none;border-radius:4px;font-family:inherit;color:#556759;cursor:pointer;transition:background 140ms,color 140ms;height:36px;padding:0 14px;font-size:14px;line-height:20px;font-weight:600;box-sizing:border-box" style-hover="background:#F5F6F6;color:#152F25"><span>Go to {{ nameOrDefault }}</span></button>
+          </div>
+        </div>
+      </sc-if>
+
+
+
+
+    </div>
+
+    <sc-if value="{{ showFooter }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:12px;padding:16px max(40px, calc((100% - 480px) / 2)) 24px;flex:none">
+        <button onClick="{{ back }}" style="display:{{ backDisplay }};align-items:center;gap:6px;background:transparent;border:none;border-radius:4px;font-family:inherit;color:#556759;cursor:pointer;transition:background 140ms;height:36px;padding:0 14px;font-size:14px;line-height:20px;font-weight:600;box-sizing:border-box" style-hover="background:#F5F6F6">
+          <x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="ArrowLeft" size="16" hint-size="16px,16px"></x-import>Back</button>
+        <span style="flex:1"></span>
+        <button onClick="{{ next }}" style="display:flex;align-items:center;gap:8px;background:{{ nextBg }};border:1px solid {{ nextBg }};border-radius:4px;box-shadow:0 1px 2px rgba(16,24,40,0.05);font-family:inherit;color:{{ nextFg }};cursor:{{ nextCursor }};white-space:nowrap;transition:background 220ms,border-color 220ms,color 220ms;height:36px;padding:0 14px;font-size:14px;line-height:20px;font-weight:600;box-sizing:border-box" style-hover="opacity:0.92" style-active="transform:scale(.98)">{{ nextLabel }}<x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="ArrowRight" size="16" hint-size="16px,16px"></x-import></button>
+      </div>
+    </sc-if>
+    <div style="flex:1 1 0;min-height:0"></div>
+  </div>
+
+  <div data-screen-label="Preview" style="background:#F5F6F6;display:flex;flex-direction:column;min-width:0;min-height:480px">
+    <div style="height:64px;display:flex;align-items:center;padding:0 40px;flex:none">
+      <span style="font-size:12px;font-weight:500;color:#9EAAA5">{{ previewLabel }}</span>
+    </div>
+    <div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 24px 40px">
+      <sc-if value="{{ notDone }}" hint-placeholder-val="{{ true }}">
+      <div style="width:100%;max-width:560px;background:#fff;border:1px solid #E6E9E8;border-radius:12px;box-shadow:0 1px 2px rgba(16,24,40,0.04),0 24px 48px -16px rgba(16,24,40,0.16);overflow:hidden">
+
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:16px 20px;border-bottom:1px solid #E6E9E8;background:{{ hlName }};transition:background 300ms">
+          <span style="width:36px;height:36px;border-radius:8px;border:1px solid #E6E9E8;box-sizing:border-box;background:#fff;box-shadow:0 1px 2px rgba(16,24,40,0.06);color:#405448;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;flex:none">{{ initial }}</span>
+          <span style="flex:1 1 200px;min-width:200px;display:flex;flex-direction:column;gap:1px">
+            <span style="display:flex;align-items:center;gap:8px;min-width:0;min-height:22px">
+              <span style="min-width:0;font-size:15px;font-weight:600;color:{{ previewNameColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ previewName }}</span>
+              <span style="display:flex;align-items:center;height:20px;padding:0 7px;border-radius:1000px;background:#EEF4FF;border:1px solid #C7D7FE;box-sizing:border-box;color:#3538CD;font-size:11px;font-weight:600;flex:none;white-space:nowrap">Shared</span>
+            </span>
+            <span style="font-size:12px;color:#9EAAA5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ previewDesc }}</span>
+          </span>
+          <span style="display:flex;align-items:center;gap:8px;flex:none;padding:4px 6px;border-radius:1000px;box-shadow:0 0 0 2px {{ hlPeople }};transition:box-shadow 300ms">
+            <span style="display:flex;padding-left:6px">
+              <sc-for list="{{ avatars }}" as="a" hint-placeholder-count="1">
+                <span style="animation:swPop 260ms cubic-bezier(.22,1,.36,1) backwards;width:26px;height:26px;margin-left:-6px;border-radius:1000px;border:2px solid #fff;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;background:{{ a.bg }};color:{{ a.fg }}">{{ a.initials }}</span>
+              </sc-for>
+              <span style="display:{{ moreDisplay }};width:26px;height:26px;margin-left:-6px;border-radius:1000px;border:2px solid #fff;box-sizing:border-box;background:#F5F6F6;color:#556759;font-size:10px;font-weight:600;align-items:center;justify-content:center">{{ moreCount }}</span>
+            </span>
+          </span>
+        </div>
+
+        <div style="overflow-x:auto">
+          <div style="display:grid;grid-template-columns:{{ gridCols }};background:#FCFCFC;border-bottom:1px solid #E6E9E8;font-size:11px;font-weight:500;color:#556759">
+            <sc-for list="{{ headCells }}" as="h" hint-placeholder-count="5">
+              <span style="animation:swPop 260ms cubic-bezier(.22,1,.36,1) backwards;padding:9px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ h.fg }};background:{{ h.bg }};transition:background 300ms,color 300ms">{{ h.label }}</span>
+            </sc-for>
+          </div>
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:{{ gridCols }};border-bottom:1px solid #F5F6F6;font-size:12px">
+              <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5">
+                <span style="padding:0 12px;height:36px;display:flex;align-items:center"><span style="display:block;width:{{ c.w }};height:6px;border-radius:1000px;background:linear-gradient(90deg,{{ c.bar }} 0%,#FAFBFB 50%,{{ c.bar }} 100%);background-size:200% 100%;animation:swShimmer 2.4s ease-in-out infinite;transition:width 320ms cubic-bezier(.22,1,.36,1)"></span></span>
+              </sc-for>
+            </div>
+          </sc-for>
+          <div style="padding:10px 12px 12px;display:{{ previewFootDisplay }}"><span style="display:flex;align-items:center;height:22px;padding:0 9px;border-radius:1000px;background:#F5F6F6;font-size:11px;font-weight:500;color:#556759">{{ previewFoot }}</span></div>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Add samples demo" style="animation:swIn 520ms cubic-bezier(.22,1,.36,1) backwards;position:relative;width:400px;height:300px;flex:none;background:#fff;border:1px solid #E6E9E8;border-radius:12px;box-shadow:0 20px 24px -4px rgba(16,24,40,0.08),0 8px 8px -4px rgba(16,24,40,0.03);overflow:hidden;font-size:11px;line-height:16px;color:#405448">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:110px;border-right:1px solid #F0F1F1;background:#fff">
+            <span style="position:absolute;left:10px;top:10px;display:flex;align-items:center;gap:6px"><span style="width:20px;height:20px;border-radius:4px;border:1px solid #E6E9E8;box-sizing:border-box;background:#F5F6F6;color:#556759;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center">{{ homeInitial }}</span><span style="font-weight:600;color:#152F25;white-space:nowrap;max-width:70px;overflow:hidden;text-overflow:ellipsis">{{ homeName }}</span></span>
+            <span style="position:absolute;left:8px;top:44px;width:94px;height:24px;display:flex;align-items:center;gap:6px;padding:0 7px;box-sizing:border-box;border-radius:5px;background:{{ dSamplesBg }};color:{{ dSamplesFg }};font-weight:600;transition:background 260ms,color 260ms"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Beaker02" size="12" hint-size="12px,12px"></x-import><span>Samples</span></span>
+            <span style="position:absolute;left:8px;top:70px;width:94px;height:24px;display:flex;align-items:center;gap:6px;padding:0 7px;box-sizing:border-box;border-radius:5px;background:transparent;color:#9EAAA5;font-weight:400;transition:background 260ms,color 260ms"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Folder" size="12" hint-size="12px,12px"></x-import><span>Collections</span></span>
+            <span style="position:absolute;left:8px;top:96px;width:94px;height:24px;display:flex;align-items:center;gap:6px;padding:0 7px;box-sizing:border-box;border-radius:5px;background:transparent;color:#9EAAA5;font-weight:400;transition:background 260ms,color 260ms"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="PieChart03" size="12" hint-size="12px,12px"></x-import><span>Clusters</span></span>
+            <span style="position:absolute;left:8px;top:122px;width:94px;height:24px;display:flex;align-items:center;gap:6px;padding:0 7px;box-sizing:border-box;border-radius:5px;background:transparent;color:#9EAAA5;font-weight:400;transition:background 260ms,color 260ms"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="BarChart01" size="12" hint-size="12px,12px"></x-import><span>Reports</span></span>
+          </div>
+          <span style="position:absolute;left:124px;top:12px;font-size:13px;font-weight:600;color:#152F25">{{ dTitle }}</span>
+          <div style="position:absolute;inset:0;opacity:{{ dTableOpacity }};transition:opacity 300ms">
+            <div style="position:absolute;left:124px;top:44px;width:262px;height:22px;display:flex;align-items:center;gap:9px;padding:0 6px;box-sizing:border-box;background:#FCFCFC;border-bottom:1px solid #E6E9E8;color:#9EAAA5;font-weight:500">
+              <span style="width:12px;height:12px;border-radius:3px;border:1px solid #CFD6D3;box-sizing:border-box;flex:none"></span><span style="width:46px;height:5px;border-radius:1000px;background:#E6E9E8;flex:none;margin-right:24px"></span><span style="width:56px;height:5px;border-radius:1000px;background:#E6E9E8;flex:none"></span>
+            </div>
+            <div style="position:absolute;left:124px;top:66px;width:262px;height:24px;display:flex;align-items:center;gap:9px;padding:0 6px;box-sizing:border-box;border-bottom:1px solid #F5F6F6;background:{{ dRow1Bg }};transition:background 220ms">
+                <span style="width:12px;height:12px;border-radius:3px;border:1px solid {{ dRow1Border }};background:{{ dRow1Box }};box-sizing:border-box;flex:none;color:#fff;display:flex;align-items:center;justify-content:center;transition:background 180ms,border-color 180ms"><span style="display:{{ dRow1Check }}"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Check" size="9" hint-size="9px,9px"></x-import></span></span>
+                <span style="width:70px;height:6px;border-radius:1000px;background:#E6E9E8;flex:none"></span>
+                <span style="width:96px;height:6px;border-radius:1000px;background:#F0F1F1;flex:none"></span>
+              </div>
+            <div style="position:absolute;left:124px;top:90px;width:262px;height:24px;display:flex;align-items:center;gap:9px;padding:0 6px;box-sizing:border-box;border-bottom:1px solid #F5F6F6;background:{{ dRow2Bg }};transition:background 220ms">
+                <span style="width:12px;height:12px;border-radius:3px;border:1px solid {{ dRow2Border }};background:{{ dRow2Box }};box-sizing:border-box;flex:none;color:#fff;display:flex;align-items:center;justify-content:center;transition:background 180ms,border-color 180ms"><span style="display:{{ dRow2Check }}"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Check" size="9" hint-size="9px,9px"></x-import></span></span>
+                <span style="width:70px;height:6px;border-radius:1000px;background:#E6E9E8;flex:none"></span>
+                <span style="width:120px;height:6px;border-radius:1000px;background:#F0F1F1;flex:none"></span>
+              </div>
+            <div style="position:absolute;left:124px;top:114px;width:262px;height:24px;display:flex;align-items:center;gap:9px;padding:0 6px;box-sizing:border-box;border-bottom:1px solid #F5F6F6;background:{{ dRow3Bg }};transition:background 220ms">
+                <span style="width:12px;height:12px;border-radius:3px;border:1px solid {{ dRow3Border }};background:{{ dRow3Box }};box-sizing:border-box;flex:none;color:#fff;display:flex;align-items:center;justify-content:center;transition:background 180ms,border-color 180ms"><span style="display:{{ dRow3Check }}"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Check" size="9" hint-size="9px,9px"></x-import></span></span>
+                <span style="width:70px;height:6px;border-radius:1000px;background:#E6E9E8;flex:none"></span>
+                <span style="width:84px;height:6px;border-radius:1000px;background:#F0F1F1;flex:none"></span>
+              </div>
+            <div style="position:absolute;left:124px;top:138px;width:262px;height:24px;display:flex;align-items:center;gap:9px;padding:0 6px;box-sizing:border-box;border-bottom:1px solid #F5F6F6;background:{{ dRow4Bg }};transition:background 220ms">
+                <span style="width:12px;height:12px;border-radius:3px;border:1px solid {{ dRow4Border }};background:{{ dRow4Box }};box-sizing:border-box;flex:none;color:#fff;display:flex;align-items:center;justify-content:center;transition:background 180ms,border-color 180ms"><span style="display:{{ dRow4Check }}"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="Check" size="9" hint-size="9px,9px"></x-import></span></span>
+                <span style="width:70px;height:6px;border-radius:1000px;background:#E6E9E8;flex:none"></span>
+                <span style="width:108px;height:6px;border-radius:1000px;background:#F0F1F1;flex:none"></span>
+              </div>
+          </div>
+          <div style="position:absolute;left:255px;top:252px;transform:translate(-50%,{{ dBarY }});opacity:{{ dBarOpacity }};display:flex;align-items:center;gap:8px;height:28px;padding:0 4px 0 12px;border-radius:1000px;background:#152F25;color:#fff;font-weight:500;white-space:nowrap;box-shadow:0 8px 16px -4px rgba(16,24,40,0.3);transition:opacity 260ms,transform 320ms cubic-bezier(.22,1,.36,1)">
+            <span>2 selected</span><span style="width:1px;height:12px;background:rgba(255,255,255,0.2)"></span>
+            <span style="display:flex;align-items:center;gap:4px;height:22px;padding:0 9px;border-radius:1000px;background:{{ dAddBg }};transition:background 200ms">Add to<x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="ChevronDown" size="11" hint-size="11px,11px"></x-import></span>
+          </div>
+          <div style="position:absolute;left:190px;top:208px;width:170px;transform-origin:bottom center;transform:{{ dMenuTf }};opacity:{{ dMenuOpacity }};display:flex;align-items:center;gap:6px;height:34px;padding:0 10px;box-sizing:border-box;border-radius:8px;background:#fff;border:1px solid #E6E9E8;box-shadow:0 12px 20px -6px rgba(16,24,40,0.18);transition:opacity 200ms,transform 240ms cubic-bezier(.22,1,.36,1)">
+            <span style="flex:1;min-width:0;font-weight:500;color:#152F25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:{{ dItemBg }};border-radius:4px;padding:2px 4px;margin-left:-4px;transition:background 200ms">{{ nameOrDefault }}</span>
+            <span style="display:flex;align-items:center;height:16px;padding:0 6px;border-radius:1000px;background:#EEF4FF;border:1px solid #C7D7FE;box-sizing:border-box;color:#3538CD;font-size:9px;font-weight:600;flex:none">Shared</span>
+          </div>
+          <div style="position:absolute;right:10px;bottom:10px;transform:translateY({{ dToastY }});opacity:{{ dToastOpacity }};display:flex;align-items:center;gap:6px;height:28px;padding:0 11px;border-radius:1000px;background:#152F25;color:#fff;font-weight:500;white-space:nowrap;box-shadow:0 8px 16px -4px rgba(16,24,40,0.3);transition:opacity 260ms,transform 320ms cubic-bezier(.22,1,.36,1)">
+            <span style="display:flex;color:#6CE9A6"><x-import component-from-global-scope="SoluDesignSystem_cf3ac4.Icon" name="CheckCircle" size="12" hint-size="12px,12px"></x-import></span><span>2 samples added</span>
+          </div>
+          {{ rippleEl }}
+          <span style="position:absolute;left:{{ dCurX }};top:{{ dCurY }};width:18px;height:18px;z-index:5;pointer-events:none;transform:scale({{ dCurScale }});transition:left 700ms cubic-bezier(.45,0,.2,1),top 700ms cubic-bezier(.45,0,.2,1),transform 140ms"><svg width="18" height="18" viewBox="0 0 24 24" style="display:block;filter:drop-shadow(0 2px 3px rgba(16,24,40,.3))"><path d="M5 3l14 7.5-6.2 1.6L10 18.5z" fill="#152F25" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"></path></svg></span>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:820}}">
+const FIELDS = [
+  { label: "Location", hint: "Where the sample was collected" },
+  { label: "Collection date", hint: "When the sample was collected" },
+  { label: "Notes", hint: "Free text added to the sample" },
+  { label: "Source", hint: "Human, animal, food or environment" },
+  { label: "Host species", hint: "The person or animal the sample came from" },
+  { label: "Sample type", hint: "For example blood, faeces or swab" },
+];
+const START = ["Location", "Collection date"];
+const PALETTE = [
+  { bg: "#EDFCF2", fg: "#087443" },
+  { bg: "#FFE6D5", fg: "#B93815" },
+  { bg: "#FCE7F6", fg: "#C11574" },
+  { bg: "#EFF4FF", fg: "#3538CD" },
+  { bg: "#E0F2FE", fg: "#026AA2" },
+];
+const SAMPLE_ROWS = [
+  { id: "SRR11997640", sp: "E. coli", from: "Coastal Institute", v: { "Location": "Lisbon", "Collection date": "12 Aug 2026", "Notes": "Repeat culture", "Specimen type": "Blood", "Ward": "ICU", "Source": "Human", "Host species": "Human", "Sample type": "Blood", "Food product": "", "Farm or facility": "", "Water source": "" } },
+  { id: "BAY11997612", sp: "K. pneumoniae", from: "Bayside Hospital", v: { "Location": "Porto", "Collection date": "14 Aug 2026", "Notes": "", "Specimen type": "Urine", "Ward": "Surgery", "Source": "Animal", "Host species": "Pig", "Sample type": "Faeces", "Food product": "", "Farm or facility": "Farm 214", "Water source": "" } },
+  { id: "HAR11997654", sp: "E. coli", from: "Harbour Lab", v: { "Location": "Faro", "Collection date": "15 Aug 2026", "Notes": "Food sample", "Specimen type": "Poultry meat", "Ward": "", "Source": "Food", "Host species": "Chicken", "Sample type": "Meat", "Food product": "Chicken meat", "Farm or facility": "Plant 07", "Water source": "" } },
+];
+const has = (list, v) => list.some((x) => x.toLowerCase() === v.toLowerCase());
+const SPECIES = [["Escherichia coli", "E. coli"], ["Klebsiella pneumoniae", "K. pneumoniae"], ["Staphylococcus aureus", "S. aureus"]];
+function mkSamples(prefix, n, values) {
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const sp = SPECIES[i % SPECIES.length];
+    out.push({ id: prefix + (11997640 + i * 7), species: sp[0], short: sp[1], date: (2 + i) + " Aug 2026", v: values(i) });
+  }
+  return out;
+}
+const MY_WS = [
+  {
+    id: "ci", name: "Coastal Institute", count: 412, role: "Admin",
+    fields: ["Location", "Collection date", "Notes", "Specimen", "Ward", "Patient age"],
+    samples: mkSamples("SRR", 8, (i) => ({
+      "Location": ["Lisbon", "Porto", "Braga"][i % 3], "Collection date": (2 + i) + " Aug 2026", "Notes": i % 3 === 0 ? "Repeat culture" : "",
+      "Specimen": ["Blood", "Urine", "Wound"][i % 3], "Ward": ["ICU", "Surgery", "Medicine"][i % 3], "Patient age": String(41 + i * 4),
+    })),
+  },
+  {
+    id: "hl", name: "Harbour Lab", count: 97, role: "Editor",
+    fields: ["Location", "Collection date", "Notes", "Matrix", "Farm ID"],
+    samples: mkSamples("HAR", 6, (i) => ({
+      "Location": ["Faro", "Coimbra", "Aveiro"][i % 3], "Collection date": (5 + i) + " Aug 2026", "Notes": "",
+      "Matrix": ["Poultry meat", "Water", "Feces"][i % 3], "Farm ID": "F-" + (100 + i),
+    })),
+  },
+];
+const ORG_PEOPLE = [
+  { name: "Lea Moreau", email: "lea.moreau@coastalinstitute.org", ws: "Harbour Lab" },
+  { name: "Tom Okoye", email: "tom.okoye@coastalinstitute.org", ws: "Coastal Institute" },
+  { name: "Priya Raman", email: "priya.raman@coastalinstitute.org", ws: "Central Reference Lab" },
+  { name: "Joel Okafor", email: "joel.okafor@coastalinstitute.org", ws: "Mobile Sampling Unit" },
+];
+const ROLES = [
+  { label: "Admin", hint: "Invites people and manages the workspace" },
+  { label: "Editor", hint: "Adds samples from their workspaces, edits and deletes" },
+  { label: "Viewer", hint: "Sees samples and results, can download them" },
+];
+const SYN = {
+  "Location": ["Location", "Site", "Region"],
+  "Notes": ["Notes", "Comments"],
+  "Specimen type": ["Specimen type", "Specimen", "Matrix"],
+  "Collection date": ["Collection date", "Sample date", "Sampling date"],
+  "Country": ["Country"],
+  "Region": ["Region"],
+  "Hospital or site": ["Hospital or site", "Site", "Hospital"],
+  "Patient age": ["Patient age", "Age"],
+  "Patient sex": ["Patient sex", "Sex"],
+  "Host animal": ["Host animal", "Host"],
+  "Outbreak code": ["Outbreak code", "Outbreak ID"],
+};
+const HOME_WS = MY_WS[0];
+const INCLUDED_WS = [
+  { name: "Coastal Institute", sub: "Your workspace" },
+  { name: "Bayside Hospital", sub: "Bayside Health" },
+  { name: "Northern Lab", sub: "Northern Lab" },
+];
+function autoMap(ws, sharedFields) {
+  const map = {};
+  sharedFields.forEach((f) => {
+    const hit = ws.fields.find((x) => (SYN[f] || [f]).some((y) => y.toLowerCase() === x.toLowerCase()));
+    map[f] = hit || null;
+  });
+  return map;
+}
+
+class Component extends DCLogic {
+  state = {
+    flow: "setup",
+    step: 1,
+    jStep: 1,
+    name: "",
+    desc: "",
+    fields: START.slice(),
+    draft: "",
+    adding: false,
+    committing: false,
+    created: {},
+    email: "",
+    emailError: null,
+    setupWs: null,
+    invited: [],
+    menu: null,
+    wsId: null,
+    map: {},
+    mapMenu: null,
+    picked: {},
+    q: "",
+    homeExtra: [],
+  };
+
+  inputRef = React.createRef();
+  componentDidMount() { this.syncDemo(); if (/[?&]auto\b/.test(location.search)) this.runAuto(); }
+  async runAuto() {
+    const alive = () => !this._dead;
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    let cur = document.querySelector('[data-auto-cursor]');
+    if (!cur) {
+      cur = document.createElement('div'); cur.setAttribute('data-auto-cursor', '');
+      cur.style.cssText = 'position:fixed;left:0;top:0;z-index:9999;pointer-events:none;transform:translate(720px,520px);transition:transform 900ms cubic-bezier(.45,0,.2,1);will-change:transform';
+      cur.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" style="display:block;filter:drop-shadow(0 2px 3px rgba(16,24,40,.3));transition:transform 140ms ease-out"><path d="M5 3l14 7.5-6.2 1.6L10 18.5z" fill="#152F25" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"></path></svg>';
+      document.body.appendChild(cur);
+    }
+    const arrow = cur.firstChild;
+    const find = (fn) => { const els = [...document.querySelectorAll('button,input,textarea,span,div')]; return els.find(fn); };
+    const point = async (el, dx = 0.5, dy = 0.5) => { if (!el || !alive()) return; const r = el.getBoundingClientRect(); cur.style.transform = 'translate(' + (r.left + r.width * dx - 5) + 'px,' + (r.top + r.height * dy - 3) + 'px)'; await wait(950); };
+    const click = async () => { arrow.style.transform = 'scale(.82)'; const rp = document.createElement('span'); rp.style.cssText = 'position:absolute;left:-9px;top:-11px;width:28px;height:28px;border-radius:99px;border:2px solid #099250;box-sizing:border-box;animation:swRipple 560ms ease-out both'; cur.appendChild(rp); await wait(150); arrow.style.transform = ''; setTimeout(() => rp.remove(), 600); await wait(200); };
+    const nextBtn = () => [...document.querySelectorAll('button')].reverse().find((b) => /next|continue|create|send|invite|done|finish/i.test(b.textContent));
+    const type = async (key, text, speed = 55) => { for (let i = 1; i <= text.length && alive(); i++) { this.setState({ [key]: text.slice(0, i) }); await wait(speed + Math.random() * 40); } };
+    while (alive()) {
+      this.setState({ flow: "setup", step: 1, jStep: 1, name: "", desc: "", fields: START.slice(), draft: "", adding: false, created: {}, email: "", emailError: null, invited: [], menu: null, wsId: null, map: {}, picked: {}, q: "", homeExtra: [] });
+      await wait(700);
+      await point(document.querySelector('input[placeholder="e.g. Regional Surveillance"]'), 0.15); await click();
+      await type("name", "Regional AMR surveillance");
+      await wait(300);
+      await point(document.querySelector('textarea'), 0.15, 0.3); await click();
+      await type("desc", "Carbapenem-resistant isolates across partner labs", 32);
+      await wait(500); if (!alive()) return;
+      await point(nextBtn()); await click();
+      this.setState({ step: 2 }); await wait(1000);
+      for (const f of ["Specimen type", "Ward"]) {
+        const pill = [...document.querySelectorAll('button')].find((b) => b.textContent.trim() === f);
+        await point(pill); await click();
+        this.setState((st) => (st.fields.indexOf(f) >= 0 ? null : { fields: st.fields.concat([f]) }));
+        await wait(600);
+      }
+      await wait(400); if (!alive()) return;
+      await point(nextBtn()); await click();
+      this.setState({ step: 3 }); await wait(1000);
+      for (const p of ORG_PEOPLE.slice(0, 2)) {
+        await point(document.querySelector('input[placeholder="Search by name or enter an email"]'), 0.2); await click();
+        await type("email", p.name.split(" ")[0].toLowerCase(), 90); await wait(450);
+        await point(find((e) => e.textContent.trim() === p.name && e.tagName === 'SPAN')); await click();
+        this.setState((st) => ({ invited: st.invited.concat([{ id: Date.now(), name: p.name, email: p.email, ws: p.ws, role: "Editor" }]), email: "", emailError: null }));
+        await wait(800);
+      }
+      await wait(500); if (!alive()) return;
+      await point(nextBtn()); await click();
+      this.setState({ step: 4 }); cur.style.transform = 'translate(1500px,980px)'; await wait(5600);
+    }
+  }
+  componentDidUpdate(pp, ps) {
+    this.syncDemo();
+    if (this.state.adding && !(ps && ps.adding) && this.inputRef.current) setTimeout(() => this.inputRef.current && this.inputRef.current.focus(), 60);
+  }
+  componentWillUnmount() { this._dead = true; clearInterval(this._demo); }
+  syncDemo() {
+    const on = this.state.step === 4;
+    if (on && !this._demo) this._demo = setInterval(() => this.setState((st) => ({ demoTick: (st.demoTick || 0) + 1 })), 520);
+    if (!on && this._demo) { clearInterval(this._demo); this._demo = null; }
+  }
+
+  addEmail() {
+    const v = this.state.email.trim();
+    if (!v) return;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+      this.setState({ emailError: "Enter a valid email address" });
+      return;
+    }
+    if (this.state.invited.some((w) => w.email === v) || v === "margo@solu.bio") {
+      this.setState({ emailError: "This person is already on the list" });
+      return;
+    }
+    this.setState((st) => ({
+      invited: st.invited.concat([{ id: Date.now(), name: v, email: v, ws: null, role: "Editor" }]),
+      email: "",
+      emailError: null,
+    }));
+  }
+
+  renderVals() {
+    const s = this.state;
+    const join = false;
+    const cur = join ? s.jStep - 1 : s.step;
+    const total = join ? 2 : 3;
+    const homeWs = MY_WS.find((w) => w.id === s.setupWs) || null;
+    const nm = s.name.trim();
+    const ws = MY_WS.find((w) => w.id === s.wsId) || null;
+    const pickedIds = ws ? ws.samples.filter((x) => s.picked[x.id]).map((x) => x.id) : [];
+    const shown = s.fields.slice(0, 2);
+    const extra = s.fields.length - shown.length;
+    const HL = "#099250";
+
+    const qv = s.email.trim().toLowerCase();
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email.trim());
+    const takenEmails = s.invited.map((w) => w.email);
+    const orgHits = qv && !isEmail ? ORG_PEOPLE.filter((p) => (p.name + " " + p.ws).toLowerCase().indexOf(qv) >= 0 && takenEmails.indexOf(p.email) < 0) : [];
+    const addOrg = (p) => this.setState((st) => ({ invited: st.invited.concat([{ id: Date.now(), name: p.name, email: p.email, ws: p.ws, role: "Editor" }]), email: "", emailError: null }));
+    const addCustom = () => {
+      const v = s.draft.trim();
+      if (v && !has(s.fields, v)) {
+        if (s.committing) return;
+        this.setState({ committing: true });
+        setTimeout(() => this.setState((st) => ({ fields: st.fields.concat([v]), draft: "", adding: false, committing: false, created: Object.assign({}, st.created, { [v]: true }) })), 200);
+      }
+      else this.setState({ draft: "", adding: false });
+    };
+    const customFromMyWs = [];
+    [HOME_WS].forEach((w) => w.fields.forEach((x) => {
+      if (FIELDS.some((fo) => fo.label === x)) return;
+      const hit = customFromMyWs.find((c) => c.label === x);
+      if (hit) hit.hint += ", " + w.name;
+      else customFromMyWs.push({ label: x, hint: "Used in " + w.name, custom: true });
+    }));
+    let canNext = true;
+    if (!join && s.step === 1) canNext = !!nm;
+
+    let nextLabel = "Continue";
+    if (!join && s.step === 3) nextLabel = s.invited.length ? "Create and send invites" : "Create workspace";
+    if (join && s.jStep === 3) nextLabel = "Finish";
+
+    const visible = ws ? ws.samples.filter((x) => !s.q.trim() || x.id.toLowerCase().indexOf(s.q.trim().toLowerCase()) >= 0) : [];
+    const allOn = visible.length > 0 && visible.every((x) => s.picked[x.id]);
+
+    let previewSamples;
+    if (join && ws) {
+      const src = pickedIds.length ? ws.samples.filter((x) => s.picked[x.id]) : ws.samples;
+      previewSamples = src.slice(0, 3).map((x) => ({
+        id: x.id, sp: x.short, from: ws.name,
+        val: (f) => (s.map[f] ? x.v[s.map[f]] || "" : null),
+      }));
+    } else {
+      previewSamples = SAMPLE_ROWS.map((r) => ({ id: r.id, sp: r.sp, from: r.from, val: (f) => r.v[f] || "" }));
+    }
+
+    return {
+      noop: () => {},
+      flowTabs: [
+        { key: "setup", label: "Set up" },
+        { key: "join", label: "Add samples" },
+      ].map((x) => {
+        const on = x.key === s.flow;
+        return {
+          label: x.label,
+          bg: on ? "#fff" : "transparent",
+          shadow: on ? "0 1px 2px rgba(16,24,40,0.08)" : "none",
+          fg: on ? "#152F25" : "#556759",
+          weight: on ? 600 : 500,
+          pick: () => {
+            if (on) return;
+            if (x.key === "join") this.setState({ flow: "join", jStep: 1, wsId: null, map: {}, picked: {}, q: "", mapMenu: null, menu: null });
+            else this.setState({ flow: "setup", step: 1, menu: null, mapMenu: null });
+          },
+        };
+      }),
+      stepCount: cur <= total ? "Step " + cur + " of " + total : "Done",
+      stepper: (join ? ["Metadata", "Add samples"] : ["Name", "Metadata", "People"]).map((label, i) => {
+        const n = i + 1;
+        const reachable = n < cur && cur <= total;
+        return {
+          label: label,
+          fill: n <= cur ? "100%" : "0%",
+          cursor: reachable ? "pointer" : "default",
+          go: () => { if (reachable) this.setState(join ? { jStep: n + 1, mapMenu: null } : { step: n, menu: null }); },
+        };
+      }),
+      isDetails: !join && s.step === 1,
+      isFields: !join && s.step === 2,
+      isInvite: !join && s.step === 3,
+      isDone: !join && s.step === 4,
+      isJ1: join && s.jStep === 1,
+      isJ2: join && s.jStep === 2,
+      isJ3: join && s.jStep === 3,
+      isJDone: join && s.jStep === 4,
+      showFooter: cur <= total,
+
+      name: s.name,
+      desc: s.desc,
+      onName: (e) => this.setState({ name: e.target.value }),
+      onDesc: (e) => this.setState({ desc: e.target.value }),
+      nameOrDefault: nm || "Shared workspace",
+      homeName: HOME_WS.name,
+      includedWs: INCLUDED_WS.map((w, i) => ({ name: w.name, sub: w.sub, initial: w.name.charAt(0), border: i === INCLUDED_WS.length - 1 ? "none" : "1px solid #F0F1F1" })),
+      homeInitial: HOME_WS.name.charAt(0),
+      notDone: s.step !== 4,
+      goAddSamples: () => {
+        if (this.props.onFinish) this.props.onFinish({ space: "ws1", name: nm || "Shared workspace", home: HOME_WS.name });
+        else window.location.href = "Shared workspace v1.5 prototype.dc.html?space=ws1";
+      },
+      goShared: () => {
+        if (this.props.onFinish) this.props.onFinish({ space: "shared", name: nm || "Shared workspace", home: HOME_WS.name });
+        else window.location.href = "Shared workspace v1.5 prototype.dc.html";
+      },
+      previewLabel: s.step === 4 ? "How to add samples" : "Preview",
+      ...(function (self) {
+        const tick = s.demoTick || 0;
+        const h = tick % 14;
+        const T = [null, [55, 56], [136, 78], [136, 102], [286, 266], [268, 225]];
+        const beat = h < 10 ? Math.floor(h / 2) + 1 : 5;
+        const clicking = h < 10 && h % 2 === 1;
+        const L = h < 10 ? (clicking ? beat : beat - 1) : 5;
+        const xy = T[beat];
+        const r1 = L >= 2 && L < 5;
+        const r2 = L >= 3 && L < 5;
+        const active = beat <= 1 ? 1 : beat <= 3 ? 2 : 3;
+        const rowVals = (n, on) => ({
+          ["dRow" + n + "Bg"]: on ? "#F6FEF9" : "#fff",
+          ["dRow" + n + "Border"]: on ? "#099250" : "#CFD6D3",
+          ["dRow" + n + "Box"]: on ? "#099250" : "#fff",
+          ["dRow" + n + "Check"]: on ? "flex" : "none",
+        });
+        return Object.assign({
+          demoSteps: [
+            "Open Samples in " + HOME_WS.name,
+            "Select the samples you want to add",
+            "Choose Add to, then your shared workspace",
+          ].map((text, i) => {
+            const on = i + 1 === active;
+            return {
+              n: i + 1, text: text,
+              fg: on ? "#152F25" : "#9EAAA5",
+              weight: on ? 500 : 400,
+              bg: on ? "#099250" : "#fff",
+              border: on ? "#099250" : "#E6E9E8",
+              numFg: on ? "#fff" : "#9EAAA5",
+            };
+          }),
+          dCurX: xy[0] - 4 + "px",
+          dCurY: xy[1] - 2 + "px",
+          dCurScale: 1,
+          rippleEl: clicking
+            ? React.createElement("span", {
+                key: "rp" + tick,
+                style: { position: "absolute", left: xy[0] - 14, top: xy[1] - 14, width: 28, height: 28, borderRadius: 1000, border: "2px solid #099250", boxSizing: "border-box", animation: "swRipple 560ms ease-out both", pointerEvents: "none", zIndex: 4 },
+              })
+            : null,
+          dSamplesBg: L >= 1 ? "#F5F6F6" : "transparent",
+          dSamplesFg: L >= 1 ? "#152F25" : "#9EAAA5",
+          dTitle: L >= 1 ? "Samples" : "Overview",
+          dTableOpacity: L >= 1 ? 1 : 0,
+          dBarOpacity: L >= 3 && L < 5 ? 1 : 0,
+          dBarY: L >= 3 && L < 5 ? "0px" : "10px",
+          dAddBg: L === 4 || (beat === 4 && L === 3) ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.08)",
+          dMenuOpacity: L === 4 ? 1 : 0,
+          dMenuTf: L === 4 ? "none" : "translateY(6px) scale(.96)",
+          dItemBg: beat === 5 && L === 4 ? "#F5F6F6" : "transparent",
+          dToastOpacity: L >= 5 ? 1 : 0,
+          dToastY: L >= 5 ? "0px" : "10px",
+          dModalOpacity: L === 5 ? 1 : 0,
+          dModalTf: L === 5 ? "none" : "translateY(8px) scale(.97)",
+          dAddBtnBg: beat === 6 && L === 5 ? "#087443" : "#099250",
+        }, rowVals(1, r1), rowVals(2, r2), rowVals(3, false), rowVals(4, false));
+      })(this),
+      facts: [
+        { icon: "LayersThree01", text: "Phylogenies and clusters are computed from samples in the shared workspace." },
+        { icon: "Users01", text: "You can invite people, including from other organizations." },
+        { icon: "ClockFastForward", text: "Samples stay up to date with their original workspace." },
+      ],
+
+      fieldsCount: s.fields.length + (s.fields.length === 1 ? " field" : " fields"),
+      includedPills: s.fields.map((fl) => ({
+        label: fl,
+        anim: "swEnter 220ms cubic-bezier(.22,1,.36,1) backwards, swGlow 600ms ease-out 120ms",
+        remove: () => this.setState((st) => ({ fields: st.fields.filter((x) => x !== fl) })),
+      })),
+      draft: s.draft,
+      onDraft: (e) => this.setState({ draft: e.target.value }),
+      onDraftKey: (e) => {
+        if (e.key === "Enter") { e.preventDefault(); addCustom(); }
+        if (e.key === "Escape") this.setState({ adding: false, draft: "" });
+      },
+      onDraftBlur: () => { if (s.draft.trim()) addCustom(); else this.setState({ adding: false, draft: "" }); },
+      addDraftDown: (e) => { e.preventDefault(); addCustom(); },
+      adding: !!s.adding,
+      inputRef: this.inputRef,
+      apWidth: s.adding ? "220px" : "134px",
+      apBorderStyle: s.adding ? "solid" : "dashed",
+      apBorderColor: s.adding ? "#099250" : "#CFD6D3",
+      apBg: s.committing ? "#ECFDF3" : "#fff",
+      apRing: s.adding ? "0 0 0 4px #ECFDF3" : "0 0 0 0 rgba(236,253,243,0)",
+      apCursor: s.adding ? "text" : "pointer",
+      apLabelOpacity: s.adding ? 0 : 1,
+      apLabelX: s.adding ? "-8px" : "0px",
+      apInputOpacity: s.adding ? 1 : 0,
+      apCheckScale: s.adding ? 1 : 0.4,
+      apPointer: s.adding ? "auto" : "none",
+      apTab: s.adding ? 0 : -1,
+      apBoxTr: s.adding
+        ? "width 300ms cubic-bezier(.22,1,.36,1), border-color 200ms, background 200ms, box-shadow 240ms"
+        : "width 260ms cubic-bezier(.22,1,.36,1) 80ms, border-color 200ms 80ms, background 200ms, box-shadow 200ms",
+      apLabelTr: s.adding
+        ? "opacity 120ms, transform 200ms cubic-bezier(.22,1,.36,1)"
+        : "opacity 180ms 200ms, transform 240ms cubic-bezier(.22,1,.36,1) 200ms",
+      apInputTr: s.adding ? "opacity 180ms 120ms" : "opacity 90ms",
+      apCheckTr: s.adding
+        ? "opacity 160ms 140ms, transform 260ms cubic-bezier(.22,1,.36,1) 140ms"
+        : "opacity 90ms, transform 120ms",
+      notAdding: !s.adding,
+      startAdding: () => { if (!s.adding) this.setState({ adding: true, draft: "" }); },
+      availablePills: FIELDS.concat(customFromMyWs)
+        .filter((fo) => !has(s.fields, fo.label)).map((fo) => ({
+        label: fo.label, hint: fo.hint,
+        anim: "swPop 220ms cubic-bezier(.22,1,.36,1) backwards",
+        add: () => this.setState((st) => ({ fields: st.fields.concat([fo.label]) })),
+      })),
+      hasAvailable: FIELDS.concat(customFromMyWs).some((fo) => !has(s.fields, fo.label)),
+      fieldOptions: FIELDS.map((fo, i) => {
+        const on = has(s.fields, fo.label);
+        return {
+          label: fo.label, hint: fo.hint,
+          bg: "#fff",
+          border: i === FIELDS.length - 1 ? "none" : "1px solid #F0F1F1",
+          boxBorder: on ? "#099250" : "#CFD6D3",
+          boxBg: on ? "#099250" : "#fff",
+          checkDisplay: on ? "flex" : "none",
+          toggle: () => this.setState((st) => ({
+            fields: has(st.fields, fo.label)
+              ? st.fields.filter((x) => x.toLowerCase() !== fo.label.toLowerCase())
+              : FIELDS.map((x) => x.label).filter((x) => x === fo.label || has(st.fields, x)),
+          })),
+        };
+      }),
+
+      email: s.email,
+      emailError: s.emailError,
+      emailBorder: s.emailError ? "#FDA29B" : "#CFD6D3",
+      onEmail: (e) => this.setState({ email: e.target.value, emailError: null }),
+      onEmailKey: (e) => {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        if (orgHits.length === 1) addOrg(orgHits[0]);
+        else this.addEmail();
+      },
+      showResults: !join && s.step === 3 && !!s.email.trim(),
+      contentOverflow: !join && s.step === 3 && !!s.email.trim() ? "visible" : "auto",
+      contentZ: !join && s.step === 3 && !!s.email.trim() ? 5 : "auto",
+      hasOrgResults: orgHits.length > 0,
+      results: orgHits.map((p, i) => ({ name: p.name, initial: p.name.charAt(0).toUpperCase(), sub: p.ws, bg: PALETTE[(i + 1) % PALETTE.length].bg, fg: PALETTE[(i + 1) % PALETTE.length].fg, pick: () => addOrg(p) })),
+      showEmailOption: isEmail,
+      emailOptionBorder: orgHits.length ? "1px solid #F0F1F1" : "none",
+      showNoResults: !isEmail && orgHits.length === 0,
+      searchRing: s.email.trim() ? "0 0 0 4px #ECFDF3" : "0 1px 2px rgba(16,24,40,0.05)",
+      addEmail: () => this.addEmail(),
+      setupWsOptions: MY_WS.map((w) => {
+        const on = w.id === s.setupWs;
+        const ok = w.role === "Admin";
+        return {
+          name: w.name, initial: w.name.charAt(0),
+          sub: ok ? w.count + " samples · You are an Admin" : "Only an Admin can set up a shared workspace",
+          bg: on ? "#F6FEF9" : "#fff",
+          border: on ? "#099250" : "#E6E9E8",
+          ring: on ? "0 0 0 3px #ECFDF3" : "none",
+          radio: on ? "5px solid #099250" : "1px solid #CFD6D3",
+          cursor: ok ? "pointer" : "default",
+          opacity: ok ? 1 : 0.55,
+          pick: () => { if (ok) this.setState({ setupWs: w.id }); },
+        };
+      }),
+      people: [{ id: "you", name: "You", email: "margo@solu.bio", ws: homeWs ? homeWs.name : null, role: "Admin", you: true }].concat(s.invited).map((p, i) => {
+        const up = i >= 1;
+        const col = PALETTE[i % PALETTE.length];
+        const edit = !p.you;
+        return {
+          name: p.name,
+          initials: p.you ? "M" : p.name.charAt(0).toUpperCase(),
+          sub: p.you ? "margo@solu.bio · " + HOME_WS.name : p.ws ? p.ws : p.name === p.email ? "Invite will be sent" : p.email,
+          bg: col.bg, fg: col.fg,
+          role: p.role,
+          btnBg: edit ? "#fff" : "#F9F9F9",
+          btnBorder: edit ? "#CFD6D3" : "#F0F1F1",
+          cursor: edit ? "pointer" : "default",
+          caretDisplay: edit ? "flex" : "none",
+          removeDisplay: edit ? "flex" : "none",
+          spacerDisplay: edit ? "none" : "block",
+          menuTop: up ? "auto" : "36px",
+          menuBottom: up ? "36px" : "auto",
+          menuOrigin: up ? "bottom right" : "top right",
+          menuOpen: s.menu === p.id,
+          z: s.menu === p.id ? 40 : 1,
+          toggleMenu: () => { if (edit) this.setState((st) => ({ menu: st.menu === p.id ? null : p.id })); },
+          options: ROLES.map((r) => ({
+            label: r.label, hint: r.hint,
+            bg: p.role === r.label ? "#F5F6F6" : "transparent",
+            checkDisplay: p.role === r.label ? "flex" : "none",
+            pick: () => this.setState((st) => ({ invited: st.invited.map((x) => (x.id === p.id ? Object.assign({}, x, { role: r.label }) : x)), menu: null })),
+          })),
+          remove: () => this.setState((st) => ({ invited: st.invited.filter((x) => x.id !== p.id), menu: null })),
+        };
+      }),
+      doneHint: s.invited.length
+        ? s.invited.length + (s.invited.length === 1 ? " invite was" : " invites were") + " sent."
+        : "You can invite people later from Settings.",
+      restart: () => this.setState({ step: 1, menu: null }),
+      startJoin: () => this.setState({ flow: "join", jStep: 2, wsId: HOME_WS.id, map: autoMap(HOME_WS, s.fields), picked: {}, q: "", mapMenu: null }),
+      restartAll: () => this.setState({ flow: "setup", step: 1, jStep: 1, wsId: null, map: {}, picked: {}, q: "", homeExtra: [] }),
+
+      wsOptions: MY_WS.map((w) => {
+        const on = w.id === s.wsId;
+        return {
+          name: w.name, initial: w.name.charAt(0), sub: w.count + " samples · " + w.role,
+          bg: on ? "#F6FEF9" : "#fff",
+          border: on ? "#099250" : "#E6E9E8",
+          ring: on ? "0 0 0 3px #ECFDF3" : "none",
+          radio: on ? "5px solid #099250" : "1px solid #CFD6D3",
+          pick: () => this.setState({ wsId: w.id, map: autoMap(w, s.fields), picked: {}, q: "" }),
+        };
+      }),
+      wsName: ws ? ws.name : "your workspace",
+
+      mapRows: s.fields.map((f, i) => {
+        const own = s.map[f] || null;
+        const used = Object.keys(s.map).filter((k) => k !== f).map((k) => s.map[k]);
+        const opts = [{ label: "Do not share", val: null }].concat(
+          (ws ? ws.fields.concat(ws.id === HOME_WS.id ? s.homeExtra : []) : []).filter((x) => !FIELDS.some((fo) => fo.label === x) && (x === own || used.indexOf(x) < 0)).map((x) => ({ label: x, val: x }))
+        );
+        const isStd = FIELDS.some((fo) => fo.label === f);
+        const wsHas = ws && ws.fields.concat(ws.id === HOME_WS.id ? s.homeExtra : []).some((x) => x.toLowerCase() === f.toLowerCase());
+        const isNew = s.homeExtra.indexOf(f) >= 0;
+        return {
+          showDropdown: !isStd,
+          canAddHome: !isStd && !own && !wsHas,
+          addToHome: () => this.setState((st) => ({ homeExtra: st.homeExtra.concat([f]), map: Object.assign({}, st.map, { [f]: f }), mapMenu: null })),
+          label: f,
+          kind: isStd ? "Standard field" : "Custom field",
+          isStd: isStd,
+          isCustom: !isStd,
+          justify: own ? "flex-end" : "flex-start",
+          track: own ? "#099250" : "#CFD6D3",
+          toggle: () => this.setState((st) => ({ map: Object.assign({}, st.map, { [f]: st.map[f] ? null : f }) })),
+          value: isStd ? (own ? "Shared" : "Not shared") : own ? own + (isNew ? " (new, empty)" : "") : "Do not share",
+          btnBg: own ? "#ECFDF3" : "#fff",
+          btnBorder: own ? "#ABEFC6" : "#CFD6D3",
+          btnFg: own ? "#067647" : "#9EAAA5",
+          arrow: own ? "#099250" : "#E6E9E8",
+          border: i === s.fields.length - 1 ? "none" : "1px solid #F0F1F1",
+          z: s.mapMenu === f ? 40 : 1,
+          menuOpen: s.mapMenu === f,
+          menuTop: i >= s.fields.length - 2 && s.fields.length > 2 ? "auto" : "40px",
+          menuBottom: i >= s.fields.length - 2 && s.fields.length > 2 ? "40px" : "auto",
+          menuOrigin: i >= s.fields.length - 2 && s.fields.length > 2 ? "bottom right" : "top right",
+          toggleMenu: () => this.setState((st) => ({ mapMenu: st.mapMenu === f ? null : f })),
+          options: opts.map((o) => ({
+            label: o.label,
+            fg: o.val ? "#152F25" : "#556759",
+            bg: o.val === own ? "#F5F6F6" : "transparent",
+            checkDisplay: o.val === own ? "flex" : "none",
+            pick: () => this.setState((st) => ({ map: Object.assign({}, st.map, { [f]: o.val }), mapMenu: null })),
+          })),
+        };
+      }),
+      mapNote: (function () {
+        const n = s.fields.filter((f) => s.map[f]).length;
+        return n + " of " + s.fields.length + " fields shared. Metadata you do not share stays in " + (ws ? ws.name : "your workspace") + ".";
+      })(),
+
+      q: s.q,
+      onQ: (e) => this.setState({ q: e.target.value }),
+      listHeader: pickedIds.length ? pickedIds.length + " selected" : visible.length + " samples in " + (ws ? ws.name : ""),
+      allBorder: allOn ? "#099250" : "#CFD6D3",
+      allBg: allOn ? "#099250" : "#fff",
+      allCheck: allOn ? "flex" : "none",
+      toggleAll: () => {
+        const next = Object.assign({}, s.picked);
+        visible.forEach((x) => { if (allOn) delete next[x.id]; else next[x.id] = true; });
+        this.setState({ picked: next });
+      },
+      sampleRows: visible.map((x) => {
+        const on = !!s.picked[x.id];
+        return {
+          id: x.id, species: x.species, date: x.date,
+          bg: on ? "#F6FEF9" : "#fff",
+          boxBorder: on ? "#099250" : "#CFD6D3",
+          boxBg: on ? "#099250" : "#fff",
+          check: on ? "flex" : "none",
+          toggle: () => this.setState((st) => {
+            const next = Object.assign({}, st.picked);
+            if (next[x.id]) delete next[x.id]; else next[x.id] = true;
+            return { picked: next };
+          }),
+        };
+      }),
+      jDoneTitle: pickedIds.length + (pickedIds.length === 1 ? " sample" : " samples") + " added to " + (nm || "Shared workspace"),
+
+      backDisplay: cur > 1 && cur <= total ? "flex" : "none",
+      back: () => this.setState(join ? { jStep: s.jStep - 1, mapMenu: null } : { step: s.step - 1, menu: null }),
+      nextLabel: nextLabel,
+      nextBg: canNext ? "#099250" : "#F0F1F1",
+      nextFg: canNext ? "#fff" : "#9EAAA5",
+      nextCursor: canNext ? "pointer" : "default",
+      next: () => { if (canNext) this.setState(join ? { jStep: s.jStep + 1, mapMenu: null } : { step: s.step + 1, menu: null }); },
+
+      hlName: "#fff",
+      hlFields: "transparent",
+      hlPeople: "transparent",
+      initial: nm ? nm.charAt(0).toUpperCase() : "",
+      previewName: nm,
+      previewNameColor: nm ? "#152F25" : "#9EAAA5",
+      previewDesc: s.desc.trim(),
+      avatars: (["M"].concat(s.invited.map((p) => p.name.charAt(0).toUpperCase())).slice(0, 4).map((n, i) => ({ initials: n, bg: PALETTE[i % PALETTE.length].bg, fg: PALETTE[i % PALETTE.length].fg }))).slice(0, 1),
+      moreCount: "+" + Math.max(0, (["M"].concat(s.invited.map((p) => p.name.charAt(0).toUpperCase())).slice(0, 4).map((n, i) => ({ initials: n, bg: PALETTE[i % PALETTE.length].bg, fg: PALETTE[i % PALETTE.length].fg }))).length - 1),
+      moreDisplay: (["M"].concat(s.invited.map((p) => p.name.charAt(0).toUpperCase())).slice(0, 4).map((n, i) => ({ initials: n, bg: PALETTE[i % PALETTE.length].bg, fg: PALETTE[i % PALETTE.length].fg }))).length > 1 ? "flex" : "none",
+      peopleCount: (function () { const n = 1 + s.invited.length; return n + (n === 1 ? " person" : " people"); })(),
+      gridCols: "minmax(max-content,1.2fr) minmax(max-content,1.1fr)" + shown.map(() => " minmax(max-content,1fr)").join(""),
+      headCells: [
+        { label: "Sample", fg: "#556759", bg: "transparent" },
+        { label: "Added from", fg: "#556759", bg: "transparent" },
+      ].concat(shown.map((f) => {
+        const on = (!join && s.step === 2) || (join && s.jStep === 2);
+        return { label: f, fg: "#556759", bg: "transparent" };
+      })),
+      rows: previewSamples.map((r, ri) => ({
+        cells: [
+          { v: r.id, fg: "#152F25", weight: 500, italic: "normal" },
+          { v: r.from, fg: "#556759", weight: 400, italic: "normal" },
+        ].concat(shown.map((f) => {
+          const v = r.val(f);
+          if (v === null) return { v: "Not shared", fg: "#CFD6D3", weight: 400, italic: "normal" };
+          return { v: v || "–", fg: v ? "#405448" : "#CFD6D3", weight: 400, italic: "normal" };
+        })).map((c, ci) => Object.assign(c, { w: [64, 52, 72, 46, 58, 40][(ri * 2 + ci) % 6] + "%", bar: ci === 0 ? "#E6E9E8" : "#F0F1F1" })),
+      })),
+      previewFoot: extra > 0 ? "+" + extra + " more " + (extra === 1 ? "field" : "fields") : "",
+      previewFootDisplay: extra > 0 ? "flex" : "none",
+    };
+  }
+}
+</script>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0d0d0e"/><circle cx="50" cy="50" r="3" fill="#0d0d0e"/></svg></template>
+</body>
+</html>

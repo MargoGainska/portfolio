@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="_ds/solu-report-builder-17b76442-1758-43ef-afd7-ef7de69d1e2b/_ds_bundle.js"></script>
+  <style>
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;height:100%;background:#F9FAFB;}
+    a{color:#087443;text-decoration:none;}
+    a:hover{color:#095C37;text-decoration:underline;}
+    .pc-scroll::-webkit-scrollbar{width:11px;height:11px;}
+    .pc-scroll::-webkit-scrollbar-thumb{background:#D0D5DD;border-radius:99px;border:3px solid #FFFFFF;}
+    .pc-scroll::-webkit-scrollbar-track{background:#FFFFFF;}
+    @keyframes pcDrawerIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes pcDrawerGrow{from{max-height:0;}to{max-height:320px;}}
+    @keyframes lm-dot{0%,80%,100%{opacity:0.25;}40%{opacity:1;}}
+    @keyframes pcTipIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+  </style>
+
+</helmet>
+<div data-lc-root="1" style="position:absolute;inset:0;width:100%;height:100%;display:flex;background:#FFFFFF;font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;color:#101828;-webkit-font-smoothing:antialiased;overflow:hidden;">
+<div style="flex:1;min-width:0;display:flex;background:#FFFFFF;overflow:hidden;">
+
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;">
+
+        <div aria-hidden="{{ pendHidden }}" style="display:none;flex:none;grid-template-rows:{{ pendRows }};opacity:{{ pendOpacity }};transition:grid-template-rows 320ms cubic-bezier(0.2,0,0,1), opacity 220ms ease;">
+        <div style="min-height:0;overflow:hidden;">
+        <div style="flex:none;display:flex;align-items:center;gap:12px;padding:8px 16px;border-bottom:1px solid #EAECF0;background:#F9FAFB;flex-wrap:wrap;">
+          <span style="width:13px;height:13px;border-radius:999px;border:1.5px dashed #CBD2DC;flex:none;"></span>
+          <span style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:1px;">
+            <span style="font-size:13px;color:#344054;">{{ pendingNote }}</span>
+            <span style="font-size:12px;color:{{ costColor }};">{{ costLine }}</span>
+          </span>
+          <sc-if value="{{ showGetMore }}" hint-placeholder-val="{{ false }}"><button onClick="{{ openGetMore }}" style="flex:none;display:inline-flex;align-items:center;height:30px;padding:0 12px;border:1px solid #D0D5DD;border-radius:4px;background:#FFFFFF;color:#344054;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Get more analyses</button></sc-if>
+          <sc-if value="{{ canAnalyzeSome }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ analyzeRest }}" style="flex:none;display:inline-flex;align-items:center;height:30px;padding:0 12px;border:none;border-radius:4px;background:#099250;color:#FFFFFF;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">{{ analyzeRestLabel }}</button>
+          </sc-if>
+        </div>
+        </div>
+        </div>
+
+        <div style="flex:1;min-height:0;display:flex;overflow:hidden;">
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+            <sc-if value="{{ showTeaser }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;inset:0;z-index:30;display:grid;place-items:center;background:rgba(249,250,251,0.5);backdrop-filter:blur(6px) saturate(1.05);-webkit-backdrop-filter:blur(6px) saturate(1.05);">
+                <sc-if value="{{ quotaOk }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;padding:24px;background:rgba(255,255,255,0.72);border-radius:14px;max-width:360px;">
+                    <div style="font-size:18px;font-weight:600;letter-spacing:-0.01em;color:#101828;">Run plasmid analysis</div>
+                    <div style="font-size:13.5px;color:#667085;max-width:300px;line-height:1.5;">{{ teaserBody }}</div>
+                    <button onClick="{{ analyzeAll }}" style="margin-top:3px;padding:10px 20px;border-radius:8px;border:none;background:#099250;color:#FFFFFF;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,0.1);">{{ teaserCta }}</button>
+                    <div style="font-size:12px;color:{{ costColor }};">{{ costLine }}</div>
+                    <sc-if value="{{ showGetMore }}" hint-placeholder-val="{{ false }}"><button onClick="{{ openGetMore }}" style="border:none;background:transparent;padding:0;font-family:inherit;font-size:12.5px;font-weight:600;color:#087443;cursor:pointer;">Get more analyses</button></sc-if>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ quotaReached }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;padding:24px 26px;background:rgba(255,255,255,0.82);border-radius:14px;max-width:340px;">
+                    <div style="width:40px;height:40px;border-radius:999px;background:#FEF3F2;display:grid;place-items:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D92D20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
+                    <div style="font-size:18px;font-weight:600;letter-spacing:-0.01em;color:#101828;">Plasmid analysis limit reached</div>
+                    <div style="font-size:13.5px;color:#667085;line-height:1.5;">You've used all {{ quotaLimit }} plasmid analyses in your plan. Request more to keep annotating plasmids.</div>
+                    <button onClick="{{ openGetMore }}" style="margin-top:3px;padding:10px 20px;border-radius:8px;border:none;background:#099250;color:#FFFFFF;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,0.1);">Get more analyses</button>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+            <sc-if value="{{ hasLanes }}" hint-placeholder-val="{{ true }}">
+              <div style="flex:1;min-height:0;position:relative;display:flex;flex-direction:column;">
+              <div ref="{{ trackRef }}" class="pc-scroll" style="flex:1;min-height:0;overflow:auto;position:relative;cursor:grab;padding-bottom:36px;">
+                <div style="min-width:max-content;min-height:100%;display:flex;flex-direction:column;">
+                  <div style="display:flex;align-items:stretch;position:sticky;top:0;z-index:4;background:#FFFFFF;border-bottom:1px solid #F2F4F7;">
+                    <div style="width:248px;flex:none;position:sticky;left:0;z-index:5;background:#FFFFFF;border-right:1px solid #EAECF0;padding:0 14px;height:36px;box-sizing:border-box;display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:500;color:#667085;"><span style="flex:1;">{{ laneCountLabel }}</span><button onClick="{{ editPlasmids }}" title="Add or remove plasmids" style="flex:none;display:inline-flex;align-items:center;gap:5px;padding:3px 6px;margin-right:-6px;border:none;border-radius:4px;background:transparent;color:#157639;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer" style-hover="background:#EDFCF2;color:#11612E"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"></path></svg>Edit selection</button></div>
+                    <div style="flex:none;">{{ ruler }}</div>
+                  </div>
+                  <sc-for list="{{ lanes }}" as="lane" hint-placeholder-count="4">
+                    <sc-if value="{{ lane.isHeader }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;border-bottom:1px solid #F2F4F7;background:#FCFCFD;">
+                        <div style="width:248px;flex:none;position:sticky;left:0;z-index:2;background:#FCFCFD;border-right:1px solid #EAECF0;padding:7px 14px;box-sizing:border-box;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#475467;">
+                          <span style="width:8px;height:8px;border-radius:999px;flex:none;background:{{ lane.dot }};"></span>
+                          <span title="{{ lane.labelTip }}" style="white-space:nowrap;">{{ lane.label }}</span>
+                          <span style="font-weight:500;color:#98A2B3;">{{ lane.count }}</span>
+                          <sc-if value="{{ lane.hasShowAll }}" hint-placeholder-val="{{ false }}"><button onClick="{{ lane.showAll }}" style="margin-left:auto;border:none;background:transparent;padding:2px 6px;margin-right:-6px;border-radius:4px;font-family:inherit;font-size:12px;font-weight:600;color:#157639;cursor:pointer;" style-hover="background:#EDFCF2">Show all</button></sc-if>
+                        </div>
+                        <div style="flex:1;"></div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ lane.isHiddenRow }}" hint-placeholder-val="{{ false }}">
+                      <div onMouseEnter="{{ lane.onHov }}" onMouseLeave="{{ lane.onUnhov }}" style="display:flex;background:#FFFFFF;">
+                        <div style="width:248px;flex:none;position:sticky;left:0;z-index:2;background:{{ lane.hovBg }};border-right:1px solid #EAECF0;padding:5px 14px;min-height:32px;box-sizing:border-box;display:flex;align-items:center;gap:8px;">
+                          <span style="flex:1;min-width:0;font-size:13px;font-weight:500;color:#98A2B3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ lane.name }}</span>
+                          <sc-if value="{{ lane.hov }}" hint-placeholder-val="{{ false }}"><button onClick="{{ lane.onShow }}" style="flex:none;border:none;background:transparent;padding:2px 6px;margin-right:-6px;border-radius:4px;font-family:inherit;font-size:12px;font-weight:600;color:#157639;cursor:pointer;" style-hover="background:#EDFCF2">Show</button></sc-if>
+                        </div>
+                        <div style="flex:1;"></div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ lane.isLane }}" hint-placeholder-val="{{ true }}">
+                    <div style="{{ lane.rowStyle }}">
+                      <div onMouseEnter="{{ lane.onEnter }}" onMouseLeave="{{ lane.onLeave }}" style="{{ lane.labelStyle }}">
+                        <sc-if value="{{ lane.isTop }}" hint-placeholder-val="{{ false }}">
+                        <div title="The other plasmids show their differences to this one" style="display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:12px;font-weight:600;color:#11612E;white-space:nowrap;cursor:help;">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#157639" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+                          Compared to
+                        </div>
+                        <div style="position:relative;">
+                          <button onClick="{{ toggleAnchorMenu }}" title="Change which plasmid the others are compared to" style="width:100%;display:flex;align-items:center;gap:7px;height:32px;padding:0 6px 0 8px;margin-left:-8px;width:calc(100% + 8px);border:1px solid #A6DDBB;border-radius:4px;background:#FFFFFF;box-shadow:0 1px 2px rgba(16,24,40,0.05);font-family:inherit;cursor:pointer;text-align:left;">
+                            <span style="font-size:13.5px;font-weight:600;color:#101828;min-width:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ lane.species }}">{{ lane.name }}</span>
+                            <span style="flex:none;font-size:12px;color:#98A2B3;">{{ lane.kb }}</span><span style="width:22px;height:22px;flex:none;margin-right:-4px;display:grid;place-items:center"><sc-if value="{{ lane.showOpen }}" hint-placeholder-val="{{ false }}"><a href="{{ lane.openHref }}" target="_blank" rel="noopener" onClick="{{ lane.stopOpen }}" title="Open plasmid in new tab" style="width:22px;height:22px;border-radius:4px;display:grid;place-items:center;color:#667085;text-decoration:none" style-hover="background:#EAECF0;color:#101828"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg></a></sc-if></span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M6 9l6 6 6-6"></path></svg>
+                          </button>
+                          <sc-if value="{{ anchorMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div onClick="{{ toggleAnchorMenu }}" style="position:fixed;inset:0;z-index:39;"></div>
+                <div style="position:fixed;top:{{ anchorMenuTop }};left:{{ anchorMenuLeft }};z-index:200;width:300px;background:#FFFFFF;border:1px solid #E4E7EC;border-radius:4px;box-shadow:0 12px 30px rgba(16,24,40,.14);overflow:hidden;">
+                  <div style="padding:10px 14px 8px;font-size:12px;color:#667085;border-bottom:1px solid #F2F4F7;">Compare every plasmid to:</div>
+                  <div class="pc-scroll" style="max-height:{{ anchorMenuMax }};overflow-y:auto;padding:4px;">
+                    <sc-for list="{{ anchorItems }}" as="ai" hint-placeholder-count="4">
+                      <button onClick="{{ ai.pick }}" title="{{ ai.title }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:8px 10px;border:none;border-radius:4px;background:{{ ai.bg }};font-family:inherit;text-align:left;cursor:{{ ai.cursor }};opacity:{{ ai.opacity }};">
+                        <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;">
+                          <span style="font-size:13px;font-weight:{{ ai.weight }};color:#101828;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ai.name }}</span>
+                          <span style="font-size:12px;color:#98A2B3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ai.meta }}</span>
+                        </span>
+                        <sc-if value="{{ ai.current }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#157639" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M20 6L9 17l-5-5"></path></svg></sc-if>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+                        </div>
+                        
+                        </sc-if>
+                        <sc-if value="{{ lane.notTop }}" hint-placeholder-val="{{ true }}">
+                        <div style="display:flex;align-items:center;gap:7px;min-width:0;">
+                          <span style="font-size:13.5px;font-weight:600;color:#101828;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ lane.species }}">{{ lane.name }}</span>
+                          <sc-if value="{{ lane.stDone }}" hint-placeholder-val="{{ true }}"><span title="Analyzed" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:999px;border:1.5px solid #099250;flex:none;"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#099250" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span></sc-if>
+                          <sc-if value="{{ lane.stRunning }}" hint-placeholder-val="{{ false }}"><span title="Analysis running" style="display:inline-flex;flex:none;"><span style="display:inline-flex;align-items:center;gap:3px;flex:none;"><span style="width:4px;height:4px;border-radius:999px;background:#099250;animation:lm-dot 1.1s infinite ease-in-out;"></span><span style="width:4px;height:4px;border-radius:999px;background:#099250;animation:lm-dot 1.1s infinite ease-in-out 0.18s;"></span><span style="width:4px;height:4px;border-radius:999px;background:#099250;animation:lm-dot 1.1s infinite ease-in-out 0.36s;"></span></span></span></sc-if>
+                          <sc-if value="{{ lane.stNone }}" hint-placeholder-val="{{ false }}"><span title="Not analyzed yet" style="width:13px;height:13px;border-radius:999px;border:1.5px dashed #CBD2DC;flex:none;"></span></sc-if>
+                                                    <span style="margin-left:auto;flex:none;font-size:12px;color:#98A2B3;">{{ lane.kb }}</span><span style="width:22px;height:22px;flex:none;margin-right:-4px;display:grid;place-items:center"><sc-if value="{{ lane.showOpen }}" hint-placeholder-val="{{ false }}"><a href="{{ lane.openHref }}" target="_blank" rel="noopener" onClick="{{ lane.stopOpen }}" title="Open plasmid in new tab" style="width:22px;height:22px;border-radius:4px;display:grid;place-items:center;color:#667085;text-decoration:none" style-hover="background:#EAECF0;color:#101828"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg></a></sc-if></span><span style="width:22px;height:22px;flex:none;margin-right:-4px;display:grid;place-items:center"><sc-if value="{{ lane.showOpen }}" hint-placeholder-val="{{ false }}"><button onClick="{{ lane.onHide }}" title="Hide from this view. It stays in the comparison." style="width:22px;height:22px;border:none;background:transparent;padding:0;border-radius:4px;display:grid;place-items:center;color:#667085;cursor:pointer" style-hover="background:#EAECF0;color:#101828"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c5 0 9 4.5 10 7a12 12 0 0 1-2.6 3.6M6.4 6.4C4.3 7.8 2.7 10 2 12c1 2.5 5 7 10 7 1.6 0 3.1-.4 4.4-1.1M9.9 9.9a3 3 0 0 0 4.2 4.2"></path></svg></button></sc-if></span>
+                          <sc-if value="{{ lane.removable }}" hint-placeholder-val="{{ true }}">
+                            <button onClick="{{ lane.onRemove }}" title="Remove from comparison" style="{{ lane.removeStyle }}">×</button>
+                          </sc-if>
+                        </div>
+                        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin-top:5px;min-width:0;">
+                          <span style="{{ lane.tagStyle }}">{{ lane.tagLabel }}</span>
+                          
+                          
+                          
+                        </div>
+                        </sc-if>
+                      </div>
+                      <div style="flex:none;position:relative;">{{ lane.svg }}
+                        <sc-if value="{{ lane.stNone }}" hint-placeholder-val="{{ false }}">
+                          <div style="position:sticky;left:0;position:absolute;left:16px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:10px;padding:6px 6px 6px 12px;background:rgba(255,255,255,0.92);border:1px solid #EAECF0;border-radius:8px;box-shadow:0 1px 2px rgba(16,24,40,0.06);white-space:nowrap;">
+                            <span style="font-size:12.5px;color:#667085;">Not analyzed yet</span>
+                            <button onClick="{{ lane.onRun }}" title="{{ lane.runTitle }}" style="padding:5px 11px;border:none;border-radius:6px;background:{{ lane.runBg }};color:#FFFFFF;font-family:inherit;font-size:12.5px;font-weight:600;cursor:{{ lane.runCursor }};">Run plasmid analysis</button>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ lane.stRunning }}" hint-placeholder-val="{{ false }}">
+                          <div style="position:absolute;left:16px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:9px;padding:7px 12px;background:rgba(255,255,255,0.92);border:1px solid #EAECF0;border-radius:8px;white-space:nowrap;">
+                            <span style="display:inline-flex;align-items:center;gap:3px;flex:none;"><span style="width:4px;height:4px;border-radius:999px;background:#099250;animation:lm-dot 1.1s infinite ease-in-out;"></span><span style="width:4px;height:4px;border-radius:999px;background:#099250;animation:lm-dot 1.1s infinite ease-in-out 0.18s;"></span><span style="width:4px;height:4px;border-radius:999px;background:#099250;animation:lm-dot 1.1s infinite ease-in-out 0.36s;"></span></span><span style="font-size:12.5px;color:#344054;font-weight:500;">Analyzing… {{ lane.runPct }}</span>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </sc-if>
+                  </sc-for>
+                  <div style="display:flex;align-items:stretch;">
+                    <div style="width:248px;flex:none;position:sticky;left:0;z-index:2;padding:10px 14px 12px;border-right:1px solid #EAECF0;background:#FFFFFF;">
+                      
+                    </div>
+                    <div style="flex:1;min-width:0;"></div>
+                  </div>
+                  <div style="flex:1;min-height:0;display:flex;align-items:stretch;">
+                    <div style="width:248px;flex:none;position:sticky;left:0;z-index:2;border-right:1px solid #EAECF0;background:#FFFFFF;"></div>
+                    <div style="flex:1;min-width:0;"></div>
+                  </div>
+                </div>
+                <sc-if value="{{ tip }}" hint-placeholder-val="{{ false }}">
+                  <div style="{{ tipStyle }}">
+                    <div style="display:flex;align-items:center;gap:7px;">
+                      <span style="{{ tipDotStyle }}"></span>
+                      <span style="font-size:12px;font-weight:600;line-height:18px;">{{ tipTitle }}</span>
+                    </div>
+                    <sc-if value="{{ tipHasNote }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size:11.5px;line-height:1.5;color:rgba(255,255,255,0.72);margin-top:5px;">{{ tipNote }}</div>
+                    </sc-if>
+                    <div style="display:flex;flex-direction:column;gap:4px;margin-top:8px;">
+                      <sc-for list="{{ tipRows }}" as="row" hint-placeholder-count="3">
+                        <div style="display:flex;justify-content:space-between;gap:16px;font-size:11.5px;"><span style="color:rgba(255,255,255,0.55);">{{ row.l }}</span><span style="color:#FFFFFF;">{{ row.v }}</span></div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="position:absolute;left:calc(248px + (100% - 248px) / 2);bottom:10px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 272px);text-align:center;font-size:11.5px;color:#98A2B3;pointer-events:none;background:rgba(255,255,255,0.85);padding:2px 8px;border-radius:4px;">⌘ + scroll to zoom, drag to pan, click a lane for its sequence</div>
+              </div>
+              
+            </sc-if>
+            <sc-if value="{{ noLanes }}" hint-placeholder-val="{{ false }}">
+              <div style="flex:1;display:grid;place-items:center;padding:56px 24px;text-align:center;">
+                <div>
+                  <div style="font-size:14px;font-weight:600;color:#344054;">No plasmids on the map</div>
+                  <div style="font-size:12.5px;color:#98A2B3;margin-top:5px;">Add plasmids to draw them as lanes.</div>
+                  <button onClick="{{ editPlasmids }}" style="margin-top:14px;height:36px;padding:0 16px;border:none;border-radius:4px;background:#157639;color:#FFFFFF;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;">Add plasmids</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <div class="pc-scroll" style="width:clamp(240px, 21vw, 282px);flex:none;border-left:1px solid #EAECF0;overflow-y:auto;">
+            <div style="padding:14px 16px 4px;">
+              <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:9px;">Display</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                <sc-for list="{{ displayChips }}" as="c" hint-placeholder-count="5">
+                  <span style="position:relative;display:inline-flex;">
+                    <button onClick="{{ c.onClick }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}" style="{{ c.style }}"><span style="{{ c.dotStyle }}"></span>{{ c.label }}</button>
+                    <sc-if value="{{ c.tipOpen }}" hint-placeholder-val="{{ false }}">
+                      <span style="{{ c.tipStyle }}">{{ c.help }}</span>
+                    </sc-if>
+                  </span>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="padding:14px 16px 14px;border-top:1px solid #F2F4F7;">
+              <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:9px;">AMR and virulence</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <sc-for list="{{ amrItems }}" as="a" hint-placeholder-count="6">
+                  <div style="display:flex;align-items:center;gap:9px;">
+                    <span style="{{ a.dotStyle }}"></span>
+                    <span style="font-size:13px;font-style:italic;color:#344054;">{{ a.name }}</span>
+                    <span style="margin-left:auto;font-size:12px;color:#98A2B3;">{{ a.pos }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="padding:14px 16px 14px;border-top:1px solid #F2F4F7;">
+              <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:9px;">Difference markers</div>
+              <div style="display:flex;flex-direction:column;gap:7px;">
+                <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#667085;">
+                  <span style="width:20px;height:20px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:#40544C;color:#FFFFFF;font-size:12px;font-weight:600;line-height:1;">−</span>Bases missing vs the top plasmid
+                </div>
+                <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#667085;">
+                  <span style="width:20px;height:20px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:#40544C;color:#FFFFFF;font-size:12px;font-weight:600;line-height:1;">+</span>Extra bases not in the top plasmid
+                </div>
+                <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#667085;">
+                  <span style="width:20px;height:20px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:#40544C;color:#FFFFFF;font-size:12px;font-weight:600;line-height:1;">≠</span>A base changed vs the top plasmid
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:14px 16px 14px;border-top:1px solid #F2F4F7;">
+              <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:9px;">Feature types</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                <sc-for list="{{ typeChips }}" as="c" hint-placeholder-count="9">
+                  <span style="position:relative;display:inline-flex;">
+                    <button onClick="{{ c.onClick }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}" style="{{ c.style }}"><span style="{{ c.dotStyle }}"></span>{{ c.label }}</button>
+                    <sc-if value="{{ c.tipOpen }}" hint-placeholder-val="{{ false }}">
+                      <span style="{{ c.tipStyle }}">{{ c.help }}</span>
+                    </sc-if>
+                  </span>
+                </sc-for>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+
+        <sc-if value="{{ getMoreOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ closeGetMore }}" style="position:fixed;inset:0;z-index:90;background:rgba(16,24,40,0.45);display:flex;align-items:center;justify-content:center;padding:40px;">
+            <div onClick="{{ stopEv }}" style="width:440px;max-width:100%;background:#FFFFFF;border-radius:4px;box-shadow:0 24px 56px -12px rgba(16,24,40,0.45);padding:22px 24px;">
+              <sc-if value="{{ getMoreForm }}" hint-placeholder-val="{{ true }}">
+                <div style="font-size:16px;font-weight:600;color:#101828;">Get more plasmid analyses</div>
+                <div style="font-size:13px;color:#667085;margin-top:6px;line-height:1.5;">{{ getMoreIntro }}</div>
+                <div style="font-size:12px;font-weight:500;color:#475467;margin:18px 0 6px;">How many more do you need?</div>
+                <input type="number" min="1" value="{{ getMoreN }}" onChange="{{ onGetMoreN }}" style="width:100%;font-family:inherit;font-size:13px;color:#101828;border:1px solid #D0D5DD;border-radius:4px;background:#FFFFFF;outline:none;box-sizing:border-box;height:38px;padding:0 11px;" />
+                <div style="font-size:12px;font-weight:500;color:#475467;margin:14px 0 6px;">Anything we should know? <span style="color:#98A2B3;font-weight:400;">Optional</span></div>
+                <textarea value="{{ getMoreMsg }}" onChange="{{ onGetMoreMsg }}" placeholder="e.g. Outbreak investigation, ~40 plasmids over the next month" style="width:100%;font-family:inherit;font-size:13px;color:#101828;border:1px solid #D0D5DD;border-radius:4px;background:#FFFFFF;outline:none;box-sizing:border-box;height:76px;padding:9px 11px;resize:vertical;"></textarea>
+                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;">
+                  <button onClick="{{ closeGetMore }}" style="font-size:13px;font-weight:600;color:#667085;padding:9px 15px;border-radius:4px;border:none;background:transparent;font-family:inherit;cursor:pointer;">Cancel</button>
+                  <button onClick="{{ sendGetMore }}" style="font-size:13px;font-weight:600;color:#FFFFFF;background:#157639;padding:9px 18px;border-radius:4px;border:none;font-family:inherit;cursor:pointer;">Send request</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ getMoreSent }}" hint-placeholder-val="{{ false }}">
+                <div style="width:40px;height:40px;border-radius:999px;background:#EDFCF2;display:grid;place-items:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#157639" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></div>
+                <div style="font-size:16px;font-weight:600;color:#101828;margin-top:14px;">Request sent</div>
+                <div style="font-size:13px;color:#667085;margin-top:6px;line-height:1.5;">We'll get back to you within one working day. You can keep using the analyses you have left.</div>
+                <div style="display:flex;justify-content:flex-end;margin-top:20px;">
+                  <button onClick="{{ closeGetMore }}" style="font-size:13px;font-weight:600;color:#344054;padding:8px 16px;border-radius:4px;border:1px solid #D0D5DD;background:#FFFFFF;font-family:inherit;cursor:pointer;">Done</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ addOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:fixed;inset:0;z-index:80;background:rgba(16,24,40,0.45);display:flex;align-items:center;justify-content:center;padding:40px;">
+            <div style="width:560px;max-width:100%;max-height:80vh;display:flex;flex-direction:column;background:#FFFFFF;border-radius:4px;box-shadow:0 24px 56px -12px rgba(16,24,40,0.45);overflow:hidden;">
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:16px 18px 14px;border-bottom:1px solid #EAECF0;">
+                <div style="min-width:0;">
+                  <div style="font-size:15px;font-weight:600;">Add plasmids to the comparison</div>
+                  <div style="font-size:12.5px;color:#667085;margin-top:3px;">{{ addModalNote }}</div>
+                </div>
+                <button onClick="{{ toggleAdd }}" style="margin-left:auto;flex:none;width:28px;height:28px;display:grid;place-items:center;border:none;border-radius:4px;background:#F2F4F7;color:#667085;font-size:15px;line-height:1;cursor:pointer;font-family:inherit;">×</button>
+              </div>
+              <div style="padding:12px 18px 8px;">
+                <input value="{{ addQuery }}" onInput="{{ onAddSearch }}" placeholder="Search plasmid, replicon, sample…" style="width:100%;height:36px;font-family:inherit;font-size:13px;color:#344054;border:1px solid #D0D5DD;border-radius:4px;padding:0 12px;background:#FFFFFF;outline:none;"/>
+              </div>
+              <div class="pc-scroll" style="flex:1;min-height:0;overflow-y:auto;padding:4px 12px 12px;">
+                <sc-for list="{{ pickerRows }}" as="q" hint-placeholder-count="6">
+                  <button onClick="{{ q.onAdd }}" style="{{ q.style }}">
+                    <span style="width:17px;height:17px;flex:none;border-radius:5px;background:{{ q.boxBg }};border:{{ q.boxBorder }};display:grid;place-items:center"><sc-if value="{{ q.on }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"></path></svg></sc-if></span>
+                    <span style="display:flex;flex-direction:column;gap:2px;min-width:0;text-align:left;flex:1;">
+                      <span style="font-size:13px;color:#344054;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ q.name }}</span>
+                      <span style="font-size:12px;color:#98A2B3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ q.meta }}</span>
+                    </span>
+                  </button>
+                </sc-for>
+                <sc-if value="{{ pickerEmpty }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:24px 8px;text-align:center;font-size:13px;color:#98A2B3;">Nothing matches that search.</div>
+                </sc-if>
+              </div>
+              <div style="flex:none;display:flex;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid #EAECF0">
+              <span style="font-size:12.5px;color:#667085">{{ addPickLabel }}</span>
+              <sc-if value="{{ hasAddPick }}"><button onClick="{{ clearAddPick }}" style="font-size:12.5px;font-weight:600;color:#157639;padding:2px 6px;border-radius:4px;border:none;background:transparent;font-family:inherit;cursor:pointer">Clear</button></sc-if>
+              <div style="flex:1"></div>
+              <button onClick="{{ toggleAdd }}" style="font-size:13px;font-weight:600;color:#667085;padding:8px 14px;border-radius:4px;border:none;background:transparent;font-family:inherit;cursor:pointer">Cancel</button>
+              <button onClick="{{ confirmAdd }}" style="font-size:13px;font-weight:600;color:#fff;background:{{ addConfirmBg }};padding:8px 16px;border-radius:4px;border:none;font-family:inherit;cursor:{{ addConfirmCursor }};white-space:nowrap">{{ addConfirmLabel }}</button>
+            </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="flex:none;border-top:1px solid #EAECF0;background:#FFFFFF;position:relative;">
+          <sc-if value="{{ drawerResizable }}" hint-placeholder-val="{{ false }}">
+            <div onPointerDown="{{ startDrawerResize }}" title="Drag to resize" style="position:absolute;left:0;right:0;top:-5px;height:10px;z-index:6;cursor:row-resize;display:flex;align-items:center;justify-content:center;touch-action:none;" style-hover="background:rgba(21,118,57,0.06)">
+              <span style="width:36px;height:4px;border-radius:999px;background:{{ drawerGripColor }};"></span>
+            </div>
+          </sc-if>
+          <div style="{{ drawerBarStyle }}">
+            <button onClick="{{ togglePanel }}" style="display:inline-flex;align-items:center;gap:9px;min-width:0;border:none;background:transparent;padding:0;font-family:inherit;cursor:pointer;text-align:left;">
+              <span style="display:inline-flex;flex:none;color:#85948D;transition:transform 220ms cubic-bezier(0.32,0.72,0,1);{{ drawerCaretRot }}">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M 11.293 6.707 C 11.683 7.098 12.317 7.098 12.707 6.707 C 13.098 6.317 13.098 5.683 12.707 5.293 L 11.293 6.707 Z M 6 0 L 6.707 -0.707 C 6.317 -1.098 5.683 -1.098 5.293 -0.707 L 6 0 Z M -0.707 5.293 C -1.098 5.683 -1.098 6.317 -0.707 6.707 C -0.317 7.098 0.317 7.098 0.707 6.707 L -0.707 5.293 Z M 12.707 5.293 L 6.707 -0.707 L 5.293 0.707 L 11.293 6.707 L 12.707 5.293 Z M 5.293 -0.707 L -0.707 5.293 L 0.707 6.707 L 6.707 0.707 L 5.293 -0.707 Z" fill="currentColor" fill-rule="nonzero" transform="matrix(1 0 0 1 6 9)"/></svg>
+              </span>
+              <span style="font-size:13px;font-weight:600;color:#344054;flex:none;">Sequence</span>
+              <span style="font-size:13px;color:#98A2B3;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ drawerSummary }}</span>
+            </button>
+            <span style="{{ drawerActionsStyle }}">
+                <button onClick="{{ prevDiff }}" style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #D0D5DD;border-radius:4px;background:#FFFFFF;color:#344054;font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M 5.293 12.707 C 5.683 13.098 6.317 13.098 6.707 12.707 C 7.098 12.317 7.098 11.683 6.707 11.293 L 5.293 12.707 Z M 0 6 L -0.707 5.293 C -1.098 5.683 -1.098 6.317 -0.707 6.707 L 0 6 Z M 6.707 0.707 C 7.098 0.317 7.098 -0.317 6.707 -0.707 C 6.317 -1.098 5.683 -1.098 5.293 -0.707 L 6.707 0.707 Z M 6.707 11.293 L 0.707 5.293 L -0.707 6.707 L 5.293 12.707 L 6.707 11.293 Z M 0.707 6.707 L 6.707 0.707 L 5.293 -0.707 L -0.707 5.293 L 0.707 6.707 Z" fill="currentColor" fill-rule="nonzero" transform="matrix(1 0 0 1 9 6)"/></svg>
+                  Previous
+                </button>
+                <button onClick="{{ nextDiff }}" style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #D0D5DD;border-radius:4px;background:#FFFFFF;color:#344054;font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer;">
+                  Next
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M -0.707 11.293 C -1.098 11.683 -1.098 12.317 -0.707 12.707 C -0.317 13.098 0.317 13.098 0.707 12.707 L -0.707 11.293 Z M 6 6 L 6.707 6.707 C 7.098 6.317 7.098 5.683 6.707 5.293 L 6 6 Z M 0.707 -0.707 C 0.317 -1.098 -0.317 -1.098 -0.707 -0.707 C -1.098 -0.317 -1.098 0.317 -0.707 0.707 L 0.707 -0.707 Z M 0.707 12.707 L 6.707 6.707 L 5.293 5.293 L -0.707 11.293 L 0.707 12.707 Z M 6.707 5.293 L 0.707 -0.707 L -0.707 0.707 L 5.293 6.707 L 6.707 5.293 Z" fill="currentColor" fill-rule="nonzero" transform="matrix(1 0 0 1 9 6)"/></svg>
+                </button>
+                <button style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #D0D5DD;border-radius:4px;background:#FFFFFF;color:#344054;font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M 3 14 C 3.552 14 4 13.552 4 13 C 4 12.448 3.552 12 3 12 L 3 14 Z M 1.235 12.848 L 0.852 13.772 L 0.852 13.772 L 1.235 12.848 Z M 0.152 11.765 L -0.772 12.148 L -0.772 12.148 L 0.152 11.765 Z M 1.092 0.218 L 0.638 -0.673 L 0.638 -0.673 L 1.092 0.218 Z M 0.218 1.092 L -0.673 0.638 L -0.673 0.638 L 0.218 1.092 Z M 11.765 0.152 L 12.148 -0.772 L 12.148 -0.772 L 11.765 0.152 Z M 12 3 C 12 3.552 12.448 4 13 4 C 13.552 4 14 3.552 14 3 L 12 3 Z M 12.848 1.235 L 13.772 0.852 L 13.772 0.852 L 12.848 1.235 Z M 8.092 19.782 L 8.546 18.891 L 8.092 19.782 Z M 7.218 18.908 L 8.109 18.454 L 7.218 18.908 Z M 19.782 18.908 L 18.891 18.454 L 19.782 18.908 Z M 18.908 19.782 L 18.454 18.891 L 18.908 19.782 Z M 18.908 7.218 L 18.454 8.109 L 18.908 7.218 Z M 19.782 8.092 L 18.891 8.546 L 19.782 8.092 Z M 8.092 7.218 L 8.546 8.109 L 8.092 7.218 Z M 7.218 8.092 L 8.109 8.546 L 7.218 8.092 Z M 10 -1 L 3.2 -1 L 3.2 1 L 10 1 L 10 -1 Z M -1 3.2 L -1 10 L 1 10 L 1 3.2 L -1 3.2 Z M 3 12 C 2.52 12 2.211 11.999 1.974 11.983 C 1.746 11.968 1.659 11.941 1.617 11.924 L 0.852 13.772 C 1.178 13.907 1.508 13.956 1.838 13.979 C 2.158 14.001 2.548 14 3 14 L 3 12 Z M -1 10 C -1 10.452 -1.001 10.842 -0.979 11.162 C -0.956 11.492 -0.907 11.822 -0.772 12.148 L 1.076 11.383 C 1.059 11.341 1.032 11.254 1.017 11.026 C 1.001 10.789 1 10.48 1 10 L -1 10 Z M 1.617 11.924 C 1.372 11.822 1.178 11.628 1.076 11.383 L -0.772 12.148 C -0.467 12.883 0.117 13.467 0.852 13.772 L 1.617 11.924 Z M 3.2 -1 C 2.656 -1 2.189 -1.001 1.805 -0.969 C 1.41 -0.937 1.016 -0.866 0.638 -0.673 L 1.546 1.109 C 1.595 1.084 1.696 1.046 1.968 1.024 C 2.251 1.001 2.623 1 3.2 1 L 3.2 -1 Z M 1 3.2 C 1 2.623 1.001 2.251 1.024 1.968 C 1.046 1.696 1.084 1.595 1.109 1.546 L -0.673 0.638 C -0.866 1.016 -0.937 1.41 -0.969 1.805 C -1.001 2.189 -1 2.656 -1 3.2 L 1 3.2 Z M 0.638 -0.673 C 0.074 -0.385 -0.385 0.074 -0.673 0.638 L 1.109 1.546 C 1.205 1.358 1.358 1.205 1.546 1.109 L 0.638 -0.673 Z M 10 1 C 10.48 1 10.789 1.001 11.026 1.017 C 11.254 1.032 11.341 1.059 11.383 1.076 L 12.148 -0.772 C 11.822 -0.907 11.492 -0.956 11.162 -0.979 C 10.842 -1.001 10.452 -1 10 -1 L 10 1 Z M 14 3 C 14 2.548 14.001 2.158 13.979 1.838 C 13.956 1.508 13.907 1.178 13.772 0.852 L 11.924 1.617 C 11.941 1.659 11.968 1.746 11.983 1.974 C 11.999 2.211 12 2.52 12 3 L 14 3 Z M 11.383 1.076 C 11.628 1.178 11.822 1.372 11.924 1.617 L 13.772 0.852 C 13.467 0.117 12.883 -0.467 12.148 -0.772 L 11.383 1.076 Z M 10.2 8 L 16.8 8 L 16.8 6 L 10.2 6 L 10.2 8 Z M 19 10.2 L 19 16.8 L 21 16.8 L 21 10.2 L 19 10.2 Z M 16.8 19 L 10.2 19 L 10.2 21 L 16.8 21 L 16.8 19 Z M 8 16.8 L 8 10.2 L 6 10.2 L 6 16.8 L 8 16.8 Z M 10.2 19 C 9.623 19 9.251 18.999 8.968 18.976 C 8.696 18.954 8.595 18.916 8.546 18.891 L 7.638 20.673 C 8.016 20.866 8.41 20.937 8.805 20.969 C 9.189 21.001 9.656 21 10.2 21 L 10.2 19 Z M 6 16.8 C 6 17.344 5.999 17.811 6.031 18.195 C 6.063 18.59 6.134 18.984 6.327 19.362 L 8.109 18.454 C 8.084 18.405 8.046 18.304 8.024 18.032 C 8.001 17.749 8 17.377 8 16.8 L 6 16.8 Z M 8.546 18.891 C 8.358 18.795 8.205 18.642 8.109 18.454 L 6.327 19.362 C 6.615 19.926 7.074 20.385 7.638 20.673 L 8.546 18.891 Z M 19 16.8 C 19 17.377 18.999 17.749 18.976 18.032 C 18.954 18.304 18.916 18.405 18.891 18.454 L 20.673 19.362 C 20.866 18.984 20.937 18.59 20.969 18.195 C 21.001 17.811 21 17.344 21 16.8 L 19 16.8 Z M 16.8 21 C 17.344 21 17.811 21.001 18.195 20.969 C 18.59 20.937 18.984 20.866 19.362 20.673 L 18.454 18.891 C 18.405 18.916 18.304 18.954 18.032 18.976 C 17.749 18.999 17.377 19 16.8 19 L 16.8 21 Z M 18.891 18.454 C 18.795 18.642 18.642 18.795 18.454 18.891 L 19.362 20.673 C 19.926 20.385 20.385 19.926 20.673 19.362 L 18.891 18.454 Z M 16.8 8 C 17.377 8 17.749 8.001 18.032 8.024 C 18.304 8.046 18.405 8.084 18.454 8.109 L 19.362 6.327 C 18.984 6.134 18.59 6.063 18.195 6.031 C 17.811 5.999 17.344 6 16.8 6 L 16.8 8 Z M 21 10.2 C 21 9.656 21.001 9.189 20.969 8.805 C 20.937 8.41 20.866 8.016 20.673 7.638 L 18.891 8.546 C 18.916 8.595 18.954 8.696 18.976 8.968 C 18.999 9.251 19 9.623 19 10.2 L 21 10.2 Z M 18.454 8.109 C 18.642 8.205 18.795 8.358 18.891 8.546 L 20.673 7.638 C 20.385 7.074 19.926 6.615 19.362 6.327 L 18.454 8.109 Z M 10.2 6 C 9.656 6 9.189 5.999 8.805 6.031 C 8.41 6.063 8.016 6.134 7.638 6.327 L 8.546 8.109 C 8.595 8.084 8.696 8.046 8.968 8.024 C 9.251 8.001 9.623 8 10.2 8 L 10.2 6 Z M 8 10.2 C 8 9.623 8.001 9.251 8.024 8.968 C 8.046 8.696 8.084 8.595 8.109 8.546 L 6.327 7.638 C 6.134 8.016 6.063 8.41 6.031 8.805 C 5.999 9.189 6 9.656 6 10.2 L 8 10.2 Z M 7.638 6.327 C 7.074 6.615 6.615 7.074 6.327 7.638 L 8.109 8.546 C 8.205 8.358 8.358 8.205 8.546 8.109 L 7.638 6.327 Z" fill="currentColor" fill-rule="nonzero" transform="matrix(1 0 0 1 2 2)"/></svg>
+                  Copy sequence
+                </button>
+            </span>
+          </div>
+          <div style="{{ drawerBodyStyle }}">
+            <div style="{{ drawerInnerStyle }}">
+              <div style="display:flex;align-items:stretch;height:{{ drawerHpx }};">
+                <div class="pc-scroll" style="width:252px;flex:none;border-right:1px solid #EAECF0;overflow-y:auto;padding:8px;">
+                  <div style="font-size:11px;font-weight:600;color:#98A2B3;padding:4px 6px 8px;">All differences</div>
+                  <sc-for list="{{ diffItems }}" as="d" hint-placeholder-count="5">
+                    <button onClick="{{ d.onClick }}" style="{{ d.style }}">
+                      <span style="{{ d.dotStyle }}">{{ d.letter }}</span>
+                      <span style="display:flex;flex-direction:column;gap:1px;min-width:0;text-align:left;flex:1;">
+                        <span style="font-size:12.5px;font-style:italic;color:#344054;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ d.gene }}</span>
+                        <span style="font-size:11.5px;color:#85948D;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ d.label }}</span>
+                      </span>
+                      <span style="{{ d.laneStyle }}">{{ d.laneLabel }}</span>
+                    </button>
+                  </sc-for>
+                  <sc-if value="{{ noDiffs }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:12px 6px;font-size:12px;color:#98A2B3;line-height:1.5;">No differences from the reference.</div>
+                  </sc-if>
+                </div>
+                <div class="pc-scroll" style="flex:1;min-width:0;overflow:auto;padding:10px 16px 12px;">{{ alnSvg }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:760},&quot;plasmids&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Array<{id:string,kb:number,sp:string,sample:string,inc:string,mob:string,amr:string[],com:number|null}>&quot;},&quot;maxOnMap&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:1,&quot;max&quot;:5,&quot;tsType&quot;:&quot;number&quot;},&quot;showAlignment&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.AXIS = 46161;
+    this.LANE = ['#344054','#16B364','#155EEF','#7A5AF8','#DD2590'];
+    this.TYPES = {
+      amr:    { label:'AMR',          color:'#DD2590' },
+      mobile: { label:'Mobile',       color:'#EAAA08' },
+      cds:    { label:'CDS',          color:'#98A2B3' },
+      vir:    { label:'Virulence',    color:'#155EEF' },
+      rna:    { label:'tRNA / rRNA',  color:'#0BA5EC' }
+    };
+    this.baseFeats = [
+      { name:'repA',       type:'cds', start:1200,  end:2300,  strand:1 },
+      { name:'parA',       type:'cds', start:2600,  end:3700,  strand:1 },
+      { name:'oriT',       type:'mobile',     start:4300,  end:4460,  strand:1 },
+      { name:'taxC',       type:'cds',     start:5000,  end:6500,  strand:-1 },
+      { name:'pilX1',      type:'cds',     start:7200,  end:8100,  strand:-1 },
+      { name:'pilX3',      type:'cds',     start:8300,  end:9200,  strand:-1 },
+      { name:'pilX5',      type:'cds',     start:9400,  end:10500, strand:-1 },
+      { name:'taxB',       type:'cds',     start:12000, end:14400, strand:-1 },
+      { name:'traJ',       type:'cds',     start:15000, end:15900, strand:1 },
+      { name:'IS3000',     type:'mobile',       start:17000, end:19200, strand:1 },
+      { name:'blaNDM-1',   type:'amr',      start:20500, end:21313, strand:1 },
+      { name:'bleMBL',     type:'amr',      start:21400, end:21775, strand:1 },
+      { name:'ISAba125',   type:'mobile',       start:22000, end:23050, strand:1 },
+      { name:'umuD',       type:'cds',      start:26000, end:26420, strand:-1 },
+      { name:'dsbC',       type:'cds',      start:27000, end:27710, strand:-1 },
+      { name:'IS26',       type:'mobile',       start:30000, end:30820, strand:1 },
+      { name:'intI1',      type:'mobile', start:31500, end:32514, strand:1 },
+      { name:'aadA1',      type:'amr',      start:32600, end:33392, strand:1 },
+      { name:'blaSHV-12',  type:'amr',      start:33600, end:34461, strand:1 },
+      { name:'qacEdelta1', type:'amr',      start:34600, end:34947, strand:1 },
+      { name:'sul1',       type:'amr',      start:35000, end:35840, strand:1 },
+      { name:'traN',       type:'cds',     start:37000, end:38400, strand:1 },
+      { name:'groEL',      type:'cds',      start:39000, end:40650, strand:1 },
+      { name:'senB',       type:'vir',      start:41000, end:41700, strand:1 },
+      { name:'trnK',       type:'rna',      start:42500, end:42576, strand:1 },
+      { name:'oriV',       type:'cds', start:44000, end:44589, strand:1 },
+      { name:'topB',       type:'cds',      start:45000, end:46000, strand:-1 }
+    ];
+    this.plasmids = [];
+    this.libRefs = [
+      { id:'lib1', name:'NC_019368, pNDM-IncX3', len:46161, meta:'Solu reference library, closest match to AA338 (mash 0.002)', group:'lib', suggested:true },
+      { id:'up1', name:'pNDM_lab_ref.gbk', len:46161, meta:'Uploaded by M. Halonen, 11 Aug, 46,161 bp', group:'upload' }
+    ];
+    const init = this._build(props);
+    this.state = {
+      onMap:init.onMap, active:null, refId:init.refId, refOpen:false,
+      setupOpen:false, setupStep:1, draftIds:[], draftRef:null, setupQuery:'',
+      show:{ skewPos:false, skewNeg:false, gc:false, scale:true, split:false, contigs:false },
+      hideType:{}, trackW:760, cardW:1010, zoom:1,
+      hoverRow:null, tip:null, tipX:0, tipY:0, showAln:props.showAlignment !== false, panelOpen:true
+    };
+    this._measure = ()=>{
+      const el = this._wrap; if(!el) return;
+      const cw = Math.floor(el.clientWidth);
+      if(!cw) return;
+      const w = Math.max(200, cw - 248 - 26);
+      if(Math.abs(w - this.state.trackW) > 2) this.setState({ trackW:w, cardW:cw });
+      else if(cw !== this.state.cardW) this.setState({ cardW:cw });
+    };
+    this._trackRef = (el)=>{
+      if(!el || el === this._wrap) return;
+      this._wrap = el;
+      if(!this._ro){ this._ro = new ResizeObserver(()=>this._measure()); this._ro.observe(el); }
+      el.addEventListener('wheel', (e)=>{
+        if(!(e.metaKey || e.ctrlKey)) return;
+        e.preventDefault();
+        this.setState(s=>({ zoom: Math.max(1, Math.min(12, s.zoom * (e.deltaY < 0 ? 1.12 : 0.89))) }));
+      }, { passive:false });
+      el.addEventListener('mousedown', (e)=>{
+        if(e.target.closest('g')) return;
+        const sx = e.clientX, sy = e.clientY, sl = el.scrollLeft, stp = el.scrollTop;
+        el.style.cursor = 'grabbing';
+        const move = (ev)=>{ el.scrollLeft = sl - (ev.clientX - sx); el.scrollTop = stp - (ev.clientY - sy); };
+        const up = ()=>{ el.style.cursor = 'grab'; window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up); };
+        window.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
+      });
+      this._measure();
+    };
+  }
+  componentDidMount(){
+    
+    this._measure(); this._onWin = ()=>this._measure(); window.addEventListener('resize', this._onWin); }
+  componentWillUnmount(){ if(this._ro) this._ro.disconnect(); if(this._onWin) window.removeEventListener('resize', this._onWin); }
+  _pkeyOf(props){ return (props.plasmids || []).map(p => p.id).join('|'); }
+  _build(props){
+    const src = (props.plasmids && props.plasmids.length) ? props.plasmids : [
+      { id:'MS7924 · AA523', kb:46.2, sp:'Escherichia coli', sample:'MS7924', inc:'IncX3', mob:'Conjugative', amr:['blaNDM-5','bleMBL'], com:1 },
+      { id:'MS7884 · AA523', kb:46.1, sp:'Klebsiella pneumoniae', sample:'MS7884', inc:'IncX3', mob:'Conjugative', amr:['blaNDM-5'], com:1 },
+      { id:'MS7923 · AA513', kb:52.9, sp:'Escherichia coli', sample:'MS7923', inc:'IncX3', mob:'Conjugative', amr:['blaNDM-5','sul1'], com:1 },
+      { id:'MS7884 · AA519', kb:41.0, sp:'Escherichia coli', sample:'MS7884', inc:'IncX3', mob:'Mobilizable', amr:[], com:1 }];
+    this._pkey = this._pkeyOf(props);
+    const SP = { 'Escherichia coli':'E. coli', 'Klebsiella pneumoniae':'K. pneumoniae', 'Pseudomonas aeruginosa':'P. aeruginosa', 'Salmonella enterica':'S. enterica', 'Enterobacter cloacae':'E. cloacae', 'Acinetobacter baumannii':'A. baumannii' };
+    this.plasmids = src.map(q => {
+      let h = 0; for (const ch of q.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+      const sp = !q.sp || q.sp === 'Unavailable' ? 'Unknown species' : (SP[q.sp] || q.sp);
+      return { id:q.id, name:q.id, origin:'wgs', replicon:q.inc || 'No replicon', mob:q.mob || 'Not typed',
+        relaxase: q.mob === 'Non-mobilizable' ? 'Not typed' : 'MOB_F', status: q.status || 'done', runP: q.runP || 0, ctg: q.ctg || 1, ptype: q.ptype || null, ptypeColor: q.ptypeColor || '#98A2B3', host: sp + ', ' + (q.sample || 'sample'),
+        len: Math.round((q.kb || 40) * 1000), cov: 150 + (h % 400), identity:'', amr: q.amr || [], com: q.com, seed: h, diffs: [] };
+    });
+    const byCom = {}; this.plasmids.forEach(p => { if (p.com) byCom[p.com] = (byCom[p.com] || 0) + 1; });
+    const topCom = Object.keys(byCom).sort((a, b) => byCom[b] - byCom[a])[0];
+    const pool = this.plasmids.filter(p => topCom == null || String(p.com) === topCom);
+    const ref = (pool.length ? pool : this.plasmids).slice().sort((a, b) => b.len - a.len)[0];
+    const lib = this.libRefs.find(r => r.id === 'lib1');
+    if (lib && ref) { lib.len = ref.len; lib.meta = 'Solu reference library, closest match to ' + ref.name; }
+    const rank = {}; Object.keys(byCom).sort((a, b) => byCom[b] - byCom[a]).forEach((c, i) => rank[c] = i);
+    const rk = p => p.com != null && rank[String(p.com)] != null ? rank[String(p.com)] : 999;
+    const others = this.plasmids.filter(p => !ref || p.id !== ref.id).sort((a, b) => rk(a) - rk(b) || b.len - a.len);
+    return { refId: ref ? ref.id : 'lib1', onMap: others.slice(0, this.maxOnMap()).map(p => p.id) };
+  }
+  _prepare(){
+    const ref = this.refObj();
+    const axis = this.axisLen(), k = axis / 46161;
+    const refP = ref ? this.plasmids.find(p => p.id === ref.id) : null;
+    const amrNames = refP ? refP.amr : null;
+    let ai = 0;
+    let seen = 0;
+    this.feats = this.baseFeats.filter(f => { if (f.type !== 'amr' || !amrNames) return true; return seen++ < amrNames.length; }).map(f => {
+      const g = { ...f, start: Math.round(f.start * k), end: Math.round(f.end * k) };
+      if (f.type === 'amr' && amrNames && amrNames.length) g.name = amrNames[ai++ % amrNames.length];
+      return g;
+    });
+    const near = pos => { let b = this.feats[0], bd = Infinity; this.feats.forEach(f => { const d = Math.abs((f.start + f.end) / 2 - pos); if (d < bd) { bd = d; b = f; } }); return b ? b.name : 'intergenic'; };
+    const rid = ref ? ref.id : '';
+    const sk = this.plasmids.map(p => p.status === 'done' ? 1 : 0).join('');
+    const order = [rid].concat(this.state.onMap);
+    const ok = order.join(',') + '|' + sk;
+    if (this._diffRef === ok) return;
+    this._diffRef = ok;
+    const prevOf = {}; order.forEach((id, i) => { if (i) prevOf[id] = this.plasmids.find(p => p.id === order[i - 1]); });
+    const subs = ['A→G','C→T','G→A','T→C'];
+    this.plasmids.forEach(p => {
+      const above = p.id === rid ? null : (this.plasmids.find(x => x.id === rid) || prevOf[p.id]);
+      if (p.id === rid || !above) { p.diffs = []; p.identity = '100%'; return; }
+      const rnd = this._rng(p.seed + above.seed % 977);
+      const same = above.com != null && p.com === above.com;
+      const out = []; let n = 0;
+      const d = p.len - above.len;
+      if (d < -0.08 * axis) { const size = Math.min(Math.round(-d), Math.round(axis * 0.6)); const pos = Math.round(axis * (0.15 + rnd() * 0.25)); out.push({ id:p.id+'_d'+(n++), type:'del', pos, end:pos+size, size, gene:near(pos), label:(size >= 1000 ? (size/1000).toFixed(1)+' kb' : size+' bp')+' deletion' }); }
+      if (d > 0.08 * axis) { const size = Math.round(d); const pos = Math.round(axis * (0.35 + rnd() * 0.3)); out.push({ id:p.id+'_d'+(n++), type:'ins', pos, size, gene:near(pos), label:(size >= 1000 ? (size/1000).toFixed(1)+' kb' : size+' bp')+' insertion' }); }
+      const extra = same ? Math.floor(rnd() * 3) : 1 + Math.floor(rnd() * 2);
+      for (let i = 0; i < extra; i++) {
+        const pos = Math.round(axis * (0.05 + rnd() * 0.9)), t = rnd();
+        if (t < 0.6) out.push({ id:p.id+'_d'+(n++), type:'snv', pos, gene:near(pos), label:subs[Math.floor(rnd()*4)]+' substitution' });
+        else { const size = 4 + Math.floor(rnd() * 80); out.push({ id:p.id+'_d'+(n++), type:'del', pos, end:pos+size, size, gene:near(pos), label:size+' bp deletion' }); }
+      }
+      out.forEach(x => x.above = above.name);
+      p.diffs = p.status === 'done' && above.status === 'done' ? out.sort((a, b) => a.pos - b.pos) : [];
+      p.identity = same ? (99.99 - out.length * 0.03).toFixed(2) + '%' : (82 + rnd() * 12).toFixed(1) + '%';
+    });
+  }
+  componentDidUpdate(){
+    if (this._pkeyOf(this.props) !== this._pkey) {
+      const prevRef = this.state.refId, prevMap = this.state.onMap;
+      const init = this._build(this.props);
+      this._diffRef = null;
+      const ids = this.plasmids.map(p => p.id);
+      const keepRef = ids.includes(prevRef) || this.libRefs.some(r => r.id === prevRef);
+      const survivors = prevMap.filter(id => ids.includes(id));
+      const refId = keepRef ? prevRef : (survivors[0] || init.refId);
+      const kept = survivors.filter(id => id !== refId);
+      const added = ids.filter(id => id !== refId && !kept.includes(id));
+      this.setState({ refId, onMap: kept.concat(added), active: null });
+    }
+  }
+  fmt(n){ return Math.round(n).toLocaleString('en-US'); }
+  maxOnMap(){ const v = parseInt(this.props.maxOnMap,10); return Number.isFinite(v)?Math.max(1,Math.min(100,v)):100; }
+  mapped(){ return this.state.onMap.map(id=>this.plasmids.find(p=>p.id===id)).filter(Boolean); }
+  refObj(){
+    const id = this.state.refId;
+    const lib = this.libRefs.find(r=>r.id===id);
+    if(lib) return { id:lib.id, name:lib.name, len:lib.len, meta:lib.meta, replicon:'IncX3', mob:'Conjugative', relaxase:'MOB_F' };
+    const p = this.plasmids.find(x=>x.id===id);
+    if(p) return { id:p.id, name:p.name, len:p.len, meta:'Set as reference from this project, '+p.host, replicon:p.replicon, mob:p.mob, relaxase:p.relaxase };
+    return null;
+  }
+  axisLen(){
+    const ps = [this.state.refId].concat(this.state.onMap).map(id => this.plasmids.find(p => p.id === id)).filter(Boolean);
+    const complete = ps.filter(p => (p.ctg || 1) <= 1).map(p => p.len).sort((a, b) => a - b);
+    const L = complete.length ? complete : ps.map(p => p.len).sort((a, b) => a - b);
+    if (!L.length) return this.AXIS;
+    const med = L[Math.floor(L.length / 2)];
+    const ok = L.filter(v => v <= med * 4);
+    return Math.max(...(ok.length ? ok : L));
+  }
+  laneIndexOf(pid){ const i = this.mapped().findIndex(p=>p.id===pid); return i < 0 ? -1 : i + 1; }
+  laneLetterOf(pid){ const i = this.laneIndexOf(pid); return i < 0 ? '' : String.fromCharCode(65+i); }
+  laneColorOf(pid){ const i = this.laneIndexOf(pid); return this.LANE[Math.max(0, Math.min(4, i))]; }
+  covLabel(c){ return typeof c === 'number' ? c+'× coverage' : 'assembly only, no reads'; }
+  diffColor(){ return '#40544C'; }
+  diffLetter(t){ return t==='del' ? '−' : t==='ins' ? '+' : '≠'; }
+  diffWord(t){ return t==='del' ? 'Deletion' : t==='ins' ? 'Insertion' : 'Substitution'; }
+  allDiffs(){ const out=[]; this.mapped().forEach(p=>p.diffs.forEach(d=>out.push({ ...d, plasmid:p }))); return out.sort((a,b)=>a.pos-b.pos); }
+  visibleFeats(){ return this.feats.filter(f=>!this.state.hideType[f.type]); }
+
+  _reseat(nextMap, prevActive){
+    const ok = nextMap.some(pid => (this.plasmids.find(p=>p.id===pid)||{diffs:[]}).diffs.some(d=>d.id===prevActive));
+    if(ok) return prevActive;
+    for(const pid of nextMap){ const p = this.plasmids.find(x=>x.id===pid); if(p && p.diffs.length) return p.diffs[0].id; }
+    return null;
+  }
+  _applyHash(){
+    const h = (window.location.hash||'').replace(/^#/,'');
+    if(!h) return;
+    const q = {};
+    h.split('&').forEach(part=>{ const i = part.indexOf('='); if(i>0) q[part.slice(0,i)] = decodeURIComponent(part.slice(i+1)); });
+    const ref = q.ref;
+    if(!ref) return;
+    if(/^ref_up/.test(ref) && !this.libRefs.some(r=>r.id===ref)){
+      this.libRefs = this.libRefs.concat({ id:ref, name:q.refname || 'uploaded reference',
+        len:46161, meta:'uploaded reference, GenBank', group:'upload' });
+    }
+    const ids = (q.ids||'').split(',').filter(Boolean)
+      .filter(id=>id !== ref && this.plasmids.some(p=>p.id===id))
+      .slice(0, this.maxOnMap());
+    if(!ids.length) return;
+    this.setState({ refId:ref, onMap:ids, active:this._reseat(ids, null) });
+  }
+  _openSetup(step){
+    this.setState(s=>{
+      const refIsPlasmid = this.plasmids.some(p=>p.id===s.refId);
+      const ids = refIsPlasmid ? [s.refId].concat(s.onMap.filter(x=>x!==s.refId)) : s.onMap.slice();
+      return { setupOpen:true, setupStep: step||1, setupQuery:'',
+        draftIds:ids, draftRef: s.refId, refOpen:false, addOpen:false };
+    });
+  }
+  _closeSetup(){ this.setState({ setupOpen:false }); }
+  _draftToggle(id){
+    this.setState(s=>{
+      const on = s.draftIds.includes(id);
+      if(on) return { draftIds: s.draftIds.filter(x=>x!==id), draftRef: s.draftRef===id ? null : s.draftRef };
+      if(s.draftIds.length >= this.maxOnMap() + 1) return {};
+      return { draftIds: s.draftIds.concat(id) };
+    });
+  }
+  _buildSetup(){
+    this.setState(s=>{
+      const refId = s.draftRef;
+      const next = s.draftIds.filter(x=>x!==refId).slice(0, this.maxOnMap());
+      return { refId, onMap:next, setupOpen:false, setupStep:1,
+        active:this._reseat(next, s.active) };
+    });
+  }
+  _toggle(id){
+    const on = this.state.onMap.includes(id);
+    if (on && this.props.onRemove) { this.props.onRemove(id); return; }
+    if (!on && this.props.onAdd) { this.props.onAdd(id); return; }
+    this.setState(s=>{
+      const on = s.onMap.includes(id);
+      const next = on ? s.onMap.filter(x=>x!==id) : (s.onMap.length >= this.maxOnMap() ? s.onMap : s.onMap.concat(id));
+      return { onMap:next, active:this._reseat(next, s.active) };
+    });
+  }
+  _pickRef(id){
+    this.setState(s=>{
+      const next = s.onMap.filter(x=>x!==id);
+      return { refId:id, refOpen:false, onMap:next, active:this._reseat(next, s.active) };
+    });
+  }
+  _rng(seed){ let t=seed>>>0; return ()=>{ t+=0x6D2B79F5; let r=Math.imul(t^(t>>>15),1|t); r^=r+Math.imul(r^(r>>>7),61|r); return ((r^(r>>>14))>>>0)/4294967296; }; }
+  _profile(seed){
+    if(!this._prof) this._prof = {};
+    if(this._prof[seed]) return this._prof[seed];
+    const N = 220, rA = this._rng(seed*7+3), rB = this._rng(seed*13+9), raw = [], skw = [];
+    let a = 0, b = 0;
+    for(let i=0;i<N;i++){ a = a*0.72 + (rA()-0.5)*0.5; b = b*0.68 + (rB()-0.5)*0.6; raw.push(a); skw.push(b); }
+    const out = raw.map((v,i)=>({ f:i/(N-1), gc:Math.max(-1,Math.min(1,v*2.1)), skew:Math.max(-1,Math.min(1,skw[i]*2.3)) }));
+    this._prof[seed] = out;
+    return out;
+  }
+
+  _laneSVG(lane, ppb){
+    const E = React.createElement;
+    const lid = lane.isRef ? (this.refObj() || {}).id : lane.p.id;
+    if (this._statusOf(lid) !== 'done') {
+      const axis = this.axisLen(), W = Math.max(200, Math.round(axis*ppb)), w = Math.max(40, Math.round(Math.min(lane.p.len, axis*1.2) * ppb));
+      const H = 64, top = 34, h = 18;
+      return E('svg', { width:W, height:H, viewBox:'0 0 '+W+' '+H, style:{ display:'block' } }, [
+        E('rect', { key:'b', x:0.5, y:top+0.5, width:Math.min(W, w)-1, height:h-1, rx:3, fill:'#F9FAFB', stroke:'#D0D5DD', strokeDasharray:'4 3' })
+      ]);
+    }
+    const axis = this.axisLen(), W = Math.max(200, Math.round(axis*ppb)), X = bp => (bp/axis)*W;
+    const L = (lane.p && lane.p.len) || axis, scale = L / axis, over = L > axis * 1.02, Wl = Math.min(W, X(L));
+    const show = this.state.show, split = show.split;
+    const markY = 9, labelRow = [17, 28];
+    const fwdTop = 34, featH = 18;
+    const revTop = split ? fwdTop + featH + 4 : fwdTop;
+    const afterFeat = (split ? revTop + featH : fwdTop + featH) + 5;
+    const gcTop = afterFeat, gcH = show.gc ? 18 : 0;
+    const skTop = gcTop + gcH + (show.gc ? 6 : 0), skH = (show.skewPos || show.skewNeg) ? 20 : 0;
+    const H = skTop + skH + 7;
+    const els = [], labelEls = [], lastLabelR = [-1e9, -1e9];
+    const diffs = lane.isRef ? [] : lane.p.diffs.map(d=>({ ...d, plasmid:lane.p }));
+
+    diffs.forEach(d=>{
+      const a = X(d.pos*scale), b = d.end ? X(d.end*scale) : a, w = Math.max(9, b-a), on = d.id===this.state.active;
+      els.push(E('rect',{ key:'band'+d.id, x:a-(w<=9?4.5:0), y:0, width:w, height:H,
+        fill: on ? '#E6E9E8' : '#F5F7F6', stroke: on ? '#B7C0BC' : '#E6E9E8', strokeWidth:1 }));
+    });
+
+    const laneRows = split ? [[1, fwdTop],[-1, revTop]] : [[0, fwdTop]];
+    laneRows.forEach(([, top], i)=>{
+      els.push(E('rect',{ key:'bb'+i, x:0, y:top, width:Wl, height:featH, fill:'#F2F4F7' }));
+    });
+    if (over) {
+      const extra = L - axis, lbl = '+' + (extra >= 1000 ? Math.round(extra / 1000) + ' kb' : Math.round(extra) + ' bp') + ' beyond scale';
+      els.push(E('path', { key:'cut', d:'M'+(W-10)+' '+(fwdTop-3)+'l5 '+(featH/2+3)+'l-5 '+(featH/2+3), fill:'none', stroke:'#98A2B3', strokeWidth:1.5 }));
+      labelEls.push(E('text', { key:'cutl', x:W-14, y:fwdTop-6, fill:'#667085', fontSize:10.5, fontWeight:600, fontFamily:"'IBM Plex Sans',sans-serif", textAnchor:'end', style:{ pointerEvents:'none' } }, lbl));
+    }
+
+    this.visibleFeats().forEach(g=>{
+      if (g.start*scale > axis) return;
+      const x0 = X(g.start*scale), x1 = Math.min(W, X(g.end*scale)), w = Math.max(3, x1-x0);
+      const top = split ? (g.strand >= 0 ? fwdTop : revTop) : fwdTop, mid = top + featH/2;
+      const head = Math.min(w, 9), color = this.TYPES[g.type].color;
+      let d;
+      if(g.strand >= 0){ const hx = x1-head; d = `M${x0} ${top}L${Math.max(x0,hx)} ${top}L${x1} ${mid}L${Math.max(x0,hx)} ${top+featH}L${x0} ${top+featH}Z`; }
+      else { const hx = x0+head; d = `M${x1} ${top}L${Math.min(x1,hx)} ${top}L${x0} ${mid}L${Math.min(x1,hx)} ${top+featH}L${x1} ${top+featH}Z`; }
+      els.push(E('path',{ key:'g'+g.name, d, fill:color, stroke:'rgba(16,24,40,0.22)', strokeWidth:0.6, strokeLinejoin:'round',
+        style:{ cursor:'pointer' },
+        onMouseEnter:(e)=>this._enter(lane, g, e), onMouseMove:(e)=>this._move(e), onMouseLeave:()=>this.setState({ tip:null }) }));
+      const light = g.type === 'cds' || g.type === 'mobile';
+      if(w > 56){
+        labelEls.push(E('text',{ key:'l'+g.name, x:(x0+x1)/2, y:mid+4, fill: light ? '#344054' : '#FFFFFF', fontSize:10.5, fontWeight:600,
+          fontFamily:"'IBM Plex Sans',sans-serif", fontStyle: g.type==='amr' ? 'italic' : 'normal', textAnchor:'middle', style:{ pointerEvents:'none' } }, g.name));
+      } else {
+        const half = g.name.length*3.35 + 4;
+        let cx = (x0+x1)/2, anchor = 'middle';
+        if(cx-half < 0){ cx = 0; anchor = 'start'; }
+        else if(cx+half > W){ cx = W; anchor = 'end'; }
+        const left = anchor==='start' ? cx : anchor==='end' ? cx-half*2 : cx-half;
+        const row = left > lastLabelR[0] ? 0 : left > lastLabelR[1] ? 1 : -1;
+        if(row < 0) return;
+        lastLabelR[row] = left + half*2 + 9;
+        labelEls.push(E('line',{ key:'ll'+g.name, x1:(x0+x1)/2, y1:labelRow[row]+3, x2:(x0+x1)/2, y2:fwdTop-1, stroke:'#E4E7EC', strokeWidth:0.8 }));
+        labelEls.push(E('text',{ key:'l'+g.name, x:cx, y:labelRow[row], fontSize:9.5, fontWeight: g.type==='amr' ? 600 : 500,
+          fill: g.type==='cds' ? '#98A2B3' : this.TYPES[g.type].color, fontStyle: g.type==='amr' ? 'italic' : 'normal',
+          fontFamily:"'IBM Plex Sans',sans-serif", textAnchor:anchor }, g.name));
+      }
+    });
+
+    if(!lane.isRef){
+      lane.p.diffs.filter(d=>d.type==='del').forEach(d=>{
+        const a = X(d.pos*scale), b = Math.max(X(d.end*scale), a+3);
+        laneRows.forEach(([, top], i)=>{
+          els.push(E('rect',{ key:'dl'+d.id+i, x:a, y:top-1, width:b-a, height:featH+2, fill:'#FFFFFF', fillOpacity:0.88 }));
+          els.push(E('rect',{ key:'db'+d.id+i, x:a, y:top-1, width:b-a, height:featH+2, fill:'none', stroke:'#55675F', strokeWidth:1.2, strokeDasharray:'3 2' }));
+        });
+      });
+      lane.p.diffs.filter(d=>d.type==='ins').forEach(d=>{
+        const x = X(d.pos*scale), base = (split ? revTop : fwdTop) + featH;
+        els.push(E('path',{ key:'in'+d.id, d:`M${x-6} ${base+7}L${x} ${base-1}L${x+6} ${base+7}Z`, fill:'#55675F' }));
+      });
+    }
+
+    els.push(...labelEls);
+
+    if(show.gc){
+      const prof = this._profile(lane.isRef ? 1 : this.laneIndexOf(lane.p.id)+2), base = gcTop + gcH/2, amp = gcH/2 - 1;
+      let d = 'M0 '+base;
+      prof.forEach(w=>{ d += `L${(w.f*W).toFixed(1)} ${(base - w.gc*amp).toFixed(1)}`; });
+      d += `L${W} ${base}Z`;
+      els.push(E('path',{ key:'gc', d, fill:'#344054', fillOpacity:0.85 }));
+      els.push(E('line',{ key:'gcl', x1:0, y1:base, x2:W, y2:base, stroke:'#EAECF0', strokeWidth:0.8 }));
+    }
+    if(show.skewPos || show.skewNeg){
+      const prof = this._profile(lane.isRef ? 1 : this.laneIndexOf(lane.p.id)+2), base = skTop + skH/2, amp = skH/2 - 1;
+      els.push(E('line',{ key:'skl', x1:0, y1:base, x2:W, y2:base, stroke:'#EAECF0', strokeWidth:0.8 }));
+      if(show.skewPos){ let d='M0 '+base; prof.forEach(w=>{ d += `L${(w.f*W).toFixed(1)} ${(base - Math.max(0,w.skew)*amp).toFixed(1)}`; }); d+=`L${W} ${base}Z`;
+        els.push(E('path',{ key:'skp', d, fill:'#16B364', fillOpacity:0.85 })); }
+      if(show.skewNeg){ let d='M0 '+base; prof.forEach(w=>{ d += `L${(w.f*W).toFixed(1)} ${(base + Math.max(0,-w.skew)*amp).toFixed(1)}`; }); d+=`L${W} ${base}Z`;
+        els.push(E('path',{ key:'skn', d, fill:'#7A5AF8', fillOpacity:0.6 })); }
+    }
+
+    const anchorX = d => d.end ? (X(d.pos*scale)+X(d.end*scale))/2 : X(d.pos*scale);
+    const clusters = [];
+    diffs.slice().sort((a,b)=>anchorX(a)-anchorX(b)).forEach(d=>{
+      const x = anchorX(d), last = clusters[clusters.length-1];
+      if(last && Math.abs(last.x - x) < 18) last.items.push(d); else clusters.push({ x, items:[d] });
+    });
+    clusters.forEach(cl=>{
+      const n = cl.items.length;
+      cl.items.forEach((d,i)=>{
+        const cx = Math.max(10, Math.min(W-10, cl.x + (i-(n-1)/2)*18));
+        const on = d.id === this.state.active, c = this.diffColor(d.type);
+        els.push(E('line',{ key:'ml'+d.id, x1:cl.x, y1:markY+8, x2:cl.x, y2:fwdTop, stroke:c, strokeWidth:on?1.6:1, strokeDasharray:'2 2', opacity:0.5 }));
+        if(n > 1) els.push(E('line',{ key:'mc'+d.id, x1:cx, y1:markY+8, x2:cl.x, y2:markY+14, stroke:c, strokeWidth:1, opacity:0.45 }));
+        els.push(E('g',{ key:'mk'+d.id, style:{ cursor:'pointer' },
+          onMouseEnter:(e)=>this._enterDiff(d, e), onMouseMove:(e)=>this._move(e), onMouseLeave:()=>this.setState({ tip:null }),
+          onClick:(e)=>{ e.stopPropagation(); this.setState({ active:d.id, panelOpen:true }); } },
+          E('circle',{ cx, cy:markY, r:on?9.5:8, fill:c, stroke:'#FFFFFF', strokeWidth: on?2:1.4 }),
+          E('text',{ x:cx, y:markY+4, fill:'#FFFFFF', fontSize:on?13:12, fontWeight:600,
+            fontFamily:"'IBM Plex Sans',sans-serif", textAnchor:'middle', style:{ pointerEvents:'none' } }, this.diffLetter(d.type))
+        ));
+      });
+    });
+    // whole difference band is clickable (drawn on top, behind the markers)
+    const hits = diffs.map(d => {
+      const a = X(d.pos*scale), b = d.end ? X(d.end*scale) : a, w = Math.max(9, b-a), hov = this.state.hoverBand === d.id;
+      return E('rect',{ key:'hit'+d.id, x:a-(w<=9?4.5:0), y:0, width:w, height:H, fill: hov ? 'rgba(16,24,40,0.05)' : 'transparent', stroke: hov ? '#98A2B3' : 'none', strokeWidth:1, style:{ cursor:'pointer' },
+        onMouseEnter:(e)=>{ this.setState({ hoverBand:d.id }); this._enterDiff(d, e); }, onMouseMove:(e)=>this._move(e),
+        onMouseLeave:()=>this.setState({ tip:null, hoverBand:null }),
+        onClick:(e)=>{ e.stopPropagation(); this.setState({ active:d.id, panelOpen:true }); } });
+    });
+    const firstMk = els.findIndex(el => el && el.key && String(el.key).startsWith('mk'));
+    if (firstMk < 0) els.push(...hits); else els.splice(firstMk, 0, ...hits);
+    return E('svg',{ key:'lane'+lane.id, width:W, height:H, viewBox:`0 0 ${W} ${H}`, style:{ display:'block' } }, els);
+  }
+
+  _enter(lane, g, e){
+    const ref = this.refObj();
+    const inLane = lane.isRef ? null : lane.p;
+    const hit = inLane ? inLane.diffs.find(d => d.pos >= g.start-200 && d.pos <= g.end+200) : null;
+    const notes = { amr:'A gene that makes the bacterium resistant to an antibiotic.',
+      mobile:'A jumping DNA element that can carry nearby genes between plasmids.',
+      cds:'A protein-coding gene with no specialised annotation.',
+      vir:'A gene that helps the bacterium cause disease.',
+      rna:'A structural RNA gene.' };
+    this.setState({ tip:{
+      color:this.TYPES[g.type].color, title:g.name, note:notes[g.type],
+      rows:[
+        { l:'type', v:this.TYPES[g.type].label },
+        { l:'position', v:this.fmt(g.start)+'-'+this.fmt(g.end)+' bp' },
+        { l:'strand', v:g.strand > 0 ? '+ forward' : '− reverse' },
+        { l:'lane', v:lane.isRef ? 'A, '+(ref?ref.name:'reference') : this.laneLetterOf(inLane.id)+', '+inLane.name },
+        { l:'vs reference', v: lane.isRef ? 'reference lane' : (hit ? this.diffWord(hit.type)+' here' : 'identical') }
+      ]
+    }});
+    this._move(e);
+  }
+  _enterBase(d, pos, base, refBase, aa, isSample, isDiff, e){
+    const NAME = { A:'Adenine', C:'Cytosine', G:'Guanine', T:'Thymine', '-':'Gap, no base here' };
+    const AAN = { A:'Ala',R:'Arg',N:'Asn',D:'Asp',C:'Cys',E:'Glu',Q:'Gln',G:'Gly',H:'His',I:'Ile',
+      L:'Leu',K:'Lys',M:'Met',F:'Phe',P:'Pro',S:'Ser',T:'Thr',W:'Trp',Y:'Tyr',V:'Val' };
+    this.setState({ tip:{
+      color: isDiff ? '#B54708' : '#85948D',
+      title: (NAME[base]||base)+', position '+this.fmt(pos),
+      note: isDiff
+        ? (isSample ? 'This plasmid reads '+base+' where the reference reads '+refBase+'.'
+                    : 'The reference reads '+refBase+' where this plasmid reads '+base+'.')
+        : 'Same base in both sequences.',
+      rows:[
+        { l:'row', v: isSample ? d.plasmid.name : 'reference' },
+        { l:'base', v: base === '-' ? 'gap' : base },
+        { l:'amino acid', v: (AAN[aa]||aa)+' ('+aa+')' },
+        { l:'gene', v: d.gene || 'intergenic' }
+      ]
+    }});
+    this._move(e);
+  }
+  _enterDiff(d, e){
+    const what = d.type==='del' ? 'Bases present in the reference are missing here'
+      : d.type==='ins' ? 'Extra bases are present here that the reference does not have'
+      : 'One base differs from the reference here';
+    this.setState({ tip:{
+      color:'#40544C', title:this.diffWord(d.type)+', '+d.label, note:what,
+      rows:[
+        { l:'plasmid', v:d.plasmid.name },
+        { l:'gene', v:d.gene || 'Not typed' },
+        { l:'position', v:this.fmt(d.pos)+(d.end?'-'+this.fmt(d.end):'')+' bp' },
+        { l:'read depth', v:this.covLabel(d.plasmid.cov) },
+        { l:'', v:'Click to read the bases' }
+      ]
+    }});
+    this._move(e);
+  }
+  _move(e){ this.setState({ tipX: e.clientX, tipY: e.clientY }); }
+
+  _rulerSVG(ppb){
+    const E = React.createElement;
+    const axis = this.axisLen(), W = Math.max(200, Math.round(axis*ppb)), H = 26, y = 20;
+    if(!this.state.show.scale) return E('svg',{ width:W, height:H, viewBox:`0 0 ${W} ${H}`, style:{ display:'block' } }, []);
+    const per = W/axis, step = [100,200,500,1000,2000,5000,10000,20000,50000,100000].find(s => s*per >= 44) || 200000;
+    const els = [E('line',{ key:'base', x1:0, y1:y, x2:W, y2:y, stroke:'#E4E7EC', strokeWidth:1 })];
+    for(let t=0; t<=axis; t+=step){
+      const x = (t/axis)*W;
+      els.push(E('line',{ key:'t'+t, x1:x, y1:y, x2:x, y2:y-5, stroke:'#C0C7D1', strokeWidth:1 }));
+      els.push(E('text',{ key:'x'+t, x:x, y:y-9, fill:'#98A2B3', fontSize:9.5, fontFamily:"'IBM Plex Sans',sans-serif",
+        textAnchor: t===0 ? 'start' : (t+step > axis ? 'end' : 'middle') }, step < 1000 ? (t/1000).toFixed(1).replace(/\.0$/,'') : String(t/1000)));
+    }
+    return E('svg',{ width:W, height:H, viewBox:`0 0 ${W} ${H}`, style:{ display:'block' } }, els);
+  }
+
+  _seq(seed, n){
+    const B = ['A','C','G','T']; let t = seed>>>0; const out = [];
+    for(let i=0;i<n;i++){ t += 0x6D2B79F5; let r = Math.imul(t^(t>>>15), 1|t); r ^= r + Math.imul(r^(r>>>7), 61|r);
+      out.push(B[((r^(r>>>14))>>>0) % 4]); }
+    return out;
+  }
+
+  _alnSVG(d, W){
+    const E = React.createElement;
+    const ref = this.refObj();
+    const gutter = 112, cols = 41, inner = Math.max(360, W-gutter-10), colW = inner/cols;
+    const start = d.pos - 20, mid = 20;
+    const refSeq = this._seq(d.pos*7+11, cols), smp = refSeq.slice();
+    if(d.type === 'snv') smp[mid] = refSeq[mid] === 'C' ? 'T' : 'A';
+    if(d.type === 'del') for(let i=0;i<Math.min(d.size||1,3);i++) smp[mid+i] = '-';
+    const AA = ['V','E','V','V','H','D','K','A','W','R','F','F','D','K','V','E','Q','L','S','T','G','N','P','I','Y','M','C','A','R','G','H','L','K','F','D','V','E','T','S','Q','N'];
+    const hasReads = typeof d.plasmid.cov === 'number';
+    const yRuler = 12, yIns = 22, hIns = 42, yGene = 72, hGene = 16, rowH = 21;
+    const yAAs = yGene+hGene+4, ySmp = yAAs+rowH, yRef = ySmp+rowH, yAAr = yRef+rowH, yGene2 = yAAr+rowH+4, H = yGene2+hGene+6;
+    const X = i => gutter + i*colW;
+    const mono = "'IBM Plex Mono',ui-monospace,Menlo,monospace";
+    const els = [];
+
+    els.push(E('rect',{ key:'hl', x:X(mid)-1, y:yGene, width:colW+2, height:(yAAr+rowH)-yGene, fill:'#FEF0C7', stroke:'#F79009', strokeWidth:1 }));
+    for(let i=0;i<cols;i+=5) els.push(E('text',{ key:'r'+i, x:X(i)+colW/2, y:yRuler, fill:'#98A2B3', fontSize:9.5, fontFamily:mono, textAnchor:'middle' }, this.fmt(start+i)));
+
+    if(hasReads){
+      const rIns = this._seq(d.pos*3+5, cols);
+      for(let i=0;i<cols;i++){
+        const h = 8 + ((rIns[i].charCodeAt(0)*7)%28);
+        els.push(E('rect',{ key:'ib'+i, x:X(i)+1.5, y:yIns+hIns-h, width:Math.max(2,colW-3), height:h, fill:'#EAECF0' }));
+      }
+      els.push(E('text',{ key:'insl', x:gutter-10, y:yIns+hIns-1, fill:'#667085', fontSize:9.5, fontFamily:mono, textAnchor:'end' }, 'reads'));
+      els.push(E('text',{ key:'insl2', x:gutter-10, y:yIns+10, fill:'#98A2B3', fontSize:9.5, fontFamily:mono, textAnchor:'end' }, String(d.plasmid.cov)+'×'));
+    } else {
+      els.push(E('rect',{ key:'nr', x:gutter, y:yIns+6, width:inner, height:hIns-12, fill:'#FCFCFD', stroke:'#EAECF0', strokeWidth:1, strokeDasharray:'4 3' }));
+      els.push(E('text',{ key:'nrt', x:gutter+inner/2, y:yIns+hIns/2+4, fill:'#98A2B3', fontSize:11, fontFamily:"'IBM Plex Sans',sans-serif", textAnchor:'middle' },
+        'No read depth, this plasmid was uploaded as a finished assembly'));
+      els.push(E('text',{ key:'nrl', x:gutter-10, y:yIns+hIns/2+4, fill:'#667085', fontSize:9.5, fontFamily:mono, textAnchor:'end' }, 'reads'));
+    }
+
+    [[yGene,'g1'],[yGene2,'g2']].forEach(([gy,k])=>{
+      els.push(E('rect',{ key:k, x:gutter, y:gy, width:inner, height:hGene, fill:'#DD2590', fillOpacity: d.gene==='Tn3' ? 0.55 : 1 }));
+      els.push(E('text',{ key:k+'t', x:gutter+inner/2, y:gy+11.8, fill:'#FFFFFF', fontSize:10.5, fontWeight:600,
+        fontFamily:"'IBM Plex Sans',sans-serif", fontStyle:'italic', textAnchor:'middle' }, '‹ '+(d.gene||'intergenic')+' ‹'));
+    });
+
+    const rows = [
+      { y:yAAs, arr:AA, aa:true },
+      { y:ySmp, arr:smp, label:d.plasmid.name, bold:true },
+      { y:yRef, arr:refSeq, label:(d.above || (ref ? ref.name : 'top'))+', compared to', },
+      { y:yAAr, arr:AA, aa:true }
+    ];
+    rows.forEach((row,ri)=>{
+      if(row.label) els.push(E('text',{ key:'lb'+ri, x:gutter-10, y:row.y+14.5, fill:'#344054', fontSize:11,
+        fontWeight:600, fontFamily:"'IBM Plex Sans',sans-serif", textAnchor:'end' }, row.label));
+      for(let i=0;i<cols;i++){
+        const isDiff = i===mid && !row.aa;
+        els.push(E('rect',{ key:'c'+ri+'_'+i, x:X(i)+1, y:row.y+2, width:Math.max(2,colW-2), height:rowH-4,
+          fill: isDiff ? (row.bold ? '#FEDF89' : '#F2F4F7') : (row.aa ? '#F9FAFB' : '#F2F4F7') }));
+        if(colW > 8) els.push(E('text',{ key:'x'+ri+'_'+i, x:X(i)+colW/2, y:row.y+15, fontSize:row.aa?10:11.5,
+          fill: isDiff && row.bold ? '#B54708' : (row.aa ? '#98A2B3' : '#344054'),
+          fontWeight: isDiff ? 700 : 400, fontFamily:mono, textAnchor:'middle',
+          style:{ pointerEvents:'none' } }, row.arr[i]));
+        if(!row.aa) els.push(E('rect',{ key:'hit'+ri+'_'+i, x:X(i)+1, y:row.y+2, width:Math.max(2,colW-2), height:rowH-4,
+          fill:'transparent', style:{ cursor:'help' },
+          onMouseEnter:(e)=>this._enterBase(d, start+i, row.arr[i], refSeq[i], AA[i], !!row.bold, i===mid, e),
+          onMouseMove:(e)=>this._move(e), onMouseLeave:()=>this.setState({ tip:null }) }));
+      }
+    });
+    return E('svg',{ width:Math.max(360,W), height:H, viewBox:`0 0 ${Math.max(360,W)} ${H}`, style:{ display:'block' } }, els);
+  }
+
+  _statusOf(id){ const p = this.plasmids.find(x => x.id === id); return p ? p.status : 'done'; }
+  renderVals(){
+    const sm = {}; (this.props.plasmids || []).forEach(q => sm[q.id] = q);
+    this.plasmids.forEach(p => { const q = sm[p.id]; if (q) { p.status = q.status || 'done'; p.runP = q.runP || 0; p.ptype = q.ptype || null; p.ptypeColor = q.ptypeColor || '#98A2B3'; } });
+    this._prepare();
+    const v = this._rv();
+    const ref = this.refObj();
+    const ids = (ref ? [ref.id] : []).concat(this.mapped().map(p => p.id));
+    const quota = this.props.quota || { used: 0, limit: 3 };
+    const left = Math.max(0, quota.limit - quota.used);
+    const onAnalyze = this.props.onAnalyze || (() => {});
+    const pending = ids.filter(id => this._statusOf(id) === 'none');
+    const anyDone = ids.some(id => this._statusOf(id) === 'done');
+    const anyRun = ids.some(id => this._statusOf(id) === 'running');
+    const base = (v.lanes || [])[1] || (v.lanes || [])[0] || {};
+    const lanes = (v.lanes || []).map((ln, i) => { const id = ids[i]; const s = this._statusOf(id); const p = this.plasmids.find(x => x.id === id) || { diffs: [] };
+      const nd = p.diffs.length;
+      const top = i === 0;
+      const tag = top ? 'Compared to' : nd ? nd + (nd === 1 ? ' difference' : ' differences') : 'Identical';
+      const hovered = !top && this.state.hoverRow === id;
+      const tagStyle = top ? { ...ln.tagStyle, color: '#475467', background: '#F2F4F7' } : { ...ln.tagStyle, color: nd ? '#344054' : '#087443', background: nd ? '#F2F4F7' : '#EDFCF2' };
+      return { ...ln, stDone: s === 'done', stRunning: s === 'running', stNone: s === 'none',
+        removable: false, isTop: top, notTop: !top, canAnchor: false, topRep: p.replicon || 'No replicon', ...((mc => ({ hasMob: !!mc, mobLabel: p.mob, mobColor: mc ? mc[0] : '', mobBg: mc ? mc[1] : '', mobBorder: mc ? mc[2] : '' }))(({ Conjugative: ['#6941C6','#F9F5FF','#E9D7FE'], Mobilizable: ['#175CD3','#EFF8FF','#B2DDFF'], 'Non-mobilizable': ['#475467','#F2F4F7','#EAECF0'] })[p.mob])), hasAmr: (p.amr || []).length > 0, amrLabel: (p.amr || []).length + ' AMR', onAnchor: (e) => { e && e.stopPropagation && e.stopPropagation(); this.setState(st2 => ({ refId: id, onMap: [st2.refId].concat(st2.onMap.filter(x => x !== id)), active: null, hoverRow: null })); }, onRemove: (e) => { e && e.stopPropagation && e.stopPropagation(); if (this.props.onRemove) this.props.onRemove(id); },
+        removeStyle: top ? (base.removeStyle || ln.removeStyle) : ln.removeStyle, rowStyle: top ? { ...ln.rowStyle, background: '#F6FEF9', borderBottom: '2px solid #A6DDBB' } : ln.rowStyle, labelStyle: top ? { ...ln.labelStyle, background: '#F6FEF9', padding: '12px 14px 14px', zIndex: this.state.anchorMenu ? 6 : 3 } : ln.labelStyle,
+        species: top ? (p.host || '').split(', ')[0] : ln.species,
+        tagLabel: s === 'done' ? tag : s === 'running' ? 'Analyzing' : 'Not analyzed',
+        tagStyle: { ...(s === 'done' ? tagStyle : { ...ln.tagStyle, color: '#667085', background: '#F2F4F7' }), lineHeight: '18px', padding: '0 7px', border: '1px solid ' + (s !== 'done' ? '#EAECF0' : top ? '#EAECF0' : nd ? '#EAECF0' : '#ABEFC6') },
+        runPct: Math.round((this.plasmids.find(p => p.id === id) || {}).runP * 100 || 0) + '%',
+        onRun: left > 0 ? (() => onAnalyze([id])) : (() => {}), runBg: left > 0 ? '#099250' : '#A6DDBB', runCursor: left > 0 ? 'pointer' : 'not-allowed',
+        runTitle: left > 0 ? 'Uses 1 of your ' + left + ' remaining analyses' : 'Plasmid analysis limit reached' }; });
+    if (pending.length) this._lastPendN = pending.length;
+    const pn = pending.length || this._lastPendN || 1;
+    const teaser = false;
+    const k = Math.min(pending.length, left);
+    const total = this.plasmids.filter(p => !ref || p.id !== ref.id).length;
+    const shown = this.mapped().length;
+    return { ...v, lanes,
+      showTeaser: teaser, quotaOk: left > 0, quotaReached: left === 0, quotaLimit: quota.limit,
+      quotaLabel: quota.used + ' / ' + quota.limit + ' plasmid analyses used in your plan',
+      teaserBody: k < pending.length ? 'Map genes and differences. You have ' + left + ' analyses left, so ' + k + ' of these ' + pending.length + ' plasmids can be analyzed.' : 'Map genes and differences for the ' + pending.length + ' plasmids shown.',
+      teaserCta: k === 1 ? 'Start new analysis' : 'Analyze ' + k + ' plasmids',
+      analyzeAll: () => onAnalyze(pending.slice(0, k)),
+      showAnalyzeRest: false,
+      showPendingBar: !teaser && pending.length > 0,
+      pendRows: !teaser && pending.length > 0 ? '1fr' : '0fr',
+      pendOpacity: !teaser && pending.length > 0 ? 1 : 0,
+      pendHidden: !teaser && pending.length > 0 ? 'false' : 'true',
+      canAnalyzeSome: left > 0,
+      showGetMore: left < pending.length || left <= 2,
+      costColor: left <= 2 ? '#B54708' : '#667085',
+      costLine: left === 0 ? 'No plasmid analyses left in your ' + (quota.plan || '') + ' plan' : 'Uses ' + Math.min(left, pn) + ' of your ' + left + ' remaining analyses',
+      openGetMore: () => this.setState({ getMore: 'form', getMoreN: String(Math.max(pending.length - left, 0) || 10), getMoreMsg: '' }),
+      closeGetMore: () => this.setState({ getMore: null }),
+      stopEv: e => e.stopPropagation(),
+      getMoreOpen: !!this.state.getMore, getMoreForm: this.state.getMore === 'form', getMoreSent: this.state.getMore === 'sent',
+      getMoreIntro: 'Your ' + (quota.plan ? quota.plan.charAt(0).toUpperCase() + quota.plan.slice(1) + ' plan' : 'plan') + ' includes ' + quota.limit + ' plasmid analyses, and ' + left + ' ' + (left === 1 ? 'is' : 'are') + ' left. We\'ll add more to your plan.',
+      getMoreN: this.state.getMoreN || '10', onGetMoreN: e => this.setState({ getMoreN: e.target.value }),
+      getMoreMsg: this.state.getMoreMsg || '', onGetMoreMsg: e => this.setState({ getMoreMsg: e.target.value }),
+      sendGetMore: () => this.setState({ getMore: 'sent' }),
+      analyzeRestLabel: left < pn ? 'Analyze ' + left + ' now' : (pn === 1 ? (anyDone || anyRun ? 'Analyze 1 more' : 'Analyze it') : (anyDone || anyRun ? 'Analyze ' + pn + ' more' : 'Analyze all ' + pn)),
+      analyzeRest: () => onAnalyze(pending.slice(0, left)),
+      laneSummary: this.plasmids.length + (this.plasmids.length === 1 ? ' plasmid' : ' plasmids'),
+      laneCountLabel: 'Plasmids (' + this.plasmids.length + ')',
+      pendingNote: (() => { const n = pn; if (left > 0 && left < n) return 'You have ' + left + (left === 1 ? ' analysis' : ' analyses') + ' left, and ' + n + ' plasmids need one.'; return n + (n === 1 ? ' plasmid hasn\'t' : ' plasmids haven\'t') + ' been analyzed yet, so genes and differences aren\'t shown for ' + (n === 1 ? 'it.' : 'them.'); })(),
+      anchorName: ref ? ref.name : 'Pick a plasmid',
+      editPlasmids: () => { if (this.props.onEdit) this.props.onEdit(); else this.setState({ addOpen: true }); },
+      anchorMenuOpen: !!this.state.anchorMenu,
+      toggleAnchorMenu: (e) => { const r = e && e.currentTarget && e.currentTarget.getBoundingClientRect ? e.currentTarget.getBoundingClientRect() : null;
+        this.setState(s => ({ anchorMenu: !s.anchorMenu, anchorRect: r && !s.anchorMenu ? { left: r.left, bottom: r.bottom, top: r.top } : s.anchorRect })); },
+      ...(() => { const r = this.state.anchorRect || { left: 0, bottom: 0, top: 0 }; const vh = window.innerHeight, vw = window.innerWidth;
+        const below = vh - r.bottom - 16, up = below < 220 && r.top > below;
+        const max = Math.max(160, Math.min(320, (up ? r.top : vh - r.bottom) - 70));
+        return { anchorMenuLeft: Math.max(8, Math.min(r.left, vw - 308)) + 'px', anchorMenuTop: (up ? Math.max(8, r.top - max - 50) : r.bottom + 4) + 'px', anchorMenuMax: max + 'px' }; })(),
+      anchorItems: ids.map(id => { const p = this.plasmids.find(x => x.id === id); const cur = ref && id === ref.id; const ok = this._statusOf(id) === 'done';
+        return { name: id, current: cur, weight: cur ? 600 : 500, bg: cur ? '#F5FBF7' : 'transparent', cursor: ok ? 'pointer' : 'not-allowed', opacity: ok || cur ? 1 : 0.5,
+          title: ok ? '' : 'Run plasmid analysis first',
+          meta: p ? Math.round(p.len / 1000) + ' kb, ' + p.replicon + (ok ? '' : ', not analyzed') : '',
+          pick: () => { if (cur || !ok) { this.setState({ anchorMenu: false }); return; } this.setState(st2 => ({ refId: id, onMap: [st2.refId].concat(st2.onMap.filter(x => x !== id)), active: null, anchorMenu: false })); } }; }),
+      addModalNote: 'Pick one or more. The comparison updates once you confirm.',
+      ...(() => {
+        const lib = this.props.library;
+        if (!lib) return {};
+        const q = (this.state.addQuery || '').trim().toLowerCase();
+        const rowStyle = { display:'flex', alignItems:'center', gap:'10px', width:'100%', padding:'10px', borderRadius:'4px', border:'none', borderBottom:'1px solid #F2F4F7', background:'transparent', fontFamily:'inherit', cursor:'pointer', opacity:1 };
+        const pick = this.state.addPick || [], np = pick.length;
+        const rows = lib.filter(p => !q || (p.id + ' ' + (p.inc || '') + ' ' + (p.sp || '') + ' ' + (p.sample || '')).toLowerCase().includes(q)).slice(0, 60).map(p => ({
+          name: p.id, on: pick.includes(p.id), boxBg: pick.includes(p.id) ? '#157639' : '#fff', boxBorder: pick.includes(p.id) ? '1px solid #157639' : '1.5px solid #D0D5DD', meta: Math.round(p.kb) + ' kb, ' + (p.inc || 'No replicon') + ', ' + (p.sp && p.sp !== 'Unavailable' ? p.sp : 'Unknown species') + (p.ctg > 1 ? ', ' + p.ctg + ' contigs' : ''),
+          action: '', onAdd: () => this.setState(s => { const cur = s.addPick || []; return { addPick: cur.includes(p.id) ? cur.filter(x => x !== p.id) : [...cur, p.id] }; }),
+          actionStyle: { flex:'none', fontSize:'12px', fontWeight:600, color:'#087443' }, style: rowStyle }));
+        return { pickerRows: rows, pickerEmpty: rows.length === 0,
+          hasAddPick: np > 0, addPickLabel: np ? np + ' selected' : 'None selected', clearAddPick: () => this.setState({ addPick: [] }),
+          addConfirmLabel: np > 1 ? 'Add ' + np + ' plasmids' : 'Add plasmid', addConfirmBg: np ? '#157639' : '#A6DDBB', addConfirmCursor: np ? 'pointer' : 'not-allowed',
+          confirmAdd: () => { if (!np) return; if (this.props.onAdd) this.props.onAdd(pick); this.setState({ addOpen: false, addQuery: '', addPick: [] }); },
+          toggleAdd: () => this.setState(s => ({ addOpen: !s.addOpen, addQuery: '', addPick: [] })) };
+      })(),
+      lanes: (() => {
+        const hid = new Set(this.state.hiddenLanes || []);
+        const items = lanes.map((ln, i) => { const id = ids[i]; const p = this.plasmids.find(x => x.id === id);
+          const l = p && p.ctg > 1 && ln.stDone ? { ...ln, species: p.ctg + ' contigs, ' + ln.species } : ln;
+          return { ...l, isLane: true, isHeader: false, isHiddenRow: false, _id: id, _p: p, onHide: e => { e && e.stopPropagation && e.stopPropagation(); this.setState(s => ({ hiddenLanes: [...(s.hiddenLanes || []), id], active: null })); } }; });
+        const top = items.filter(x => x.isTop), rest = items.filter(x => !x.isTop);
+        const shown = rest.filter(x => !hid.has(x._id)), hidden = rest.filter(x => hid.has(x._id));
+        const out = [...top];
+        const typed = shown.some(x => x._p && x._p.ptype);
+        if (typed) {
+          const rank = t => !t ? 999 : t.startsWith('Type ') ? +t.slice(5) : t === 'Singleton' ? 900 : 950;
+          const groups = {}; shown.forEach(x => { const t = (x._p && x._p.ptype) || 'Not typed'; (groups[t] = groups[t] || []).push(x); });
+          Object.keys(groups).sort((a, b) => rank(a) - rank(b)).forEach(t => {
+            out.push({ isHeader: true, isLane: false, isHiddenRow: false, label: t === 'Singleton' ? 'Singletons' : t, count: String(groups[t].length), dot: groups[t][0]._p.ptypeColor, hasShowAll: false });
+            out.push(...groups[t]);
+          });
+        } else out.push(...shown);
+        if (hidden.length) {
+          out.push({ isHeader: true, isLane: false, isHiddenRow: false, label: 'Hidden from view', labelTip: 'Still in this comparison and the network', count: String(hidden.length), dot: '#D0D5DD', hasShowAll: true, showAll: () => this.setState({ hiddenLanes: [] }) });
+          hidden.forEach(x => out.push({ isHiddenRow: true, isLane: false, isHeader: false, name: x.name, hov: this.state.hovHidden === x._id, hovBg: this.state.hovHidden === x._id ? '#F9FAFB' : '#FFFFFF', onHov: () => this.setState({ hovHidden: x._id }), onUnhov: () => this.setState(s => s.hovHidden === x._id ? { hovHidden: null } : {}), hiddenNote: 'Still in this comparison and the network', onShow: () => this.setState(s => ({ hiddenLanes: (s.hiddenLanes || []).filter(y => y !== x._id) })) }));
+        }
+        return out;
+      })() };
+  }
+  _rv(){
+    const st = this.state, ref = this.refObj(), mapped = this.mapped(), max = this.maxOnMap(), axis = this.axisLen();
+
+    const aq = (st.addQuery||'').trim().toLowerCase();
+    const pickerRows = this.plasmids.filter(p=>!st.onMap.includes(p.id) && !(ref && ref.id === p.id))
+      .filter(p=> !aq || (p.name+' '+p.replicon+' '+p.host).toLowerCase().includes(aq)).map(p=>{
+      const full = st.onMap.length >= max;
+      return { name:p.name,
+        meta: Math.round(p.len/1000)+' kb, '+p.replicon+', '+(p.origin === 'upload' ? 'uploaded assembly' : p.host.split(', ')[0]),
+        action: full ? 'Slots full' : 'Add', onAdd:()=>{ if(!full){ this._toggle(p.id); this.setState({ addOpen:false, addQuery:'' }); } },
+        actionStyle:{ flex:'none', fontSize:'12px', fontWeight:600, color: full ? '#98A2B3' : '#087443' },
+        style:{ display:'flex', alignItems:'center', gap:'10px', width:'100%', padding:'10px', borderRadius:'4px',
+          border:'none', borderBottom:'1px solid #F2F4F7', background:'transparent', fontFamily:'inherit',
+          cursor: full ? 'not-allowed' : 'pointer', opacity: full ? 0.55 : 1 } };
+    });
+
+    const laneDefs = (ref ? [{ id:'ref', isRef:true, p:{ name:ref.name, len:ref.len, cov:null, meta:ref.meta } }] : [])
+      .concat(mapped.map(p=>({ id:p.id, isRef:false, p })));
+    const ppb = (st.trackW / axis) * st.zoom;
+
+    const lanes = laneDefs.map((lane,i)=>{
+      const isRef = lane.isRef;
+      const nDiff = isRef ? this.allDiffs().length : lane.p.diffs.length;
+      const hov = !isRef && st.hoverRow === lane.p.id;
+      const upload = !isRef && lane.p.origin === 'upload';
+      return {
+        letter: isRef ? 'A' : this.laneLetterOf(lane.p.id),
+        name: lane.p.name,
+        kb: Math.round(lane.p.len/1000)+' kb',
+        removable: !isRef,
+        onRemove: isRef ? (()=>{}) : ((e)=>{ e.stopPropagation(); this._toggle(lane.p.id); }),
+        onEnter: ()=>this.setState(isRef ? { hoverOpen:'ref' } : { hoverRow:lane.p.id, hoverOpen:lane.p.id }),
+        onLeave: ()=>this.setState(s=>{ const o = {}; const k = isRef ? 'ref' : lane.p.id; if (s.hoverOpen===k) o.hoverOpen = null; if (!isRef && s.hoverRow===lane.p.id) o.hoverRow = null; return o; }),
+        showOpen: st.hoverOpen === (isRef ? 'ref' : lane.p.id),
+        openHref: '#plasmid=' + encodeURIComponent(lane.p.name),
+        stopOpen: e => e.stopPropagation(),
+        removeStyle:{ width:'20px', height:'20px', flex:'none', display:'grid', placeItems:'center', borderRadius:'4px',
+          border:'none', background: hov ? '#F2F4F7' : 'transparent', color:'#98A2B3', cursor:'pointer',
+          fontSize:'14px', lineHeight:1, padding:0, fontFamily:'inherit' },
+        replicon: isRef ? ref.replicon : lane.p.replicon,
+        repStyle:{ fontSize:'12px', fontWeight:500, padding:'1px 8px', borderRadius:'999px', color:'#475467', background:'#F2F4F7' },
+        sample: isRef ? 'Reference sequence' : (upload ? 'No linked sample' : (lane.p.host.split(', ')[1] || lane.p.host)),
+        species: isRef ? '' : (upload ? 'uploaded assembly' : lane.p.host.split(', ')[0]),
+        speciesStyle:{ fontSize:'12px', fontStyle: (isRef || upload) ? 'normal' : 'italic', color:'#667085',
+          whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', flex:'none', maxWidth:'100%' },
+        source: isRef ? lane.p.meta : lane.p.host + ', ' + this.covLabel(lane.p.cov),
+        sizeLabel: this.fmt(lane.p.len)+' bp',
+        tagLabel: isRef ? 'Reference' : (nDiff ? nDiff+(nDiff===1?' difference':' differences') : 'Identical'),
+        tagStyle:{ fontSize:'12px', fontWeight:500, padding:'1px 8px', borderRadius:'999px', whiteSpace:'nowrap', flex:'none',
+          color: isRef ? '#475467' : (nDiff ? '#B54708' : '#087443'),
+          background: isRef ? '#F2F4F7' : (nDiff ? '#FFFAEB' : '#EDFCF2') },
+        rowStyle:{ display:'flex', alignItems:'stretch', borderBottom:'1px solid #F2F4F7', background: isRef ? '#FCFCFD' : '#FFFFFF' },
+        labelStyle:{ width:'248px', flex:'none', position:'sticky', left:0, zIndex:2, padding:'10px 14px 11px',
+          borderRight:'1px solid #EAECF0',
+          background: isRef ? '#FCFCFD' : (hov ? '#F9FAFB' : '#FFFFFF') },
+        svg: this._laneSVG(lane, ppb)
+      };
+    });
+
+    const modes = [['circular','Circular'],['linear','Linear'],['compare','Compare']].map(([k,label])=>{
+      const on = k === 'compare';
+      return { label: k==='compare' ? 'Compare ('+laneDefs.length+')' : label,
+        onClick:()=>{},
+        style:{ padding:'6px 12px', border:'none', borderRadius:'4px', fontFamily:'inherit', fontSize:'13px', fontWeight:600,
+          cursor:'pointer', color: on ? '#101828' : '#667085', background: on ? '#FFFFFF' : 'transparent',
+          boxShadow: on ? '0 1px 2px rgba(16,24,40,0.08)' : 'none' } };
+    });
+
+    const chipTip = {
+      'GC skew +':'Where G outweighs C along the strand. Its crossover with skew − hints at where DNA copying starts.',
+      'GC skew −':'Where C outweighs G along the strand. Read together with skew +.',
+      'GC content':'How G/C-rich each stretch is versus the plasmid average. Odd stretches can mark acquired DNA.',
+      'Scale':'The position ruler in kilobases along the top.',
+      'Split strands':'Draw forward-strand genes on one line and reverse-strand genes on a second.',
+      'Contigs':'Show where a short-read assembly breaks the plasmid into separate contigs.',
+      'AMR':'Genes that make the bacterium resistant to an antibiotic.',
+      'Mobile':'Jumping elements, IS, transposons, integrons, oriT, that move DNA between plasmids.',
+      'CDS':'Protein-coding genes with no specialised annotation.',
+      'Virulence':'Genes that help the bacterium cause disease.',
+      'tRNA / rRNA':'Structural RNA genes.'
+    };
+    const mkChip = (label, color, on, onClick)=>({
+      label, onClick, help: chipTip[label] || '',
+      tipOpen: st.hoverChip === label,
+      onEnter:(e)=>{ const r = e.currentTarget.getBoundingClientRect();
+        this.setState({ hoverChip:label, chipRect:{ left:r.left, right:r.right, top:r.top, bottom:r.bottom } }); },
+      onLeave:()=>this.setState(s2=> s2.hoverChip===label?{hoverChip:null}:{}),
+      tipStyle:(()=>{
+        const r = st.chipRect || { left:0, right:0, top:0, bottom:0 };
+        const W = 236, H = 92, vw = window.innerWidth, vh = window.innerHeight;
+        const left = Math.max(8, Math.min(r.left, vw - W - 8));
+        const below = r.bottom + 6;
+        const top = (below + H > vh) ? Math.max(8, r.top - H - 6) : below;
+        return { position:'fixed', left:left+'px', top:top+'px', zIndex:200, width:W+'px', display:'block',
+          padding:'8px 12px', borderRadius:'8px', background:'#152F25', color:'#FFFFFF', fontSize:'12px',
+          fontWeight:500, lineHeight:'18px', pointerEvents:'none', animation:'pcTipIn 120ms ease-out both',
+          boxShadow:'0px 12px 16px -4px rgba(16,24,40,0.08),0px 4px 6px -2px rgba(16,24,40,0.03)' };
+      })(),
+      style:{ display:'inline-flex', alignItems:'center', gap:'7px', padding:'6px 11px', borderRadius:'999px',
+        border:'1px solid '+(on ? '#B7C0BC' : '#EAECF0'), background:'#FFFFFF',
+        color: on ? '#101828' : '#98A2B3', fontFamily:'inherit', fontSize:'12.5px', fontWeight:500, cursor:'pointer',
+        textDecoration: on ? 'none' : 'line-through', textDecorationColor:'#D0D5DD' },
+      dotStyle:{ width:'11px', height:'11px', flex:'none', borderRadius:'3px', background:color, opacity: on ? 1 : 0.35 }
+    });
+    const displayChips = [
+      ['skewPos','GC skew +','#16B364'], ['skewNeg','GC skew −','#7A5AF8'],
+      ['gc','GC content','#344054'], ['scale','Scale','#98A2B3'], ['split','Split strands','#155EEF'],
+      ['contigs','Contigs','#98A2B3']
+    ].map(([k,label,color]) => mkChip(label, color, !!st.show[k], ()=>this.setState(s=>({ show:{ ...s.show, [k]:!s.show[k] } }))));
+    const typeChips = Object.keys(this.TYPES).map(k =>
+      mkChip(this.TYPES[k].label, this.TYPES[k].color, !st.hideType[k],
+        ()=>this.setState(s=>({ hideType:{ ...s.hideType, [k]: !s.hideType[k] } }))));
+
+    const diffs = this.allDiffs();
+    const active = diffs.find(d=>d.id===st.active) || diffs[0] || null;
+    const open = !!st.panelOpen && !!active;
+    const diffItems = diffs.map(d=>{
+      const on = active && d.id===active.id, c = this.diffColor(d.type);
+      return { gene:d.gene, label:d.label+', '+this.fmt(d.pos)+' bp', letter:this.diffLetter(d.type),
+        laneLabel:d.plasmid.name,
+        onClick:()=>this.setState({ active:d.id, panelOpen:true }),
+        style:{ display:'flex', alignItems:'center', gap:'9px', width:'100%', padding:'7px 8px', borderRadius:'4px',
+          border:'none', background: on ? '#F2F4F1' : 'transparent', fontFamily:'inherit', cursor:'pointer', textAlign:'left' },
+        dotStyle:{ width:'19px', height:'19px', flex:'none', display:'grid', placeItems:'center', borderRadius:'999px',
+          background:c, color:'#FFFFFF', fontSize:'10px', fontWeight:700 },
+        laneStyle:{ flex:'none', maxWidth:'82px', fontSize:'11px', fontWeight:500, color:'#85948D',
+          whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' } };
+    });
+
+    const amrItems = this.feats.filter(f=>f.type==='amr'||f.type==='vir').map(f=>({
+      name:f.name, pos:(f.start/1000).toFixed(1)+' kb',
+      dotStyle:{ width:'9px', height:'9px', flex:'none', borderRadius:'999px', background:this.TYPES[f.type].color }
+    }));
+
+    const refItems = [];
+    refItems.push({ isGroup:true, isOption:false, title:'Suggested, closest match' });
+    const mkRefOpt = (o)=>{
+      const on = st.refId === o.id;
+      return { isGroup:false, isOption:true, name:o.name, meta:o.meta, current:on, onPick:()=>this._pickRef(o.id),
+        style:{ display:'flex', alignItems:'flex-start', gap:'10px', width:'100%', padding:'9px 9px', borderRadius:'4px',
+          border:'1px solid '+(on ? '#AAF0C4' : 'transparent'), background: on ? '#F6FEF9' : 'transparent',
+          fontFamily:'inherit', cursor:'pointer', textAlign:'left' },
+        radioStyle:{ width:'15px', height:'15px', flex:'none', marginTop:'2px', borderRadius:'999px',
+          border:'1.5px solid '+(on ? '#087443' : '#D0D5DD'), background: on ? '#087443' : '#FFFFFF',
+          boxShadow: on ? 'inset 0 0 0 3px #FFFFFF' : 'none' },
+        nameStyle:{ fontSize:'13px', fontWeight:600, color:'#101828' } };
+    };
+    this.libRefs.filter(r=>r.suggested).forEach(r=>refItems.push(mkRefOpt(r)));
+    refItems.push({ isGroup:true, isOption:false, title:'Uploaded references' });
+    this.libRefs.filter(r=>r.group==='upload').forEach(r=>refItems.push(mkRefOpt(r)));
+    refItems.push({ isGroup:true, isOption:false, title:'Use a plasmid from this project' });
+    this.plasmids.forEach(p=>refItems.push(mkRefOpt({ id:p.id, name:p.name,
+      meta:(p.origin==='upload'?'Uploaded assembly':'From WGS')+', '+this.fmt(p.len)+' bp, '+p.host })));
+
+    const meta = [
+      { label:'Differences found', value: diffs.length ? diffs.length+' across '+new Set(diffs.map(d=>d.plasmid.id)).size+' plasmids' : 'None' },
+      { label:'Identity range', value: mapped.length ? mapped.map(p=>parseFloat(p.identity)).filter(n=>!isNaN(n)).sort((a,b)=>a-b).map((n,i,arr)=> i===0||i===arr.length-1 ? n+'%' : null).filter(Boolean).join(', ') || 'Not typed' : 'Not typed' }
+    ].map((m,i)=>({ ...m,
+      cellStyle:{ flex:'1', minWidth:0, padding:'12px 18px', borderLeft:'1px solid #EAECF0' },
+      valueStyle:{ fontSize:'14px', fontWeight:600, marginTop:'5px' } }));
+
+    const step = dir => {
+      if(!diffs.length) return;
+      const i = Math.max(0, diffs.findIndex(d=>active && d.id===active.id));
+      this.setState({ active: diffs[(i+dir+diffs.length)%diffs.length].id });
+    };
+    const showPanel = !!active, tip = st.tip;
+
+    return {
+      pickerRows, lanes, displayChips, typeChips, diffItems, refItems, meta,
+      amrItems: this.feats.filter(f=>f.type==='amr'||f.type==='vir').map(f=>({
+        name:f.name, pos:(f.start/1000).toFixed(1)+' kb',
+        dotStyle:{ width:'10px', height:'10px', flex:'none', borderRadius:'3px', background:this.TYPES[f.type].color } })),
+      addOpen: !!st.addOpen,
+      addLabel: 'Add plasmid',
+      toggleAdd:()=>this.setState(s=>({ addOpen:!s.addOpen, addQuery:'' })),
+      addQuery: st.addQuery||'', onAddSearch:(e)=>this.setState({ addQuery:e.target.value }),
+      pickerEmpty: pickerRows.length === 0,
+      addModalNote: Math.max(0, max-mapped.length)+' of '+max+' slots free, picking one adds it as a row below the reference',
+      addBtnStyle:{ display:'inline-flex', alignItems:'center', gap:'7px', padding:'7px 12px',
+        border:'1px dashed #D0D5DD', borderRadius:'4px', background:'transparent', color:'#475467',
+        fontFamily:'inherit', fontSize:'13px', fontWeight:500, cursor:'pointer' },
+      ruler: this._rulerSVG(ppb), trackRef: this._trackRef,
+      hasLanes: laneDefs.length > 0, noLanes: laneDefs.length === 0,
+      noDiffs: diffs.length === 0,
+      planLine: this.plasmids.length+'/1000 plasmid analyses used in your plan',
+      countLine: mapped.length
+        ? mapped.length+' plasmid'+(mapped.length===1?'':'s')+' against '+(ref?ref.name:'no reference')
+        : 'Nothing to compare yet, add a plasmid below',
+      refLabel: ref ? ref.name : 'None selected',
+      refOpen: st.refOpen, toggleRefMenu:()=>this.setState(s=>({ refOpen:!s.refOpen })),
+      setupOpen: !!st.setupOpen, isStep1: st.setupStep !== 2, isStep2: st.setupStep === 2,
+      openSetup:()=>this._openSetup(1), closeSetup:()=>this._closeSetup(),
+      setupTitle: st.setupStep === 2 ? 'Choose the reference' : 'Build a comparison',
+      setupNote: st.setupStep === 2
+        ? 'Every position and difference count is measured against this one.'
+        : 'Pick up to '+(max+1)+' plasmids.',
+      setupSteps: [['1','Plasmids'],['2','Reference']].map(([num,label])=>{
+        const idx = parseInt(num,10), cur = (st.setupStep||1) === idx, done = (st.setupStep||1) > idx;
+        return { num, label,
+          wrapStyle:{ display:'inline-flex', alignItems:'center', gap:'7px', paddingRight:'14px' },
+          numStyle:{ width:'19px', height:'19px', flex:'none', display:'grid', placeItems:'center',
+            borderRadius:'999px', fontSize:'11px', fontWeight:600,
+            background: cur ? '#087443' : (done ? '#D3F8DF' : '#F2F4F7'),
+            color: cur ? '#FFFFFF' : (done ? '#087443' : '#98A2B3') },
+          labelStyle:{ fontSize:'12.5px', fontWeight: cur ? 600 : 500, color: cur ? '#101828' : '#85948D' } };
+      }),
+      setupQuery: st.setupQuery || '',
+      onSetupSearch:(e)=>this.setState({ setupQuery:e.target.value }),
+      setupRows: (()=>{
+        const q = (st.setupQuery||'').trim().toLowerCase();
+        const list = this.plasmids.filter(p=>!q || (p.name+' '+p.replicon+' '+p.host+' '+p.mob).toLowerCase().includes(q));
+        const draft = st.draftIds || [];
+        return list.map(p=>{
+          const on = draft.includes(p.id), full = draft.length >= max+1;
+          return { name:p.name,
+            meta: Math.round(p.len/1000)+' kb, '+p.replicon+', '+(p.origin === 'upload' ? 'uploaded assembly' : p.host),
+            mark: on ? '✓' : '', onToggle:()=>this._draftToggle(p.id),
+            style:{ display:'flex', alignItems:'center', gap:'11px', width:'100%', padding:'9px 8px',
+              borderRadius:'4px', border:'none', background: on ? '#F6FEF9' : 'transparent',
+              fontFamily:'inherit', cursor: (!on && full) ? 'not-allowed' : 'pointer', opacity: (!on && full) ? 0.5 : 1 },
+            boxStyle:{ width:'18px', height:'18px', flex:'none', display:'grid', placeItems:'center',
+              borderRadius:'4px', border:'1.5px solid '+(on ? '#087443' : '#D0D5DD'),
+              background: on ? '#087443' : '#FFFFFF', color:'#FFFFFF', fontSize:'10px', fontWeight:700 } };
+        });
+      })(),
+      setupEmpty: (()=>{ const q=(st.setupQuery||'').trim().toLowerCase();
+        return q && !this.plasmids.some(p=>(p.name+' '+p.replicon+' '+p.host).toLowerCase().includes(q)); })(),
+      refChoices: (st.draftIds||[]).map(id=>this.plasmids.find(p=>p.id===id)).filter(Boolean).map((p,i,arr)=>{
+        const on = st.draftRef === p.id;
+        const best = arr.slice().sort((a,b)=>(typeof b.cov==='number'?b.cov:0)-(typeof a.cov==='number'?a.cov:0))[0];
+        return { name:p.name,
+          meta: Math.round(p.len/1000)+' kb, '+this.covLabel(p.cov)+', identity '+p.identity,
+          suggested: best && best.id === p.id && !on,
+          onPick:()=>this.setState({ draftRef:p.id }),
+          style:{ display:'flex', alignItems:'center', gap:'11px', width:'100%', padding:'9px 8px',
+            borderRadius:'4px', border:'none', background: on ? '#F6FEF9' : 'transparent',
+            fontFamily:'inherit', cursor:'pointer' },
+          radioStyle:{ width:'16px', height:'16px', flex:'none', borderRadius:'999px',
+            border:'1.5px solid '+(on ? '#087443' : '#D0D5DD'), background:'#FFFFFF',
+            boxShadow: on ? 'inset 0 0 0 3.5px #087443' : 'none' } };
+      }),
+      onUploadRef:()=>{
+        const n = (st.uploadedRefs||[]).length + 1, id = 'ref_up'+n;
+        const rec = { id, name:'reference_'+n+'.gbk', len:46161, meta:'just uploaded, GenBank' };
+        this.libRefs = this.libRefs.concat({ ...rec, group:'upload' });
+        this.setState(s2=>({ uploadedRefs:(s2.uploadedRefs||[]).concat(rec), draftRef:id }));
+      },
+      libChoices: this.libRefs.map(r=>{
+        const on = st.draftRef === r.id;
+        return { name:r.name, meta:r.meta,
+          onPick:()=>this.setState({ draftRef:r.id }),
+          style:{ display:'flex', alignItems:'center', gap:'11px', width:'100%', padding:'9px 8px',
+            borderRadius:'4px', border:'none', background: on ? '#F6FEF9' : 'transparent',
+            fontFamily:'inherit', cursor:'pointer' },
+          radioStyle:{ width:'16px', height:'16px', flex:'none', borderRadius:'999px',
+            border:'1.5px solid '+(on ? '#087443' : '#D0D5DD'), background:'#FFFFFF',
+            boxShadow: on ? 'inset 0 0 0 3.5px #087443' : 'none' } };
+      }),
+      setupFooter: (()=>{
+        const n = (st.draftIds||[]).length;
+        if(st.setupStep === 2) return st.draftRef ? 'The other '+Math.max(0,n-((st.draftIds||[]).includes(st.draftRef)?1:0))+' are drawn against it' : 'Pick one to continue';
+        return n === 0 ? 'Nothing picked yet' : n+' picked, '+(n < 2 ? 'at least 2 needed' : (max+1-n)+' slots free');
+      })(),
+      setupNextLabel: st.setupStep === 2 ? 'Build comparison' : 'Continue',
+      setupBack:()=>this.setState({ setupStep:1 }),
+      setupNext:()=>{
+        const st2 = this.state, n = (st2.draftIds||[]).length;
+        if(st2.setupStep === 2){ if(st2.draftRef) this._buildSetup(); return; }
+        if(n < 2) return;
+        const inSet = (st2.draftIds||[]).map(id=>this.plasmids.find(p=>p.id===id)).filter(Boolean);
+        const best = inSet.slice().sort((a,b)=>(typeof b.cov==='number'?b.cov:0)-(typeof a.cov==='number'?a.cov:0))[0];
+        this.setState({ setupStep:2, draftRef: st2.draftRef || (best ? best.id : null) });
+      },
+      setupNextStyle: (()=>{
+        const n = (st.draftIds||[]).length;
+        const ok = st.setupStep === 2 ? !!st.draftRef : n >= 2;
+        return { padding:'7px 14px', borderRadius:'4px', border:'1px solid '+(ok ? '#087443' : '#D0D5DD'),
+          background: ok ? '#087443' : '#F2F4F7', color: ok ? '#FFFFFF' : '#98A2B3',
+          fontFamily:'inherit', fontSize:'13px', fontWeight:500, cursor: ok ? 'pointer' : 'not-allowed' };
+      })(),
+      refSlotStyle:{ position:'relative', display:'inline-flex', minWidth:0, flex:'0 1 auto' },
+      refBtnStyle:{ display:'inline-flex', alignItems:'center', gap:'9px', maxWidth:'320px', minWidth:0, flex:'1 1 auto', padding:'6px 10px',
+        border:'1px solid #D0D5DD',
+        borderRadius:'4px', background: st.refOpen ? '#F9FAFB' : '#FFFFFF', fontFamily:'inherit', color:'#101828', cursor:'pointer' },
+      tip: !!tip, tipTitle: tip ? tip.title : '', tipRows: tip ? tip.rows : [],
+      tipHasNote: !!(tip && tip.note), tipNote: tip ? (tip.note||'') : '',
+      tipDotStyle: tip ? { width:'10px', height:'10px', borderRadius:'3px', background:tip.color, flex:'none' } : {},
+      tipStyle: tip ? (()=>{
+        const W = 268, H = 196, vw = window.innerWidth, vh = window.innerHeight;
+        const left = Math.max(8, Math.min(vw - W - 8, (st.tipX + 16 + W > vw) ? st.tipX - 16 - W : st.tipX + 16));
+        const top = (st.tipY + 16 + H > vh) ? Math.max(8, st.tipY - 16 - H) : st.tipY + 16;
+        return { position:'fixed', left:left+'px', top:top+'px', zIndex:200, pointerEvents:'none',
+          animation:'pcTipIn 120ms ease-out both',
+          width:W+'px', background:'#152F25', color:'#FFFFFF', borderRadius:'8px', padding:'10px 12px',
+          boxShadow:'0px 12px 16px -4px rgba(16,24,40,0.08),0px 4px 6px -2px rgba(16,24,40,0.03)' };
+      })() : {},
+      panelOpen: !!st.panelOpen && !!active,
+      drawerBodyStyle:{ borderTop:'1px solid '+(open ? '#EAECF0' : 'transparent'), overflow:'hidden',
+        height: open ? (st.drawerH || 260) + 'px' : '0px',
+        transition: st.drawerDrag ? 'none' : 'height 340ms cubic-bezier(0.32,0.72,0,1), border-top-color 200ms linear' },
+      drawerHpx: (st.drawerH || 260) + 'px',
+      drawerResizable: !!open,
+      drawerGripColor: st.drawerDrag ? '#157639' : '#D0D5DD',
+      startDrawerResize: (e) => {
+        e.preventDefault();
+        const y0 = e.clientY, h0 = st.drawerH || 260;
+        const host = e.currentTarget.closest('[data-lc-root]') || document.body;
+        const maxH = Math.max(180, Math.round((host.getBoundingClientRect().height || window.innerHeight) * 0.7));
+        this.setState({ drawerDrag: true });
+        const move = ev => this.setState({ drawerH: Math.max(140, Math.min(maxH, h0 + (y0 - ev.clientY))) });
+        const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); this.setState({ drawerDrag: false }); };
+        window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+      },
+      drawerInnerStyle:{ opacity: open ? 1 : 0, transform: open ? 'translateY(0)' : 'translateY(-6px)',
+        transition:'opacity 260ms cubic-bezier(0.32,0.72,0,1) '+(open ? '80ms' : '0ms')+', transform 320ms cubic-bezier(0.32,0.72,0,1)' },
+      drawerActionsStyle:{ marginLeft:'auto', display:'flex', alignItems:'center', gap:'8px', flex:'none',
+        opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none',
+        transform: open ? 'translateY(0)' : 'translateY(2px)',
+        transition:'opacity 200ms ease '+(open ? '60ms' : '0ms')+', transform 240ms cubic-bezier(0.32,0.72,0,1)' },
+      togglePanel:()=>this.setState(s2=>({ panelOpen: !s2.panelOpen })),
+      drawerBarStyle:{ display:'flex', alignItems:'center', gap:'12px', width:'100%', padding:'8px 16px',
+        background: st.panelOpen ? '#FFFFFF' : '#FCFCFD' },
+      drawerCaretRot: st.panelOpen ? '' : 'transform:rotate(180deg);',
+      drawerSummary: active
+        ? active.plasmid.name+' vs '+(active.above||'top')+', '+active.label+' in '+(active.gene||'intergenic')+' at '+this.fmt(active.pos)+' bp'
+        : 'pick a difference to read its bases',
+      activeLetter: active ? this.diffLetter(active.type) : '',
+      activeName: active ? active.plasmid.name : '',
+      activeDotStyle: active ? { width:'24px', height:'24px', flex:'none', display:'grid', placeItems:'center', borderRadius:'999px',
+        background:'#40544C', color:'#FFFFFF', fontSize:'11px', fontWeight:700 } : {},
+      activeDiffLabel: active ? active.label+' in '+(active.gene||'intergenic') : '',
+      activePosLabel: active ? 'Reference position '+this.fmt(active.pos)+(active.end?'-'+this.fmt(active.end):'')
+        +', '+this.covLabel(active.plasmid.cov)+', identity '+active.plasmid.identity : '',
+      prevDiff:()=>step(-1), nextDiff:()=>step(1),
+      alnSvg: active ? this._alnSVG(active, Math.max(420, (st.cardW||st.trackW+232) + 200)) : null
+    };
+  }
+}
+
+</script>
+</body>
+</html>

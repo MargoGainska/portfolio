@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0}
+  body{font-family:"IBM Plex Sans",system-ui,sans-serif;color:#101828;background:#F2F4F7;-webkit-font-smoothing:antialiased}
+  *{box-sizing:border-box}
+  button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;padding:0}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#D0D5DD;border-radius:6px;border:2px solid transparent;background-clip:content-box}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</helmet>
+
+<div style="height:100vh;display:flex;flex-direction:column;background:#F2F4F7;overflow:hidden">
+
+  <!-- ===== Concept switcher ===== -->
+  <div style="flex:none;display:flex;align-items:center;gap:20px;padding:11px 22px;background:#fff;border-bottom:1px solid #EAECF0;z-index:5">
+    <div style="display:flex;align-items:center;gap:10px;min-width:220px">
+      <div style="width:24px;height:24px;border-radius:6px;background:#157639;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px">S</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#101828;line-height:1.1">Genomic surveillance IA</div>
+        <div style="font-size:11px;color:#98A2B3;font-family:'IBM Plex Mono',monospace;letter-spacing:.02em">3 concepts · pulse · views · investigations</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin:0 auto">
+      <div onClick="{{ setA }}" style="{{ pillA }}" style-hover="border-color:#A6D6B5">
+        <span style="width:20px;height:20px;border-radius:6px;background:{{ dotA }};color:#fff;display:grid;place-items:center;font-weight:700;font-size:11px;font-family:'IBM Plex Mono',monospace">A</span>
+        <div><div style="font-size:13px;font-weight:600;line-height:1.15">Pulse</div><div style="font-size:10.5px;color:#667085">What changed</div></div>
+      </div>
+      <div onClick="{{ setC }}" style="{{ pillC }}" style-hover="border-color:#A6D6B5">
+        <span style="width:20px;height:20px;border-radius:6px;background:{{ dotC }};color:#fff;display:grid;place-items:center;font-weight:700;font-size:11px;font-family:'IBM Plex Mono',monospace">B</span>
+        <div><div style="font-size:13px;font-weight:600;line-height:1.15">Views</div><div style="font-size:10.5px;color:#667085">How you look</div></div>
+      </div>
+      <div onClick="{{ setD }}" style="{{ pillD }}" style-hover="border-color:#A6D6B5">
+        <span style="width:20px;height:20px;border-radius:6px;background:{{ dotD }};color:#fff;display:grid;place-items:center;font-weight:700;font-size:11px;font-family:'IBM Plex Mono',monospace">C</span>
+        <div><div style="font-size:13px;font-weight:600;line-height:1.15">Investigations</div><div style="font-size:10.5px;color:#667085">Work the case</div></div>
+      </div>
+    </div>
+    <div style="min-width:220px"></div>
+  </div>
+
+  <sc-if value="{{ annotations }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:none;display:flex;align-items:flex-start;gap:10px;padding:9px 22px;background:#F5FBF7;border-bottom:1px solid #E8F5ED;font-size:12.5px;color:#11612E;line-height:1.45">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1F8748" stroke-width="1.8" style="flex:none;margin-top:2px"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M11 12h1v4h1"/></svg>
+      <span>{{ note }}</span>
+    </div>
+  </sc-if>
+
+  <div style="flex:1;min-height:0;overflow:hidden">
+
+    <!-- ============ A — WATCH ============ -->
+    <sc-if value="{{ isA }}" hint-placeholder-val="{{ true }}">
+    <div style="height:100%;display:grid;grid-template-columns:248px 1fr;overflow:hidden">
+      <div style="background:#fff;border-right:1px solid #EAECF0;display:flex;flex-direction:column;padding:12px 10px;gap:2px;overflow-y:auto">
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;margin-bottom:10px" style-hover="background:#F9FAFB">
+          <div style="width:20px;height:20px;border-radius:4px;background:#F2F4F7;border:1px solid #EAECF0;box-sizing:border-box;color:#344054;display:grid;place-items:center;font-size:11px;font-weight:600">S</div>
+          <span style="font-size:13px;font-weight:500;color:#101828;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">Solu lab · St. Agnes</span>
+          <span style="color:#98A2B3">⌄</span>
+        </div>
+        <div onClick="{{ goFeed }}" style="{{ ns.A_feed }}" style-hover="background:#F2F4F7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="flex:none"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+          <span style="flex:1">Feed</span><span style="font-size:11px;font-weight:600;background:#F04438;color:#fff;border-radius:999px;padding:1px 7px">8</span>
+        </div>
+        <div onClick="{{ goIsolates }}" style="{{ ns.A_iso }}" style-hover="background:#F2F4F7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="flex:none"><path d="M5 5h4v4H5zM15 5h4v4h-4zM5 15h4v4H5zM15 15h4v4h-4z"/></svg>
+          <span style="flex:1">Isolates</span><span style="font-size:12px;color:#98A2B3">{{ c.iso }}</span>
+        </div>
+        <div onClick="{{ goClusters }}" style="{{ ns.A_clu }}" style-hover="background:#F2F4F7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="flex:none"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/></svg>
+          <span style="flex:1">Clusters</span><span style="font-size:12px;color:#98A2B3">{{ c.clu }}</span>
+        </div>
+        <div onClick="{{ goReports }}" style="{{ ns.A_rep }}" style-hover="background:#F2F4F7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="flex:none"><path d="M6 2h8l4 4v16H6zM14 2v4h4"/></svg>
+          <span style="flex:1">Reports</span><span style="font-size:9px;font-weight:700;color:#fff;background:#157639;padding:1px 5px;border-radius:4px">NEW</span>
+        </div>
+        <div style="flex:1"></div>
+        <div style="font-size:11px;color:#98A2B3;padding:8px 10px;font-family:'IBM Plex Mono',monospace">v1.0.732</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-width:0;overflow:hidden">
+        <div style="flex:none;display:flex;align-items:center;gap:12px;padding:0 24px;height:56px;background:#fff;border-bottom:1px solid #EAECF0">
+          <span style="font-size:13px;color:#667085">{{ crumbA }}</span>
+          <button style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:0 14px;border-radius:4px;font-size:14px;font-weight:600;background:#099250;color:#fff;height:36px;box-sizing:border-box" style-hover="background:#087443">+ Add isolates</button>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:26px 28px 60px">
+
+          <sc-if value="{{ showA_feed }}" hint-placeholder-val="{{ true }}">
+          <div style="max-width:820px;animation:fadeUp .25s ease">
+            <div style="font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px">Surveillance feed</div>
+            <div style="color:#667085;font-size:14px;margin-bottom:18px">Everything that changed since you last looked — new isolates, cluster matches, resistance alerts. 8 new events.</div>
+            <div style="display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap">
+              <span style="padding:5px 13px;border-radius:999px;font-size:12.5px;font-weight:600;background:#101828;color:#fff">All</span>
+              <span style="padding:5px 13px;border-radius:999px;font-size:12.5px;font-weight:500;color:#475467;background:#fff;border:1px solid #EAECF0" style-hover="border-color:#D0D5DD">Cluster matches</span>
+              <span style="padding:5px 13px;border-radius:999px;font-size:12.5px;font-weight:500;color:#475467;background:#fff;border:1px solid #EAECF0" style-hover="border-color:#D0D5DD">New isolates</span>
+              <span style="padding:5px 13px;border-radius:999px;font-size:12.5px;font-weight:500;color:#475467;background:#fff;border:1px solid #EAECF0" style-hover="border-color:#D0D5DD">AMR alerts</span>
+              <span style="padding:5px 13px;border-radius:999px;font-size:12.5px;font-weight:500;color:#475467;background:#fff;border:1px solid #EAECF0" style-hover="border-color:#D0D5DD">QC</span>
+            </div>
+            <sc-for list="{{ feedGroups }}" as="grp" hint-placeholder-count="3">
+              <div style="margin-bottom:22px">
+                <div style="font-size:12px;font-weight:600;color:#98A2B3;letter-spacing:.06em;margin-bottom:10px">{{ grp.day }}</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ grp.events }}" as="ev" hint-placeholder-count="3">
+                    <div onClick="{{ ev.onClick }}" style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #EAECF0;border-radius:12px;padding:14px 16px;cursor:pointer" style-hover="border-color:#D0D5DD;box-shadow:0 4px 8px -2px rgba(16,24,40,.08)">
+                      <div style="width:30px;height:30px;border-radius:8px;background:{{ ev.iconBg }};color:{{ ev.iconFg }};display:grid;place-items:center;flex:none;font-size:15px">{{ ev.glyph }}</div>
+                      <div style="flex:1;min-width:0">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+                          <span style="font-size:11px;font-weight:600;padding:1px 8px;border-radius:999px;background:{{ ev.tagBg }};color:{{ ev.tagFg }}">{{ ev.tag }}</span>
+                          <span style="font-size:12px;color:#98A2B3;margin-left:auto">{{ ev.when }}</span>
+                        </div>
+                        <div style="font-size:14px;font-weight:600;color:#101828">{{ ev.title }}</div>
+                        <div style="font-size:12.5px;color:#667085;margin-top:2px">{{ ev.meta }}</div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ showA_iso }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:fadeUp .25s ease">
+            <div style="font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px">Isolates</div>
+            <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:2fr 1.4fr 60px 1fr 90px 70px;gap:12px;padding:11px 18px;background:#F9FAFB;border-bottom:1px solid #EAECF0;font-size:11px;font-weight:600;color:#667085;letter-spacing:.04em">
+                <span>Isolate</span><span>Species</span><span>MLST</span><span>AMR</span><span>QC</span><span>Cluster</span>
+              </div>
+              <sc-for list="{{ sampleRows }}" as="row" hint-placeholder-count="6">
+                <div onClick="{{ openSample }}" style="display:grid;grid-template-columns:2fr 1.4fr 60px 1fr 90px 70px;gap:12px;padding:13px 18px;border-bottom:1px solid #F2F4F7;align-items:center;cursor:pointer" style-hover="background:#FCFCFD">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#101828;overflow:hidden;text-overflow:ellipsis">{{ row.id }}</span>
+                  <span style="font-style:italic;font-size:13px;color:#475467;overflow:hidden;text-overflow:ellipsis">{{ row.species }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#344054">{{ row.mlst }}</span>
+                  <div style="display:flex;gap:4px"><sc-for list="{{ row.amr }}" as="g" hint-placeholder-count="2"><span style="width:20px;height:20px;border-radius:6px;font-size:11px;font-weight:600;display:grid;place-items:center;background:{{ g.bg }};color:{{ g.fg }}">{{ g.label }}</span></sc-for></div>
+                  <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:{{ row.qcBg }};color:{{ row.qcFg }};justify-self:start">{{ row.qc }}</span>
+                  <span style="font-size:12px;font-weight:600;color:#475467">{{ row.cluster }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ showA_clusters }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:fadeUp .25s ease">
+            <div style="font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px">Clusters</div>
+            <div style="color:#667085;font-size:14px;margin-bottom:16px">Candidate transmission events the pipeline built from isolates within SNP distance.</div>
+            <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:70px 70px 1.3fr 1.6fr 70px 1fr;gap:12px;padding:11px 18px;background:#F9FAFB;border-bottom:1px solid #EAECF0;font-size:11px;font-weight:600;color:#667085;letter-spacing:.04em">
+                <span>Cluster</span><span>Isolates</span><span>Status</span><span>Species</span><span>MLST</span><span>AMR</span>
+              </div>
+              <sc-for list="{{ clusterRows }}" as="cl" hint-placeholder-count="5">
+                <div onClick="{{ cl.onClick }}" style="display:grid;grid-template-columns:70px 70px 1.3fr 1.6fr 70px 1fr;gap:12px;padding:13px 18px;border-bottom:1px solid #F2F4F7;align-items:center;cursor:pointer" style-hover="background:#FCFCFD">
+                  <span style="justify-self:start;font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;padding:2px 9px;border-radius:6px;background:{{ cl.codeBg }};color:{{ cl.codeFg }}">{{ cl.code }}</span>
+                  <span style="font-size:13px;color:#344054">{{ cl.samples }}</span>
+                  <span>
+                    <sc-if value="{{ cl.statusShow }}" hint-placeholder-val="{{ true }}"><span style="font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;background:{{ cl.statusBg }};color:{{ cl.statusFg }}">{{ cl.status }}</span></sc-if>
+                    <sc-if value="{{ cl.statusEmpty }}" hint-placeholder-val="{{ false }}"><span style="color:#D0D5DD">—</span></sc-if>
+                  </span>
+                  <span style="font-style:italic;font-size:13px;color:#475467;overflow:hidden;text-overflow:ellipsis">{{ cl.species }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#344054">{{ cl.mlst }}</span>
+                  <div style="display:flex;gap:4px"><sc-for list="{{ cl.amr }}" as="g" hint-placeholder-count="3"><span style="width:20px;height:20px;border-radius:6px;font-size:11px;font-weight:600;display:grid;place-items:center;background:{{ g.bg }};color:{{ g.fg }}">{{ g.label }}</span></sc-for></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ showA_clusterDetail }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:fadeUp .25s ease">
+            <div style="font-size:13px;color:#667085;margin-bottom:14px"><span onClick="{{ goClusters }}" style="cursor:pointer" style-hover="color:#11612E">Clusters</span> <span style="color:#D0D5DD">/</span> <span style="color:#101828;font-weight:600">Eh1</span></div>
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">
+              <span style="font-size:12px;font-weight:700;background:#FEF3F2;color:#B42318;padding:4px 11px;border-radius:8px;font-family:'IBM Plex Mono',monospace">Eh1</span>
+              <span style="font-size:22px;font-weight:700;font-style:italic;letter-spacing:-.01em">Enterobacter hormaechei</span>
+              <span style="font-size:12px;font-weight:600;background:#FEF3F2;color:#B42318;padding:4px 11px;border-radius:999px">Escalated</span>
+              <button onClick="{{ goReports }}" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:4px;font-size:13px;font-weight:600;background:#fff;color:#344054;border:1px solid #D0D5DD" style-hover="background:#F9FAFB">Create report</button>
+            </div>
+            <div style="color:#667085;font-size:13px;margin-bottom:20px">5 isolates · SNP method · within 6 SNPs · MLST 830 · grew by 2 this week</div>
+            <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
+              <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;padding:18px">
+                <div style="font-size:13px;font-weight:600;margin-bottom:12px">Phylogenetic tree <span style="font-weight:400;color:#98A2B3">· within 200 SNPs</span></div>
+                <svg viewBox="0 0 470 250" width="100%" style="max-width:520px"><g stroke="#D0D5DD" stroke-width="1.5" fill="none"><path d="M300 40 H240 M300 80 H240 M240 40 V80 M240 60 H160 M300 120 H160 M160 60 V120 M160 90 H90 M300 170 H240 M300 210 H240 M240 170 V210 M240 190 H90 M90 90 V190 M40 140 H90 M20 140 H40"/></g><g font-family="IBM Plex Mono, monospace" font-size="12"><text x="308" y="44" fill="#D92D20">MS7923_assembly</text><text x="308" y="84" fill="#D92D20">MS7923_assembly</text><text x="308" y="124" fill="#175CD3">MS7884_assembly</text><text x="308" y="174" fill="#DD2590">MS7924_assembly</text><text x="308" y="214" fill="#DD2590">MS7924_assembly</text></g></svg>
+              </div>
+              <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;padding:18px">
+                <div style="font-size:13px;font-weight:600;margin-bottom:12px">Investigation timeline</div>
+                <sc-for list="{{ timeline }}" as="tl" hint-placeholder-count="3">
+                  <div style="display:flex;gap:11px;padding-bottom:16px">
+                    <div style="width:26px;height:26px;border-radius:999px;background:#EDE9FE;color:#6941C6;font-size:10px;font-weight:600;display:grid;place-items:center;flex:none">{{ tl.who }}</div>
+                    <div style="flex:1"><div style="font-size:13px;color:#344054;line-height:1.4">{{ tl.text }}</div><div style="font-size:11px;color:#98A2B3;margin-top:2px">{{ tl.when }}</div></div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ showA_reports }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:fadeUp .25s ease">
+            <div style="font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px">Reports</div>
+            <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:14px;padding:15px 18px" style-hover="background:#FCFCFD">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="1.7"><path d="M6 2h8l4 4v16H6zM14 2v4h4"/></svg>
+                <div style="flex:1"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px">GCA_016767035_assembly Report</div><div style="font-size:12px;color:#98A2B3">C. difficile · created 3 Jul 2026</div></div>
+                <span style="font-size:11px;font-weight:600;background:#ECFDF3;color:#027A48;padding:2px 9px;border-radius:999px">Saved</span>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ showA_sample }}" hint-placeholder-val="{{ false }}">
+            <dc-import name="SampleDetail" back="{{ goIsolates }}" report="{{ goReports }}" hint-size="100%,760px"></dc-import>
+          </sc-if>
+
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ============ B — PATHOGENS ============ -->
+    <sc-if value="{{ isB }}" hint-placeholder-val="{{ true }}">
+    <div style="height:100%;display:grid;grid-template-columns:248px 1fr;overflow:hidden">
+      <div style="background:#fff;border-right:1px solid #EAECF0;display:flex;flex-direction:column;padding:12px 10px;gap:2px;overflow-y:auto">
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;margin-bottom:10px" style-hover="background:#F9FAFB">
+          <div style="width:20px;height:20px;border-radius:4px;background:#F2F4F7;border:1px solid #EAECF0;box-sizing:border-box;color:#344054;display:grid;place-items:center;font-size:11px;font-weight:600">S</div>
+          <span style="font-size:13px;font-weight:500;color:#101828;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">Solu lab · St. Agnes</span>
+          <span style="color:#98A2B3">⌄</span>
+        </div>
+        <div style="display:flex;align-items:center;padding:12px 10px 6px">
+          <span style="font-size:10.5px;font-weight:600;color:#98A2B3;letter-spacing:.05em;flex:1">My watchlists</span>
+          <span onClick="{{ goPathogens }}" style="font-size:11px;font-weight:600;color:#11612E;cursor:pointer" style-hover="text-decoration:underline">Manage</span>
+        </div>
+        <sc-for list="{{ watchTabs }}" as="w" hint-placeholder-count="4">
+          <div onClick="{{ w.onClick }}" style="{{ w.style }}" style-hover="background:#F2F4F7">
+            <span style="width:7px;height:7px;border-radius:999px;background:{{ w.dot }};flex:none"></span>
+            <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.name }}</span>
+            <sc-if value="{{ w.flagShow }}" hint-placeholder-val="{{ true }}"><span style="font-size:9.5px;font-weight:600;padding:1px 7px;border-radius:999px;background:{{ w.flagBg }};color:{{ w.flagFg }};white-space:nowrap">{{ w.flag }}</span></sc-if>
+          </div>
+        </sc-for>
+        <div onClick="{{ openWatchlist }}" style="display:flex;align-items:center;gap:9px;padding:7px 10px 7px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#667085;cursor:pointer" style-hover="background:#F2F4F7;color:#11612E">
+          <span style="width:14px;text-align:center;font-weight:600;color:#98A2B3">+</span>
+          <span style="flex:1">New watchlist</span>
+        </div>
+        <div onClick="{{ goIsolatesB }}" style="{{ ns.B_iso }};margin-top:10px" style-hover="background:#F2F4F7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="flex:none"><path d="M5 5h4v4H5zM15 5h4v4h-4zM5 15h4v4H5zM15 15h4v4h-4z"/></svg>
+          <span style="flex:1">All isolates</span><span style="font-size:12px;color:#98A2B3">{{ c.iso }}</span>
+        </div>
+        <div onClick="{{ goReportsB }}" style="{{ ns.B_rep }}" style-hover="background:#F2F4F7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="flex:none"><path d="M6 2h8l4 4v16H6zM14 2v4h4"/></svg>
+          <span style="flex:1">Reports</span><span style="font-size:9px;font-weight:700;color:#fff;background:#157639;padding:1px 5px;border-radius:4px">NEW</span>
+        </div>
+        <div style="flex:1"></div>
+        <div style="font-size:11px;color:#98A2B3;padding:8px 10px;font-family:'IBM Plex Mono',monospace">v1.0.732</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-width:0;overflow:hidden">
+        <div style="flex:none;display:flex;align-items:center;gap:12px;padding:0 24px;height:56px;background:#fff;border-bottom:1px solid #EAECF0">
+          <span style="font-size:13px;color:#667085">{{ crumbB }}</span>
+          <button style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:0 14px;border-radius:4px;font-size:14px;font-weight:600;background:#099250;color:#fff;height:36px;box-sizing:border-box" style-hover="background:#087443">+ Add isolates</button>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:26px 28px 60px">
+
+          <sc-if value="{{ showB_pathogens }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:fadeUp .25s ease">
+            <div style="font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px">Manage watchlists</div>
+            <div style="color:#667085;font-size:14px;margin-bottom:22px">Set up and edit the targets you monitor — a resistance mechanism, a clone, an organism or a custom set. You work inside a watchlist from the sidebar; this is where you tune them.</div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
+              <sc-for list="{{ organisms }}" as="o" hint-placeholder-count="4">
+                <div onClick="{{ o.onClick }}" style="background:#fff;border:1px solid #EAECF0;border-radius:14px;padding:18px;cursor:pointer" style-hover="border-color:#A6D6B5;box-shadow:0 6px 14px -4px rgba(16,24,40,.1)">
+                  <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px">
+                    <div style="flex:1"><div style="font-size:16px;font-weight:700;letter-spacing:-.01em;line-height:1.2">{{ o.name }}</div><div style="font-size:11.5px;color:#98A2B3;margin-top:3px;line-height:1.35">{{ o.def }}</div></div>
+                    <span style="font-size:11px;font-weight:600;color:{{ o.trendColor }};background:{{ o.trendBg }};padding:2px 9px;border-radius:999px;white-space:nowrap">{{ o.trend }}</span>
+                  </div>
+                  <div style="display:flex;gap:26px;margin-bottom:14px">
+                    <div><div style="font-size:22px;font-weight:700">{{ o.isolates }}</div><div style="font-size:11px;color:#98A2B3">isolates</div></div>
+                    <div>
+                      <div style="display:flex;align-items:center;gap:7px"><span style="font-size:22px;font-weight:700">{{ o.clusters }}</span>
+                        <sc-if value="{{ o.flagShow }}" hint-placeholder-val="{{ true }}"><span style="font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:{{ o.flagBg }};color:{{ o.flagFg }}">{{ o.flag }}</span></sc-if>
+                      </div>
+                      <div style="font-size:11px;color:#98A2B3">clusters</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid #F2F4F7">
+                    <span style="font-size:11px;color:#667085">Resistome</span>
+                    <div style="display:flex;gap:4px"><sc-for list="{{ o.amr }}" as="g" hint-placeholder-count="3"><span style="width:20px;height:20px;border-radius:6px;font-size:11px;font-weight:600;display:grid;place-items:center;background:{{ g.bg }};color:{{ g.fg }}">{{ g.label }}</span></sc-for></div>
+                    <span style="margin-left:auto;font-size:11px;color:#98A2B3">Updated {{ o.last }}</span>
+                  </div>
+                </div>
+              </sc-for>
+              <div onClick="{{ openWatchlist }}" style="display:flex;align-items:center;justify-content:center;gap:8px;border:1.5px dashed #D0D5DD;border-radius:14px;padding:18px;color:#667085;font-size:13px;font-weight:600;cursor:pointer" style-hover="border-color:#76BE8E;color:#11612E;background:#F5FBF7">+ New watchlist</div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ showB_organism }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:fadeUp .25s ease">
+            <div style="font-size:13px;color:#667085;margin-bottom:14px"><span onClick="{{ goPathogens }}" style="cursor:pointer" style-hover="color:#11612E">Watchlists</span> <span style="color:#D0D5DD">/</span> <span style="color:#101828;font-weight:600">Carbapenemase-producing Enterobacterales</span></div>
+            <div style="font-size:24px;font-weight:700;letter-spacing:-.01em;margin-bottom:4px">Carbapenemase-producing Enterobacterales</div>
+            <div style="font-size:13px;color:#667085;margin-bottom:16px">Definition: blaNDM · blaOXA-48 · blaKPC · Enterobacterales — spans 4 species. Filter by species inside.</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">
+              <div style="background:#fff;border:1px solid #EAECF0;border-radius:10px;padding:12px 14px"><div style="font-size:11px;color:#667085">Isolates</div><div style="font-size:22px;font-weight:700">18</div></div>
+              <div style="background:#fff;border:1px solid #EAECF0;border-radius:10px;padding:12px 14px"><div style="font-size:11px;color:#667085">Active clusters</div><div style="font-size:22px;font-weight:700">3</div></div>
+              <div style="background:#fff;border:1px solid #EAECF0;border-radius:10px;padding:12px 14px"><div style="font-size:11px;color:#667085">Carbapenem-R</div><div style="font-size:22px;font-weight:700;color:#B42318">83%</div></div>
+              <div style="background:#fff;border:1px solid #EAECF0;border-radius:10px;padding:12px 14px"><div style="font-size:11px;color:#667085">Species</div><div style="font-size:22px;font-weight:700">4</div></div>
+            </div>
+            <div style="display:flex;gap:20px;border-bottom:1px solid #EAECF0;margin-bottom:18px">
+              <span style="padding:0 0 10px;font-size:13px;font-weight:600;color:#11612E;border-bottom:2px solid #157639">Overview</span>
+              <span style="padding:0 0 10px;font-size:13px;font-weight:500;color:#667085" style-hover="color:#101828">Isolates</span>
+              <span style="padding:0 0 10px;font-size:13px;font-weight:500;color:#667085" style-hover="color:#101828">Clusters</span>
+              <span style="padding:0 0 10px;font-size:13px;font-weight:500;color:#667085" style-hover="color:#101828">Resistome</span>
+              <span style="padding:0 0 10px;font-size:13px;font-weight:500;color:#667085" style-hover="color:#101828">Epidemiology</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:16px;margin-bottom:16px">
+              <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;padding:16px">
+                <div style="font-size:13px;font-weight:600;margin-bottom:12px">Clusters</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ orgClusters }}" as="oc" hint-placeholder-count="3">
+                    <div onClick="{{ oc.onClick }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #EAECF0;border-radius:9px;cursor:pointer" style-hover="background:#FCFCFD;border-color:#D0D5DD">
+                      <span style="font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;padding:2px 8px;border-radius:6px;background:{{ oc.codeBg }};color:{{ oc.codeFg }}">{{ oc.code }}</span>
+                      <span style="font-size:13px;color:#344054">{{ oc.samples }} isolates</span>
+                      <span style="margin-left:auto;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;background:{{ oc.statusBg }};color:{{ oc.statusFg }}">{{ oc.status }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;padding:16px">
+                <div style="font-size:13px;font-weight:600;margin-bottom:8px">Phylogeny · all isolates</div>
+                <svg viewBox="0 0 470 250" width="100%" style="max-width:520px"><g stroke="#D0D5DD" stroke-width="1.5" fill="none"><path d="M300 40 H240 M300 80 H240 M240 40 V80 M240 60 H160 M300 120 H160 M160 60 V120 M160 90 H90 M300 170 H240 M300 210 H240 M240 170 V210 M240 190 H90 M90 90 V190 M40 140 H90 M20 140 H40"/></g><g font-family="IBM Plex Mono, monospace" font-size="12"><text x="308" y="44" fill="#D92D20">MS7923_assembly</text><text x="308" y="84" fill="#D92D20">MS7923_assembly</text><text x="308" y="124" fill="#175CD3">MS7884_assembly</text><text x="308" y="174" fill="#DD2590">MS7924_assembly</text><text x="308" y="214" fill="#DD2590">MS7924_assembly</text></g></svg>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;padding:16px">
+              <div style="font-size:13px;font-weight:600;margin-bottom:14px">Resistome · share of isolates carrying resistance</div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <sc-for list="{{ resistome }}" as="rb" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;gap:14px">
+                    <span style="font-size:12.5px;color:#475467;width:150px">{{ rb.name }}</span>
+                    <div style="flex:1;height:10px;background:#F2F4F7;border-radius:999px;overflow:hidden"><div style="height:100%;width:{{ rb.w }};background:{{ rb.color }};border-radius:999px"></div></div>
+                    <span style="font-size:12.5px;font-weight:600;color:#344054;width:42px;text-align:right">{{ rb.pct }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ showB_clusterDetail }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:fadeUp .25s ease">
+            <div style="font-size:13px;color:#667085;margin-bottom:14px"><span onClick="{{ goOrganism }}" style="cursor:pointer" style-hover="color:#11612E">Enterobacter hormaechei</span> <span style="color:#D0D5DD">/</span> <span style="color:#101828;font-weight:600">Eh1</span></div>
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">
+              <span style="font-size:12px;font-weight:700;background:#FEF3F2;color:#B42318;padding:4px 11px;border-radius:8px;font-family:'IBM Plex Mono',monospace">Eh1</span>
+              <span style="font-size:22px;font-weight:700;font-style:italic;letter-spacing:-.01em">Enterobacter hormaechei</span>
+              <span style="font-size:12px;font-weight:600;background:#FEF3F2;color:#B42318;padding:4px 11px;border-radius:999px">Escalated</span>
+              <button onClick="{{ goReportsB }}" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:4px;font-size:13px;font-weight:600;background:#fff;color:#344054;border:1px solid #D0D5DD" style-hover="background:#F9FAFB">Create report</button>
+            </div>
+            <div style="color:#667085;font-size:13px;margin-bottom:20px">5 isolates · within 6 SNPs · MLST 830</div>
+            <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;padding:18px;max-width:560px">
+              <div style="font-size:13px;font-weight:600;margin-bottom:12px">Phylogenetic tree</div>
+              <svg viewBox="0 0 470 250" width="100%" style="max-width:520px"><g stroke="#D0D5DD" stroke-width="1.5" fill="none"><path d="M300 40 H240 M300 80 H240 M240 40 V80 M240 60 H160 M300 120 H160 M160 60 V120 M160 90 H90 M300 170 H240 M300 210 H240 M240 170 V210 M240 190 H90 M90 90 V190 M40 140 H90 M20 140 H40"/></g><g font-family="IBM Plex Mono, monospace" font-size="12"><text x="308" y="44" fill="#D92D20">MS7923_assembly</text><text x="308" y="84" fill="#D92D20">MS7923_assembly</text><text x="308" y="124" fill="#175CD3">MS7884_assembly</text><text x="308" y="174" fill="#DD2590">MS7924_assembly</text><text x="308" y="214" fill="#DD2590">MS7924_assembly</text></g></svg>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ showB_reports }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:fadeUp .25s ease">
+            <div style="font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px">Reports</div>
+            <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:14px;padding:15px 18px" style-hover="background:#FCFCFD">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="1.7"><path d="M6 2h8l4 4v16H6zM14 2v4h4"/></svg>
+                <div style="flex:1"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px">Carbapenemase-producing Enterobacterales — Q2</div><div style="font-size:12px;color:#98A2B3">18 isolates · 3 clusters · 4 species</div></div>
+                <span style="font-size:11px;font-weight:600;background:#ECFDF3;color:#027A48;padding:2px 9px;border-radius:999px">Saved</span>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ showB_isolates }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:fadeUp .25s ease">
+            <div style="font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px">All isolates</div>
+            <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:2fr 1.4fr 60px 1fr 90px 70px;gap:12px;padding:11px 18px;background:#F9FAFB;border-bottom:1px solid #EAECF0;font-size:11px;font-weight:600;color:#667085;letter-spacing:.04em"><span>Isolate</span><span>Species</span><span>MLST</span><span>AMR</span><span>QC</span><span>Cluster</span></div>
+              <sc-for list="{{ sampleRows }}" as="row" hint-placeholder-count="6">
+                <div onClick="{{ openSample }}" style="display:grid;grid-template-columns:2fr 1.4fr 60px 1fr 90px 70px;gap:12px;padding:13px 18px;border-bottom:1px solid #F2F4F7;align-items:center;cursor:pointer" style-hover="background:#FCFCFD">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;overflow:hidden;text-overflow:ellipsis">{{ row.id }}</span>
+                  <span style="font-style:italic;font-size:13px;color:#475467;overflow:hidden;text-overflow:ellipsis">{{ row.species }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#344054">{{ row.mlst }}</span>
+                  <div style="display:flex;gap:4px"><sc-for list="{{ row.amr }}" as="g" hint-placeholder-count="2"><span style="width:20px;height:20px;border-radius:6px;font-size:11px;font-weight:600;display:grid;place-items:center;background:{{ g.bg }};color:{{ g.fg }}">{{ g.label }}</span></sc-for></div>
+                  <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:{{ row.qcBg }};color:{{ row.qcFg }};justify-self:start">{{ row.qc }}</span>
+                  <span style="font-size:12px;font-weight:600;color:#475467">{{ row.cluster }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ showB_sample }}" hint-placeholder-val="{{ false }}">
+            <dc-import name="SampleDetail" back="{{ goIsolatesB }}" report="{{ goReportsB }}" hint-size="100%,760px"></dc-import>
+          </sc-if>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Create-watchlist wizard -->
+    <sc-if value="{{ wlOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px">
+      <div onClick="{{ wlView.close }}" style="position:absolute;inset:0;background:rgba(16,24,40,.45)"></div>
+      <div style="position:relative;width:700px;max-width:100%;max-height:90vh;background:#fff;border-radius:16px;box-shadow:0 30px 70px -20px rgba(16,24,40,.45);display:flex;flex-direction:column;overflow:hidden">
+        <div style="flex:none;display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid #EAECF0">
+          <div style="font-size:16px;font-weight:700;color:#101828">New watchlist</div>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+            <div style="display:flex;align-items:center;gap:7px"><span style="{{ wlView.d1 }}">1</span><span style="font-size:12px;font-weight:600;color:{{ wlView.l1 }}">Type</span></div>
+            <span style="width:18px;height:1px;background:#EAECF0"></span>
+            <div style="display:flex;align-items:center;gap:7px"><span style="{{ wlView.d2 }}">2</span><span style="font-size:12px;font-weight:600;color:{{ wlView.l2 }}">Define</span></div>
+            <span style="width:18px;height:1px;background:#EAECF0"></span>
+            <div style="display:flex;align-items:center;gap:7px"><span style="{{ wlView.d3 }}">3</span><span style="font-size:12px;font-weight:600;color:{{ wlView.l3 }}">Name</span></div>
+          </div>
+          <span onClick="{{ wlView.close }}" style="color:#98A2B3;font-size:22px;cursor:pointer;line-height:1;padding-left:6px" style-hover="color:#475467">×</span>
+        </div>
+
+        <div style="flex:1;overflow-y:auto;padding:22px">
+          <!-- STEP 1 · type -->
+          <sc-if value="{{ wlView.isStep1 }}" hint-placeholder-val="{{ true }}">
+            <div style="font-size:13px;color:#667085;line-height:1.5;margin-bottom:18px">What kind of target do you want to monitor? A watchlist is a saved scope — it keeps matching itself as new isolates arrive.</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ wlView.typeCards }}" as="tc" hint-placeholder-count="4">
+                <div onClick="{{ tc.onPick }}" style="{{ tc.style }}">
+                  <span style="width:38px;height:38px;border-radius:10px;background:#F2F4F7;display:grid;place-items:center;flex:none"><span style="width:12px;height:12px;border-radius:999px;background:{{ tc.dot }}"></span></span>
+                  <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#101828">{{ tc.name }}</div><div style="font-size:12.5px;color:#667085;line-height:1.4;margin-top:2px">{{ tc.desc }}</div></div>
+                  <span style="color:#D0D5DD;font-size:18px;align-self:center">→</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <!-- STEP 2 · define -->
+          <sc-if value="{{ wlView.isStep2 }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+              <span style="width:38px;height:38px;border-radius:10px;background:#F2F4F7;display:grid;place-items:center;flex:none"><span style="width:12px;height:12px;border-radius:999px;background:{{ wlView.tDot }}"></span></span>
+              <div><div style="font-size:15px;font-weight:600;color:#101828">{{ wlView.tName }}</div><div style="font-size:12px;color:#98A2B3">Tune the definition — the preview updates as you go.</div></div>
+            </div>
+            <div style="font-size:11px;font-weight:600;color:#667085;letter-spacing:.05em;margin-bottom:9px">{{ wlView.criteriaLabel }}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">
+              <sc-for list="{{ wlView.criteria }}" as="cr" hint-placeholder-count="3">
+                <span style="display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#344054;background:#fff;border:1px solid #D0D5DD;border-radius:8px;padding:5px 10px">{{ cr }}<span style="color:#98A2B3;cursor:pointer" style-hover="color:#475467">×</span></span>
+              </sc-for>
+              <span style="display:inline-flex;align-items:center;font-size:12.5px;font-weight:500;color:#667085;border:1px dashed #D0D5DD;border-radius:8px;padding:5px 11px;cursor:pointer" style-hover="border-color:#98A2B3;color:#344054">+ add</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#667085;margin-bottom:18px"><span style="font-weight:600;color:#475467">{{ wlView.scopeLabel }}:</span><span>{{ wlView.scope }}</span></div>
+            <div style="background:#F9FAFB;border:1px solid #EAECF0;border-radius:12px;padding:16px 18px">
+              <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">
+                <span style="font-size:30px;font-weight:700;color:#101828">{{ wlView.matchIso }}</span>
+                <span style="font-size:13px;color:#667085">matching isolates · {{ wlView.matchSub }}</span>
+                <span style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#11612E;background:#E8F5ED;padding:3px 10px;border-radius:999px"><span style="width:6px;height:6px;border-radius:999px;background:#12B76A"></span>Live preview</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <sc-for list="{{ wlView.preview }}" as="p" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#475467"><span style="width:5px;height:5px;border-radius:999px;background:#D0D5DD"></span>{{ p }}</div>
+                </sc-for>
+                <div style="font-size:12px;color:#98A2B3;margin-top:2px">…and more</div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- STEP 3 · name & save -->
+          <sc-if value="{{ wlView.isStep3 }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:11px;font-weight:600;color:#667085;letter-spacing:.05em;margin-bottom:9px">Watchlist name</div>
+            <input value="{{ wlView.name }}" onChange="{{ wlView.setName }}" style="width:100%;padding:11px 14px;border:1px solid #D0D5DD;border-radius:9px;font-size:14px;font-family:'IBM Plex Sans',sans-serif;color:#101828;outline:none" style-focus="border-color:#157639" />
+            <div style="margin-top:8px"></div>
+            <div style="display:flex;align-items:center;gap:14px;padding:15px 0;border-top:1px solid #F2F4F7;margin-top:14px">
+              <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#101828">Pin to sidebar</div><div style="font-size:12px;color:#98A2B3">Keep it one click away under “My watchlists”.</div></div>
+              <div onClick="{{ wlView.togglePin }}" style="{{ wlView.pinTgl }}"><span style="{{ wlView.pinKnob }}"></span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:15px 0;border-top:1px solid #F2F4F7">
+              <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#101828">Alert me on new matches</div><div style="font-size:12px;color:#98A2B3">Surface a cluster match or new isolate in the feed.</div></div>
+              <div onClick="{{ wlView.toggleAlert }}" style="{{ wlView.alertTgl }}"><span style="{{ wlView.alertKnob }}"></span></div>
+            </div>
+            <div style="background:#F5FBF7;border:1px solid #E8F5ED;border-radius:12px;padding:15px 18px;margin-top:16px">
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#11612E"><span style="width:14px;text-align:center;font-weight:700">✓</span><span>Will start matching <span style="font-weight:600">{{ wlView.matchIso }} isolates</span> now, and keep matching new ones automatically.</span></div>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="flex:none;display:flex;align-items:center;gap:10px;padding:16px 22px;border-top:1px solid #EAECF0;background:#fff">
+          <sc-if value="{{ wlView.isStep1 }}" hint-placeholder-val="{{ true }}">
+            <span onClick="{{ wlView.close }}" style="font-size:14px;font-weight:600;color:#667085;cursor:pointer;padding:9px 12px;border-radius:8px" style-hover="background:#F2F4F7;color:#344054">Cancel</span>
+          </sc-if>
+          <sc-if value="{{ wlView.isStep2 }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ wlView.toStep1 }}" style="padding:9px 15px;border-radius:4px;font-size:14px;font-weight:600;background:#fff;color:#344054;border:1px solid #D0D5DD" style-hover="background:#F9FAFB">Back</button>
+          </sc-if>
+          <sc-if value="{{ wlView.isStep3 }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ wlView.toStep2 }}" style="padding:9px 15px;border-radius:4px;font-size:14px;font-weight:600;background:#fff;color:#344054;border:1px solid #D0D5DD" style-hover="background:#F9FAFB">Back</button>
+          </sc-if>
+          <div style="flex:1"></div>
+          <sc-if value="{{ wlView.isStep2 }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ wlView.toStep3 }}" style="padding:0 14px;border-radius:4px;font-size:14px;font-weight:600;background:#099250;color:#fff;height:36px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#087443">Continue →</button>
+          </sc-if>
+          <sc-if value="{{ wlView.isStep3 }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ wlView.create }}" style="padding:0 14px;border-radius:4px;font-size:14px;font-weight:600;background:#099250;color:#fff;height:36px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#087443">Create watchlist</button>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+    </sc-if>
+
+    <!-- ============ D — BOARD (composable investigation canvas) ============ -->
+    <sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}">
+    <div style="height:100%;overflow:hidden;background:#F2F3F5">
+      <dc-import name="Canvas" hint-size="100%,100%"></dc-import>
+    </div>
+    </sc-if>
+
+    <!-- ============ C — VIEWS (composable dashboard) ============ -->
+    <sc-if value="{{ isC }}" hint-placeholder-val="{{ true }}">
+    <div style="height:100%;display:grid;grid-template-columns:248px 1fr;overflow:hidden">
+      <div style="background:#fff;border-right:1px solid #EAECF0;display:flex;flex-direction:column;padding:12px 10px;gap:2px;overflow-y:auto">
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;margin-bottom:10px" style-hover="background:#F9FAFB">
+          <div style="width:20px;height:20px;border-radius:4px;background:#F2F4F7;border:1px solid #EAECF0;box-sizing:border-box;color:#344054;display:grid;place-items:center;font-size:11px;font-weight:600">S</div>
+          <span style="font-size:13px;font-weight:500;color:#101828;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">Solu lab · St. Agnes</span>
+          <span style="color:#98A2B3">⌄</span>
+        </div>
+        <div onClick="{{ goDashboard }}" style="{{ ns.C_dash }}" style-hover="background:#F2F4F7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="flex:none"><path d="M4 4h7v6H4zM13 4h7v10h-7zM4 12h7v8H4zM13 16h7v4h-7z"/></svg>
+          <span style="flex:1">Overview</span>
+        </div>
+        <div style="font-size:10.5px;font-weight:600;color:#98A2B3;letter-spacing:.05em;padding:12px 10px 5px">Saved views</div>
+        <sc-for list="{{ viewTabs }}" as="v" hint-placeholder-count="3">
+          <div onClick="{{ v.onClick }}" style="{{ v.style }}" style-hover="background:#F2F4F7">
+            <span style="width:7px;height:7px;border-radius:999px;background:{{ v.dot }};flex:none"></span>
+            <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.name }}</span>
+          </div>
+        </sc-for>
+        <div onClick="{{ goIsolatesC }}" style="{{ ns.C_iso }};margin-top:8px" style-hover="background:#F2F4F7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="flex:none"><path d="M5 5h4v4H5zM15 5h4v4h-4zM5 15h4v4H5zM15 15h4v4h-4z"/></svg>
+          <span style="flex:1">All isolates</span><span style="font-size:12px;color:#98A2B3">{{ c.iso }}</span>
+        </div>
+        <div onClick="{{ goReportsC }}" style="{{ ns.C_rep }}" style-hover="background:#F2F4F7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="flex:none"><path d="M6 2h8l4 4v16H6zM14 2v4h4"/></svg>
+          <span style="flex:1">Reports</span><span style="font-size:9px;font-weight:700;color:#fff;background:#157639;padding:1px 5px;border-radius:4px">NEW</span>
+        </div>
+        <div style="flex:1"></div>
+        <div style="font-size:11px;color:#98A2B3;padding:8px 10px;font-family:'IBM Plex Mono',monospace">v1.0.732</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-width:0;overflow:hidden">
+
+        <sc-if value="{{ showC_dash }}" hint-placeholder-val="{{ true }}">
+        <div style="flex:none;background:#fff;border-bottom:1px solid #EAECF0;padding:14px 24px 0">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="width:9px;height:9px;border-radius:999px;background:{{ currentView.dot }}"></span>
+              <span style="font-size:19px;font-weight:700;letter-spacing:-.01em">{{ currentView.name }}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+              <sc-if value="{{ dirty }}" hint-placeholder-val="{{ false }}">
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:#B54708;background:#FFFAEB;border:1px solid #FEDF89;padding:3px 10px;border-radius:999px"><span style="width:6px;height:6px;border-radius:999px;background:#F79009"></span>Unsaved draft</span>
+              </sc-if>
+            </div>
+            <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+              <button onClick="{{ togglePalette }}" style="display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:4px;font-size:13px;font-weight:600;background:#fff;color:#344054;border:1px solid #D0D5DD" style-hover="background:#F9FAFB">+ Add block</button>
+              <sc-if value="{{ dirty }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ resetView }}" style="padding:7px 13px;border-radius:4px;font-size:13px;font-weight:600;background:#fff;color:#344054;border:1px solid #D0D5DD" style-hover="background:#F9FAFB">Reset</button>
+                <button onClick="{{ saveAsNew }}" style="padding:7px 13px;border-radius:4px;font-size:13px;font-weight:600;background:#fff;color:#344054;border:1px solid #D0D5DD" style-hover="background:#F9FAFB">Save as new</button>
+                <button onClick="{{ saveView }}" style="padding:0 14px;border-radius:4px;font-size:14px;font-weight:600;background:#099250;color:#fff;height:36px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#087443">Save changes</button>
+              </sc-if>
+              <sc-if value="{{ notDirty }}" hint-placeholder-val="{{ true }}">
+                <span style="display:inline-flex;align-items:center;gap:6px;padding:7px 13px;font-size:13px;font-weight:600;color:#98A2B3"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#12B76A" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>All changes saved</span>
+              </sc-if>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-bottom:14px">
+            <span style="font-size:11px;font-weight:600;color:#98A2B3;letter-spacing:.05em;margin-right:2px">Filters</span>
+            <sc-for list="{{ currentView.filters }}" as="f" hint-placeholder-count="4">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:#344054;background:#F5FBF7;border:1px solid #CDE9D6;padding:4px 10px;border-radius:8px">
+                <span style="color:#667085">{{ f.k }}</span><span style="font-weight:600">{{ f.v }}</span>
+                <span style="color:#98A2B3;cursor:pointer" style-hover="color:#475467">×</span>
+              </span>
+            </sc-for>
+            <span style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:500;color:#667085;border:1px dashed #D0D5DD;padding:4px 10px;border-radius:8px;cursor:pointer" style-hover="border-color:#98A2B3;color:#344054">+ Filter</span>
+          </div>
+        </div>
+        <div style="flex:1;overflow:hidden;display:flex;min-height:0">
+          <div style="flex:1;overflow-y:auto;padding:20px 24px 60px;min-width:0">
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+              <sc-for list="{{ activeBlocks }}" as="b" hint-placeholder-count="4">
+                <div style="grid-column:{{ b.gridCol }};background:#fff;border:1px solid #EAECF0;border-radius:12px;overflow:hidden;animation:fadeUp .2s ease">
+                  <div style="display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid #F2F4F7">
+                    <span style="font-size:13px;font-weight:600;color:#101828">{{ b.name }}</span>
+                    <span style="font-size:10px;font-weight:600;color:#98A2B3;background:#F2F4F7;padding:1px 7px;border-radius:5px;letter-spacing:.03em">{{ b.group }}</span>
+                    <span onClick="{{ b.onRemove }}" style="margin-left:auto;color:#C4C9D2;cursor:pointer;font-size:16px;line-height:1;padding:2px 4px" style-hover="color:#667085">×</span>
+                  </div>
+                  <div style="padding:16px">
+
+                    <sc-if value="{{ b.isSummary }}" hint-placeholder-val="{{ true }}">
+                      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+                        <div><div style="font-size:26px;font-weight:700">12</div><div style="font-size:11px;color:#98A2B3">isolates</div></div>
+                        <div><div style="font-size:26px;font-weight:700">3</div><div style="font-size:11px;color:#98A2B3">active clusters</div></div>
+                        <div><div style="font-size:26px;font-weight:700;color:#B42318">83%</div><div style="font-size:11px;color:#98A2B3">carbapenem-R</div></div>
+                        <div><div style="font-size:26px;font-weight:700;color:#B54708">2</div><div style="font-size:11px;color:#98A2B3">new this week</div></div>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ b.isClusters }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:8px">
+                        <sc-for list="{{ orgClusters }}" as="oc" hint-placeholder-count="3">
+                          <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid #EAECF0;border-radius:9px" style-hover="background:#FCFCFD">
+                            <span style="font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;padding:2px 8px;border-radius:6px;background:{{ oc.codeBg }};color:{{ oc.codeFg }}">{{ oc.code }}</span>
+                            <span style="font-size:13px;color:#344054">{{ oc.samples }} isolates</span>
+                            <span style="margin-left:auto;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;background:{{ oc.statusBg }};color:{{ oc.statusFg }}">{{ oc.status }}</span>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ b.isResistome }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:11px">
+                        <sc-for list="{{ resistome }}" as="rb" hint-placeholder-count="4">
+                          <div style="display:flex;align-items:center;gap:12px">
+                            <span style="font-size:12px;color:#475467;width:130px">{{ rb.name }}</span>
+                            <div style="flex:1;height:9px;background:#F2F4F7;border-radius:999px;overflow:hidden"><div style="height:100%;width:{{ rb.w }};background:{{ rb.color }};border-radius:999px"></div></div>
+                            <span style="font-size:12px;font-weight:600;color:#344054;width:40px;text-align:right">{{ rb.pct }}</span>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ b.isPhylo }}" hint-placeholder-val="{{ false }}">
+                      <svg viewBox="0 0 470 250" width="100%" style="max-width:520px"><g stroke="#D0D5DD" stroke-width="1.5" fill="none"><path d="M300 40 H240 M300 80 H240 M240 40 V80 M240 60 H160 M300 120 H160 M160 60 V120 M160 90 H90 M300 170 H240 M300 210 H240 M240 170 V210 M240 190 H90 M90 90 V190 M40 140 H90 M20 140 H40"/></g><g font-family="IBM Plex Mono, monospace" font-size="12"><text x="308" y="44" fill="#D92D20">MS7923_assembly</text><text x="308" y="84" fill="#D92D20">MS7923_assembly</text><text x="308" y="124" fill="#175CD3">MS7884_assembly</text><text x="308" y="174" fill="#DD2590">MS7924_assembly</text><text x="308" y="214" fill="#DD2590">MS7924_assembly</text></g></svg>
+                    </sc-if>
+
+                    <sc-if value="{{ b.isCompare }}" hint-placeholder-val="{{ false }}">
+                      <div style="overflow-x:auto">
+                        <div style="display:grid;grid-template-columns:130px 1fr 1fr 1fr;gap:0;font-size:12.5px;min-width:480px">
+                          <div style="padding:8px 10px;color:#98A2B3;font-weight:600;font-size:11px;letter-spacing:.03em"></div>
+                          <div style="padding:8px 10px;font-family:'IBM Plex Mono',monospace;font-weight:600;color:#D92D20;border-bottom:1px solid #EAECF0">MS7923</div>
+                          <div style="padding:8px 10px;font-family:'IBM Plex Mono',monospace;font-weight:600;color:#175CD3;border-bottom:1px solid #EAECF0">MS7884</div>
+                          <div style="padding:8px 10px;font-family:'IBM Plex Mono',monospace;font-weight:600;color:#DD2590;border-bottom:1px solid #EAECF0">MS7924</div>
+                          <sc-for list="{{ compareRows }}" as="cr" hint-placeholder-count="5">
+                            <div style="padding:9px 10px;color:#667085;border-bottom:1px solid #F2F4F7">{{ cr.label }}</div>
+                            <div style="padding:9px 10px;color:#344054;border-bottom:1px solid #F2F4F7">{{ cr.a }}</div>
+                            <div style="padding:9px 10px;color:#344054;border-bottom:1px solid #F2F4F7">{{ cr.b }}</div>
+                            <div style="padding:9px 10px;color:#344054;border-bottom:1px solid #F2F4F7">{{ cr.c }}</div>
+                          </sc-for>
+                        </div>
+                        <div style="font-size:11px;color:#98A2B3;margin-top:10px">Pairwise SNP distance — MS7923↔MS7884: 4 · MS7923↔MS7924: 6 · MS7884↔MS7924: 5</div>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ b.isEpi }}" hint-placeholder-val="{{ false }}">
+                      <svg viewBox="0 0 520 210" width="100%" style="max-width:560px">
+                        <line x1="70" y1="70" x2="490" y2="70" stroke="#EAECF0" stroke-width="1.5"/>
+                        <line x1="70" y1="150" x2="490" y2="150" stroke="#EAECF0" stroke-width="1.5"/>
+                        <text x="10" y="74" font-size="11" fill="#667085">ICU</text>
+                        <text x="10" y="154" font-size="11" fill="#667085">Ward 4B</text>
+                        <path d="M100 70 L260 70" stroke="#FCA5A5" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+                        <path d="M170 70 L260 70" stroke="#FCA5A5" stroke-width="2" fill="none"/>
+                        <path d="M260 70 L320 150" stroke="#D0D5DD" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+                        <path d="M320 150 L400 150" stroke="#93C5FD" stroke-width="2" fill="none"/>
+                        <circle cx="100" cy="70" r="7" fill="#D92D20"/><circle cx="260" cy="70" r="7" fill="#D92D20"/>
+                        <circle cx="170" cy="70" r="7" fill="#DD2590"/>
+                        <circle cx="320" cy="150" r="7" fill="#175CD3"/><circle cx="400" cy="150" r="7" fill="#175CD3"/>
+                        <text x="100" y="196" font-size="10" fill="#98A2B3">Jun 12</text>
+                        <text x="248" y="196" font-size="10" fill="#98A2B3">Jun 19</text>
+                        <text x="386" y="196" font-size="10" fill="#98A2B3">Jun 26</text>
+                      </svg>
+                      <div style="display:flex;gap:14px;margin-top:8px;font-size:11.5px;color:#667085">
+                        <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:999px;background:#D92D20"></span>Patient 1</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:999px;background:#DD2590"></span>Patient 2</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:999px;background:#175CD3"></span>Patient 3</span>
+                        <span style="margin-left:auto">Suspected ICU → Ward 4B spread</span>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ b.isFeed }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:10px">
+                        <sc-for list="{{ recentActivity }}" as="ra" hint-placeholder-count="3">
+                          <div style="display:flex;align-items:flex-start;gap:10px">
+                            <div style="width:26px;height:26px;border-radius:7px;background:{{ ra.iconBg }};color:{{ ra.iconFg }};display:grid;place-items:center;flex:none;font-size:13px">{{ ra.glyph }}</div>
+                            <div style="flex:1"><div style="font-size:13px;color:#344054;line-height:1.35">{{ ra.text }}</div><div style="font-size:11px;color:#98A2B3;margin-top:1px">{{ ra.when }}</div></div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ b.isQcPass }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;gap:30px;margin-bottom:18px">
+                        <div><div style="font-size:26px;font-weight:700;color:#101828">93.3%</div><div style="font-size:11px;color:#98A2B3">avg pass rate</div></div>
+                        <div><div style="font-size:26px;font-weight:700;color:#B54708">42</div><div style="font-size:11px;color:#98A2B3">total failures</div></div>
+                        <div><div style="font-size:26px;font-weight:700;color:#101828">156</div><div style="font-size:11px;color:#98A2B3">samples analysed</div></div>
+                        <div style="margin-left:auto;align-self:center;font-size:12px;font-weight:600;color:#027A48;background:#ECFDF3;padding:3px 10px;border-radius:999px">+4pp vs last period</div>
+                      </div>
+                      <div style="font-size:11px;font-weight:600;color:#667085;letter-spacing:.04em;margin-bottom:8px">Pass rate by severity</div>
+                      <div style="display:flex;height:16px;border-radius:6px;overflow:hidden;margin-bottom:10px">
+                        <div style="width:90%;background:#12B76A"></div>
+                        <div style="width:7%;background:#F79009"></div>
+                        <div style="width:3%;background:#F04438"></div>
+                      </div>
+                      <div style="display:flex;gap:18px;font-size:12px;color:#667085">
+                        <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#12B76A"></span>Pass 90%</span>
+                        <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#F79009"></span>Warning 7%</span>
+                        <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#F04438"></span>Critical 3%</span>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ b.isQcReasons }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:14px">
+                        <sc-for list="{{ qcReasons }}" as="qr" hint-placeholder-count="5">
+                          <div>
+                            <div style="display:flex;align-items:center;gap:9px">
+                              <span style="width:8px;height:8px;border-radius:999px;background:{{ qr.dot }};flex:none"></span>
+                              <span style="font-size:13px;font-weight:600;color:#101828;flex:1">{{ qr.name }}</span>
+                              <span style="font-size:13px;font-weight:600;color:#475467">{{ qr.pct }}</span>
+                            </div>
+                            <div style="display:flex;gap:7px;margin:5px 0 0 17px"><span style="color:#12B76A;font-size:12px">→</span><span style="font-size:12px;line-height:1.4;color:#667085">{{ qr.action }}</span></div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ b.isQcHeat }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:grid;grid-template-columns:96px repeat(6,1fr);gap:5px;align-items:center">
+                        <span></span>
+                        <sc-for list="{{ qcWeeks }}" as="wk" hint-placeholder-count="6">
+                          <span style="font-size:10px;color:#98A2B3;text-align:center;font-family:'IBM Plex Mono',monospace">{{ wk }}</span>
+                        </sc-for>
+                        <sc-for list="{{ qcHeat }}" as="hr" hint-placeholder-count="5">
+                          <span style="font-size:11.5px;color:#475467;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ hr.label }}</span>
+                          <sc-for list="{{ hr.cells }}" as="cell" hint-placeholder-count="6">
+                            <span style="height:26px;border-radius:5px;display:grid;place-items:center;font-size:11px;font-weight:600;background:{{ cell.bg }};color:{{ cell.fg }}">{{ cell.v }}</span>
+                          </sc-for>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+
+                  </div>
+                </div>
+              </sc-for>
+
+              <div onClick="{{ togglePalette }}" style="grid-column:1 / -1;display:flex;align-items:center;justify-content:center;gap:8px;border:1.5px dashed #D0D5DD;border-radius:12px;padding:16px;color:#667085;font-size:13px;font-weight:600;cursor:pointer" style-hover="border-color:#76BE8E;color:#11612E;background:#F5FBF7">
+                + Add a block to this view
+              </div>
+            </div>
+          </div>
+
+          <!-- Add-block palette -->
+          <sc-if value="{{ paletteOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:none;width:290px;background:#fff;border-left:1px solid #EAECF0;overflow-y:auto;padding:16px">
+            <div style="display:flex;align-items:center;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:600">Add block</span>
+              <span onClick="{{ togglePalette }}" style="margin-left:auto;color:#98A2B3;cursor:pointer;font-size:18px;line-height:1" style-hover="color:#475467">×</span>
+            </div>
+            <div style="font-size:12px;color:#98A2B3;margin-bottom:14px">Blocks relevant to genomic surveillance — click to drop into the view.</div>
+            <sc-for list="{{ palette }}" as="pg" hint-placeholder-count="4">
+              <div style="margin-bottom:16px">
+                <div style="font-size:11px;font-weight:600;color:#98A2B3;letter-spacing:.05em;margin-bottom:8px">{{ pg.group }}</div>
+                <div style="display:flex;flex-direction:column;gap:7px">
+                  <sc-for list="{{ pg.items }}" as="it" hint-placeholder-count="2">
+                    <div onClick="{{ it.onAdd }}" style="{{ it.style }}">
+                      <div style="width:28px;height:28px;border-radius:7px;background:#F5FBF7;color:#1F8748;display:grid;place-items:center;flex:none">{{ it.glyph }}</div>
+                      <span style="flex:1;font-size:13px;font-weight:500;color:#344054">{{ it.name }}</span>
+                      <sc-if value="{{ it.added }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:600;color:#11612E">Added ✓</span></sc-if>
+                      <sc-if value="{{ it.notAdded }}" hint-placeholder-val="{{ true }}"><span style="font-size:16px;color:#98A2B3;line-height:1">+</span></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ showC_iso }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:none;display:flex;align-items:center;gap:12px;padding:0 24px;height:56px;background:#fff;border-bottom:1px solid #EAECF0"><span style="font-size:13px;color:#667085">All isolates</span></div>
+        <div style="flex:1;overflow-y:auto;padding:26px 28px 60px">
+          <div style="font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px">Isolates</div>
+          <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;overflow:hidden">
+            <div style="display:grid;grid-template-columns:2fr 1.4fr 60px 1fr 90px 70px;gap:12px;padding:11px 18px;background:#F9FAFB;border-bottom:1px solid #EAECF0;font-size:11px;font-weight:600;color:#667085;letter-spacing:.04em"><span>Isolate</span><span>Species</span><span>MLST</span><span>AMR</span><span>QC</span><span>Cluster</span></div>
+            <sc-for list="{{ sampleRows }}" as="row" hint-placeholder-count="6">
+              <div onClick="{{ openSample }}" style="display:grid;grid-template-columns:2fr 1.4fr 60px 1fr 90px 70px;gap:12px;padding:13px 18px;border-bottom:1px solid #F2F4F7;align-items:center;cursor:pointer" style-hover="background:#FCFCFD">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;overflow:hidden;text-overflow:ellipsis">{{ row.id }}</span>
+                <span style="font-style:italic;font-size:13px;color:#475467;overflow:hidden;text-overflow:ellipsis">{{ row.species }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#344054">{{ row.mlst }}</span>
+                <div style="display:flex;gap:4px"><sc-for list="{{ row.amr }}" as="g" hint-placeholder-count="2"><span style="width:20px;height:20px;border-radius:6px;font-size:11px;font-weight:600;display:grid;place-items:center;background:{{ g.bg }};color:{{ g.fg }}">{{ g.label }}</span></sc-for></div>
+                <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:{{ row.qcBg }};color:{{ row.qcFg }};justify-self:start">{{ row.qc }}</span>
+                <span style="font-size:12px;font-weight:600;color:#475467">{{ row.cluster }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ showC_reports }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:none;display:flex;align-items:center;gap:12px;padding:0 24px;height:56px;background:#fff;border-bottom:1px solid #EAECF0"><span style="font-size:13px;color:#667085">Reports</span></div>
+        <div style="flex:1;overflow-y:auto;padding:26px 28px 60px">
+          <div style="font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px">Reports</div>
+          <div style="background:#fff;border:1px solid #EAECF0;border-radius:12px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:14px;padding:15px 18px" style-hover="background:#FCFCFD">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="1.7"><path d="M6 2h8l4 4v16H6zM14 2v4h4"/></svg>
+              <div style="flex:1"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px">Ward 4B outbreak — export</div><div style="font-size:12px;color:#98A2B3">From saved view · 5 isolates</div></div>
+              <span style="font-size:11px;font-weight:600;background:#ECFDF3;color:#027A48;padding:2px 9px;border-radius:999px">Saved</span>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ showC_sample }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:none;display:flex;align-items:center;gap:12px;padding:0 24px;height:56px;background:#fff;border-bottom:1px solid #EAECF0"><span style="font-size:13px;color:#667085">All isolates · detail</span></div>
+        <div style="flex:1;overflow-y:auto;padding:26px 28px 0">
+          <dc-import name="SampleDetail" back="{{ goIsolatesC }}" report="{{ goReportsC }}" hint-size="100%,760px"></dc-import>
+        </div>
+        </sc-if>
+
+      </div>
+    </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;annotations&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;},
+  &quot;showCounts&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;},
+  &quot;startConcept&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;A&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototype&quot;}
+}">
+class Component extends DCLogic {
+  viewDefs = {
+    weekly: { name:'Weekly review', dot:'#2E90FA', blocks:['summary','feed','clusters'],
+      filters:[{k:'Species',v:'All'},{k:'Uploaded',v:'Last 7 days'},{k:'Ward',v:'All'}] },
+    cre: { name:'CRE surveillance', dot:'#F04438', blocks:['summary','clusters','resistome','phylo'],
+      filters:[{k:'Group',v:'Enterobacterales'},{k:'AMR',v:'Carbapenem'},{k:'SNP',v:'≤ 15'},{k:'Window',v:'90 days'}] },
+    ward4b: { name:'Ward 4B outbreak', dot:'#F79009', blocks:['summary','epi','compare','phylo'],
+      filters:[{k:'Ward',v:'4B + ICU'},{k:'Window',v:'30 days'},{k:'SNP',v:'≤ 10'}] },
+    qc: { name:'QC monitoring', dot:'#12B76A', blocks:['qcpass','qcreasons','qcheat'],
+      filters:[{k:'Scope',v:'All species'},{k:'Window',v:'Last 3 months'},{k:'Metric',v:'Quality'}] },
+  };
+  catalog = [
+    { group:'Overview', items:[
+      { id:'summary', name:'Summary tiles', glyph:'▦' },
+      { id:'feed', name:'Recent activity', glyph:'≋' } ] },
+    { group:'Surveillance', items:[
+      { id:'clusters', name:'Clusters', glyph:'◉' },
+      { id:'resistome', name:'Resistome', glyph:'▤' },
+      { id:'phylo', name:'Phylogeny', glyph:'⋔' } ] },
+    { group:'Comparison', items:[
+      { id:'compare', name:'Comparison table', glyph:'⇄' } ] },
+    { group:'Epidemiology', items:[
+      { id:'epi', name:'Ward × time map', glyph:'⊞' } ] },
+    { group:'Quality control', items:[
+      { id:'qcpass', name:'Pass rate & severity', glyph:'◐' },
+      { id:'qcreasons', name:'Top failure reasons', glyph:'▤' },
+      { id:'qcheat', name:'Failure heatmap', glyph:'▦' } ] },
+  ];
+  blockMeta = {
+    summary:{name:'Summary tiles',group:'Overview',span:2},
+    feed:{name:'Recent activity',group:'Overview',span:1},
+    clusters:{name:'Clusters',group:'Surveillance',span:1},
+    resistome:{name:'Resistome',group:'Surveillance',span:1},
+    phylo:{name:'Phylogeny',group:'Surveillance',span:2},
+    compare:{name:'Comparison table',group:'Comparison',span:2},
+    epi:{name:'Ward × time map',group:'Epidemiology',span:2},
+    qcpass:{name:'Pass rate & severity',group:'Quality control',span:2},
+    qcreasons:{name:'Top failure reasons',group:'Quality control',span:1},
+    qcheat:{name:'Failure heatmap',group:'Quality control',span:1},
+  };
+
+  wlTypes = [
+    { id:'mechanism', name:'Resistance mechanism', desc:'A gene or gene family — tracked across every species that carries it.',
+      defName:'Carbapenemase-producing Enterobacterales', defLine:'blaNDM · blaOXA-48 · blaKPC · Enterobacterales',
+      criteriaLabel:'Marker genes', criteria:['blaNDM','blaOXA-48','blaKPC'], scopeLabel:'Organism scope', scope:'Enterobacterales',
+      match:{ iso:18, sub:'across 4 species' }, preview:['MS7923_assembly','MS7884_assembly','MS7930_assembly'], dot:'#F04438' },
+    { id:'clone', name:'High-risk clone', desc:'A species and sequence type you want to follow closely.',
+      defName:'MRSA — ST22', defLine:'S. aureus · ST22 · mecA',
+      criteriaLabel:'Definition', criteria:['S. aureus','ST22','mecA +'], scopeLabel:'Match on', scope:'Species + ST',
+      match:{ iso:7, sub:'2 sub-lineages' }, preview:['MS7801_assembly','MS7802_assembly','MS7810_assembly'], dot:'#2E90FA' },
+    { id:'organism', name:'Single organism', desc:'Every isolate of one species, however it types.',
+      defName:'Clostridioides difficile', defLine:'Clostridioides difficile · all types',
+      criteriaLabel:'Species', criteria:['Clostridioides difficile'], scopeLabel:'Match on', scope:'Species',
+      match:{ iso:5, sub:'toxigenic' }, preview:['GCA_016767035_assembly','MS7700_assembly','MS7702_assembly'], dot:'#98A2B3' },
+    { id:'custom', name:'Custom set', desc:'A saved filter — by ward, location, date or any field.',
+      defName:'Ward 4B — Gram-negatives', defLine:'Ward 4B or ICU · Gram-negative',
+      criteriaLabel:'Filters', criteria:['Ward 4B or ICU','Gram-negative'], scopeLabel:'Refreshes', scope:'Automatically',
+      match:{ iso:6, sub:'mixed species' }, preview:['MS7924_assembly','MS7925_assembly','MS7930_assembly'], dot:'#F79009' },
+  ];
+
+  state = {
+    concept: (this.props.startConcept || 'A'),
+    screen: this.homeFor(this.props.startConcept || 'A'),
+    view: 'cre',
+    blocks: ['summary','clusters','resistome','phylo'],
+    paletteOpen: false,
+    wl: null,          // create-watchlist wizard: { step, typeId, name, pin, alert }
+    wlCreated: [],     // watchlists the user has created this session
+  };
+
+  openWL(){ this.setState({ wl:{ step:1, typeId:null, name:'', pin:true, alert:true } }); }
+  closeWL(){ this.setState({ wl:null }); }
+  wlPatch(p){ this.setState(s => ({ wl:{ ...s.wl, ...p } })); }
+  wlPickType(id){ const t=this.wlTypes.find(x=>x.id===id); this.setState(s => ({ wl:{ ...s.wl, typeId:id, name:s.wl.name || t.defName, step:2 } })); }
+  wlGo(n){ this.setState(s => ({ wl:{ ...s.wl, step:n } })); }
+  wlCreate(){
+    const w=this.state.wl; const t=this.wlTypes.find(x=>x.id===w.typeId);
+    const entry={ name:(w.name||t.defName), def:t.defLine, iso:t.match.iso, sub:t.match.sub, dot:t.dot };
+    this.setState(s => ({ wlCreated:[...s.wlCreated, entry], wl:null, screen:'pathogens' }));
+  }
+
+  homeFor(c){ return c==='B' ? 'organism' : c==='C' ? 'dashboard' : c==='D' ? 'board' : 'feed'; }
+  setConcept(c){ this.setState({ concept:c, screen:this.homeFor(c), paletteOpen:false }); }
+  go(s){ this.setState({ screen:s }); }
+  selectView(v){ this.setState({ view:v, blocks:[...this.viewDefs[v].blocks], screen:'dashboard', paletteOpen:false }); }
+  addBlock(id){ this.setState(s => s.blocks.includes(id) ? s : { blocks:[...s.blocks, id] }); }
+  removeBlock(id){ this.setState(s => ({ blocks: s.blocks.filter(b => b !== id) })); }
+  togglePalette(){ this.setState(s => ({ paletteOpen: !s.paletteOpen })); }
+  saveView(){ this.viewDefs[this.state.view] = { ...this.viewDefs[this.state.view], blocks:[...this.state.blocks] }; this.forceUpdate(); }
+  resetView(){ this.setState({ blocks:[...this.viewDefs[this.state.view].blocks], paletteOpen:false }); }
+  saveAsNew(){ const base=this.viewDefs[this.state.view]; const key='v'+Date.now();
+    this.viewDefs[key]={ name: base.name.replace(/ \(copy\)$/,'')+' (copy)', dot:'#7A5AF8', blocks:[...this.state.blocks], filters:[...base.filters] };
+    this.setState({ view:key, paletteOpen:false }); }
+
+  tone(k){
+    const t = {
+      error:{bg:'#FEF3F2',fg:'#B42318',rail:'#F04438'}, warning:{bg:'#FFFAEB',fg:'#B54708',rail:'#F79009'},
+      brand:{bg:'#E8F5ED',fg:'#11612E',rail:'#1F8748'}, success:{bg:'#ECFDF3',fg:'#027A48',rail:'#12B76A'},
+      gray:{bg:'#F2F4F7',fg:'#475467',rail:'#98A2B3'}, blue:{bg:'#EFF8FF',fg:'#175CD3',rail:'#2E90FA'},
+    };
+    return t[k] || t.gray;
+  }
+  mapTone(k){ const t=this.tone(k); return { rail:t.rail, tagBg:t.bg, tagFg:t.fg, iconBg:t.bg, iconFg:t.fg }; }
+  mapQc(k){
+    if(k==='pass') return { qc:'Passed', qcBg:'#ECFDF3', qcFg:'#027A48' };
+    if(k==='warn') return { qc:'Review', qcBg:'#FFFAEB', qcFg:'#B54708' };
+    return { qc:'Queued', qcBg:'#F2F4F7', qcFg:'#475467' };
+  }
+
+  renderVals(){
+    const { concept, screen, view, blocks, paletteOpen } = this.state;
+    const showCounts = this.props.showCounts ?? true;
+    const cnt = n => showCounts ? String(n) : '';
+    const navStyle = a => `display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:${a?600:500};color:${a?'#11612E':'#344054'};background:${a?'#E8F5ED':'transparent'}`;
+    const subStyle = a => `display:flex;align-items:center;gap:9px;padding:6px 10px 6px 12px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:${a?600:500};color:${a?'#11612E':'#475467'};background:${a?'#E8F5ED':'transparent'}`;
+    const pill = a => `display:flex;align-items:center;gap:9px;padding:7px 13px;border-radius:11px;cursor:pointer;border:1px solid ${a?'#A6D6B5':'#EAECF0'};background:${a?'#F5FBF7':'#fff'};transition:border-color .12s`;
+
+    const aNav = { feed:'feed', isolates:'isolates', clusters:'clusters', clusterDetail:'clusters', reports:'reports' }[screen] || 'feed';
+    const bNav = { pathogens:'pathogens', organism:'pathogens', clusterDetail:'pathogens', isolates:'isolates', reports:'reports' }[screen] || 'pathogens';
+    const cNav = { dashboard:'dash', isolates:'isolates', reports:'reports' }[screen] || 'dash';
+
+    const C={label:'C',bg:'#FEF3F2',fg:'#B42318'}, M={label:'M',bg:'#FFFAEB',fg:'#B54708'}, Q={label:'Q',bg:'#EFF8FF',fg:'#175CD3'};
+
+    const openCluster = () => this.go('clusterDetail');
+    const goIsolates = () => this.go('isolates');
+    const goClusters = () => this.go('clusters');
+    const goReports = () => this.go('reports');
+
+    const feedGroups = [
+      { day:'Today', events:[
+        { glyph:'◉', tag:'Cluster match', ...this.mapTone('error'), title:'MS7931_assembly matched cluster Eh1', meta:'Enterobacter hormaechei · within 6 SNPs · escalation candidate', when:'18m', onClick:openCluster },
+        { glyph:'⚠', tag:'AMR alert', ...this.mapTone('warning'), title:'Carbapenemase blaAHM detected', meta:'MS7924_assembly · Enterobacter hormaechei', when:'1h', onClick:goIsolates },
+        { glyph:'＋', tag:'New isolates', ...this.mapTone('brand'), title:'3 isolates sequenced & characterised', meta:'2× E. coli · 1× C. difficile · ready to review', when:'3h', onClick:goIsolates },
+      ]},
+      { day:'Yesterday', events:[
+        { glyph:'◉', tag:'Cluster grew', ...this.mapTone('brand'), title:'Cluster Ec1 gained a member (now 4)', meta:'Escherichia coli · Monitoring', when:'1d', onClick:openCluster },
+        { glyph:'○', tag:'QC failed', ...this.mapTone('gray'), title:'MS7930_assembly failed quality control', meta:'Low coverage (18×) · contamination flag', when:'1d', onClick:goIsolates },
+      ]},
+      { day:'Mon 30 Jun', events:[
+        { glyph:'▲', tag:'Status change', ...this.mapTone('error'), title:'Margo escalated cluster Eh1', meta:'Enterobacter hormaechei · 5 isolates', when:'3d', onClick:openCluster },
+        { glyph:'▤', tag:'Report', ...this.mapTone('gray'), title:'Report created for GCA_016767035', meta:'Clostridioides difficile', when:'3d', onClick:goReports },
+      ]},
+    ];
+
+    const sampleRows = [
+      { id:'GCA_016767035_assembly', species:'Clostridioides difficile', mlst:'11', amr:[C], cluster:'—', ...this.mapQc('pass') },
+      { id:'MS7923_assembly', species:'Enterobacter hormaechei', mlst:'830', amr:[C,M,Q], cluster:'Eh1', ...this.mapQc('pass') },
+      { id:'MS7884_assembly', species:'Enterobacter hormaechei', mlst:'830', amr:[C,M,Q], cluster:'Eh1', ...this.mapQc('pass') },
+      { id:'MS7924_assembly', species:'Enterobacter hormaechei', mlst:'656', amr:[C,M], cluster:'Eh2', ...this.mapQc('pass') },
+      { id:'MS7925_assembly', species:'Escherichia coli', mlst:'162', amr:[C,M,Q], cluster:'Ec1', ...this.mapQc('warn') },
+      { id:'MS7930_assembly', species:'Enterobacter hormaechei', mlst:'—', amr:[], cluster:'—', ...this.mapQc('pending') },
+    ];
+
+    const clu = (code, samples, status, statusKey, species, mlst, amr) => {
+      const ct = this.tone({ Pa1:'gray', Ec1:'blue', Eh1:'error', Eh2:'error', Eh3:'brand' }[code] || 'gray');
+      const st = this.tone(statusKey);
+      return { code, samples, status, statusShow: status!=='—', statusEmpty: status==='—', species, mlst, amr, codeBg:ct.bg, codeFg:ct.fg, statusBg:st.bg, statusFg:st.fg, onClick:openCluster };
+    };
+    const clusterRows = [
+      clu('Pa1',7,'—','gray','Pseudomonas aeruginosa','1613',[]),
+      clu('Ec1',3,'Monitoring','blue','Escherichia coli','162',[C,M,Q]),
+      clu('Eh1',5,'Escalated','error','Enterobacter hormaechei','830',[C,M,Q]),
+      clu('Eh2',4,'Resolved','success','Enterobacter hormaechei','656',[C,M,Q]),
+      clu('Eh3',3,'No action','gray','Enterobacter hormaechei','90',[C,M,Q]),
+    ];
+
+    const openOrganism = () => this.go('organism');
+    const openSample = () => this.go('sampleDetail');
+    const org = (name, def, isolates, clusters, amr, trend, trendUp, last, flag, flagKey) => {
+      const tk = trendUp ? this.tone('brand') : this.tone('gray');
+      const fk = flag ? this.tone(flagKey) : null;
+      return { name, def, isolates, clusters, amr, trend, trendColor:tk.fg, trendBg:tk.bg, last,
+        flag, flagShow:!!flag, flagBg:fk?fk.bg:'', flagFg:fk?fk.fg:'', onClick:openOrganism };
+    };
+    const organisms = [
+      org('Carbapenemase-producing Enterobacterales','blaNDM · blaOXA-48 · blaKPC · spans E. coli, Klebsiella, Enterobacter',18,3,[C,M,Q],'+2 this week',true,'18m ago','1 escalated','error'),
+      org('MRSA','mecA · methicillin-resistant S. aureus · ST22 / ST772',7,1,[M],'+1 this week',true,'1d ago','monitoring','blue'),
+      org('C. difficile','Toxigenic · tcdA / tcdB · CDT binary toxin',5,0,[C],'no change',false,'3d ago',null,null),
+      org('Ward 4B — Gram-negatives','Custom watchlist · any GN isolate from Ward 4B or ICU',6,1,[C,Q],'new',true,'2d ago','custom','gray'),
+      ...this.state.wlCreated.map(e => ({
+        name:e.name, def:e.def, isolates:e.iso, clusters:0, amr:[],
+        trend:'just added', trendColor:'#11612E', trendBg:'#E8F5ED', last:'just now',
+        flag:'new', flagShow:true, flagBg:'#E8F5ED', flagFg:'#11612E', onClick:openOrganism, justAdded:true,
+      })),
+    ];
+
+    const openClusterB = () => this.go('clusterDetail');
+    const ocl = (code,samples,status,statusKey) => { const ct=this.tone('error'); const st=this.tone(statusKey);
+      return { code, samples, status, codeBg:ct.bg, codeFg:ct.fg, statusBg:st.bg, statusFg:st.fg, onClick:openClusterB }; };
+    const orgClusters = [ ocl('Eh1',5,'Escalated','error'), ocl('Eh2',4,'Resolved','success'), ocl('Eh3',3,'No action','gray') ];
+
+    const rb = (name,pct,color) => ({ name, pct: pct+'%', w: pct+'%', color });
+    const resistome = [ rb('β-lactam',92,'#B42318'), rb('Carbapenem',75,'#F04438'), rb('Fluoroquinolone',58,'#F79009'), rb('Aminoglycoside',42,'#98A2B3') ];
+
+    // QC insights data
+    const qcReasons = [
+      { name:'Low coverage', pct:'34%', dot:'#F04438', action:'Check sequencing depth — recent runs averaged 18× vs 30× target.' },
+      { name:'Contamination', pct:'28%', dot:'#F79009', action:'Review sample prep for batches from Nov 12–18.' },
+      { name:'Assembly quality', pct:'18%', dot:'#F79009', action:'Correlates with low-input DNA; check extraction protocol.' },
+      { name:'Read quality', pct:'12%', dot:'#EAAA08', action:'Flowcell age may be a factor on 3 recent runs.' },
+      { name:'Low yield', pct:'8%', dot:'#98A2B3', action:'Isolated to E. coli; species-specific library prep may help.' },
+    ];
+    const heatBg = v => v===0?'#F2F4F7' : v<=2?'#FEF0C7' : v<=4?'#FEC84B' : v<=6?'#FDA29B':'#F97066';
+    const mkHeat = (label, arr) => ({ label, cells: arr.map(v => ({ v: v===0?'':String(v), bg:heatBg(v), fg: v===0?'#D0D5DD':(v>=5?'#7A271A':'#93370D') })) });
+    const qcHeat = [
+      mkHeat('Low coverage',[5,4,7,3,4,2]),
+      mkHeat('Contamination',[4,3,4,7,5,2]),
+      mkHeat('Assembly',[3,2,3,4,2,1]),
+      mkHeat('Read quality',[2,1,2,3,1,1]),
+      mkHeat('Low yield',[1,2,1,2,1,0]),
+    ];
+    const qcWeeks = ['W1','W2','W3','W4','W5','W6'];
+
+    const compareRows = [
+      { label:'Species', a:'E. hormaechei', b:'E. hormaechei', c:'E. hormaechei' },
+      { label:'MLST', a:'830', b:'830', c:'656' },
+      { label:'Carbapenem', a:'blaAHM', b:'blaAHM', c:'—' },
+      { label:'Fluoroquinolone', a:'gyrB', b:'gyrB', c:'gyrB' },
+      { label:'QC', a:'Pass', b:'Pass', c:'Pass' },
+    ];
+
+    const recentActivity = [
+      { glyph:'◉', ...(()=>{const t=this.tone('error');return{iconBg:t.bg,iconFg:t.fg};})(), text:'MS7931 matched cluster Eh1 (≤6 SNP)', when:'18m ago' },
+      { glyph:'＋', ...(()=>{const t=this.tone('brand');return{iconBg:t.bg,iconFg:t.fg};})(), text:'3 new isolates characterised', when:'3h ago' },
+      { glyph:'⚠', ...(()=>{const t=this.tone('warning');return{iconBg:t.bg,iconFg:t.fg};})(), text:'Carbapenemase blaAHM in MS7924', when:'1h ago' },
+    ];
+
+    // C dashboard derived
+    const vd = this.viewDefs[view];
+    const dirty = JSON.stringify(blocks) !== JSON.stringify(this.viewDefs[view].blocks);
+    const viewTabs = Object.keys(this.viewDefs).map(k => ({
+      key:k, name:this.viewDefs[k].name, dot:this.viewDefs[k].dot,
+      style: subStyle(k===view && screen==='dashboard'), onClick: () => this.selectView(k),
+    }));
+    const activeBlocks = blocks.map(id => {
+      const m = this.blockMeta[id];
+      return { id, name:m.name, group:m.group, gridCol: m.span===2 ? '1 / -1' : 'auto',
+        isSummary:id==='summary', isClusters:id==='clusters', isResistome:id==='resistome',
+        isPhylo:id==='phylo', isCompare:id==='compare', isEpi:id==='epi', isFeed:id==='feed',
+        isQcPass:id==='qcpass', isQcReasons:id==='qcreasons', isQcHeat:id==='qcheat',
+        onRemove: () => this.removeBlock(id) };
+    });
+    const itemRow = a => `display:flex;align-items:center;gap:10px;padding:8px 9px;border:1px solid #EAECF0;border-radius:9px;cursor:${a?'default':'pointer'};background:${a?'#F5FBF7':'#fff'};opacity:${a?0.75:1}`;
+    const palette = this.catalog.map(g => ({ group:g.group, items: g.items.map(it => ({
+      id:it.id, name:it.name, glyph:it.glyph, added:blocks.includes(it.id), notAdded:!blocks.includes(it.id),
+      style:itemRow(blocks.includes(it.id)), onAdd: () => this.addBlock(it.id),
+    })) }));
+
+    // B — pinned watchlists in the rail (land inside one; the grid is a manage screen)
+    const wtStyle = a => `display:flex;align-items:center;gap:9px;padding:7px 10px 7px 12px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:${a?600:500};color:${a?'#11612E':'#475467'};background:${a?'#E8F5ED':'transparent'}`;
+    const watchTabs = [
+      { name:'CPE — Enterobacterales', dot:'#F04438', flag:'1 escalated', flagShow:true, flagBg:'#FEF3F2', flagFg:'#B42318' },
+      { name:'MRSA', dot:'#2E90FA', flag:'monitoring', flagShow:true, flagBg:'#EFF8FF', flagFg:'#175CD3' },
+      { name:'C. difficile', dot:'#98A2B3', flag:'', flagShow:false, flagBg:'', flagFg:'' },
+      { name:'Ward 4B — Gram-neg', dot:'#F79009', flag:'new', flagShow:true, flagBg:'#FFFAEB', flagFg:'#B54708' },
+    ].concat(this.state.wlCreated.map(e => ({ name:e.name, dot:e.dot, flag:'new', flagShow:true, flagBg:'#E8F5ED', flagFg:'#11612E' })))
+     .map((w,i) => ({ ...w, style: wtStyle(screen==='organism' && i===0), onClick: () => this.go('organism') }));
+
+    // Create-watchlist wizard view model
+    const w = this.state.wl;
+    const wlOpen = !!w;
+    const wlTypeStyle = sel => `display:flex;gap:14px;align-items:flex-start;padding:15px 16px;border:1.5px solid ${sel?'#157639':'#EAECF0'};border-radius:12px;cursor:pointer;background:${sel?'#F5FBF7':'#fff'};transition:border-color .12s`;
+    const dotStep = active => `width:26px;height:26px;border-radius:999px;display:grid;place-items:center;font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace;background:${active?'#157639':'#EAECF0'};color:${active?'#fff':'#98A2B3'}`;
+    const tgl = on => `width:42px;height:24px;border-radius:999px;background:${on?'#157639':'#D0D5DD'};position:relative;cursor:pointer;flex:none;transition:background .15s`;
+    const knob = on => `position:absolute;top:2px;left:${on?'20px':'2px'};width:20px;height:20px;border-radius:999px;background:#fff;transition:left .15s;box-shadow:0 1px 2px rgba(16,24,40,.2)`;
+    let wlView = null;
+    if (w) {
+      const t = this.wlTypes.find(x => x.id === w.typeId) || null;
+      wlView = {
+        isStep1:w.step===1, isStep2:w.step===2, isStep3:w.step===3,
+        d1:dotStep(w.step>=1), d2:dotStep(w.step>=2), d3:dotStep(w.step>=3),
+        l1:w.step===1?'#101828':'#98A2B3', l2:w.step===2?'#101828':'#98A2B3', l3:w.step===3?'#101828':'#98A2B3',
+        typeCards: this.wlTypes.map(x => ({ id:x.id, name:x.name, desc:x.desc, dot:x.dot, style:wlTypeStyle(x.id===w.typeId), onPick:()=>this.wlPickType(x.id) })),
+        hasType:!!w.typeId,
+        tName:t?t.name:'', tDot:t?t.dot:'#98A2B3', criteriaLabel:t?t.criteriaLabel:'', criteria:t?t.criteria:[],
+        scopeLabel:t?t.scopeLabel:'', scope:t?t.scope:'', matchIso:t?t.match.iso:'', matchSub:t?t.match.sub:'', preview:t?t.preview:[],
+        name:w.name, setName:(ev)=>this.wlPatch({ name:ev.target.value }),
+        pin:w.pin, alert:w.alert, pinTgl:tgl(w.pin), pinKnob:knob(w.pin), alertTgl:tgl(w.alert), alertKnob:knob(w.alert),
+        togglePin:()=>this.wlPatch({ pin:!w.pin }), toggleAlert:()=>this.wlPatch({ alert:!w.alert }),
+        toStep1:()=>this.wlGo(1), toStep2:()=>this.wlGo(2), toStep3:()=>this.wlGo(3),
+        close:()=>this.closeWL(), create:()=>this.wlCreate(),
+      };
+    }
+
+    const notes = {
+      A:'Pulse — organises by TIME. Today’s Pulse, evolved into the default home: led by a time-ordered event stream (new isolates, cluster matches, resistance alerts) rather than stat cards, every event a jump-off into the cluster or isolate. Answers “what changed since I last looked?” — the triage front door.',
+      B:'Watchlists — organises by TARGET. Your saved targets of concern live pinned in the sidebar (a resistance mechanism spanning species, a clone, an organism, a custom ward set) — each a saved rule that keeps matching new isolates. You land straight inside the one you work in most; each is a scoped workspace of matching isolates, clusters, resistome and epidemiology. Answers “how are the things I track doing?”',
+      C:'Views — organises by LENS, on demand. Filter to any slice instantly — a species, a ward, a date range, a resistance gene, a SNP distance — with zero setup and no list to maintain. Look at it however the question needs (table, tree, resistome, comparison), and if you check the same slice often, save it as a named View (optional, not required). This is where “how’s Klebsiella looking right now?” lives — the on-demand alternative to maintaining watchlists. Answers “let me look at exactly this, my way.”',
+    };
+
+    return {
+      concept, isA:concept==='A', isB:concept==='B', isC:concept==='C', isD:concept==='D',
+      annotations: this.props.annotations ?? true, note: notes[concept] || 'Investigations — organises by CASE (the bold option). A freeform canvas you build the investigation on: drag blocks from the palette (isolate set, cluster, phylogeny, comparison, resistome, AI next steps, note), connect them, and tune the pipeline right on the cluster block (SNP vs cgMLST, threshold → live member count). Everything on the canvas flows into the report. Not a reusable lens like Views; one case, spatially assembled and worked end-to-end. Answers “let me build this one investigation.”',
+      c: { iso: cnt(26), clu: cnt(5) },
+      setA:()=>this.setConcept('A'), setB:()=>this.setConcept('B'), setC:()=>this.setConcept('C'), setD:()=>this.setConcept('D'),
+      pillA:pill(concept==='A'), pillB:pill(concept==='B'), pillC:pill(concept==='C'), pillD:pill(concept==='D'),
+      dotA:concept==='A'?'#157639':'#98A2B3', dotB:concept==='B'?'#157639':'#98A2B3', dotC:concept==='C'?'#157639':'#98A2B3', dotD:concept==='D'?'#157639':'#98A2B3',
+
+      ns: {
+        A_feed:navStyle(aNav==='feed'), A_iso:navStyle(aNav==='isolates'), A_clu:navStyle(aNav==='clusters'), A_rep:navStyle(aNav==='reports'),
+        B_path:navStyle(bNav==='pathogens'), B_iso:navStyle(bNav==='isolates'), B_rep:navStyle(bNav==='reports'),
+        C_dash:navStyle(cNav==='dash'), C_iso:navStyle(cNav==='isolates'), C_rep:navStyle(cNav==='reports'),
+      },
+
+      goFeed:()=>this.go('feed'), goIsolates, goClusters, goReports, openSample,
+      goPathogens:()=>this.go('pathogens'), goOrganism:()=>this.go('organism'), goIsolatesB:()=>this.go('isolates'), goReportsB:()=>this.go('reports'),
+      goDashboard:()=>this.go('dashboard'), goIsolatesC:()=>this.go('isolates'), goReportsC:()=>this.go('reports'),
+      togglePalette:()=>this.togglePalette(),
+
+      crumbA: ({ feed:'Feed', isolates:'Isolates', clusters:'Clusters', clusterDetail:'Clusters', reports:'Reports', sampleDetail:'Isolates · detail' })[screen] || 'Feed',
+      crumbB: ({ pathogens:'Watchlists · Manage', organism:'Watchlists · CPE', clusterDetail:'Watchlists · Eh1', isolates:'All isolates', reports:'Reports', sampleDetail:'Isolates · detail' })[screen] || 'Watchlists',
+
+      showA_feed:screen==='feed', showA_iso:screen==='isolates', showA_clusters:screen==='clusters', showA_clusterDetail:screen==='clusterDetail', showA_reports:screen==='reports', showA_sample:screen==='sampleDetail',
+      showB_pathogens:screen==='pathogens', showB_organism:screen==='organism', showB_clusterDetail:screen==='clusterDetail', showB_isolates:screen==='isolates', showB_reports:screen==='reports', showB_sample:screen==='sampleDetail',
+      showC_dash:screen==='dashboard', showC_iso:screen==='isolates', showC_reports:screen==='reports', showC_sample:screen==='sampleDetail',
+
+      feedGroups, sampleRows, clusterRows, timeline:[
+        { who:'MG', text:"Margo marked cluster Eh1 as 'Escalated'", when:'3 months ago' },
+        { who:'MG', text:'Margo added 2 new isolates to the cluster', when:'3 months ago' },
+        { who:'SY', text:'System auto-detected cluster from 3 isolates within 15 SNPs', when:'3 months ago' },
+      ],
+      organisms, watchTabs, orgClusters, resistome, compareRows, recentActivity, qcReasons, qcHeat, qcWeeks,
+      wlOpen, wlView, openWatchlist: () => this.openWL(),
+      currentView: vd, viewTabs, activeBlocks, palette, paletteOpen,
+      dirty, notDirty:!dirty,
+      resetView:()=>this.resetView(), saveView:()=>this.saveView(), saveAsNew:()=>this.saveAsNew(),
+    };
+  }
+}
+</script>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0d0d0e"/><circle cx="50" cy="50" r="3" fill="#0d0d0e"/></svg></template>
+</body>
+</html>

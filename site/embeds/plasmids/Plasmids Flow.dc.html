@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="_ds/solu-report-builder-17b76442-1758-43ef-afd7-ef7de69d1e2b/_ds_bundle.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: "IBM Plex Sans"; font-weight: 400; font-style: normal; src: url("fonts/IBMPlexSans-Regular.ttf") format("truetype"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 500; font-style: normal; src: url("fonts/IBMPlexSans-Medium.ttf") format("truetype"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 600; font-style: normal; src: url("fonts/IBMPlexSans-SemiBold.ttf") format("truetype"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 400; font-style: italic; src: url("fonts/IBMPlexSans-Italic.ttf") format("truetype"); }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+body { font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; color: #101828; background: #fff; font-size: 14px; line-height: 20px; -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; padding: 0; color: inherit; }
+input { font-family: inherit; }
+a { color: #087443; text-decoration: none; }
+a:hover { color: #095C37; text-decoration: underline; }
+details.ws>summary{list-style:none}details.ws>summary::-webkit-details-marker{display:none}details.ws[open]>summary{background:#F2F4F7}
+@keyframes pfNetIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+</style>
+<script>if (/[?&]auto\b/.test(location.search)) { const go = () => import(new URL('./autoplay.js', document.baseURI).href).then((m) => m.run('flow')); if (document.readyState === 'complete') setTimeout(go, 300); else addEventListener('load', () => setTimeout(go, 300)); }</script>
+</helmet>
+<sc-if value="{{ addModalOpen }}">
+        <div onClick="{{ closeAddModal }}" style="position:fixed;inset:0;z-index:80;background:rgba(16,24,40,0.45);display:flex;align-items:center;justify-content:center;padding:40px">
+          <div onClick="{{ stop }}" style="width:600px;max-width:100%;max-height:82vh;display:flex;flex-direction:column;background:#FFFFFF;border-radius:4px;box-shadow:0 24px 56px -12px rgba(16,24,40,0.45);overflow:hidden">
+            <div style="display:flex;align-items:flex-start;gap:12px;padding:16px 18px 14px;border-bottom:1px solid #EAECF0">
+              <div style="min-width:0">
+                <div style="font-size:15px;font-weight:600">{{ editTitle }}</div>
+                <div style="font-size:12.5px;color:#667085;margin-top:3px">{{ editSub }}</div>
+              </div>
+              <button onClick="{{ closeAddModal }}" style="margin-left:auto;flex:none;width:28px;height:28px;display:grid;place-items:center;border-radius:4px;background:#F2F4F7;color:#667085;font-size:15px;line-height:1">×</button>
+            </div>
+            <div style="padding:12px 18px 8px">
+              <input value="{{ addQ }}" onChange="{{ onAddQ }}" autoFocus="{{ true }}" placeholder="Search plasmid, replicon, sample…" style="width:100%;height:36px;font-family:inherit;font-size:13px;color:#344054;border:1px solid #D0D5DD;border-radius:4px;padding:0 12px;background:#FFFFFF;outline:none">
+            </div>
+            <div style="flex:1;min-height:0;overflow-y:auto;padding:4px 12px 12px">
+              <sc-for list="{{ editGroups }}" as="eg" hint-placeholder-count="2">
+                <div style="padding:10px 10px 6px;font-size:12px;font-weight:600;color:#475467">{{ eg.label }}</div>
+                <sc-for list="{{ eg.rows }}" as="q">
+                  <button onClick="{{ q.toggle }}" style="display:flex;align-items:center;gap:12px;width:100%;padding:6px 10px;border-radius:4px;border-bottom:1px solid #F2F4F7;text-align:left;opacity:{{ q.rowOpacity }};cursor:{{ q.rowCursor }}" style-hover="background:#F6FEF9">
+                    <span style="width:17px;height:17px;flex:none;border-radius:5px;background:{{ q.boxBg }};border:{{ q.boxBorder }};display:grid;place-items:center"><sc-if value="{{ q.on }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"></path></svg></sc-if></span>
+                    <span style="flex:1;min-width:0;display:flex;align-items:center;gap:10px">
+                      <span style="flex:none;max-width:48%;font-size:13px;font-weight:500;color:{{ q.nameColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:{{ q.strike }}">{{ q.name }}</span>
+                      <span style="flex:1;display:flex;align-items:center;gap:6px;min-width:0"><span style="font-size:12px;color:#667085;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">{{ q.meta }}</span><sc-if value="{{ q.isFragRow }}"><span title="Won't show in the network" style="flex:none;font-size:11px;font-weight:500;line-height:18px;padding:0 7px;border-radius:999px;white-space:nowrap;color:#B54708;background:#FFFAEB;border:1px solid #FEDF89">{{ q.fragLabel }}</span></sc-if><sc-if value="{{ q.hasMob }}" hint-placeholder-val="{{ false }}"><span style="flex:none;font-size:11px;font-weight:500;line-height:18px;padding:0 7px;border-radius:999px;white-space:nowrap;color:{{ q.mobColor }};background:{{ q.mobBg }};border:1px solid {{ q.mobBorder }}">{{ q.mobLabel }}</span></sc-if><sc-if value="{{ q.hasAmr }}" hint-placeholder-val="{{ false }}"><span style="flex:none;font-size:11px;font-weight:500;line-height:18px;padding:0 7px;border-radius:999px;white-space:nowrap;color:#C11574;background:#FDF2FA;border:1px solid #FCCEEE">{{ q.amrLabel }}</span></sc-if></span>
+                    </span>
+                    <sc-if value="{{ q.hasChange }}"><span style="flex:none;font-size:11.5px;font-weight:500;line-height:18px;padding:0 7px;border-radius:999px;color:{{ q.chColor }};background:{{ q.chBg }};border:1px solid {{ q.chBorder }}">{{ q.change }}</span></sc-if>
+                  </button>
+                </sc-for>
+              </sc-for>
+              <sc-if value="{{ addEmpty }}"><div style="padding:22px 10px;text-align:center;font-size:13px;color:#98A2B3">Nothing matches that search.</div></sc-if>
+            </div>
+            <sc-if value="{{ editHasFrag }}">
+              <div style="flex:none;display:flex;align-items:flex-start;gap:9px;padding:10px 18px;background:#FFFAEB;border-top:1px solid #FEDF89;font-size:12.5px;line-height:1.5;color:#93370D">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B54708" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                <span>{{ editFragNote }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ editHasChanges }}">
+              <div style="flex:none;display:flex;align-items:flex-start;gap:9px;padding:10px 18px;background:#FFFAEB;border-top:1px solid #FEDF89;font-size:12.5px;line-height:1.5;color:#93370D">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B54708" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <span>Updating rebuilds the network for this comparison. This may take a while.</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ showNameField }}">
+              <div style="flex:none;padding:14px 18px 14px;border-top:1px solid #EAECF0">
+                <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:6px">Comparison name</div>
+                <input value="{{ newName }}" onChange="{{ onNewName }}" placeholder="Name this comparison" style="width:100%;height:36px;font-family:inherit;font-size:13px;color:#101828;border:1px solid #D0D5DD;border-radius:4px;padding:0 12px;background:#FFFFFF;outline:none;box-sizing:border-box" style-focus="border-color:#157639;box-shadow:0 0 0 3px #DDEFE4">
+                <div style="font-size:11.5px;color:#667085;margin-top:5px">Auto-generated from your selection. Type to override.</div>
+              </div>
+            </sc-if>
+            <div style="flex:none;display:flex;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid #EAECF0">
+              <span style="font-size:12.5px;color:#667085">{{ editSummary }}</span>
+              <div style="flex:1"></div>
+              <button onClick="{{ closeAddModal }}" style="font-size:13px;font-weight:600;color:#667085;padding:8px 14px;border-radius:4px" style-hover="background:#F2F4F7">Cancel</button>
+              <button onClick="{{ confirmEdit }}" style="font-size:13px;font-weight:600;color:#fff;background:{{ editBtnBg }};padding:8px 16px;border-radius:4px;cursor:{{ editBtnCursor }};white-space:nowrap">{{ editCta }}</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+<sc-if value="{{ updOpen }}">
+        <div onClick="{{ closeUpd }}" style="position:fixed;inset:0;z-index:80;background:rgba(16,24,40,0.45);display:flex;align-items:center;justify-content:center;padding:40px">
+          <div onClick="{{ stop }}" style="width:560px;max-width:100%;max-height:82vh;display:flex;flex-direction:column;background:#FFFFFF;border-radius:4px;box-shadow:0 24px 56px -12px rgba(16,24,40,0.45);overflow:hidden">
+            <div style="display:flex;align-items:flex-start;gap:12px;padding:16px 18px 14px;border-bottom:1px solid #EAECF0">
+              <div style="min-width:0">
+                <div style="font-size:15px;font-weight:600">{{ updTitle }}</div>
+                <div style="font-size:12.5px;color:#667085;margin-top:3px">{{ updSub }}</div>
+              </div>
+              <button onClick="{{ closeUpd }}" style="margin-left:auto;flex:none;width:28px;height:28px;display:grid;place-items:center;border-radius:4px;background:#F2F4F7;color:#667085;font-size:15px;line-height:1">×</button>
+            </div>
+            <div style="flex:1;min-height:0;overflow-y:auto;padding-bottom:8px">
+              <sc-if value="{{ updHasChanged }}">
+              <div style="padding:14px 18px 6px">
+                <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:6px">Changed</div>
+                <sc-for list="{{ updChanged }}" as="u">
+                  <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #F2F4F7">
+                    <div style="flex:1;min-width:0">
+                      <div style="font-size:13px;font-weight:500;color:#101828">{{ u.name }}</div>
+                      <div style="font-size:12px;color:{{ u.noteColor }};margin-top:2px">{{ u.note }}</div>
+                    </div>
+                    <span style="flex:none;font-size:12.5px;color:#475467;white-space:nowrap">{{ u.delta }}</span>
+                  </div></sc-for>
+              </div>
+              </sc-if>
+              <sc-if value="{{ updHasRemoved }}">
+              <div style="padding:14px 18px 6px">
+                <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:6px">No longer detected</div>
+                <sc-for list="{{ updRemoved }}" as="u">
+                  <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #F2F4F7">
+                    <div style="flex:1;min-width:0">
+                      <div style="font-size:13px;font-weight:500;color:#98A2B3">{{ u.name }}</div>
+                      <div style="font-size:12px;color:#667085;margin-top:2px">Will be removed from this comparison</div>
+                    </div>
+                  </div></sc-for>
+              </div>
+              </sc-if>
+              <sc-if value="{{ updHasAdded }}">
+              <div style="padding:10px 18px 6px">
+                <div style="display:flex;align-items:center;gap:8px;padding:4px 0 2px">
+                  <span style="flex:1;font-size:13px;font-weight:600;color:#344054">{{ updAddTitle }}</span>
+                  <sc-if value="{{ updAddHasPicked }}"><span style="flex:none;font-size:12px;font-weight:500;color:#11612E">{{ updAddPicked }}</span></sc-if>
+                </div>
+                <sc-if value="{{ updAddOpen }}">
+                  <div style="font-size:12px;color:#667085;margin:0 0 4px">Not added unless you add them.</div>
+                  <sc-for list="{{ updAdded }}" as="u">
+                    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F2F4F7">
+                      <div style="flex:1;min-width:0">
+                        <div style="display:flex;align-items:center;gap:8px;min-width:0">
+                          <span style="font-size:13px;font-weight:500;color:#101828;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">{{ u.name }}</span>
+                          <span style="flex:none;font-size:12px;color:#98A2B3;white-space:nowrap">{{ u.meta }}</span>
+                          <sc-if value="{{ u.frag }}"><span style="flex:none;font-size:12px;font-weight:500;color:#B54708;white-space:nowrap">Fragmented</span></sc-if>
+                        </div>
+                        <sc-if value="{{ u.hasHint }}"><div style="font-size:12px;color:#475467;margin-top:2px">{{ u.hint }}</div></sc-if>
+                        
+                      </div>
+                      <sc-if value="{{ u.off }}"><button onClick="{{ u.toggle }}" style="flex:none;display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 10px;border:1px solid #D0D5DD;border-radius:4px;background:#FFFFFF;color:#344054;font-size:12.5px;font-weight:600;white-space:nowrap" style-hover="border-color:#157639;color:#11612E"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Add</button></sc-if>
+                      <sc-if value="{{ u.on }}"><button onClick="{{ u.toggle }}" title="Click to undo" style="flex:none;display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 10px;border:1px solid #ABEFC6;border-radius:4px;background:#EDFCF2;color:#11612E;font-size:12.5px;font-weight:600;white-space:nowrap" style-hover="background:#DCFAE6"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Added</button></sc-if>
+                    </div>
+                  </sc-for>
+                </sc-if>
+              </div>
+              </sc-if>
+            </div>
+            <div style="flex:none;display:flex;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid #EAECF0">
+              <span style="font-size:12.5px;color:#667085;white-space:nowrap">{{ updCost }}</span>
+              <div style="flex:1"></div>
+              <button onClick="{{ keepUpd }}" style="font-size:13px;font-weight:600;color:#667085;padding:8px 14px;border-radius:4px;white-space:nowrap" style-hover="background:#F2F4F7">{{ updKeepLabel }}</button>
+              <button onClick="{{ applyUpd }}" style="font-size:14px;font-weight:600;color:#fff;background:#099250;padding:0 14px;border-radius:4px;white-space:nowrap;height:36px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#087443">Apply and rebuild</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+<sc-if value="{{ hasToast }}">
+        <div style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:90;background:#101828;color:#fff;font-size:13px;font-weight:500;padding:10px 16px;border-radius:4px;box-shadow:0 8px 24px rgba(16,24,40,.28);display:flex;align-items:center;gap:8px;white-space:nowrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6CE9A6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>{{ toast }}</div>
+      </sc-if>
+<sc-if value="{{ jobsShow }}">
+  <div style="position:fixed;right:20px;bottom:20px;z-index:60;width:320px;font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif">
+    <sc-if value="{{ jobsOpen }}">
+      <div onClick="{{ toggleJobs }}" style="position:fixed;inset:0;z-index:-1"></div>
+      <div style="background:#fff;border:1px solid #E4E7EC;border-bottom:none;border-radius:4px 4px 0 0;box-shadow:0 -8px 30px rgba(16,24,40,.14);overflow:hidden">
+        <div style="max-height:300px;overflow-y:auto">
+          <sc-for list="{{ jobRows }}" as="j" hint-placeholder-count="1">
+            <div style="padding:12px 14px 12px 16px;border-bottom:1px solid #F2F4F7;display:flex;flex-direction:column;gap:9px">
+              <div style="display:flex;align-items:center;gap:10px">
+                <sc-if value="{{ j.done }}"><span style="width:18px;height:18px;flex:none;border-radius:999px;background:#157639;display:grid;place-items:center"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></span></sc-if>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:#101828;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ j.name }}</div>
+                  <div style="font-size:12px;color:#667085;margin-top:1px">{{ j.meta }}</div>
+                </div>
+                <sc-if value="{{ j.done }}"><button onClick="{{ j.open }}" style="flex:none;height:36px;padding:0 14px;border-radius:4px;background:#099250;color:#fff;font-size:14px;font-weight:600;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#087443">Open</button></sc-if>
+                <sc-if value="{{ j.running }}"><button onClick="{{ j.open }}" style="flex:none;height:28px;padding:0 10px;border-radius:4px;border:1px solid #D0D5DD;background:#fff;color:#344054;font-size:12.5px;font-weight:600" style-hover="border-color:#157639;color:#11612E">View</button></sc-if>
+                <button onClick="{{ j.cancel }}" title="{{ j.cancelTitle }}" style="flex:none;width:24px;height:24px;border-radius:4px;color:#98A2B3;display:grid;place-items:center" style-hover="background:#F2F4F7;color:#344054"><svg width="11" height="11" viewBox="0 0 12 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 3l6 6M9 3l-6 6"></path></svg></button>
+              </div>
+              <sc-if value="{{ j.running }}"><div style="height:4px;background:#F2F4F7;border-radius:999px;overflow:hidden"><div style="height:100%;width:{{ j.pct }};background:#157639;border-radius:999px;transition:width .3s linear"></div></div></sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:10px 16px;font-size:12px;color:#667085;line-height:1.5;background:#F9FAFB">Runs in the background, so you can keep working.</div>
+      </div>
+    </sc-if>
+    <div onClick="{{ toggleJobs }}" style="background:#0E2A1B;color:#fff;border-radius:{{ jobsBarRadius }};padding:12px 15px;display:flex;align-items:center;gap:11px;cursor:pointer;box-shadow:0 8px 24px rgba(16,24,40,.18)">
+      <sc-if value="{{ jobsReady }}"><span style="width:22px;height:22px;flex:none;border-radius:999px;background:#4ADE80;display:grid;place-items:center"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0E2A1B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></span></sc-if>
+      <sc-if value="{{ jobsNotReady }}" hint-placeholder-val="{{ true }}"><span style="width:22px;height:22px;flex:none;display:grid;place-items:center"><svg width="22" height="22" viewBox="0 0 36 36" style="transform:rotate(-90deg)"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="4"></circle><circle cx="18" cy="18" r="15" fill="none" stroke="#4ADE80" stroke-width="4" stroke-linecap="round" stroke-dasharray="{{ jobsDash }}"></circle></svg></span></sc-if>
+      <span style="font-size:13px;font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ jobsTitle }}</span>
+      <span style="font-size:11.5px;color:rgba(255,255,255,.7);white-space:nowrap">{{ jobsMeta }}</span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="2" style="flex:none;transform:{{ jobsChev }}"><path d="M6 9l6 6 6-6"></path></svg>
+    </div>
+  </div>
+</sc-if>
+<div style="display:grid;grid-template-columns:{{ appCols }};height:100vh;background:#fff;color:#101828;font-size:14px;line-height:20px;font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif">
+  <aside style="background:#fff;border-right:1px solid #EAECF0;display:flex;flex-direction:column;padding:0 10px 12px;gap:2px;min-height:0;min-width:0;overflow:hidden;position:relative;z-index:5;white-space:nowrap">
+    <div style="height:56px;flex:none;display:flex;align-items:center;margin:0 -10px 10px;padding:0 10px;border-bottom:1px solid #EAECF0;box-sizing:border-box"><details class="ws" style="position:relative;flex:1;min-width:0">
+      <summary style="display:flex;align-items:center;gap:10px;padding:6px 8px;color:#344054;font-weight:600;border-radius:6px;cursor:pointer">
+      <span style="width:22px;height:22px;border-radius:4px;background:#F2F4F7;border:1px solid #EAECF0;box-sizing:border-box;color:#344054;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none">S</span>
+      <span>Solu lab · St. Agnes</span>
+      <svg style="margin-left:auto;color:#98A2B3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 9l6 6 6-6"></path></svg>
+    </summary>
+      <div style="position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:20;background:#fff;border:1px solid #EAECF0;border-radius:10px;box-shadow:0 12px 24px -6px rgba(16,24,40,0.12),0 4px 8px -4px rgba(16,24,40,0.06);padding:6px;display:flex;flex-direction:column;gap:2px;white-space:nowrap">
+        <span style="padding:6px 8px 4px;font-size:12px;color:#667085">Workspaces</span>
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;background:#F9FAFB;color:#101828;font-weight:500"><span>Solu lab · St. Agnes</span><svg style="margin-left:auto;color:#099250" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB"><span>Regional surveillance</span><span style="margin-left:auto;font-size:12px;padding:0 8px;border-radius:999px;background:#EEF4FF;color:#3538CD;line-height:20px">Shared</span></div>
+        <div style="height:1px;background:#EAECF0;margin:4px 2px"></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB"><svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg><span>Settings</span></div>
+      </div>
+    </details></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg><span>Home</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L5 19a1.5 1.5 0 0 0 1.3 2h11.4a1.5 1.5 0 0 0 1.3-2L14 9V3"></path></svg><span>Samples</span><span style="margin-left:auto;font-size:12px;color:#667085">128</span>
+    </div>
+    <div onClick="{{ goPlasmids }}" onMouseEnter="{{ navPEnter }}" onMouseLeave="{{ navPLeave }}" style="display:flex;align-items:center;gap:10px;padding:5px 10px 5px 6px;border-radius:6px;background:{{ navP.bg }};color:{{ navP.color }};font-weight:{{ navP.weight }};cursor:pointer" style-hover="background:{{ navP.hover }}">
+      <span style="width:24px;height:24px;flex:none;border-radius:4px;display:grid;place-items:center">
+        <sc-if value="{{ navPIcon }}" hint-placeholder-val="{{ true }}"><svg style="color:{{ navP.iconColor }}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3.5"></circle></svg></sc-if>
+        <sc-if value="{{ navPChev }}" hint-placeholder-val="{{ false }}"><span onClick="{{ stop }}" title="Collapse" style="width:24px;height:24px;border-radius:4px;display:grid;place-items:center;color:{{ navP.color }}" style-hover="background:{{ navP.boxBg }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></span></sc-if>
+      </span>
+      <span>Plasmids</span><span style="font-size:10px;font-weight:700;letter-spacing:.02em;color:#fff;background:#157639;border-radius:999px;padding:0 7px;line-height:16px">NEW</span><span style="margin-left:auto;font-size:12px;color:{{ navP.count }};font-weight:400">23</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1px;margin:1px 0 3px">
+      <div style="margin:2px 0 4px;display:flex;flex-direction:column;gap:1px">
+      <sc-for list="{{ savedNav }}" as="nv" hint-placeholder-count="2">
+        <div onClick="{{ nv.open }}" title="{{ nv.name }}" style="display:flex;align-items:center;gap:12px;padding:6px 10px 6px 36px;border-radius:6px;cursor:pointer;background:{{ nv.bg }};color:{{ nv.color }};font-weight:{{ nv.weight }};font-size:13px" style-hover="background:{{ nv.hover }}"><span style="width:7px;height:7px;flex:none;border-radius:999px;border:1.5px solid #98A2B3;box-sizing:border-box"></span>
+          <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ nv.name }}</span>
+          <span style="font-size:12px;color:#98A2B3;font-weight:400;flex:none">{{ nv.count }}</span>
+        </div>
+      </sc-for>
+      <sc-if value="{{ navMore }}"><div onClick="{{ goCmpTab }}" style="padding:5px 10px 5px 55px;font-size:12.5px;color:#667085;cursor:pointer;border-radius:6px" style-hover="background:#F9FAFB;color:#101828">{{ navMoreLabel }}</div></sc-if>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Collections</span><span style="margin-left:auto;font-size:12px;color:#667085">12</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="19" r="2"></circle><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="7" cy="7" r="1.4"></circle><circle cx="17" cy="17" r="1.4"></circle><circle cx="17" cy="7" r="1.4"></circle><circle cx="7" cy="17" r="1.4"></circle></svg><span>Clusters</span><span style="margin-left:auto;font-size:12px;color:#667085">4</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"></path><path d="M14 3v5h5M9 13h6M9 17h6"></path></svg><span>Reports</span><span style="margin-left:auto;font-size:12px;color:#667085">4</span>
+    </div>
+    <div style="margin-top:auto;height:1px;background:#EAECF0;margin-left:6px;margin-right:6px;margin-bottom:8px"></div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:#344054;font-weight:500;cursor:pointer" style-hover="background:#F9FAFB">
+      <svg style="color:#667085" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6M12 17h.01"></path></svg><span>Help &amp; feedback</span>
+    </div>
+  </aside>
+
+  <main style="min-width:0;min-height:0;height:100vh;position:relative;overflow:hidden">
+    <sc-if value="{{ isTable }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:12px;padding:0 16px;height:56px;border-bottom:1px solid #EAECF0;background:#FFFFFF;flex:none">
+        <svg style="flex:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+        <span style="font-size:13px;color:#667085">Plasmids</span>
+        <button style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:0 14px;border-radius:4px;background:#099250;color:#fff;font-size:14px;font-weight:600;white-space:nowrap;height:36px;box-sizing:border-box" style-hover="background:#087443"><svg style="flex:none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Add samples</button>
+      </div>
+      <sc-if value="{{ addMode }}">
+        <div style="display:flex;align-items:center;gap:10px;padding:0 16px;height:44px;background:#F6FEF9;border-bottom:1px solid #CDE9D6;flex:none">
+          <svg style="flex:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#157639" stroke-width="1.8"><circle cx="6" cy="7" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="13" cy="18" r="2.5"></circle><path d="M8.4 7l7.2-.6M7.3 9.2l4.6 6.8M16.9 8.3l-2.8 7.4"></path></svg>
+          <span style="font-size:13px;color:#11612E;font-weight:500">Select plasmids for your comparison</span>
+          <span style="font-size:12.5px;color:#3E9765">{{ selText }}</span>
+          <button onClick="{{ goCompare }}" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:4px;background:#099250;color:#fff;font-size:14px;font-weight:600;white-space:nowrap;box-sizing:border-box" style-hover="background:#087443">Back to comparison</button>
+        </div>
+      </sc-if>
+      <div style="height:calc(100% - {{ tableTop }});display:flex;min-height:0">
+      <sc-if value="{{ drawerOpen }}">
+      <div style="width:296px;flex:none;background:#fff;border-right:1px solid #E4E7EC;display:flex;flex-direction:column;overflow:hidden">
+        <div style="flex:none;padding:16px 16px 12px;border-bottom:1px solid #EAECF0;display:flex;align-items:center;gap:8px">
+          <span style="font-size:14px;font-weight:600;flex:1">Filters</span>
+          <sc-if value="{{ facetActive }}"><button onClick="{{ sfClear }}" style="font-size:12.5px;font-weight:600;color:#157639;padding:4px 6px;border-radius:4px" style-hover="background:#F5FBF7">Clear all</button></sc-if>
+          <button onClick="{{ toggleDrawer }}" title="Close filters" style="width:28px;height:28px;flex:none;border-radius:4px;color:#98A2B3;display:grid;place-items:center" style-hover="background:#F2F4F7;color:#344054"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:16px 16px 4px">
+          <sc-for list="{{ combos }}" as="cb" hint-placeholder-count="6">
+            <div style="margin-bottom:12px">
+              <div style="display:flex;align-items:center;margin-bottom:6px">
+                <span style="font-size:12px;color:#475467;font-weight:500">{{ cb.label }}</span>
+                <sc-if value="{{ cb.hasSel }}"><button onClick="{{ cb.onClear }}" style="margin-left:auto;font-size:12px;color:#157639;font-weight:600;padding:2px 6px;border-radius:4px" style-hover="background:#EDFCF2">Clear</button></sc-if>
+              </div>
+              <div style="position:relative;width:100%">
+                <button onClick="{{ cb.onToggle }}" style="width:100%;display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid {{ cb.trigBorder }};border-radius:4px;background:{{ cb.trigBg }};text-align:left;min-height:38px;transition:border-color .12s ease, background .12s ease" style-hover="border-color:#98A2B3">
+                  <span style="flex:1;font-size:12px;font-weight:500;color:{{ cb.textColor }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ cb.summary }}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="1.8" style="flex:none"><path d="M6 9l6 6 6-6"></path></svg>
+                </button>
+                <sc-if value="{{ cb.open }}">
+                  <div onClick="{{ cb.onToggle }}" style="position:fixed;inset:0;z-index:29"></div>
+                  <div style="position:absolute;z-index:30;top:calc(100% + 5px);left:0;right:0;background:#fff;border:1px solid #E4E7EC;border-radius:4px;box-shadow:0 12px 30px rgba(16,24,40,.14);overflow:hidden">
+                    <div style="padding:8px;border-bottom:1px solid #F2F4F7">
+                      <div style="display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border:1px solid #E4E7EC;border-radius:4px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="1.8" style="flex:none"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg><input value="{{ cb.query }}" onChange="{{ cb.onSearch }}" placeholder="{{ cb.ph }}" style="flex:1;min-width:0;border:none;outline:none;font-size:13px;color:#101828;background:transparent"></div>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #F2F4F7">
+                      <span style="font-size:12px;color:#667085">{{ cb.selLabel }}</span>
+                      <sc-if value="{{ cb.hasSel }}"><button onClick="{{ cb.onClear }}" style="font-size:12px;color:#157639;font-weight:600;padding:2px 6px;border-radius:4px" style-hover="background:#EDFCF2">Clear</button></sc-if>
+                    </div>
+                    <div style="max-height:224px;overflow-y:auto;padding:4px">
+                      <sc-for list="{{ cb.options }}" as="o">
+                        <button onClick="{{ o.onClick }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:4px;text-align:left" style-hover="background:#F6FEF9">
+                          <span style="width:17px;height:17px;flex:none;border-radius:5px;background:{{ o.boxBg }};border:{{ o.boxBorder }};display:grid;place-items:center"><sc-if value="{{ o.active }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"></path></svg></sc-if></span>
+                          <span style="flex:1;font-size:13px;color:{{ o.labelColor }};font-weight:{{ o.labelWeight }};font-style:{{ o.fontStyle }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.label }}</span>
+                          <span style="font-size:11.5px;color:#98A2B3;flex:none">{{ o.count }}</span>
+                        </button>
+                      </sc-for>
+                      <sc-if value="{{ cb.empty }}"><div style="padding:22px 14px;text-align:center;font-size:13px;color:#98A2B3">No matches</div></sc-if>
+                    </div>
+                    <div style="padding:8px;border-top:1px solid #F2F4F7">
+                      <button onClick="{{ cb.onToggle }}" style="width:100%;height:36px;border-radius:4px;background:#099250;color:#fff;font-size:14px;font-weight:600;padding:0 14px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#087443">Done</button>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+      <div style="flex:1;min-width:0;overflow:auto;padding:18px 20px 140px;background:#F9FAFB">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <h1 style="margin:0;font-size:18px;line-height:28px;font-weight:600;color:#101828">Plasmids</h1>
+          <div style="flex:1"></div>
+          <sc-if value="{{ notAddMode }}"><button onClick="{{ openCompare }}" title="{{ compareHint }}" style="display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:4px;border:1px solid #D0D5DD;background:#fff;color:#344054;font-weight:600;font-size:12.5px;white-space:nowrap" style-hover="border-color:#157639;color:#11612E"><svg style="flex:none" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="13" cy="18" r="2.5"></circle><path d="M8.4 7l7.2-.6M7.3 9.2l4.6 6.8M16.9 8.3l-2.8 7.4"></path></svg>Compare<sc-if value="{{ showCmpCount }}"><span style="font-size:11px;font-weight:600;color:#11612E;background:#DDEFE4;border-radius:999px;padding:0 6px;line-height:17px">{{ selCount }}</span></sc-if></button></sc-if>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="display:inline-flex;align-items:center;gap:2px;padding:3px;border:1px solid #D0D5DD;border-radius:6px;background:#F9FAFB;flex:none">
+            <sc-for list="{{ pageTabs }}" as="pt" hint-placeholder-count="2">
+              <button onClick="{{ pt.pick }}" style="padding:5px 12px;font-size:13px;font-weight:{{ pt.weight }};color:{{ pt.color }};background:{{ pt.bg }};border-radius:4px;box-shadow:{{ pt.shadow }};white-space:nowrap">{{ pt.label }}</button>
+            </sc-for>
+          </div>
+          <div style="flex:1"></div>
+          <sc-if value="{{ isAllTab }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ toggleDrawer }}" style="flex:none;display:flex;align-items:center;gap:7px;height:34px;font-size:12.5px;font-weight:600;color:{{ fbColor }};background:{{ fbBg }};border:1px solid {{ fbBorder }};border-radius:4px;padding:8px 13px" style-hover="border-color:#157639;color:#11612E">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 5h18M6 12h12M10 19h4"></path></svg>Filters
+            <sc-if value="{{ facetActive }}"><span style="font-size:10px;font-weight:700;color:#11612E;background:#DDEFE4;border-radius:999px;padding:1px 6px">{{ facetCount }}</span></sc-if>
+          </button>
+          <div style="display:flex;align-items:center;gap:8px;padding:0 10px;height:34px;flex:0 1 240px;min-width:0;border:1px solid #D0D5DD;border-radius:4px;background:#fff">
+            <svg style="color:#98A2B3;flex:none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input value="{{ search }}" onChange="{{ onSearch }}" placeholder="Search by sample or cluster..." style="border:none;outline:none;flex:1;min-width:0;font-size:13px;color:#101828;background:transparent">
+          </div>
+          </sc-if>
+          <sc-if value="{{ isCmpTab }}">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 10px;height:34px;flex:0 1 240px;min-width:0;border:1px solid #D0D5DD;border-radius:4px;background:#fff">
+            <svg style="color:#98A2B3;flex:none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input value="{{ cmpSearch }}" onChange="{{ onCmpSearch }}" placeholder="Search comparisons..." style="border:none;outline:none;flex:1;min-width:0;font-size:13px;color:#101828;background:transparent">
+          </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ isAllTab }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ facetActive }}"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+          <sc-for list="{{ facetChips }}" as="c">
+            <div style="display:flex;align-items:center;height:34px;gap:6px;background:#F5FBF7;border:1px solid #CDE9D6;border-radius:4px;padding:0 6px 0 11px">
+              <span style="font-size:12.5px;font-weight:500;color:#11612E">{{ c.label }}</span>
+              <button onClick="{{ c.onRemove }}" style="width:18px;height:18px;border-radius:999px;color:#3E9765;display:grid;place-items:center" style-hover="background:#CDEBD8;color:#11612E"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+            </div>
+          </sc-for>
+          <button onClick="{{ sfClear }}" style="font-size:12.5px;font-weight:600;color:#157639;padding:4px 6px;border-radius:4px" style-hover="background:#F5FBF7">Clear all</button>
+        </div></sc-if>
+
+        <div style="border:1px solid #EAECF0;border-radius:8px;overflow-x:auto;background:#fff">
+          <div style="min-width:1530px">
+          <div style="display:grid;grid-template-columns:44px minmax(200px,1.4fr) minmax(170px,1.3fr) 150px minmax(150px,1.1fr) 100px 110px 160px minmax(190px,1.4fr) 160px 130px;align-items:center;height:34px;font-size:12.5px;font-weight:500;color:#475467;border-bottom:1px solid #EAECF0">
+            <div style="display:grid;place-items:center">
+              <div onClick="{{ hdr.toggle }}" style="width:16px;height:16px;border-radius:4px;border:1px solid {{ hdr.border }};background:{{ hdr.bg }};display:grid;place-items:center;cursor:pointer">
+                <sc-if value="{{ hdr.checked }}"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+                <sc-if value="{{ hdr.mixed }}"><div style="width:8px;height:2px;border-radius:1px;background:#fff"></div></sc-if>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 16px;min-width:0"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Sample</span><svg style="flex:none;color:#98A2B3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"></path></svg></div><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 16px;min-width:0"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Species</span><svg style="flex:none;color:#98A2B3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"></path></svg></div><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 16px;min-width:0"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Sample ST</span><svg style="flex:none;color:#98A2B3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"></path></svg></div><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 16px;min-width:0"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">MOB-suite cluster</span><svg style="flex:none;color:#98A2B3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"></path></svg></div><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 16px;min-width:0"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Size</span><svg style="flex:none;color:#98A2B3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"></path></svg></div><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 16px;min-width:0"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Contigs</span><svg style="flex:none;color:#98A2B3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"></path></svg></div><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 16px;min-width:0"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Predicted mobility</span><svg style="flex:none;color:#98A2B3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"></path></svg></div><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 16px;min-width:0"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Replicon types</span><svg style="flex:none;color:#98A2B3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"></path></svg></div><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 16px;min-width:0"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Predicted AMR genes</span><svg style="flex:none;color:#98A2B3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"></path></svg></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 16px"><span style="white-space:nowrap">Created by</span><svg style="flex:none;color:#667085" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></div>
+          </div>
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="12">
+            <div onClick="{{ r.toggle }}" style="display:grid;grid-template-columns:44px minmax(200px,1.4fr) minmax(170px,1.3fr) 150px minmax(150px,1.1fr) 100px 110px 160px minmax(190px,1.4fr) 160px 130px;align-items:center;height:48px;border-bottom:1px solid #EAECF0;background:{{ r.rowBg }};cursor:pointer;font-size:13px;color:#101828" style-hover="background:#F9FAFB">
+              <div style="display:grid;place-items:center">
+                <div style="width:16px;height:16px;border-radius:4px;border:1px solid {{ r.cbBorder }};background:{{ r.cbBg }};display:grid;place-items:center"><sc-if value="{{ r.checked }}"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if></div>
+              </div>
+              <div style="padding:0 16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.sample }}</div>
+              <div style="padding:0 16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-style:{{ r.spStyle }};color:{{ r.spColor }}">{{ r.sp }}</div>
+              <div style="padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:6px">
+                <sc-if value="{{ r.hasSt }}"><span style="font-size:11.5px;font-weight:500;line-height:20px;padding:0 8px;border-radius:10px;background:#F2F4F7;color:#344054">{{ r.st }}</span></sc-if>
+                <sc-if value="{{ r.noSt }}"><span style="font-size:12.5px;color:#667085">No ST</span></sc-if>
+                <svg style="flex:none;color:#667085" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+              </div>
+              <div style="padding:0 16px;display:flex;align-items:center;gap:6px;min-width:0">
+                <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.cluster }}</span>
+                <sc-if value="{{ r.verified }}"><svg style="flex:none" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#099250" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.7 2.7L16 9.8"></path></svg></sc-if>
+                <sc-if value="{{ r.unverified }}"><svg style="flex:none" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D0D5DD" stroke-width="2" stroke-dasharray="2.5 3"><circle cx="12" cy="12" r="9"></circle></svg></sc-if>
+              </div>
+              <div style="padding:0 16px;white-space:nowrap">{{ r.kbText }}</div>
+              <div style="padding:0 16px">{{ r.ctg }}</div>
+              <div style="padding:0 16px"><span style="font-size:11.5px;font-weight:500;line-height:20px;padding:0 6px;border-radius:4px;background:{{ r.mobBg }};color:{{ r.mobColor }};white-space:nowrap">{{ r.mob }}</span></div>
+              <div style="padding:0 16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.inc }}</div>
+              <div style="padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:6px"><span>{{ r.amrN }}</span><sc-if value="{{ r.hasAmr }}"><svg style="flex:none;color:#667085" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></sc-if></div>
+              <div style="padding:0 16px;display:flex;align-items:center;gap:8px;white-space:nowrap">
+                <span style="width:22px;height:22px;border-radius:11px;background:#EEF4FF;color:#3538CD;font-size:9px;font-weight:700;display:grid;place-items:center;flex:none">MG</span>
+                <span style="color:#475467">{{ r.date }}</span>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noRows }}">
+            <div style="padding:48px;text-align:center;color:#667085">No plasmids match these filters.</div>
+          </sc-if>
+          </div>
+        </div>
+        </sc-if>
+        <sc-if value="{{ isCmpTab }}">
+          <div style="border:1px solid #EAECF0;border-radius:8px;background:#fff;overflow:hidden">
+            <div style="display:grid;grid-template-columns:minmax(0,2fr) 90px minmax(0,1fr) 100px 44px;align-items:center;height:40px;background:#F9FAFB;border-bottom:1px solid #EAECF0;font-size:12px;font-weight:500;color:#475467">
+              <span style="padding:0 16px">Name</span><span style="padding:0 16px">Plasmids</span><span style="padding:0 16px">Settings</span><span style="padding:0 16px">Updated</span><span></span>
+            </div>
+            <sc-for list="{{ cmpRows }}" as="cr" hint-placeholder-count="2">
+              <div onClick="{{ cr.open }}" style="display:grid;grid-template-columns:minmax(0,2fr) 90px minmax(0,1fr) 100px 44px;align-items:center;min-height:52px;border-bottom:1px solid #F2F4F7;cursor:pointer;font-size:13px" style-hover="background:#F9FAFB">
+                <span style="padding:0 16px;display:flex;align-items:center;gap:10px;min-width:0;font-weight:500;color:#101828"><span style="color:#667085;display:flex"><svg style="flex:none" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="13" cy="18" r="2.5"></circle><path d="M8.4 7l7.2-.6M7.3 9.2l4.6 6.8M16.9 8.3l-2.8 7.4"></path></svg></span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cr.name }}</span><sc-if value="{{ cr.hasUpdate }}"><span title="{{ cr.updTip }}" style="flex:none;font-size:11.5px;font-weight:500;color:#B54708;background:#FFFAEB;border:1px solid #FEDF89;border-radius:4px;padding:0 6px;line-height:18px">Changed in new version</span></sc-if></span>
+                <span style="padding:0 16px;color:#475467">{{ cr.count }}</span>
+                <span style="padding:0 16px;color:#667085;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cr.settings }}</span>
+                <span style="padding:0 16px;color:#475467">{{ cr.date }}</span>
+                <span style="display:grid;place-items:center"><button onClick="{{ cr.remove }}" title="Delete comparison" style="width:28px;height:28px;border-radius:4px;color:#98A2B3;display:grid;place-items:center" style-hover="background:#FEF3F2;color:#B42318"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg></button></span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ cmpEmpty }}">
+              <div style="padding:56px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+                <div style="font-size:15px;font-weight:600;color:#101828">{{ cmpEmptyTitle }}</div>
+                <div style="font-size:13px;color:#667085;max-width:340px;line-height:1.5">{{ cmpEmptyBody }}</div>
+                <sc-if value="{{ cmpEmptyCta }}"><button onClick="{{ openCompare }}" style="margin-top:4px;display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-radius:4px;background:#099250;color:#fff;font-weight:600;font-size:14px;box-sizing:border-box" style-hover="background:#087443"><svg style="flex:none" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="13" cy="18" r="2.5"></circle><path d="M8.4 7l7.2-.6M7.3 9.2l4.6 6.8M16.9 8.3l-2.8 7.4"></path></svg>Compare plasmids</button></sc-if>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+      </div>
+
+      <sc-if value="{{ showSelBar }}">
+        <div style="position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:6px 6px 6px 16px;background:#1D2939;border-radius:8px;box-shadow:0 12px 16px -4px rgba(16,24,40,0.18),0 4px 6px -2px rgba(16,24,40,0.08);color:#fff;white-space:nowrap;z-index:10">
+          <span style="font-weight:600;font-size:14px">{{ selText }}</span>
+          <button onClick="{{ clearSel }}" style="width:24px;height:24px;border-radius:4px;display:grid;place-items:center;color:#98A2B3;margin-left:4px" style-hover="color:#fff;background:#344054"><svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 3l6 6M9 3l-6 6"></path></svg></button>
+          <div style="width:1px;height:22px;background:#475467;margin:0 6px"></div>
+          <button style="display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:4px;color:#D0D5DD;font-weight:500;font-size:14px" style-hover="background:#344054;color:#fff"><svg style="flex:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"></path></svg>Download</button>
+          <div style="position:relative">
+            <button onClick="{{ toggleAddTo }}" style="display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:4px;color:#D0D5DD;font-weight:500;font-size:14px;background:{{ addToBtnBg }}" style-hover="background:#344054;color:#fff"><svg style="flex:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Add to comparison</button>
+            <sc-if value="{{ addToOpen }}">
+              <div onClick="{{ toggleAddTo }}" style="position:fixed;inset:0;z-index:-1"></div>
+              <div style="position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);width:300px;background:#fff;color:#101828;border:1px solid #E4E7EC;border-radius:4px;box-shadow:0 12px 30px rgba(16,24,40,.18);padding:6px;white-space:normal">
+                <div style="padding:6px 10px 6px;font-size:11.5px;font-weight:600;color:#98A2B3">Add {{ addToCount }} to a comparison</div>
+                <div style="max-height:260px;overflow-y:auto">
+                  <sc-for list="{{ addToRows }}" as="ar" hint-placeholder-count="2">
+                    <button onClick="{{ ar.pick }}" title="{{ ar.title }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:4px;text-align:left;opacity:{{ ar.opacity }};cursor:{{ ar.cursor }}" style-hover="background:#F5FBF7">
+                      <span style="flex:1;min-width:0;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ar.name }}</span>
+                      <span style="flex:none;font-size:12px;color:{{ ar.metaColor }}">{{ ar.meta }}</span>
+                    </button>
+                  </sc-for>
+                  <sc-if value="{{ addToEmpty }}"><div style="padding:12px 10px;font-size:12.5px;color:#98A2B3">No saved comparisons yet.</div></sc-if>
+                </div>
+                <div style="height:1px;background:#F2F4F7;margin:6px 0"></div>
+                <button onClick="{{ addToNew }}" style="width:100%;display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:4px;font-size:13px;font-weight:500;color:#344054;text-align:left" style-hover="background:#F5FBF7;color:#11612E"><svg style="flex:none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>New comparison</button>
+              </div>
+            </sc-if>
+          </div>
+          <button onClick="{{ openCompare }}" title="{{ compareTitle }}" style="display:inline-flex;align-items:center;gap:6px;height:36px;box-sizing:border-box;padding:0 14px;margin-left:4px;border-radius:4px;background:#099250;color:#fff;cursor:pointer;font-weight:600;font-size:14px" style-hover="background:#087443">
+            <svg style="flex:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="13" cy="18" r="2.5"></circle><path d="M8.4 7l7.2-.6M7.3 9.2l4.6 6.8M16.9 8.3l-2.8 7.4"></path></svg>{{ compareLabel }}
+          </button>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ isCompare }}">
+      
+      <sc-if value="{{ leaveOpen }}">
+        <div onClick="{{ leaveCancel }}" style="position:fixed;inset:0;background:rgba(16,24,40,.5);backdrop-filter:blur(3px);display:grid;place-items:center;padding:28px;z-index:75">
+          <div onClick="{{ stop }}" style="width:min(440px,100%);background:#fff;border-radius:4px;box-shadow:0 24px 70px rgba(16,24,40,.28);padding:22px 24px">
+            <div style="font-size:16px;font-weight:600;color:#101828;text-wrap:pretty">{{ leaveTitle }}</div>
+            <div style="font-size:13px;color:#667085;margin-top:6px;line-height:1.5;text-wrap:pretty">{{ leaveBody }}</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:24px">
+              <button onClick="{{ leaveDiscard }}" style="font-size:13px;font-weight:600;color:#B42318;padding:9px 12px;margin-left:-12px;border-radius:4px;white-space:nowrap" style-hover="background:#FEF3F2">{{ leaveDiscardLabel }}</button>
+              <div style="flex:1"></div>
+              <button onClick="{{ leaveCancel }}" style="font-size:13px;font-weight:600;color:#667085;padding:9px 15px;border-radius:4px" style-hover="background:#F2F4F7">Cancel</button>
+              <button onClick="{{ leavePrimary }}" style="font-size:14px;font-weight:600;color:#fff;background:#099250;padding:0 14px;border-radius:4px;white-space:nowrap;height:36px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#087443">{{ leavePrimaryLabel }}</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ saveOpen }}">
+        <div onClick="{{ closeSave }}" style="position:fixed;inset:0;background:rgba(16,24,40,.5);backdrop-filter:blur(3px);display:grid;place-items:center;padding:28px;z-index:70">
+          <div onClick="{{ stop }}" style="width:min(440px,100%);background:#fff;border-radius:4px;box-shadow:0 24px 70px rgba(16,24,40,.28);padding:22px 24px">
+            <div style="font-size:16px;font-weight:600;color:#101828">{{ saveTitle }}</div>
+            <div style="font-size:12.5px;color:#667085;margin-top:4px;line-height:1.5">Saves the selected plasmids and current network settings.</div>
+            <div style="font-size:12px;color:#475467;font-weight:500;margin:18px 0 6px">Name</div>
+            <input value="{{ saveName }}" onChange="{{ onSaveName }}" onKeyDown="{{ onSaveKey }}" placeholder="e.g. AA523 outbreak, ward 4" autoFocus="{{ true }}" style="width:100%;box-sizing:border-box;height:38px;padding:0 11px;border:1px solid #D0D5DD;border-radius:4px;font-size:13px;color:#101828;outline:none" style-focus="border-color:#157639;box-shadow:0 0 0 3px #DDEFE4">
+            <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:14px">
+              <sc-for list="{{ saveChips }}" as="c" hint-placeholder-count="4"><span style="font-size:11.5px;color:#475467;background:#F2F4F7;border-radius:4px;padding:4px 10px">{{ c }}</span></sc-for>
+            </div>
+            <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:24px">
+              <button onClick="{{ closeSave }}" style="font-size:13px;font-weight:600;color:#667085;padding:9px 15px;border-radius:4px" style-hover="background:#F2F4F7">Cancel</button>
+              <button onClick="{{ doSave }}" style="font-size:13px;font-weight:600;color:#fff;background:{{ saveBtnBg }};padding:9px 18px;border-radius:4px;cursor:{{ saveBtnCursor }}">Save view</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      
+      <div style="display:flex;flex-direction:column;height:100%">
+        <div style="display:flex;align-items:center;gap:12px;padding:0 16px;height:56px;border-bottom:1px solid #EAECF0;background:#FFFFFF;flex:none">
+          <svg style="flex:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;min-width:0;flex:1;white-space:nowrap">
+            <span onClick="{{ goBackTab }}" style="color:#667085;cursor:pointer" style-hover="color:#101828">Plasmids</span>
+            <span style="color:#D0D5DD">/</span>
+            <sc-if value="{{ nameStatic }}"><span style="color:#101828;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">{{ cvName }}</span></sc-if>
+            <sc-if value="{{ hasUpdatedNote }}"><span style="order:9;flex:none;font-size:12px;color:#98A2B3">{{ updatedNote }}</span></sc-if>
+            <sc-if value="{{ nameEditable }}">
+              <sc-if value="{{ notRenaming }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ startRename }}" title="Rename" style="display:inline-flex;align-items:center;gap:6px;min-width:0;padding:3px 6px;margin-left:-6px;border-radius:4px;color:#101828;font-weight:500;font-size:13px" style-hover="background:#F2F4F7"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">{{ cvName }}</span><svg style="flex:none" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"></path></svg></button>
+              </sc-if>
+              <sc-if value="{{ renaming }}">
+                <input value="{{ renameVal }}" onChange="{{ onRenameInput }}" onKeyDown="{{ onRenameKey }}" onBlur="{{ commitRename }}" autoFocus="{{ true }}" style="height:28px;width:300px;max-width:100%;min-width:0;padding:0 8px;margin-left:-6px;border:1px solid #157639;border-radius:4px;box-shadow:0 0 0 3px #DDEFE4;font-size:13px;font-weight:500;color:#101828;outline:none;font-family:inherit">
+              </sc-if>
+              
+            </sc-if>
+            <sc-if value="{{ cvDirty }}"><span style="flex:none;font-size:11px;font-weight:500;color:#B54708;background:#FFFAEB;border-radius:4px;padding:0 6px;line-height:18px">Edited</span></sc-if>
+          </div>
+          
+          <div style="display:inline-flex;background:#F2F4F7;border-radius:9px;padding:3px;gap:2px;flex:none">
+            <sc-for list="{{ viewModes }}" as="vm" hint-placeholder-count="2">
+              <button onClick="{{ vm.pick }}" style="padding:5px 14px;font-size:13px;font-weight:600;border-radius:4px;white-space:nowrap;color:{{ vm.color }};background:{{ vm.bg }};box-shadow:{{ vm.shadow }}">{{ vm.label }}</button>
+            </sc-for>
+          </div>
+          
+          <sc-if value="{{ cvDirty }}"><button onClick="{{ openSaveAsNew }}" style="flex:none;white-space:nowrap;height:32px;padding:0 10px;border-radius:4px;color:#475467;font-weight:600;font-size:13px" style-hover="background:#F2F4F7;color:#101828">Save as new</button></sc-if>
+          <sc-if value="{{ cvShowSave }}"><button onClick="{{ cvSaveAction }}" style="flex:none;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:4px;background:#099250;color:#fff;font-weight:600;font-size:14px;box-sizing:border-box" style-hover="background:#087443"><svg style="flex:none" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 3h11l3 3v15H5zM8 3v6h7"></path></svg>{{ cvSaveLabel }}</button></sc-if>
+        </div>
+
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column">
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;background:#FFFFFF;overflow:hidden">
+          
+          <div aria-hidden="{{ updHidden }}" style="flex:none;display:grid;grid-template-rows:{{ updRows }};opacity:{{ updOpacity }};transition:grid-template-rows 320ms cubic-bezier(0.2,0,0,1), opacity 220ms ease">
+            <div style="min-height:0;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 16px;border-bottom:1px solid #EAECF0;background:#F9FAFB">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B54708" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M20 11a8 8 0 0 0-14.6-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.6 4.5L20 16M20 20v-4h-4"></path></svg>
+                <span style="flex:1;min-width:0;font-size:13px;color:#344054">{{ updBannerText }}</span>
+                <button onClick="{{ openUpd }}" style="flex:none;height:30px;padding:0 12px;border:1px solid #D0D5DD;border-radius:4px;background:#FFFFFF;color:#344054;font-size:13px;font-weight:600;white-space:nowrap" style-hover="border-color:#157639;color:#11612E">Review</button>
+                <button onClick="{{ hideUpd }}" title="Dismiss" style="flex:none;width:26px;height:26px;border-radius:4px;color:#98A2B3;display:grid;place-items:center" style-hover="background:#EAECF0;color:#344054"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;min-height:0;display:grid;grid-template-columns:{{ cmpCols }};position:relative">
+          <div style="border-right:{{ selPanelBorder }};display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden;background:#FFFFFF">
+            <div style="flex:none;display:flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-bottom:1px solid #EAECF0;font-size:11.5px;font-weight:500;color:#667085">
+              <span style="flex:1">Plasmids ({{ selCount }})</span>
+              <button onClick="{{ openAddModal }}" title="Add or remove plasmids" style="flex:none;display:inline-flex;align-items:center;gap:5px;padding:3px 6px;margin-right:-6px;border:none;border-radius:4px;background:transparent;color:#157639;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer" style-hover="background:#EDFCF2;color:#11612E"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"></path></svg>Edit selection</button>
+              
+            </div>
+            <div style="flex:1;min-height:0;overflow:auto">
+              <sc-for list="{{ selGroups }}" as="g" hint-placeholder-count="2">
+                <sc-for list="{{ g.rows }}" as="s">
+                  <div onClick="{{ s.focus }}" onMouseEnter="{{ s.enter }}" onMouseLeave="{{ s.leave }}" style="position:relative;padding:10px 14px 11px;border-bottom:1px solid #F2F4F7;cursor:pointer;background:{{ s.rowBg }}" style-hover="background:#F9FAFB">
+                    <sc-if value="{{ s.showFragTip }}"><div style="position:absolute;top:calc(100% + 4px);left:10px;right:10px;z-index:40;background:#152F25;color:#fff;border-radius:8px;padding:8px 12px;font-size:12px;line-height:18px;box-shadow:0 12px 16px -4px rgba(16,24,40,0.08),0 4px 6px -2px rgba(16,24,40,0.03);pointer-events:none">{{ s.fragTip }}</div></sc-if>
+                    <div style="display:flex;align-items:center;gap:7px;min-width:0">
+                      <span title="{{ s.spTitle }}" style="font-size:13.5px;font-weight:600;color:#101828;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.id }}</span>
+                      <sc-if value="{{ s.isUpdated }}"><span title="{{ s.updTitle }}" style="flex:none;font-size:11px;font-weight:500;color:#475467;background:#F2F4F7;border-radius:4px;padding:0 5px;line-height:17px;cursor:help">Updated</span></sc-if>
+                      
+                      <span style="margin-left:auto"></span>
+                      <span style="width:22px;height:22px;flex:none;margin-right:-4px;display:grid;place-items:center"><sc-if value="{{ s.showOpen }}" hint-placeholder-val="{{ false }}"><a href="{{ s.openHref }}" target="_blank" rel="noopener" onClick="{{ s.stopOpen }}" title="Open plasmid in new tab" style="width:22px;height:22px;border-radius:4px;display:grid;place-items:center;color:#667085;text-decoration:none" style-hover="background:#EAECF0;color:#101828"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg></a></sc-if></span>
+                      
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin-top:5px;min-width:0">
+                      <span style="font-size:12px;line-height:20px;color:#667085;flex:none">{{ s.kb }}</span>
+                      <sc-if value="{{ s.hasTag }}"><span style="font-size:12px;font-weight:500;line-height:18px;padding:0 7px;border-radius:999px;white-space:nowrap;flex:none;color:{{ s.tagColor }};background:{{ s.tagBg }};border:1px solid {{ s.tagBorder }}">{{ s.tag }}</span></sc-if>
+                      
+                      <sc-if value="{{ s.hasMob }}" hint-placeholder-val="{{ false }}"><span style="flex:none;font-size:11.5px;font-weight:500;line-height:18px;padding:0 7px;border-radius:999px;white-space:nowrap;color:{{ s.mobColor }};background:{{ s.mobBg }};border:1px solid {{ s.mobBorder }}">{{ s.mobLabel }}</span></sc-if><sc-if value="{{ s.hasAmr }}" hint-placeholder-val="{{ false }}"><span style="flex:none;font-size:11.5px;font-weight:500;line-height:18px;padding:0 7px;border-radius:999px;white-space:nowrap;color:#C11574;background:#FDF2FA;border:1px solid #FCCEEE">{{ s.amrLabel }}</span></sc-if>
+                    </div>
+                  </div>
+                </sc-for>
+              </sc-for>
+              
+            </div>
+          </div>
+
+          <div style="display:flex;min-width:0;min-height:0">
+            <sc-if value="{{ isBuilding }}">
+              <div role="status" style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:24px;background-color:#FCFCFD;background-image:radial-gradient(#EAECF0 1px, transparent 1px);background-size:20px 20px;text-align:center">
+                <div style="width:200px;height:117px">{{ netLoader }}</div>
+                <div style="font-size:14px;font-weight:500;color:#101828;margin-top:10px">Analysis running</div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+                  <div style="font-size:12px;line-height:18px;color:#98A2B3">Building plasmid network<span style="display:inline-block;width:1.6em;text-align:left">{{ netDots }}</span></div>
+                  <div style="font-size:12px;line-height:18px;color:#98A2B3">This may take a while</div>
+                  <div style="font-size:12px;line-height:18px;color:#98A2B3">You can safely move away from this page while it is computing</div>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isNetwork }}" hint-placeholder-val="{{ true }}">
+            <div ref="{{ canvasRef }}" onMouseMove="{{ onCanvasMove }}" style="flex:1;min-width:0;position:relative;cursor:{{ canvasCursor }};background-color:#FCFCFD;background-image:radial-gradient(#EAECF0 1px, transparent 1px);background-size:20px 20px;overflow:hidden">
+              <sc-if value="{{ hasNet }}"><div style="position:absolute;inset:0;animation:pfNetIn 700ms cubic-bezier(.16,1,.3,1) both">{{ net }}</div></sc-if>
+              <sc-if value="{{ emptyNet }}">
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;text-align:center;padding:24px">
+                  <div style="font-size:18px;font-weight:600;letter-spacing:-0.01em">{{ emptyTitle }}</div>
+                  <div style="font-size:13.5px;color:#667085;max-width:320px;line-height:1.5">{{ emptyBody }}</div>
+                  <button onClick="{{ togglePicker }}" style="margin-top:3px;height:36px;padding:0 14px;border-radius:4px;background:#099250;color:#fff;font-size:14px;font-weight:600;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#087443">Add plasmids</button>
+                  <sc-if value="{{ showEmptySaved }}">
+                    <div style="margin-top:18px;width:min(360px,100%);text-align:left;background:#fff;border:1px solid #EAECF0;border-radius:6px;padding:6px;box-shadow:0 1px 2px rgba(16,24,40,0.05)">
+                      <div style="padding:6px 10px 4px;font-size:11.5px;font-weight:600;color:#98A2B3">Recent comparisons</div>
+                      <sc-for list="{{ cmpRowsAll }}" as="er" hint-placeholder-count="2">
+                        <button onClick="{{ er.open }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:4px;text-align:left;color:#101828" style-hover="background:#F5FBF7">
+                          <span style="color:#667085;display:flex"><svg style="flex:none" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="13" cy="18" r="2.5"></circle><path d="M8.4 7l7.2-.6M7.3 9.2l4.6 6.8M16.9 8.3l-2.8 7.4"></path></svg></span>
+                          <span style="flex:1;min-width:0"><span style="display:block;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ er.name }}</span><span style="display:block;font-size:11.5px;color:#667085">{{ er.meta }}</span></span>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-if>
+              <sc-if value="{{ hasNet }}"><div style="position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 24px);text-align:center;font-size:11.5px;color:#98A2B3;pointer-events:none">Scroll to zoom, drag to pan, drag a node to move it, click for details</div></sc-if>
+              <sc-if value="{{ hc.show }}">
+                <div onPointerDown="{{ stop }}" onClick="{{ stop }}" style="position:absolute;left:{{ hc.left }};top:{{ hc.top }};pointer-events:{{ hc.pe }};cursor:default;background:#101828;color:#fff;border-radius:9px;padding:10px 12px;min-width:170px;max-width:230px;box-shadow:0 8px 24px rgba(16,24,40,0.28);z-index:20">
+                  <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px"><span style="width:8px;height:8px;border-radius:3px;flex:none;background:{{ hc.dot }}"></span><span style="font-weight:600;font-size:13px;font-family:'IBM Plex Mono',ui-monospace,monospace">{{ hc.title }}</span>
+                    <sc-if value="{{ hc.pinned }}"><button onClick="{{ clearFocus }}" title="Close" style="margin-left:auto;flex:none;width:20px;height:20px;border-radius:4px;display:grid;place-items:center;color:rgba(255,255,255,0.6)" style-hover="background:rgba(255,255,255,0.12);color:#fff"><svg width="10" height="10" viewBox="0 0 12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l6 6M9 3l-6 6"></path></svg></button></sc-if>
+                  </div>
+                  <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-bottom:8px;margin-top:-3px;font-style:{{ hc.subStyle }}">{{ hc.sub }}</div>
+                  <sc-if value="{{ hc.hasNote }}"><div style="font-size:11px;line-height:1.5;color:rgba(255,255,255,0.78);margin-bottom:9px;padding:7px 9px;border-radius:6px;background:rgba(255,255,255,0.08)">{{ hc.note }}</div></sc-if>
+                  <div style="display:flex;flex-direction:column;gap:4px">
+                    <sc-for list="{{ hc.rows }}" as="r"><div style="display:flex;justify-content:space-between;gap:14px;font-size:11.5px"><span style="color:rgba(255,255,255,0.5)">{{ r.l }}</span><span style="color:#fff;text-align:right">{{ r.v }}</span></div></sc-for>
+                  </div>
+                  <sc-if value="{{ hc.hint }}"><div style="margin-top:8px;padding-top:7px;border-top:1px solid rgba(255,255,255,0.12);font-size:10.5px;color:rgba(255,255,255,0.6)">Click to pin</div></sc-if>
+                  <sc-if value="{{ hc.canOpen }}"><div style="margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.12)"><a href="{{ hc.openHref }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;padding:3px 6px;margin-left:-6px;border-radius:4px" style-hover="background:rgba(255,255,255,0.12)">Open plasmid<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg></a></div></sc-if>
+                </div>
+              </sc-if>
+            </div>
+
+            <div style="width:clamp(240px, 21vw, 282px);flex:none;border-left:1px solid #EAECF0;display:flex;flex-direction:column;overflow-y:auto;background:#fff">
+              
+
+              <div style="padding:14px 16px 4px">
+                <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:9px">Color by</div>
+                <div style="display:flex;background:#F2F4F7;border-radius:9px;padding:3px;gap:2px;position:relative">
+                  <sc-for list="{{ colorChips }}" as="cc" hint-placeholder-count="3">
+                    <button onClick="{{ cc.toggle }}" onMouseEnter="{{ cc.enter }}" onMouseLeave="{{ tips.off }}" style="flex:1;min-width:0;padding:5px 4px;border-radius:4px;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:all 120ms;background:{{ cc.segBg }};color:{{ cc.segColor }};box-shadow:{{ cc.segShadow }}">{{ cc.label }}</button>
+                    <sc-if value="{{ cc.hasTip }}"><div style="position:absolute;bottom:calc(100% + 7px);left:0;right:0;z-index:40;background:#101828;color:#fff;border-radius:9px;padding:9px 11px;font-size:11.5px;line-height:1.5;font-weight:400;box-shadow:0 10px 28px rgba(16,24,40,0.28);pointer-events:none">{{ cc.help }}</div></sc-if>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ isSpeciesColor }}">
+                  <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+                    <button onClick="{{ toggleStSplit }}" role="switch" aria-checked="{{ stSplitOn }}" style="width:28px;height:16px;flex:none;border-radius:999px;background:{{ stSwitchBg }};position:relative;transition:background 120ms"><span style="position:absolute;top:2px;left:{{ stKnobLeft }};width:12px;height:12px;border-radius:999px;background:#fff;box-shadow:0 1px 2px rgba(16,24,40,0.2);transition:left 120ms"></span></button>
+                    <span onClick="{{ toggleStSplit }}" style="font-size:13px;color:#344054;cursor:pointer">Split by ST</span>
+                  </div>
+                </sc-if>
+                <div style="display:flex;flex-direction:column;gap:1px;margin:10px 0 6px">
+                  <sc-for list="{{ legend }}" as="l"><span onMouseEnter="{{ l.enter }}" onMouseLeave="{{ l.leave }}" onClick="{{ l.click }}" style="display:flex;align-items:center;gap:9px;font-size:13px;color:#344054;font-style:{{ l.fontStyle }};font-weight:{{ l.weight }};padding:3px 8px;margin:0 -8px;border-radius:7px;cursor:pointer;background:{{ l.bg }}" style-hover="background:#F2F4F7"><span style="width:8px;height:8px;border-radius:999px;flex:none;background:{{ l.color }}"></span>{{ l.label }}<sc-if value="{{ l.hasSt }}"><span style="font-style:normal;color:#667085;margin-left:-4px">{{ l.stLabel }}</span></sc-if></span></sc-for>
+                </div>
+                <sc-if value="{{ showConjKey }}"><div title="Can spread to other bacteria on its own" style="display:flex;align-items:center;gap:9px;font-size:13px;color:#344054;padding:3px 0;cursor:help"><span style="width:13px;height:13px;flex:none;border-radius:999px;background:#7A5AF8;border:1.5px solid #fff;box-shadow:0 0 0 1px #E9D7FE;display:grid;place-items:center"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span><span>Conjugative</span></div></sc-if>
+                
+                
+              </div>
+
+              <div style="padding:14px 16px 4px;border-top:1px solid #F2F4F7;margin-top:10px">
+                <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:9px">Display</div>
+                <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px;position:relative">
+                  <sc-for list="{{ displayChips }}" as="dc" hint-placeholder-count="3">
+                    <div>
+                      <button onClick="{{ dc.toggle }}" onMouseEnter="{{ dc.enter }}" onMouseLeave="{{ tips.off }}" style="display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all 120ms;border:1px solid {{ dc.border }};background:{{ dc.bg }};color:{{ dc.color }};text-decoration:{{ dc.deco }};text-decoration-color:#D0D5DD" style-hover="border-color:#B0B7C3;box-shadow:0 1px 2px rgba(16,24,40,0.06)"><sc-if value="{{ dc.hasDot }}"><span style="width:9px;height:9px;border-radius:3px;flex:none;background:{{ dc.dot }};opacity:{{ dc.dotOp }}"></span></sc-if>{{ dc.label }}</button>
+                      <sc-if value="{{ dc.hasTip }}"><div style="position:absolute;bottom:calc(100% + 7px);left:0;right:0;z-index:40;background:#101828;color:#fff;border-radius:9px;padding:9px 11px;font-size:11.5px;line-height:1.5;font-weight:400;box-shadow:0 10px 28px rgba(16,24,40,0.28);pointer-events:none">{{ dc.help }}</div></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="padding:14px 16px;border-top:1px solid #F2F4F7;margin-top:7px">
+                <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:9px">View</div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <button onClick="{{ zoomOut }}" style="width:30px;height:30px;border:1px solid #D0D5DD;border-radius:4px;background:#fff;color:#344054;font-size:17px;line-height:1;display:grid;place-items:center;flex:none" style-hover="background:#F9FAFB">−</button>
+                  <input type="range" min="17" max="600" step="1" value="{{ zoomVal }}" onChange="{{ onZoomSlider }}" style="flex:1;min-width:0;accent-color:#099250;cursor:pointer">
+                  <button onClick="{{ zoomIn }}" style="width:30px;height:30px;border:1px solid #D0D5DD;border-radius:4px;background:#fff;color:#344054;font-size:17px;line-height:1;display:grid;place-items:center;flex:none" style-hover="background:#F9FAFB">+</button>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+                  <span style="font-size:12px;color:#667085">{{ zoomPct }}</span>
+                  <button onClick="{{ fit }}" style="font-size:12.5px;color:#099250;font-weight:600;padding:2px 4px">Reset view</button>
+                </div>
+              </div>
+
+                          </div>
+
+            </sc-if>
+            <sc-if value="{{ linMounted }}" hint-placeholder-val="{{ false }}">
+              <div style="flex:1;min-width:0;position:relative;overflow:hidden;display:{{ linDisplay }}">
+                <div style="position:absolute;inset:0;display:flex;overflow:hidden">
+                  <dc-import name="Linear Comparison" plasmids="{{ linPlasmids }}" on-edit="{{ linEdit }}" quota="{{ annQuota }}" on-analyze="{{ onAnalyze }}" style="position:absolute;inset:0;width:100%;height:100%" hint-size="100%,100%"></dc-import>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+          <sc-if value="{{ pickerOpen }}">
+            <div onClick="{{ closePicker }}" style="position:fixed;inset:0;z-index:50;background:rgba(16,24,40,0.45)"></div>
+            <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(560px, calc(100vw - 48px));height:min(640px, calc(100vh - 48px));z-index:51;background:#fff;border-radius:12px;box-shadow:0 20px 24px -4px rgba(16,24,40,0.08),0 8px 8px -4px rgba(16,24,40,0.03);display:flex;flex-direction:column;overflow:hidden">
+              <div style="display:flex;align-items:flex-start;gap:8px;padding:20px 24px 12px">
+                <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:18px;line-height:28px;font-weight:600">Add plasmids</span><span style="font-size:13px;color:#667085">Pick plasmids to include in the comparison.</span></div>
+                <button onClick="{{ closePicker }}" title="Close" style="margin-left:auto;width:28px;height:28px;border-radius:4px;display:grid;place-items:center;color:#667085" style-hover="background:#F2F4F7;color:#101828"><svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 3l6 6M9 3l-6 6"></path></svg></button>
+              </div>
+              <div style="padding:0 16px 10px">
+                <div style="display:flex;align-items:center;gap:8px;padding:0 12px;height:36px;border:1px solid #D0D5DD;border-radius:8px;box-shadow:0 1px 2px 0 rgba(16,24,40,0.05)">
+                  <svg style="color:#98A2B3;flex:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+                  <input value="{{ pickerSearch }}" onChange="{{ onPickerSearch }}" placeholder="Search plasmid or sample" style="border:none;outline:none;flex:1;min-width:0;font-size:13px;background:transparent">
+                </div>
+              </div>
+              <div style="flex:1;min-height:0;overflow:auto;padding:0 8px 8px">
+                <sc-if value="{{ hasRelated }}">
+                  <div style="display:flex;align-items:center;padding:8px 8px 4px">
+                    <span style="font-size:11px;font-weight:600;letter-spacing:0.04em;color:#667085;white-space:nowrap">Related to your selection</span>
+                    <button onClick="{{ addAllRelated }}" style="margin-left:auto;flex:none;white-space:nowrap;font-size:12px;font-weight:600;color:#087443" style-hover="color:#095C37">Add all ({{ relatedCount }})</button>
+                  </div>
+                  <sc-for list="{{ related }}" as="p">
+                    <div onClick="{{ p.toggle }}" style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;cursor:pointer" style-hover="background:#F9FAFB">
+                      <div style="width:16px;height:16px;flex:none;border-radius:4px;border:1px solid {{ p.cbBorder }};background:{{ p.cbBg }};display:grid;place-items:center"><sc-if value="{{ p.checked }}"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if></div>
+                      <span style="width:8px;height:8px;border-radius:4px;flex:none;background:{{ p.dot }}"></span>
+                      <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+                        <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.id }}</span>
+                        <span style="font-size:12px;line-height:16px;color:#667085;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><i>{{ p.spShort }}</i>, {{ p.inc }}, {{ p.kbText }}<sc-if value="{{ p.isFrag }}">, <span style="color:#B54708">Fragmented</span></sc-if></span>
+                      </div>
+                    </div>
+                  </sc-for>
+                </sc-if>
+                <div style="padding:10px 8px 4px;font-size:11px;font-weight:600;letter-spacing:0.04em;color:#667085">All plasmids</div>
+                <sc-for list="{{ others }}" as="p" hint-placeholder-count="8">
+                  <div onClick="{{ p.toggle }}" style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;cursor:pointer" style-hover="background:#F9FAFB">
+                    <div style="width:16px;height:16px;flex:none;border-radius:4px;border:1px solid {{ p.cbBorder }};background:{{ p.cbBg }};display:grid;place-items:center"><sc-if value="{{ p.checked }}"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if></div>
+                    <span style="width:8px;height:8px;border-radius:4px;flex:none;background:{{ p.dot }}"></span>
+                    <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+                      <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.id }}</span>
+                      <span style="font-size:12px;line-height:16px;color:#667085;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><i>{{ p.spShort }}</i>, {{ p.inc }}, {{ p.kbText }}<sc-if value="{{ p.isFrag }}">, <span style="color:#B54708">Fragmented</span></sc-if></span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="border-top:1px solid #EAECF0;padding:12px 16px;display:flex;align-items:center;gap:8px">
+                <span style="font-size:13px;color:#667085">{{ selText }}</span>
+                <button onClick="{{ closePicker }}" style="margin-left:auto;padding:0 14px;border-radius:4px;background:#099250;color:#fff;font-weight:600;font-size:14px;height:36px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#087443">Done</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        </div>
+      </div>
+      </div>
+    </sc-if>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;plan&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;trial&quot;,&quot;research&quot;,&quot;surveillance&quot;],&quot;default&quot;:&quot;research&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Plan &amp; usage&quot;},&quot;annotationsUsed&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;min&quot;:0,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Plan &amp; usage&quot;},&quot;annotationSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:3,&quot;max&quot;:60,&quot;step&quot;:1,&quot;unit&quot;:&quot;s&quot;,&quot;default&quot;:8,&quot;tsType&quot;:&quot;number&quot;},&quot;analysisSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:2,&quot;max&quot;:180,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;s&quot;,&quot;default&quot;:3.5,&quot;tsType&quot;:&quot;number&quot;},&quot;startView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;table&quot;,&quot;compare&quot;],&quot;default&quot;:&quot;table&quot;,&quot;tsType&quot;:&quot;'table' | 'compare'&quot;},&quot;startSelection&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;example&quot;,&quot;empty&quot;],&quot;default&quot;:&quot;example&quot;,&quot;tsType&quot;:&quot;'example' | 'empty'&quot;}}">
+function NetLoader(props) {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const svg = ref.current; if (!svg) return;
+    // Same motion language as PlasmidLoader (timings, easing, stagger, spin, ping),
+    // but the ring of plasmids unfolds into a two-community network and back.
+    const TAU = Math.PI * 2, CX = 150, CY = 88, R = 52, STAGGER = 0.32;
+    const OPEN_MS = 1050, CLOSE_MS = 1050, PING_MS = 1300, SPIN_MS = 6500, HOLD_SHARE = 0.58, D = props.durationMs || 10000;
+    const NET = [[78,62],[52,104],[104,118],[118,72],[70,30],[198,56],[236,92],[212,132],[176,108],[246,40]];
+    const EDGES = [[0,1],[0,3],[1,2],[2,3],[0,4],[4,3],[5,6],[6,7],[7,8],[8,5],[5,9],[6,9],[3,8]];
+    const FA = 3, FB = 6, n = NET.length;
+    const clamp = (v, a, b) => v < a ? a : v > b ? b : v, seg = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
+    const ease = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2, lerp = (a, b, m) => a + (b - a) * m;
+    const ns = 'http://www.w3.org/2000/svg', mk = (t, a) => { const el = document.createElementNS(ns, t); for (const k in a) el.setAttribute(k, a[k]); svg.appendChild(el); return el; };
+    const ring = mk('circle', { cx: CX, cy: CY, r: R, fill: 'none', stroke: '#228BE6', 'stroke-width': 10, 'stroke-linecap': 'round' });
+    const lines = EDGES.map(() => mk('line', { stroke: '#228BE6', 'stroke-width': 4, 'stroke-linecap': 'round' }));
+    const ping = mk('circle', { fill: 'none', stroke: '#228BE6', 'stroke-width': 2, opacity: 0 });
+    const dots = NET.map((_, i) => mk('circle', { fill: i === FA ? '#69DB7C' : i === FB ? '#FFA94D' : '#228BE6' }));
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const frame = el => {
+      const ph = ((el % D) + D) % D, hold = Math.max(0, D - OPEN_MS - CLOSE_MS), closeStart = OPEN_MS + hold * HOLD_SHARE;
+      const rawOpen = clamp(ph / OPEN_MS, 0, 1), rawClose = clamp((ph - closeStart) / CLOSE_MS, 0, 1), spin = el / SPIN_MS * TAU;
+      const pts = NET.map(([nx, ny], i) => {
+        const a = -Math.PI / 2 + i / n * TAU + spin, sd = Math.min(i, n - i) / (n / 2);
+        const o = ease(clamp(rawOpen * (1 + STAGGER) - sd * STAGGER, 0, 1)) * (1 - ease(clamp(rawClose * (1 + STAGGER) - (1 - sd) * STAGGER, 0, 1)));
+        const drift = 2.2 * Math.sin(el / 720 + i * 1.7) * ease(seg(o, 0.15, 0.85));
+        return { x: lerp(CX + R * Math.cos(a), nx, o), y: lerp(CY + R * Math.sin(a), ny + drift, o), o };
+      });
+      const maxO = Math.max(...pts.map(p => p.o));
+      ring.setAttribute('opacity', clamp(1 - maxO * 1.6, 0, 1));
+      ring.setAttribute('transform', 'rotate(' + (spin * 180 / Math.PI) + ' ' + CX + ' ' + CY + ')');
+      EDGES.forEach(([a, b], k) => { const A = pts[a], B = pts[b], m = ease(seg(Math.min(A.o, B.o), 0.55, 1));
+        lines[k].setAttribute('x1', A.x.toFixed(1)); lines[k].setAttribute('y1', A.y.toFixed(1));
+        lines[k].setAttribute('x2', lerp(A.x, B.x, m).toFixed(1)); lines[k].setAttribute('y2', lerp(A.y, B.y, m).toFixed(1));
+        lines[k].setAttribute('opacity', m > 0 ? 1 : 0); });
+      const pulse = 1 + 0.12 * Math.sin(el / 340);
+      pts.forEach((p, i) => { dots[i].setAttribute('cx', p.x.toFixed(1)); dots[i].setAttribute('cy', p.y.toFixed(1));
+        dots[i].setAttribute('r', (i === FA ? 7 * pulse : i === FB ? 7 / pulse : lerp(5, 7, p.o)).toFixed(2)); });
+      const pp = clamp((ph - (closeStart + CLOSE_MS)) / PING_MS, 0, 1);
+      if (pp > 0 && pp < 1) { ping.setAttribute('cx', CX); ping.setAttribute('cy', CY); ping.setAttribute('r', R * 0.2 + pp * 20 + R * 0.8 * pp * 0); ping.setAttribute('r', 5 + pp * 20); ping.setAttribute('opacity', (1 - pp) * 0.55); ping.setAttribute('stroke-width', 2 - 1.3 * pp); }
+      else ping.setAttribute('opacity', 0);
+      if (props.onDots) props.onDots('...'.slice(0, 1 + (Math.floor(el / 460) % 3)));
+    };
+    if (reduced) { frame(OPEN_MS + 200); if (props.onDots) props.onDots('...'); return () => { while (svg.firstChild) svg.removeChild(svg.firstChild); }; }
+    let id = 0, t0 = null; const tick = now => { if (t0 == null) t0 = now; frame(now - t0); id = requestAnimationFrame(tick); };
+    id = requestAnimationFrame(tick);
+    return () => { cancelAnimationFrame(id); while (svg.firstChild) svg.removeChild(svg.firstChild); };
+  }, []);
+  return React.createElement('svg', { ref, width: 200, height: Math.round(200 * 176 / 300), viewBox: '0 0 300 176', 'aria-hidden': 'true', style: { display: 'block' } });
+}
+
+class Component extends DCLogic {
+  static P = [
+    { id: "R100 · AA338", sample: "R100_NR1_AP000342_assembly", sp: "Unavailable", st: "No ST", cluster: "AA338", verified: true, kb: 94, ctg: 1, mob: "Conjugative", inc: "IncFIA", amr: ["catA1","aadA1","sul1","tetA(B)","blaOXA-1"], date: "7/9/2026", com: null },
+    { id: "ERR2232552 · AE985", sample: "ERR2232552", sp: "Pseudomonas aeruginosa", st: "No ST", cluster: "AE985", verified: false, kb: 186, ctg: 31, mob: "Non-mobilizable", inc: "", amr: [], date: "3/31/2026", com: null },
+    { id: "ERR2232552 · AF876", sample: "ERR2232552", sp: "Pseudomonas aeruginosa", st: "No ST", cluster: "AF876", verified: true, kb: 90, ctg: 18, mob: "Conjugative", inc: "rep_cluster_322", amr: [], date: "3/31/2026", com: null },
+    { id: "ERR2232561 · AE985", sample: "ERR2232561", sp: "Pseudomonas aeruginosa", st: "No ST", cluster: "AE985", verified: false, kb: 186, ctg: 31, mob: "Non-mobilizable", inc: "", amr: [], date: "3/5/2026", com: null },
+    { id: "ERR2232561 · AF876", sample: "ERR2232561", sp: "Pseudomonas aeruginosa", st: "No ST", cluster: "AF876", verified: false, kb: 90, ctg: 18, mob: "Conjugative", inc: "rep_cluster_322", amr: [], date: "3/5/2026", com: null },
+    { id: "MS7925 · AA159", sample: "MS7925_assembly", sp: "Escherichia coli", st: "162", cluster: "AA159", verified: false, kb: 6.8, ctg: 1, mob: "Mobilizable", inc: "rep_cluster_2350", amr: [], date: "3/5/2026", com: 3 },
+    { id: "MS7925 · AA474", sample: "MS7925_assembly", sp: "Escherichia coli", st: "162", cluster: "AA474", verified: false, kb: 86, ctg: 1, mob: "Conjugative", inc: "IncI-gamma/K1", amr: [], date: "3/5/2026", com: null },
+    { id: "MS7925 · AA739", sample: "MS7925_assembly", sp: "Escherichia coli", st: "162", cluster: "AA739", verified: true, kb: 325, ctg: 21, mob: "Conjugative", inc: "IncHI2A, rep_cluster_1088", amr: ["blaCTX-M-15","blaTEM-1","sul1","sul2","dfrA14","tetA","aph(3'')-Ib","aph(6)-Id","qnrS1","catA1","floR","mph(A)","aadA2","arr-3","ere(A)","ble"], date: "3/5/2026", com: null },
+    { id: "MS7925 · AF232", sample: "MS7925_assembly", sp: "Escherichia coli", st: "162", cluster: "AF232", verified: false, kb: 6.5, ctg: 1, mob: "Non-mobilizable", inc: "", amr: [], date: "3/5/2026", com: 4 },
+    { id: "MS7924 · AA523", sample: "MS7924_assembly", sp: "Enterobacter hormaechei", st: "830", cluster: "AA523", verified: false, kb: 4.9, ctg: 1, mob: "Mobilizable", inc: "ColRNAI_rep_cluster_1987", amr: [], date: "3/5/2026", com: 1 },
+    { id: "MS7924 · AA739", sample: "MS7924_assembly", sp: "Enterobacter hormaechei", st: "830", cluster: "AA739", verified: true, kb: 336, ctg: 20, mob: "Conjugative", inc: "IncHI2A, rep_cluster_1088", amr: ["blaCTX-M-15","blaTEM-1","sul1","sul2","dfrA14","tetA","aph(3'')-Ib","aph(6)-Id","qnrS1","catA1","floR","mph(A)"], date: "3/5/2026", com: null },
+    { id: "MS7924 · AB040", sample: "MS7924_assembly", sp: "Enterobacter hormaechei", st: "830", cluster: "AB040", verified: false, kb: 2.6, ctg: 1, mob: "Mobilizable", inc: "rep_cluster_2335", amr: [], date: "3/5/2026", com: 2 },
+    { id: "MS7924 · AH156", sample: "MS7924_assembly", sp: "Enterobacter hormaechei", st: "830", cluster: "AH156", verified: false, kb: 2.9, ctg: 1, mob: "Non-mobilizable", inc: "", amr: [], date: "3/5/2026", com: 4 },
+    { id: "MS7923 · AA513", sample: "MS7923_assembly", sp: "Enterobacter hormaechei", st: "656", cluster: "AA513", verified: false, kb: 5.5, ctg: 1, mob: "Mobilizable", inc: "rep_cluster_2335", amr: [], date: "3/5/2026", com: 2 },
+    { id: "MS7923 · AA739", sample: "MS7923_assembly", sp: "Enterobacter hormaechei", st: "656", cluster: "AA739", verified: false, kb: 320, ctg: 25, mob: "Conjugative", inc: "IncHI2A, rep_cluster_1088", amr: ["blaCTX-M-15","blaTEM-1","sul1","sul2","dfrA14","tetA","aph(3'')-Ib","aph(6)-Id","qnrS1","catA1","floR","mph(A)","aadA2","arr-3","ere(A)"], date: "3/5/2026", com: null },
+    { id: "MS7923 · AB039", sample: "MS7923_assembly", sp: "Enterobacter hormaechei", st: "656", cluster: "AB039", verified: false, kb: 4.2, ctg: 1, mob: "Mobilizable", inc: "ColRNAI_rep_cluster_1987", amr: [], date: "3/5/2026", com: 1 },
+    { id: "MS7923 · novel_c73c28", sample: "MS7923_assembly", sp: "Enterobacter hormaechei", st: "656", cluster: "novel_c73c2836964b3aca2a", verified: false, kb: 5.1, ctg: 1, mob: "Mobilizable", inc: "rep_cluster_2358", amr: [], date: "3/5/2026", com: 3 },
+    { id: "MS7884 · AA419", sample: "MS7884_assembly", sp: "Enterobacter hormaechei", st: "90", cluster: "AA419", verified: false, kb: 117, ctg: 7, mob: "Conjugative", inc: "IncFII, rep_cluster_2268", amr: [], date: "3/5/2026", com: null },
+    { id: "MS7884 · AA519", sample: "MS7884_assembly", sp: "Enterobacter hormaechei", st: "90", cluster: "AA519", verified: false, kb: 5, ctg: 1, mob: "Mobilizable", inc: "rep_cluster_2335, rep_cluster_2336", amr: [], date: "3/5/2026", com: 2 },
+    { id: "MS7884 · AA523", sample: "MS7884_assembly", sp: "Enterobacter hormaechei", st: "90", cluster: "AA523", verified: false, kb: 6.3, ctg: 1, mob: "Mobilizable", inc: "ColRNAI_rep_cluster_1987", amr: [], date: "3/5/2026", com: 1 },
+    { id: "MS7884 · AA739", sample: "MS7884_assembly", sp: "Enterobacter hormaechei", st: "90", cluster: "AA739", verified: false, kb: 314, ctg: 26, mob: "Conjugative", inc: "IncHI2A, rep_cluster_1088", amr: ["blaCTX-M-15","blaTEM-1","sul1","sul2","dfrA14","tetA","aph(3'')-Ib","aph(6)-Id","qnrS1","catA1","floR","mph(A)","aadA2","arr-3","ere(A)"], date: "3/5/2026", com: null },
+    { id: "MS7884 · AC776", sample: "MS7884_assembly", sp: "Enterobacter hormaechei", st: "90", cluster: "AC776", verified: false, kb: 9.6, ctg: 1, mob: "Mobilizable", inc: "ColE10", amr: [], date: "3/5/2026", com: 3 },
+    { id: "MS7884 · novel_1fafaf", sample: "MS7884_assembly", sp: "Enterobacter hormaechei", st: "90", cluster: "novel_1fafafa42b17444584f", verified: false, kb: 4.8, ctg: 1, mob: "Mobilizable", inc: "rep_cluster_2335, rep_cluster_2336", amr: [], date: "3/5/2026", com: 2 },
+    { id: "MS7924 · AJ210", sample: "MS7924_assembly", sp: "Enterobacter hormaechei", st: "830", cluster: "AJ210", verified: false, kb: 5.2, ctg: 1, mob: "Mobilizable", inc: "ColRNAI_rep_cluster_1987", amr: [], date: "10/7/2026", com: null },
+    { id: "MS7884 · AJ211", sample: "MS7884_assembly", sp: "Enterobacter hormaechei", st: "90", cluster: "AJ211", verified: false, kb: 38.4, ctg: 4, mob: "Conjugative", inc: "IncFII", amr: ["blaCTX-M-15"], date: "10/7/2026", com: null },
+    { id: "MS7884 · AK101", sample: "MS7884_assembly", sp: "Enterobacter hormaechei", st: "90", cluster: "AK101", verified: true, kb: 46.2, ctg: 1, mob: "Conjugative", inc: "IncX3", amr: ["blaNDM-5","ble-MBL"], date: "10/1/2026", com: 5 },
+    { id: "MS7923 · AK101", sample: "MS7923_assembly", sp: "Enterobacter hormaechei", st: "656", cluster: "AK101", verified: true, kb: 46.2, ctg: 1, mob: "Conjugative", inc: "IncX3", amr: ["blaNDM-5","ble-MBL"], date: "10/1/2026", com: 5 },
+    { id: "MS7926 · AK101", sample: "MS7926_assembly", sp: "Klebsiella pneumoniae", st: "147", cluster: "AK101", verified: true, kb: 46.1, ctg: 1, mob: "Conjugative", inc: "IncX3", amr: ["blaNDM-5","ble-MBL"], date: "10/2/2026", com: 5 },
+    { id: "MS7927 · AK101", sample: "MS7927_assembly", sp: "Escherichia coli", st: "410", cluster: "AK101", verified: true, kb: 46.3, ctg: 1, mob: "Conjugative", inc: "IncX3", amr: ["blaNDM-5","ble-MBL"], date: "10/3/2026", com: 5 },
+    { id: "MS7928 · AK101", sample: "MS7928_assembly", sp: "Citrobacter freundii", st: "22", cluster: "AK101", verified: true, kb: 47.9, ctg: 1, mob: "Conjugative", inc: "IncX3", amr: ["blaNDM-5","ble-MBL"], date: "10/3/2026", com: 5 },
+    { id: "MS7927 · AK102", sample: "MS7927_assembly", sp: "Escherichia coli", st: "410", cluster: "AK102", verified: true, kb: 43.0, ctg: 1, mob: "Conjugative", inc: "IncX3", amr: [], date: "10/3/2026", com: 5 }
+  ];
+  static E = [[9,19,0,0],[9,15,1,.04],[15,19,1,.06],[11,13,1,.03],[11,18,2,.08],[11,22,2,.1],[13,18,3,.12],[18,22,1,.05],[13,22,5,.21],[5,16,3,.38],[21,16,7,.46],[8,12,6,.41],[25,26,0,.01],[25,27,0,.01],[26,27,1,.02],[25,28,1,.02],[26,28,1,.02],[27,28,1,.03],[25,29,2,.04],[26,29,3,.05],[27,29,2,.05],[28,29,2,.04],[28,30,6,.18],[27,30,7,.2],[25,30,7,.21]];
+  ctg(p) { return p.ctg; }
+  linFeats(p) {
+    let s = 0; for (let i = 0; i < p.id.length; i++) s = (s * 31 + p.id.charCodeAt(i)) >>> 0;
+    const rnd = () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
+    const out = [];
+    if (p.inc) out.push({ kind: 'rep', name: p.inc.split(',')[0].trim(), frac: 0.01 + rnd() * 0.04, w: 0.04, strand: 1 });
+    if (p.mob === 'Conjugative') out.push({ kind: 'tra', name: 'tra/pil', frac: 0.55 + rnd() * 0.1, w: 0.16, strand: rnd() > 0.5 ? 1 : -1 });
+    if (p.mob === 'Mobilizable') out.push({ kind: 'tra', name: 'mob', frac: 0.4 + rnd() * 0.2, w: 0.08, strand: 1 });
+    const nIS = p.kb > 50 ? 3 : p.kb > 8 ? 1 : 0;
+    const island = 0.18 + rnd() * 0.18;
+    for (let i = 0; i < nIS; i++) out.push({ kind: 'mob', name: ['IS26', 'IS6100', 'ISEcp1', 'Tn3'][i % 4], frac: island + i * 0.06, w: 0.02, strand: rnd() > 0.5 ? 1 : -1 });
+    p.amr.forEach((g, i) => out.push({ kind: 'arg', name: g, frac: island + 0.02 + i * (0.16 / Math.max(1, p.amr.length)), w: 0.012, strand: rnd() > 0.4 ? 1 : -1 }));
+    return out;
+  }
+  isFrag(id) { return this.byId(id).ctg > 1; }
+  netIds() { return this.state.selected.filter(id => !this.isFrag(id) && (this.state.showHubs || !this.byId(id).hub)); }
+  kb(p) { return (p.kb >= 10 || Number.isInteger(p.kb) ? Math.round(p.kb) : p.kb.toFixed(1)) + ' kb'; }
+  static COM = { 1: '#099250', 2: '#2E90FA', 3: '#F79009', 4: '#9E77ED', 5: '#EE46BC' };
+  static CAT = ['#099250', '#2E90FA', '#F79009', '#9E77ED', '#EE46BC', '#15B79E', '#F04438', '#667085'];
+
+  state = {
+    view: 'table',
+    selected: ['MS7924 · AA523','MS7884 · AA523','MS7923 · AB039','MS7924 · AB040','MS7923 · AA513','MS7884 · AA519','MS7884 · novel_1fafaf','MS7925 · AA159','MS7923 · novel_c73c28','MS7925 · AA739'],
+    search: '', filters: { sp: [], st: [], cl: [], mob: [], inc: [], ctg: [] }, drawer: false, combo: null, comboQ: '', viewMode: 'network', linTip: null, openMenu: null,
+    dcj: 4, minShared: 50, colorBy: 'sub', labels: true, showRemoved: true,
+    pos: {}, vb: [0, 0, 1000, 700], focus: null, hoverNode: null, hoverEdge: null, drag: null,
+    pickerOpen: false, pickerSearch: '', activeView: null, leave: null, jobs: [], results: {}, jobsOpen: false, annDone: null, annRun: {}, annStarted: 0, tab: 'all', cmpSearch: '', viewsMenu: false, savedMenu: false, saveOpen: false, saveMode: 'new', saveName: '', toast: null,
+    views: [
+      { id: 'v1', name: 'AA523 outbreak, ward 4', sel: ['MS7924 · AA523','MS7884 · AA523','MS7923 · AA513','MS7884 · AA519'], dcj: 4, minShared: 70, colorBy: 'sub', viewMode: 'network', date: '2 Oct' },
+      { id: 'v3', name: 'IncX3 blaNDM-5, 4 species', sel: ['MS7884 · AK101','MS7923 · AK101','MS7926 · AK101','MS7927 · AK101','MS7928 · AK101','MS7927 · AK102'], dcj: 4, minShared: 70, colorBy: 'species', viewMode: 'network', date: '5 Oct' },
+      { id: 'v2', name: 'Novel clusters review', sel: ['MS7884 · novel_1fafaf','MS7923 · novel_c73c28','MS7925 · AA159','MS7925 · AA739','MS7923 · AB039','MS7924 · AB040'], dcj: 4, minShared: 50, colorBy: 'sub', viewMode: 'linear', date: '28 Sep' }
+    ], tip: null, vw: typeof window !== 'undefined' ? window.innerWidth : 1440, showHubs: true, sizeByLen: false, markConj: false, stSplit: true, colorMenu: false,
+    upd: { v1: { from: 'v2.4', to: 'v2.5', changed: [{ id: 'MS7923 · AA513', from: 1, to: 3 }], removed: ['MS7884 · AA519'], added: ['MS7924 · AJ210', 'MS7884 · AJ211'] } }, updHide: {}, updOpen: false, updPick: [], updated: {}, mx: 0, my: 0
+  };
+  svgRef = React.createRef();
+  canvasRef = el => {
+    if (this._cv && this._cv !== el) this._cv.removeEventListener('wheel', this._wheel);
+    if (el && el !== this._cv) el.addEventListener('wheel', this._wheel, { passive: false });
+    this._cv = el;
+  };
+  _wheel = ev => {
+    if (!this.svgRef.current) return; ev.preventDefault();
+    const pt = this.toSvg(ev); if (!pt) return;
+    this.zoomAt(Math.exp(ev.deltaY * 0.0015), pt.x, pt.y);
+  };
+  zoomAt(k, cx, cy) {
+    const [x, y, w, h] = this.state.vb; const fw = this.state.fitW || w;
+    k = Math.max(fw / 6 / w, Math.min(fw * 3 / w, k));
+    this.setState({ vb: [cx - (cx - x) * k, cy - (cy - y) * k, w * k, h * k] });
+  }
+  zoomCenter(k) { const [x, y, w, h] = this.state.vb; this.zoomAt(k, x + w / 2, y + h / 2); }
+  svgScale() { const el = this.svgRef.current; if (!el) return 1; const [, , w, h] = this.state.vb; return Math.max(w / el.clientWidth, h / el.clientHeight); }
+
+  get P() { return Component.P; }
+  byId(id) { if (!this._by) { this._by = {}; this.P.forEach(p => this._by[p.id] = p); } return this._by[id]; }
+  allEdges() { if (!this._E) this._E = Component.E.map(([i, j, d, c]) => ({ a: this.P[i].id, b: this.P[j].id, dcj: d, cont: c, key: this.P[i].id + '|' + this.P[j].id })); return this._E; }
+  pairsFor(ids) { const s = new Set(ids); const maxCont = 1 - (this.state.minShared || 50) / 100 + 1e-9; const hub = id => !!this.byId(id).hub;
+    return this.allEdges().filter(e => s.has(e.a) && s.has(e.b) && e.cont <= maxCont).map(e => ({ ...e, viaHub: hub(e.a) || hub(e.b), kept: e.dcj <= this.state.dcj && !hub(e.a) && !hub(e.b) })); }
+  subOf(id) {
+    if (!this._sub) { const par = {}; this.P.forEach(p => par[p.id] = p.id); const fd = x => par[x] === x ? x : (par[x] = fd(par[x]));
+      this.allEdges().forEach(e => { if (e.dcj <= 4 && e.cont <= 0.5 && !this.byId(e.a).hub && !this.byId(e.b).hub && this.byId(e.a).ctg <= 1 && this.byId(e.b).ctg <= 1) par[fd(e.a)] = fd(e.b); });
+      const size = {}; this.P.forEach(p => { const r = fd(p.id); size[r] = (size[r] || 0) + 1; });
+      const lab = {}; let n = 0; this._sub = {};
+      this.P.forEach(p => { if (p.hub) this._sub[p.id] = 'Hub'; else if (p.ctg > 1) this._sub[p.id] = 'Not typed'; else { const r = fd(p.id); if (size[r] > 1) { if (!lab[r]) lab[r] = 'Type ' + (++n); this._sub[p.id] = lab[r]; } else this._sub[p.id] = 'Singleton'; } }); }
+    return this._sub[id];
+  }
+  edgesFor(ids, dcj) { return this.pairsFor(ids).filter(e => e.kept); }
+  jit(id, k) { let h = 2166136261 ^ k; for (let i = 0; i < id.length; i++) { h ^= id.charCodeAt(i); h = Math.imul(h, 16777619); } return ((h >>> 0) % 1000) / 500 - 1; }
+  family(inc) { const t = (inc || '').split(',')[0].trim(); return !t ? 'Unknown' : t.startsWith('IncF') ? 'IncF' : t.startsWith('Col') ? 'Col' : t; }
+  groupKey(p) { const by = this.state.colorBy; return by === 'sub' ? this.subOf(p.id) : by === 'community' ? String(p.com || 0) : by === 'replicon' ? this.family(p.inc) : by === 'mobility' ? p.mob : this.hostKey(p); }
+  stLabel(p) { const s = p.st == null ? '' : String(p.st).trim(); return !s || s === 'No ST' ? 'ST unknown' : /^\d+$/.test(s) ? 'ST' + s : s; }
+  hostKey(p) { return this.spShort(p.sp) + (this.state.stSplit ? ' ' + this.stLabel(p) : ''); }
+  spShort(sp) { const [g, s] = sp.split(' '); return s ? g[0] + '. ' + s : sp; }
+  colorOf(p) {
+    const by = this.state.colorBy;
+    if (by === 'sub') { const s = this.subOf(p.id); if (!s.startsWith('Type ')) return s === 'Hub' ? '#344054' : '#98A2B3'; return Component.CAT[(+s.slice(5) - 1) % Component.CAT.length]; }
+    if (by === 'community') return p.com ? Component.COM[p.com] : '#98A2B3';
+    if (by === 'mobility') return ({ 'Conjugative': '#7A5AF8', 'Mobilizable': '#2E90FA', 'Non-mobilizable': '#98A2B3' })[p.mob];
+    const key = by === 'replicon' ? 'fam' : 'sp';
+    const vals = [...new Set(this.P.map(q => key === 'fam' ? this.family(q.inc) : this.hostKey(q)))].sort();
+    const v = key === 'fam' ? this.family(p.inc) : this.hostKey(p);
+    return Component.CAT[vals.indexOf(v) % Component.CAT.length];
+  }
+
+  componentDidMount() {
+    if (/[?&]auto\b/.test(location.search)) { const ok = this.state.selected.filter((id) => { const p = this.byId(id); return p && p.ctg <= 1; }); if (ok.length >= 2) this.state = { ...this.state, selected: ok }; }
+    this._ps = this.state;
+    this._rs = () => this.setState({ vw: window.innerWidth }); window.addEventListener('resize', this._rs);
+    const pr = this.props || {};
+    const init = {};
+    if (pr.startSelection === 'empty') init.selected = [];
+    if (pr.startView === 'compare') { init.view = 'compare';  }
+    const results = {}; this.state.views.forEach(v => { const k = this.keyOf(v.sel); if (k) results[k] = true; });
+    init.results = results;
+    this._tick = setInterval(() => { this.tickJobs(); this.tickAnn(); }, 300);
+    this.setState(init);
+    this.relayout(true, 400);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._rs); clearInterval(this._tick); }
+  keyOf(sel) { const ids = sel.filter(id => this.byId(id) && !this.isFrag(id)).sort(); return ids.length >= 2 ? ids.join('|') : null; }
+  estMin(n) { return Math.max(4, Math.min(30, Math.round(3 + n * 2.2))); }
+  tickJobs() {
+    const st = this.state;
+    if (!st.jobs.some(j => j.status === 'running' && j.type !== 'ann')) return;
+    const dur = Math.max(2.5, +(this.props.analysisSeconds ?? 3.5));
+    this.setState(s => {
+      const results = { ...s.results };
+      const jobs = s.jobs.map(j => { if (j.status !== 'running' || j.type === 'ann') return j; const p = Math.min(1, j.p + 0.3 / dur); if (p >= 1) results[j.key] = true; return { ...j, p, status: p >= 1 ? 'done' : 'running' }; });
+      return { jobs, results };
+    });
+  }
+  autoName(sel, views) {
+    const ps = sel.map(id => this.byId(id)).filter(Boolean), n = ps.length;
+    const all = vals => { const u = [...new Set(vals)]; return n >= 2 && u.length === 1 && u[0] ? u[0] : null; };
+    const cnt = n + (n === 1 ? ' plasmid' : ' plasmids');
+    const cl = all(ps.map(p => p.cluster));
+    const rep = !cl && all(ps.map(p => (p.inc || '').split(',')[0].trim()));
+    const sps = [...new Set(ps.map(p => p.sp && p.sp !== 'Unavailable' ? this.spShort(p.sp) : 'Unknown species'))];
+    const samples = [...new Set(ps.map(p => p.id.split(' · ')[0]))];
+    const base = n === 1 ? ps[0].id.replace(/ · /g, ' ')
+      : cl ? cl + ' cluster, ' + cnt
+      : rep ? rep + ', ' + cnt
+      : sps.length <= 2 ? sps.join(' + ') + ', ' + cnt
+      : samples.length <= 2 ? samples.join(' + ') + ', ' + cnt
+      : cnt;
+    let name = base, k = 2;
+    while (views.some(v => v.name === name)) name = base + ' (' + (k++) + ')';
+    return name;
+  }
+  autoSave() {
+    const st = this.state;
+    if (st.view !== 'compare' || !st.activeView) return;
+    const av = st.views.find(v => v.id === st.activeView);
+    if (!av || this.sameSnap(av, this.snap(st))) return;
+    this.setState(s => ({ views: s.views.map(v => v.id === av.id ? { ...v, ...this.snap(s), date: 'Today' } : v), jobs: s.jobs.map(j => j.ctx === av.id ? { ...j, name: av.name } : j) }));
+  }
+  syncJobs(ps) {
+    const st = this.state;
+    const key = st.view === 'compare' ? this.keyOf(st.selected) : null;
+    const ctx = st.activeView || 'draft';
+    let jobs = st.jobs, changed = false;
+    // selection changed while inside the comparison: the old run is obsolete
+    if (ps.view === 'compare' && st.view === 'compare' && (ps.activeView || 'draft') === ctx) {
+      const pk = this.keyOf(ps.selected);
+      if (pk && pk !== key) { const n = jobs.filter(j => !(j.key === pk && j.ctx === ctx && j.status === 'running')); if (n.length !== jobs.length) { jobs = n; changed = true; } }
+    }
+    if (key) {
+      const doneHere = jobs.find(j => j.key === key && j.status === 'done');
+      if (doneHere) { jobs = jobs.filter(j => j !== doneHere); changed = true; if (ps.view === 'compare' && this.keyOf(ps.selected) === key) this.flash('Network ready'); }
+      else if (!st.results[key] && !jobs.some(j => j.key === key)) {
+        let av = st.views.find(v => v.id === st.activeView);
+        if (!av) {
+          av = { id: 'v' + Date.now(), name: this.autoName(st.selected, st.views), date: 'Today', ...this.snap(st) };
+          this.setState(s => ({ views: [av, ...s.views], activeView: av.id }));
+          this.flash('Saved to Comparisons as “' + av.name + '”');
+        }
+        jobs = [...jobs, { id: 'j' + Date.now(), key, ctx: av.id, name: av.name, sel: [...st.selected], n: key.split('|').length, snap: this.snap(st), p: 0, status: 'running' }];
+        changed = true;
+      }
+    }
+    if (changed) this.setState({ jobs });
+  }
+  annStatus(id) { const st = this.state; if (st.annRun[id] != null) return 'running'; return (st.annDone || this.seedAnn())[id] ? 'done' : 'none'; }
+  seedAnn() {
+    if (this._seedAnn) return this._seedAnn;
+    const d = {}; const v1 = this.state.views.filter(v => v.id === 'v1' || v.id === 'v3').flatMap(v => v.sel);
+    v1.forEach(id => d[id] = true);
+    this.P.forEach(p => { let h = 0; for (const c of p.id) h = (h * 31 + c.charCodeAt(0)) >>> 0; if (h % 3 === 0) d[p.id] = true; });
+    return (this._seedAnn = d);
+  }
+  annQuota() {
+    const limits = { trial: 3, research: 10, surveillance: 30 };
+    const limit = limits[this.props.plan || 'research'] || 10;
+    return { used: Math.min(limit, (this.props.annotationsUsed ?? 2) + this.state.annStarted), limit, plan: this.props.plan || 'research' };
+  }
+  tickAnn() {
+    const run = this.state.annRun; const ids = Object.keys(run); if (!ids.length) return;
+    const dur = Math.max(3, +(this.props.annotationSeconds ?? 8));
+    this.setState(s => { const r = { ...s.annRun }, d = { ...(s.annDone || this.seedAnn()) };
+      Object.keys(r).forEach(id => { r[id] = Math.min(1, r[id] + 0.3 / dur); if (r[id] >= 1) { delete r[id]; d[id] = true; } });
+      const watching = j => s.view === 'compare' && s.activeView === j.ctx && s.viewMode === 'linear';
+      const jobs = s.jobs.map(j => { if (j.type !== 'ann' || j.status !== 'running') return j; const p = j.ids.reduce((a, id) => a + (r[id] != null ? r[id] : 1), 0) / j.ids.length; return { ...j, p, status: p >= 1 ? 'done' : 'running' }; }).filter(j => !(j.type === 'ann' && j.status === 'done' && watching(j)));
+      return { annRun: r, annDone: d, jobs }; });
+  }
+  linLib(sel) {
+    const k = (this._dataRev || 0) + sel.join('|');
+    if (this._libKey !== k) { this._libKey = k; const s = new Set(sel); this._lib = this.P.filter(p => !s.has(p.id)).map(p => ({ id: p.id, kb: p.kb, sp: p.sp, sample: p.sample, inc: p.inc, ctg: p.ctg })); }
+    return this._lib;
+  }
+  linList(sel) {
+    const ids = sel.filter(id => this.byId(id));
+    const nk = this.keyOf(this.state.selected), netReady = !nk || !!this.state.results[nk];
+    const k = (this._dataRev || 0) + (netReady ? 'R' : 'B') + this.state.colorBy + ids.map(id => id + ':' + this.annStatus(id) + ':' + (this.state.annRun[id] != null ? Math.round(this.state.annRun[id] * 20) : '')).join('|');
+    if (this._linKey !== k) { this._linKey = k; this._linList = ids.map(id => { const p = this.byId(id); const t = !netReady ? null : this.isFrag(id) ? 'Not in network' : this.subOf(id);
+      const tc = !t ? null : t.startsWith('Type ') ? Component.CAT[(+t.slice(5) - 1) % Component.CAT.length] : t === 'Not in network' ? '#D0D5DD' : '#98A2B3';
+      return { id, kb: p.kb, sp: p.sp, sample: p.sample, inc: p.inc, mob: p.mob, amr: p.amr, com: p.com, ctg: p.ctg, status: this.annStatus(id), runP: this.state.annRun[id] || 0, ptype: t, ptypeColor: tc }; }); }
+    return this._linList;
+  }
+  jobVals(st) {
+    const key = st.view === 'compare' ? this.keyOf(st.selected) : null;
+    const building = !!key && !st.results[key];
+    const cur = building ? st.jobs.find(j => j.key === key) : null;
+    const p = cur ? cur.p : 0, n = key ? key.split('|').length : 0;
+    const est = this.estMin(n), left = Math.max(1, Math.ceil(est * (1 - p)));
+    const stepDefs = [['Comparing shared sequence', 0.5], ['Counting rearrangements', 0.85], ['Grouping into communities', 1]];
+    let prevEnd = 0;
+    const bSteps = stepDefs.map(([label, end]) => { const done = p >= end, curStep = !done && p >= prevEnd; prevEnd = end;
+      return { label, done, bg: done ? '#157639' : '#fff', border: done ? '1.5px solid #157639' : curStep ? '2px solid #157639' : '1.5px solid #D0D5DD', color: done || curStep ? '#101828' : '#98A2B3', weight: curStep ? 600 : 500 }; });
+    let seed = 0; (key || '').split('').forEach(c => seed = (seed * 31 + c.charCodeAt(0)) >>> 0);
+    const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+    const ghostNodes = Array.from({ length: n }, (_, i) => { const a = i / Math.max(1, n) * Math.PI * 2 + rnd() * 0.6, r = 18 + rnd() * 16;
+      return { left: (50 + Math.cos(a) * r * 1.2) + '%', top: (50 + Math.sin(a) * r) + '%', size: Math.round(16 + rnd() * 26) + 'px' }; });
+    const vis = st.jobs.filter(j => !(key && j.key === key));
+    const running = vis.filter(j => j.status === 'running'), ready = vis.filter(j => j.status === 'done');
+    const minLeft = j => Math.max(1, Math.ceil(this.estMin(j.n) * (1 - j.p)));
+    const open = j => this.guarded('replace', () => {
+      const av = st.views.find(v => v.id === j.ctx);
+      this.setState(s => ({ jobs: j.type === 'ann' && j.status === 'done' ? s.jobs.filter(x => x.id !== j.id) : s.jobs, view: 'compare', jobsOpen: false, activeView: av ? av.id : null, selected: [...j.sel], dcj: j.snap.dcj, minShared: j.snap.minShared, colorBy: j.snap.colorBy, viewMode: j.snap.viewMode, focus: null, pos: {}, addMode: false, pickerOpen: false, tip: null }));
+    });
+    const avgP = running.length ? running.reduce((a, j) => a + j.p, 0) / running.length : 1;
+    const av = st.views.find(v => v.id === st.activeView);
+    const commitRename = () => {
+      const nm = (this.state.renameVal || '').trim();
+      if (nm && av) this.setState(s => ({ renaming: false, views: s.views.map(v => v.id === av.id ? { ...v, name: nm } : v), jobs: s.jobs.map(j => j.ctx === av.id ? { ...j, name: nm } : j) }));
+      else this.setState({ renaming: false });
+    };
+    return {
+      cvDirty: false, cvShowSave: false,
+      nameEditable: !!av, nameStatic: !av,
+      renaming: !!st.renaming && !!av, notRenaming: !(st.renaming && av),
+      renameVal: st.renameVal || '',
+      startRename: () => this.setState({ renaming: true, renameVal: av ? av.name : '' }),
+      onRenameInput: e => this.setState({ renameVal: e.target.value }),
+      onRenameKey: e => { if (e.key === 'Enter') commitRename(); if (e.key === 'Escape') this.setState({ renaming: false }); },
+      commitRename,
+      isBuilding: building && st.viewMode !== 'linear',
+      linMounted: st.view === 'compare',
+      linDisplay: st.viewMode === 'linear' ? 'block' : 'none',
+      netLoader: this._netLoader || (this._netLoader = React.createElement(NetLoader, { onDots: d => { if (this._dots !== d) { this._dots = d; this.setState({ netDots: d }); } } })),
+      netDots: st.netDots || '.',
+      isNetMode: st.viewMode !== 'linear',
+      netSummary: st.selected.length + (st.selected.length === 1 ? ' plasmid' : ' plasmids'),
+      cmpCols: st.viewMode === 'linear' ? '0px minmax(0,1fr)' : '248px minmax(0,1fr)',
+      addModalOpen: !!st.addModal,
+      openAddModal: () => this.setState({ addModal: true, addQ: '', editDraft: null }),
+      togglePicker: () => this.setState(s => (!s.activeView && !s.selected.length) ? { addModal: 'new', addQ: '', editDraft: [], createBase: [], newName: '', nameTouched: false } : { addModal: true, addQ: '', editDraft: null }),
+      closeAddModal: () => this.setState({ addModal: false, editDraft: null, createBase: null, newName: '', nameTouched: false }),
+      linEdit: this._linEdit || (this._linEdit = () => this.setState(s => (!s.activeView && !s.selected.length) ? { addModal: 'new', addQ: '', editDraft: [], createBase: [], newName: '', nameTouched: false } : { addModal: true, addQ: '', editDraft: null })),
+      addQ: st.addQ || '', onAddQ: e => this.setState({ addQ: e.target.value }),
+      ...(() => {
+        const q = (st.addQ || '').trim().toLowerCase();
+        const creating = st.addModal === 'new';
+        const draft = st.editDraft || st.selected, dset = new Set(draft), cur = creating ? dset : new Set(st.selected);
+        const match = p => !q || (p.id + ' ' + (p.inc || '') + ' ' + (p.sp || '') + ' ' + (p.sample || '')).toLowerCase().includes(q);
+        const full = draft.length >= this.MAXSEL;
+        const toggle = id => this.setState(s => { const d = s.editDraft || s.selected; if (!d.includes(id) && d.length >= this.MAXSEL) return {}; return { editDraft: d.includes(id) ? d.filter(x => x !== id) : [...d, id] }; });
+        const row = p => { const on = dset.has(p.id), was = cur.has(p.id); const added = on && !was, removed = !on && was;
+          const blocked = !on && full;
+          return { name: p.id, on, boxBg: on ? '#157639' : blocked ? '#F2F4F7' : '#fff', boxBorder: on ? '1px solid #157639' : blocked ? '1.5px solid #EAECF0' : '1.5px solid #D0D5DD', toggle: () => toggle(p.id), rowOpacity: blocked ? 0.5 : 1, rowCursor: blocked ? 'not-allowed' : 'pointer',
+            meta: this.kb(p) + ', ' + (p.sp && p.sp !== 'Unavailable' ? this.spShort(p.sp) : 'Unknown species'), isFragRow: p.ctg > 1, fragLabel: 'Fragmented', ...((mc => ({ hasMob: false, mobLabel: p.mob, mobColor: mc ? mc[0] : '', mobBg: mc ? mc[1] : '', mobBorder: mc ? mc[2] : '' }))(({ Conjugative: ['#6941C6','#F9F5FF','#E9D7FE'], Mobilizable: ['#175CD3','#EFF8FF','#B2DDFF'], 'Non-mobilizable': ['#475467','#F2F4F7','#EAECF0'] })[p.mob])), hasAmr: false, amrLabel: (p.amr || []).length + ' AMR',
+            nameColor: removed ? '#98A2B3' : '#101828', strike: removed ? 'line-through' : 'none',
+            hasChange: added || removed, change: added ? 'Added' : 'Removed', chColor: added ? '#087443' : '#B42318', chBg: added ? '#EDFCF2' : '#FEF3F2', chBorder: added ? '#ABEFC6' : '#FECDCA' }; };
+        const inCmp = st.selected.map(id => this.byId(id)).filter(p => p && match(p)).map(row);
+        const others = this.P.filter(p => !cur.has(p.id) && match(p)).slice(0, 80).map(row);
+        const nAdd = draft.filter(id => !cur.has(id)).length, nRem = st.selected.filter(id => !dset.has(id)).length;
+        const changed = nAdd + nRem > 0;
+        return {
+          editGroups: [inCmp.length ? { label: 'In this comparison (' + st.selected.length + ')', rows: inCmp } : null, others.length ? { label: 'Other plasmids', rows: others } : null].filter(Boolean),
+          addEmpty: !inCmp.length && !others.length,
+          ...(() => { const fr = draft.filter(id => { const p = this.byId(id); return p && p.ctg > 1; }).length; const ok = draft.length - fr;
+            return { editHasFrag: fr > 0, editFragNote: (fr === 1 ? '1 fragmented plasmid' : fr + ' fragmented plasmids') + ' won\'t show in the network.' + (ok < 2 ? ' Add ' + (2 - ok) + ' more complete to build one.' : '') }; })(),
+          editTitle: st.selected.length ? 'Edit plasmids' : 'Add plasmids',
+          editSub: st.selected.length ? 'Select up to ' + this.MAXSEL + ' plasmids. Nothing changes until you update.' : 'Select up to ' + this.MAXSEL + ' plasmids to compare.',
+          editCta: st.selected.length ? 'Update comparison' : (draft.length ? 'Compare ' + draft.length + (draft.length === 1 ? ' plasmid' : ' plasmids') : 'Compare'),
+          ...(!st.selected.length ? { editGroups: others.length ? [{ label: 'All plasmids', rows: others }] : [] } : {}),
+          editHasChanges: changed,
+          editSummary: draft.length + ' of ' + this.MAXSEL + (full ? ', limit reached' : '') + (changed ? ', ' + [nAdd ? nAdd + ' added' : '', nRem ? nRem + ' removed' : ''].filter(Boolean).join(', ') : ''),
+          editBtnBg: changed ? '#157639' : '#A6DDBB', editBtnCursor: changed ? 'pointer' : 'not-allowed',
+          confirmEdit: () => { if (!changed) return; this.setState({ selected: draft.slice(), addModal: false, addQ: '', editDraft: null }); },
+          showNameField: false,
+          ...(creating ? (() => {
+            const base = new Set(st.createBase || []);
+            const picked = (st.createBase || []).map(id => this.byId(id)).filter(p => p && match(p)).map(row);
+            const rest = this.P.filter(p => !base.has(p.id) && match(p)).slice(0, 80).map(row);
+            const n = draft.length, ph = n ? this.autoName(draft, st.views) : '';
+            const create = () => {
+              if (!n) return;
+              const name = (st.nameTouched ? (st.newName || '').trim() : '') || ph;
+              const v = { id: 'v' + Date.now(), name, date: 'Today', sel: draft.slice(), dcj: st.dcj, minShared: st.minShared, colorBy: st.colorBy, viewMode: 'network' };
+              this.setState(s => ({ views: [v, ...s.views], activeView: v.id, selected: draft.slice(), view: 'compare', viewMode: 'network', addModal: false, addQ: '', editDraft: null, createBase: null, newName: '', nameTouched: false, focus: null, pos: {}, tip: null, addMode: false }));
+              this.flash('Created “' + name + '”');
+            };
+            return {
+              editTitle: 'New plasmid comparison', editSub: 'Select up to ' + this.MAXSEL + ' plasmids.',
+              editGroups: [picked.length ? { label: 'Selected in table (' + picked.length + ')', rows: picked } : null, rest.length ? { label: picked.length ? 'Other plasmids' : 'All plasmids', rows: rest } : null].filter(Boolean),
+              addEmpty: !picked.length && !rest.length,
+              editHasChanges: false,
+              editSummary: n ? n + (n === 1 ? ' plasmid' : ' plasmids') + ' selected' + (full ? ', limit reached' : '') : 'No plasmids selected',
+              editCta: 'Create comparison', editBtnBg: n ? '#157639' : '#A6DDBB', editBtnCursor: n ? 'pointer' : 'not-allowed', confirmEdit: create,
+              showNameField: n > 0, newName: st.nameTouched ? (st.newName || '') : ph, newNamePh: ph, onNewName: e => this.setState({ newName: e.target.value, nameTouched: true })
+            };
+          })() : {})
+        };
+      })(),
+      selPanelBorder: st.viewMode === 'linear' ? 'none' : '1px solid #EAECF0',
+      linLibrary: this.linLib(st.selected),
+      linAdd: this._linAdd || (this._linAdd = ids => { const arr = [].concat(ids); this.setState(s => ({ selected: [...s.selected, ...arr.filter(id => !s.selected.includes(id))] })); }),
+      linRemove: this._linRemove || (this._linRemove = id => this.setState(s => ({ selected: s.selected.filter(x => x !== id) }))),
+      linPlasmids: this.linList(st.selected),
+      annQuota: this._annQ && this._annQ.used === this.annQuota().used && this._annQ.limit === this.annQuota().limit && this._annQ.plan === this.annQuota().plan ? this._annQ : (this._annQ = this.annQuota()),
+      onAnalyze: this._onAnalyze || (this._onAnalyze = ids => { const q = this.annQuota(); const n = Math.max(0, Math.min(ids.length, q.limit - q.used)); if (!n) return;
+        this.setState(s => { const r = { ...s.annRun }; const run = ids.slice(0, n); run.forEach(id => r[id] = 0);
+          const av = s.views.find(v => v.id === s.activeView);
+          const job = { id: 'a' + Date.now(), type: 'ann', ids: run, ctx: av ? av.id : null, name: av ? av.name : 'Comparison', sel: [...s.selected], snap: { ...this.snap(s), viewMode: 'linear' }, n: run.length, p: 0, status: 'running' };
+          return { annRun: r, annStarted: s.annStarted + n, jobs: [...s.jobs, job] }; }); }),
+      isNetwork: !building && st.viewMode !== 'linear', isLinear: st.viewMode === 'linear',
+      bBody: 'Comparing ' + n + ' complete plasmids. This may take a while.',
+      bPct: Math.round(p * 100) + '%', bPctLabel: Math.round(p * 100) + '% done', bEta: 'About ' + left + ' min left', bSteps, ghostNodes,
+      jobsShow: vis.length > 0, jobsOpen: st.jobsOpen && vis.length > 0,
+      toggleJobs: () => this.setState({ jobsOpen: !st.jobsOpen }),
+      jobsReady: ready.length > 0, jobsNotReady: ready.length === 0,
+      jobsTitle: ready.length ? (ready.length === 1 ? (ready[0].type === 'ann' ? 'Plasmid analysis ready' : 'Plasmid comparison ready') : ready.length + ' ready') : (running.length === 1 ? (running[0].type === 'ann' ? 'Analyzing ' + running[0].n + (running[0].n === 1 ? ' plasmid' : ' plasmids') : 'Building plasmid comparison') : running.length + ' running'),
+      jobsMeta: ready.length ? (running.length ? running.length + ' still running' : '') : Math.round(avgP * 100) + '%',
+      jobsDash: (avgP * 94.25).toFixed(1) + ' 94.25',
+      jobsBarRadius: st.jobsOpen ? '0 0 4px 4px' : '4px', jobsChev: st.jobsOpen ? 'rotate(0deg)' : 'rotate(180deg)',
+      jobRows: [...ready, ...running].map(j => ({ name: j.name, done: j.status === 'done', running: j.status === 'running',
+        meta: j.type === 'ann' ? 'Plasmid analysis, ' + j.n + (j.n === 1 ? ' plasmid' : ' plasmids') + ', ' + (j.status === 'done' ? 'Ready' : Math.round(j.p * 100) + '%') : 'Network, ' + j.n + ' plasmids, ' + (j.status === 'done' ? 'Ready' : Math.round(j.p * 100) + '%'),
+        pct: Math.round(j.p * 100) + '%', open: open(j), cancelTitle: j.status === 'done' ? 'Dismiss' : 'Cancel analysis',
+        cancel: e => { e.stopPropagation(); this.setState(s => { const o = { jobs: s.jobs.filter(x => x.id !== j.id) }; if (j.type === 'ann' && j.status !== 'done') { const r = { ...s.annRun }; j.ids.forEach(id => delete r[id]); o.annRun = r; } return o; }); } }))
+    };
+  }
+  componentDidUpdate() {
+    const ps = this._ps || this.state; this._ps = this.state;
+    this.syncJobs(ps);
+    this.autoSave();
+    if (ps.selected !== this.state.selected) this.relayout(true, 260);
+    else if (ps.dcj !== this.state.dcj || ps.minShared !== this.state.minShared || ps.showHubs !== this.state.showHubs) this.relayout(true, 160);
+    else if (ps.view !== this.state.view && this.state.view === 'compare') this.relayout(true, 60);
+  }
+
+  relayout(fit, iters, fresh) {
+    const ids = this.netIds();
+    const edges = this.pairsFor(ids).map(e => e.kept ? e : { ...e, dcj: 9 });
+    const prev = fresh ? {} : this.state.pos;
+    const cx = 500, cy = 350;
+    const N = ids.map(id => {
+      const p = this.byId(id); let q = prev[id];
+      if (!q) {
+        const nb = edges.find(e => (e.a === id && prev[e.b]) || (e.b === id && prev[e.a]));
+        if (nb) { const o = prev[nb.a === id ? nb.b : nb.a]; q = { x: o.x + this.jit(id, 1) * 40, y: o.y + this.jit(id, 2) * 40 }; }
+        else { const c = p.com || 0; const ang = c ? (c - 1) / 5 * Math.PI * 2 : 0.9 + this.jit(id, 3) * 3; const R = c ? 220 : 140; q = { x: cx + Math.cos(ang) * R + this.jit(id, 1) * 50, y: cy + Math.sin(ang) * R * 0.8 + this.jit(id, 2) * 50 }; }
+      }
+      return { id, x: q.x, y: q.y, dx: 0, dy: 0 };
+    });
+    const ix = {}; N.forEach((n, i) => ix[n.id] = i);
+    const temp0 = fresh || !Object.keys(prev).length ? 40 : 18;
+    for (let it = 0; it < iters; it++) {
+      const t = temp0 * (1 - it / iters) + 0.3;
+      N.forEach(n => { n.dx = 0; n.dy = 0; });
+      for (let i = 0; i < N.length; i++) for (let j = i + 1; j < N.length; j++) {
+        const a = N[i], b = N[j]; const dx = a.x - b.x, dy = a.y - b.y; const d2 = Math.max(dx * dx + dy * dy, 1); const d = Math.sqrt(d2);
+        const f = 90000 / d2;
+        a.dx += dx / d * f; a.dy += dy / d * f; b.dx -= dx / d * f; b.dy -= dy / d * f;
+      }
+      edges.forEach(e => {
+        const a = N[ix[e.a]], b = N[ix[e.b]]; const dx = b.x - a.x, dy = b.y - a.y; const d = Math.sqrt(dx * dx + dy * dy) || 0.01;
+        const L = 70 + e.dcj * 16; const f = (d - L) * 0.25;
+        a.dx += dx / d * f; a.dy += dy / d * f; b.dx -= dx / d * f; b.dy -= dy / d * f;
+      });
+      N.forEach(n => {
+        n.dx += (cx - n.x) * 0.02; n.dy += (cy - n.y) * 0.028;
+        const l = Math.sqrt(n.dx * n.dx + n.dy * n.dy) || 1; const s = Math.min(l, t) / l;
+        n.x += n.dx * s; n.y += n.dy * s;
+      });
+    }
+    const pos = {}; N.forEach(n => pos[n.id] = { x: n.x, y: n.y });
+    const upd = { pos };
+    if (fit) { upd.vb = this.fitVb(pos); upd.fitW = upd.vb[2]; }
+    this.setState(upd);
+  }
+  fitVb(pos) {
+    const v = Object.values(pos); if (!v.length) return [0, 0, 1000, 700];
+    const xs = v.map(p => p.x), ys = v.map(p => p.y);
+    const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+    const w = Math.max(x1 - x0 + 200, 380), h = Math.max(y1 - y0 + 140, 300);
+    return [(x0 + x1) / 2 - w / 2, (y0 + y1) / 2 - h / 2, w, h];
+  }
+  toSvg(e) {
+    const svg = this.svgRef.current; if (!svg) return null;
+    const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY;
+    return p.matrixTransform(svg.getScreenCTM().inverse());
+  }
+
+  setSel(next) { this.setState({ selected: next, focus: this.state.focus && this.state.focus.type === 'node' && !next.includes(this.state.focus.id) ? null : this.state.focus }); }
+  toggleSel(id) { const s = this.state.selected; if (!s.includes(id) && s.length >= this.MAXSEL) { this.flash('You can compare up to ' + this.MAXSEL + ' plasmids'); return; } this.setSel(s.includes(id) ? s.filter(x => x !== id) : [...s, id]); }
+  get MAXSEL() { return 100; }
+  cb(on) { return { checked: on, cbBg: on ? '#099250' : '#fff', cbBorder: on ? '#099250' : '#D0D5DD' }; }
+  matches(p, q) { if (!q) return true; q = q.toLowerCase(); return p.id.toLowerCase().includes(q) || p.cluster.toLowerCase().includes(q) || p.sample.toLowerCase().includes(q) || p.sp.toLowerCase().includes(q) || p.inc.toLowerCase().includes(q) || p.amr.some(g => g.toLowerCase().includes(q)); }
+  starPath(R, r) { let d = ''; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r : R; d += (i ? 'L' : 'M') + (Math.cos(a) * rr).toFixed(2) + ' ' + (Math.sin(a) * rr).toFixed(2); } return d + 'Z'; }
+  comLabel(p) { return p.com ? 'C' + p.com : 'Singleton'; }
+
+  buildNet(ids, edges) {
+    const h = React.createElement; const st = this.state;
+    const sizeByLen = st.sizeByLen;
+    const showHubs = st.showHubs;
+    const adj = {}; edges.forEach(e => { (adj[e.a] = adj[e.a] || []).push(e.b); (adj[e.b] = adj[e.b] || []).push(e.a); });
+    const actN = st.hoverNode || (st.focus && st.focus.type === 'node' ? st.focus.id : null);
+    const actE = st.hoverEdge || (st.focus && st.focus.type === 'edge' ? st.focus.key : null);
+    let hi = null, grp = false;
+    const gk = st.hoverGroup != null ? st.hoverGroup : st.lockGroup;
+    if (actN) hi = new Set([actN, ...(adj[actN] || [])]); else if (actE) hi = new Set(actE.split('|'));
+    else if (gk != null) { hi = new Set(ids.filter(id => this.groupKey(this.byId(id)) === gk)); grp = true; }
+    const R = id => { const p = this.byId(id); return sizeByLen ? 9 + Math.sqrt(p.kb) * 1.1 : 12; };
+    const els = [];
+    if (st.showRemoved) this.pairsFor(ids).filter(e => !e.kept).forEach(e => {
+      const a = st.pos[e.a], b = st.pos[e.b]; if (!a || !b) return;
+      const on = actN && (e.a === actN || e.b === actN);
+      els.push(h('line', { key: 'x' + e.key, x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: on ? '#667085' : '#D0D5DD', strokeWidth: 1.2, strokeDasharray: '4 4', opacity: hi && !on ? 0.3 : 1, style: { pointerEvents: 'none' } }));
+    });
+    edges.forEach(e => {
+      const a = st.pos[e.a], b = st.pos[e.b]; if (!a || !b) return;
+      const on = actE === e.key || (actN && (e.a === actN || e.b === actN)) || (grp && hi.has(e.a) && hi.has(e.b));
+      const dim = hi && !on;
+      const w = 1 + Math.max(0, 8 - e.dcj) * 0.45;
+      els.push(h('g', { key: 'e' + e.key, style: { cursor: 'pointer', opacity: dim ? 0.18 : 1, transition: 'opacity 120ms' },
+        onMouseEnter: () => this.setState({ hoverEdge: e.key }), onMouseLeave: () => this.setState({ hoverEdge: null }),
+        onClick: ev => { ev.stopPropagation(); if (!this._panMoved) this.setState({ focus: { type: 'edge', key: e.key } }); } },
+        h('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: 'transparent', strokeWidth: 14 }),
+        h('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: on ? '#344054' : '#98A2B3', strokeWidth: w, strokeLinecap: 'round' })));
+    });
+    if (st.labels) edges.forEach(e => {
+      const a = st.pos[e.a], b = st.pos[e.b]; if (!a || !b) return;
+      const on = actE === e.key || (actN && (e.a === actN || e.b === actN)) || (grp && hi.has(e.a) && hi.has(e.b));
+      const dim = hi && !on; let nx = -(b.y - a.y), ny = b.x - a.x; const nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl; if (ny > 0) { nx = -nx; ny = -ny; }
+      const mx = (a.x + b.x) / 2 + nx * 10, my = (a.y + b.y) / 2 + ny * 10;
+      els.push(h('g', { key: 'l' + e.key, style: { pointerEvents: 'none', opacity: dim ? 0.15 : 1 } },
+        h('rect', { x: mx - 9, y: my - 8, width: 18, height: 16, rx: 4, fill: '#fff', stroke: on ? '#344054' : '#D0D5DD', strokeWidth: 1 }),
+        h('text', { x: mx, y: my + 4, textAnchor: 'middle', fontSize: 11, fontWeight: 600, fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fill: on ? '#101828' : '#475467' }, String(e.dcj))));
+    });
+    ids.forEach(id => {
+      const p = this.byId(id), q = st.pos[id]; if (!q) return;
+      const r = R(id), col = this.colorOf(p);
+      const focused = st.focus && st.focus.type === 'node' && st.focus.id === id;
+      const dim = hi && !hi.has(id);
+      els.push(h('g', { key: 'n' + id, transform: `translate(${q.x},${q.y})`, style: { cursor: st.dragging === id ? 'grabbing' : 'grab', opacity: dim ? 0.25 : 1, transition: 'opacity 120ms' },
+        onPointerDown: ev => { if (ev.button !== 0) return; ev.stopPropagation(); const pt = this.toSvg(ev); if (!pt) return; this._drag = { id, sx: pt.x, sy: pt.y, ox: q.x, oy: q.y, moved: false }; try { this.svgRef.current.setPointerCapture(ev.pointerId); } catch (e) {} },
+        onMouseEnter: () => this.setState({ hoverNode: id }), onMouseLeave: () => this.setState({ hoverNode: null }),
+        onClick: ev => { ev.stopPropagation(); if (!this._panMoved) this.setState({ focus: { type: 'node', id } }); } },
+        focused ? h('circle', { r: r + (p.hub && showHubs ? 8 : 5), fill: 'none', stroke: '#101828', strokeWidth: 2 }) : null,
+        p.hub && showHubs ? h('g', null, h('circle', { r: r + 1, fill: '#fff', stroke: col, strokeWidth: 3 }), h('circle', { r: r * 0.38, fill: col })) : h('circle', { r, fill: col, stroke: '#fff', strokeWidth: 2 }),
+        st.markConj && p.mob === 'Conjugative' ? h('g', { transform: `translate(${r * 0.72},${-r * 0.72})`, style: { pointerEvents: 'none' } }, h('circle', { r: 5.5, fill: '#7A5AF8', stroke: '#fff', strokeWidth: 1.5 }), h('path', { d: 'M-2.2 0h4.4M0.6 -2.2l2 2.2-2 2.2', stroke: '#fff', strokeWidth: 1.3, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' })) : null,
+        h('text', { y: r + (p.hub && showHubs ? 18 : 15), textAnchor: 'middle', fontSize: 11, fontWeight: 500, fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fill: '#344054', stroke: '#FCFCFD', strokeWidth: 3, paintOrder: 'stroke', style: { pointerEvents: 'none' } }, id)));
+    });
+    return h('svg', { ref: this.svgRef, viewBox: st.vb.join(' '), preserveAspectRatio: 'xMidYMid meet',
+      style: { position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', touchAction: 'none', userSelect: 'none' },
+      onPointerDown: ev => { if (ev.button !== 0) return; this._pan = { cx: ev.clientX, cy: ev.clientY, vb: st.vb, s: this.svgScale() }; this._panMoved = false; },
+      onPointerMove: ev => { const d = this._drag; if (d) { const pt = this.toSvg(ev); if (!pt) return; const dx = pt.x - d.sx, dy = pt.y - d.sy; if (!d.moved && Math.hypot(dx, dy) < 3) return; if (!d.moved) { d.moved = true; this._panMoved = true; this.setState({ dragging: d.id, hoverNode: null, hoverEdge: null, focus: null }); } this.setState(s => ({ pos: { ...s.pos, [d.id]: { ...s.pos[d.id], x: d.ox + dx, y: d.oy + dy } } })); return; } const p = this._pan; if (!p) return; const dx = ev.clientX - p.cx, dy = ev.clientY - p.cy; if (!this._panMoved && Math.abs(dx) + Math.abs(dy) < 4) return; if (!this._panMoved) { this._panMoved = true; try { ev.currentTarget.setPointerCapture(ev.pointerId); } catch (e) {} this.setState({ panning: true, hoverNode: null, hoverEdge: null }); } this.setState({ vb: [p.vb[0] - dx * p.s, p.vb[1] - dy * p.s, p.vb[2], p.vb[3]] }); },
+      onPointerUp: () => { if (this._drag) { const d = this._drag; this._drag = null; this._panMoved = true; if (d.moved) this.setState({ dragging: null }); else this.setState(s => ({ focus: s.focus && s.focus.type === 'node' && s.focus.id === d.id ? null : { type: 'node', id: d.id } })); setTimeout(() => { this._panMoved = false; }, 0); return; } this._pan = null; if (this.state.panning) this.setState({ panning: false }); setTimeout(() => { this._panMoved = false; }, 0); },
+      onClick: () => { if (!this._panMoved) this.setState({ focus: null }); } }, els);
+  }
+
+  linVals(sel, st) {
+    const KC = { rep: '#7A5AF8', tra: '#B54708', vir: '#155EEF', mob: '#F79009', arg: '#DD2590' };
+    const KL = { rep: 'Replication', tra: 'Transfer (tra/mob)', mob: 'Mobile element (IS/Tn)', arg: 'AMR gene', vir: 'Virulence' };
+    const fwd = 'polygon(0 0, calc(100% - 5px) 0, 100% 50%, calc(100% - 5px) 100%, 0 100%)', rev = 'polygon(5px 0, 100% 0, 100% 100%, 5px 100%, 0 50%)';
+    const subRank = p => { const s = this.subOf(p.id); return s.startsWith('Type ') ? +s.slice(5) : s === 'Hub' ? 900 : s === 'Singleton' ? 950 : 999; };
+    const ps = sel.map(id => this.byId(id)).sort((a, b) => (subRank(a) - subRank(b)) || (b.kb - a.kb));
+    const kept = this.pairsFor(sel.filter(id => !this.isFrag(id))).filter(e => e.kept);
+    const linkOf = (x, y) => y && kept.find(e => (e.a === x.id && e.b === y.id) || (e.a === y.id && e.b === x.id));
+    const fit = st.linFit !== 'scale';
+    const comp = ps.filter(p => p.ctg <= 1);
+    const maxKb = Math.max(1, ...(comp.length ? comp : ps).map(p => p.kb));
+    const linRows = ps.map((p, idx) => {
+      const nx = ps[idx + 1], lk = linkOf(p, nx);
+      const wOf = q => fit ? 100 : Math.min(100, Math.max(6, q.kb / maxKb * 100));
+      let tier = 0; const frag = p.ctg > 1;
+      const n = Math.min(p.ctg, 8); const gap = frag ? 0.012 : 0;
+      const segs = Array.from({ length: n }, (_, i) => ({ left: (i / n * 100) + '%', width: ((1 / n - gap) * 100) + '%' }));
+      const feats = this.linFeats(p).map(ft => { const lab = ft.kind === 'arg'; const t = lab ? (tier++ % 2) : 0;
+        const fw = fit ? Math.max(ft.w, ft.kind === 'arg' ? 0.025 : 0.015) : ft.w; const fl = Math.min(ft.frac, 1 - fw);
+        return { name: ft.name, color: KC[ft.kind], left: (fl * 100) + '%', width: (fw * 100) + '%',
+          clip: ft.strand >= 0 ? fwd : rev, shadow: lab ? '0 1px 2px rgba(16,24,40,0.18)' : 'none', labelled: lab, labelBottom: t ? '23px' : '-15px',
+          show: e => this.setState({ linTip: { name: ft.name, label: KL[ft.kind], color: KC[ft.kind], italic: lab, strand: ft.strand >= 0 ? '+ forward' : '− reverse', pos: '~' + (ft.frac * p.kb).toFixed(1) + ' kb', x: e.clientX, y: e.clientY } }) }; });
+      return { id: p.id, kb: this.kb(p), sp: this.spShort(p.sp), inc: p.inc || 'No replicon', dot: frag ? '#D0D5DD' : this.colorOf(p),
+        frag, fragText: p.ctg + ' contigs, order unknown', width: fit ? '100%' : Math.min(100, Math.max(6, p.kb / maxKb * 100)) + '%', segs, feats,
+        hasLink: !!lk, linkText: lk ? lk.dcj + (lk.dcj === 1 ? ' edit' : ' edits') + ', ' + Math.round((1 - lk.cont) * 100) + '% shared' : '', linkW: lk ? Math.min(wOf(p), wOf(nx)) + '%' : '0', linkBg: lk ? this.colorOf(p) + '26' : 'transparent',
+        bg: st.hoverNode === p.id ? '#F9FAFB' : 'transparent', enter: () => this.setState({ hoverNode: p.id }), leave: () => this.setState({ hoverNode: null }) };
+    });
+    const t = st.linTip;
+    return {
+      isNetwork: st.viewMode !== 'linear', isLinear: st.viewMode === 'linear',
+      viewModes: [['network', 'Network'], ['linear', 'Alignment']].map(([k, l]) => { const on = (st.viewMode || 'network') === k;
+        return { label: l, pick: () => this.setState({ viewMode: k, linTip: null }), color: on ? '#101828' : '#667085', bg: on ? '#FFFFFF' : 'transparent', shadow: on ? '0 1px 2px rgba(16,24,40,0.10),0 0 0 1px #EAECF0' : 'none' }; }),
+      linRows, linEmpty: !linRows.length, linScale: fit ? 'Each plasmid stretched to full width to compare gene order' : '0 → ' + Math.round(maxKb) + ' kb, scaled to the largest complete plasmid',
+      linModes: [['fit', 'Fit width'], ['scale', 'To scale']].map(([k, l]) => { const on = (st.linFit || 'fit') === k; return { label: l, pick: () => this.setState({ linFit: k }), color: on ? '#101828' : '#667085', bg: on ? '#FFFFFF' : 'transparent', shadow: on ? '0 1px 2px rgba(16,24,40,0.10),0 0 0 1px #EAECF0' : 'none' }; }),
+      linLegend: Object.keys(KL).filter(k => k !== 'vir').map(k => ({ label: KL[k], color: KC[k] })),
+      lt: t ? { show: true, name: t.name, label: t.label, color: t.color, fontStyle: t.italic ? 'italic' : 'normal', strand: t.strand, pos: t.pos, left: Math.min(t.x + 14, window.innerWidth - 238) + 'px', top: (t.y + 16) + 'px' } : { show: false },
+      hideLinTip: () => this.setState({ linTip: null })
+    };
+  }
+  snap(st) { return { sel: [...st.selected], dcj: st.dcj, minShared: st.minShared, colorBy: st.colorBy, viewMode: st.viewMode }; }
+  sameSnap(a, b) { return a.dcj === b.dcj && a.minShared === b.minShared && a.colorBy === b.colorBy && a.viewMode === b.viewMode && a.sel.length === b.sel.length && a.sel.every(x => b.sel.includes(x)); }
+  flash(msg) { clearTimeout(this._tt); this.setState({ toast: msg }); this._tt = setTimeout(() => this.setState({ toast: null }), 2400); }
+  guarded(kind, fn) {
+    return () => fn();
+  }
+  _guardedOld(kind, fn) {
+    return () => {
+      const st = this.state;
+      if (st.view !== 'compare') return fn();
+      const av = st.views.find(v => v.id === st.activeView);
+      if (av && !this.sameSnap(av, this.snap(st))) { this._pending = fn; this.setState({ leave: 'dirty' }); return; }
+      if (!av && kind === 'replace' && st.selected.length >= 2) { this._pending = fn; this.setState({ leave: 'new' }); return; }
+      fn();
+    };
+  }
+  leaveVals(st, av) {
+    const runPending = () => { const p = this._pending; this._pending = null; if (p) p(); };
+    const dirty = st.leave === 'dirty';
+    return {
+      leaveOpen: !!st.leave,
+      leaveTitle: dirty && av ? 'Save changes to “' + av.name + '”?' : 'Save this comparison?',
+      leaveBody: dirty ? 'You changed the plasmids or settings. If you leave now, these changes will be lost.' : 'Opening another comparison replaces your ' + st.selected.length + ' selected plasmids.',
+      leaveDiscardLabel: dirty ? 'Discard changes' : 'Don’t save',
+      leavePrimaryLabel: dirty ? 'Save changes' : 'Save as view…',
+      leaveCancel: () => { this._pending = null; this.setState({ leave: null }); },
+      leaveDiscard: () => {
+        if (dirty && av) this.setState({ leave: null, selected: [...av.sel], dcj: av.dcj, minShared: av.minShared, colorBy: av.colorBy, viewMode: av.viewMode });
+        else this.setState({ leave: null });
+        runPending();
+      },
+      leavePrimary: () => {
+        if (dirty && av) {
+          this.setState(s => ({ leave: null, views: s.views.map(v => v.id === av.id ? { ...v, ...this.snap(s), date: 'Today' } : v) }));
+          this.flash('Changes saved'); runPending();
+        } else this.setState({ leave: null, saveOpen: true, saveMode: 'new', saveName: '' });
+      }
+    };
+  }
+  navVals(st, av) {
+    const vm = { network: 'Network', linear: 'Alignment' };
+    const load = v => this.setState({ view: 'compare', activeView: v.id, selected: [...v.sel], dcj: v.dcj, minShared: v.minShared, colorBy: v.colorBy, viewMode: v.viewMode, focus: null, pos: {}, addMode: false, pickerOpen: false, tip: null });
+    const onTable = st.view === 'table';
+    const q = st.cmpSearch.trim().toLowerCase();
+    const jobFor = id => { const j = (st.jobs || []).find(x => x.ctx === id); return j ? { pctLabel: j.status === 'done' ? 'Ready' : Math.round(j.p * 100) + '%' } : null; };
+    const rows = st.views.map(v => ({ name: v.name, hasUpdate: !!(st.upd || {})[v.id], updLabel: ((st.upd || {})[v.id] || {}).to || '', updTip: 'Some plasmids in this comparison changed in the new analysis version', count: v.sel.length, mode: vm[v.viewMode], date: jobFor(v.id) ? (jobFor(v.id).pctLabel === 'Ready' ? 'Ready' : 'Building, ' + jobFor(v.id).pctLabel) : v.date,
+      settings: '≥' + v.minShared + '% shared, ≤' + v.dcj + ' edits', meta: v.sel.length + (v.sel.length === 1 ? ' plasmid' : ' plasmids'),
+      open: () => load(v),
+      remove: e => { e.stopPropagation(); this.setState(s => ({ views: s.views.filter(x => x.id !== v.id), activeView: s.activeView === v.id ? null : s.activeView })); this.flash('Comparison deleted'); } }));
+    const filtered = rows.filter(r => !q || r.name.toLowerCase().includes(q));
+    const NAV_MAX = 5;
+    const pOn = onTable;
+    return {
+      navPIcon: !st.navPHover, navPChev: !!st.navPHover,
+      navPEnter: () => this.setState({ navPHover: true }), navPLeave: () => this.setState({ navPHover: false }),
+      navP: { bg: pOn ? '#EDFCF2' : 'transparent', color: pOn ? '#087443' : '#344054', weight: pOn ? 600 : 500, hover: pOn ? '#E3F8EA' : '#EAECF0', iconColor: pOn ? '#087443' : '#667085', boxBg: pOn ? '#CDEBD8' : '#E4E7EC', count: pOn ? '#099250' : '#667085' },
+      goPlasmids: this.guarded('leave', () => this.setState({ view: 'table', tab: 'all', pickerOpen: false, addMode: false })),
+      goCmpTab: this.guarded('leave', () => this.setState({ view: 'table', tab: 'cmp', pickerOpen: false, addMode: false })),
+      savedNav: st.views.slice(0, NAV_MAX).map(v => { const on = st.view === 'compare' && st.activeView === v.id;
+        const jb = jobFor(v.id); return { name: v.name, count: jb ? jb.pctLabel : v.sel.length, open: on ? () => {} : this.guarded('replace', () => load(v)), bg: on ? '#EDFCF2' : 'transparent', hover: on ? '#E3F8EA' : '#F9FAFB', color: on ? '#087443' : '#344054', weight: on ? 600 : 500, dot: on ? '#157639' : '#8A9590' }; }),
+      navMore: st.views.length > NAV_MAX, navMoreLabel: 'All ' + st.views.length + ' comparisons',
+      isAllTab: st.tab !== 'cmp', isCmpTab: st.tab === 'cmp',
+      pageTabs: [['all', 'All plasmids'], ['cmp', 'Comparisons']].map(([k, l]) => { const on = (st.tab || 'all') === k;
+        return { label: l, pick: () => this.setState({ tab: k, combo: null }), weight: on ? 600 : 500, color: on ? '#101828' : '#667085', bg: on ? '#fff' : 'transparent', shadow: on ? '0 1px 2px rgba(16,24,40,.08)' : 'none' }; }),
+      cmpSearch: st.cmpSearch, onCmpSearch: e => this.setState({ cmpSearch: e.target.value }),
+      cmpRows: filtered, cmpRowsAll: rows.slice(0, 4),
+      cmpEmpty: filtered.length === 0, cmpEmptyCta: rows.length === 0,
+      cmpEmptyTitle: rows.length ? 'No matches' : 'No saved comparisons yet',
+      cmpEmptyBody: rows.length ? 'Try a different name.' : 'Open a comparison and save it to find it here and in the sidebar.',
+      showEmptySaved: st.selected.length === 0 && rows.length > 0,
+      cvSaved: !!av,
+      showSelBar: st.selected.length > 0 && st.tab !== 'cmp',
+      showCmpCount: st.tab !== 'cmp' && st.selected.length > 0, selCount: st.selected.length,
+      compareHint: st.tab === 'cmp' ? 'Start an empty comparison' : st.selected.length ? 'Compare selected plasmids' : 'Start an empty comparison'
+    };
+  }
+  viewVals(st) {
+    const av = st.views.find(v => v.id === st.activeView) || null;
+    const dirty = !!av && !this.sameSnap(av, this.snap(st));
+    const n = st.selected.length;
+    const load = v => this.setState({ view: 'compare', activeView: v.id, selected: [...v.sel], dcj: v.dcj, minShared: v.minShared, colorBy: v.colorBy, viewMode: v.viewMode, focus: null, pos: {}, viewsMenu: false, savedMenu: false, addMode: false, pickerOpen: false, tip: null });
+    const openSave = mode => this.setState({ saveOpen: true, saveMode: mode, viewsMenu: false, saveName: mode === 'new' && av ? av.name + ' (copy)' : '' });
+    const name = st.saveName.trim();
+    const doSave = () => {
+      if (!name) return;
+      const id = 'v' + Date.now();
+      this.setState(s => { const k = this.keyOf(s.selected), from = s.activeView || 'draft';
+        return { views: [{ id, name, date: 'Today', ...this.snap(s) }, ...s.views], activeView: id, saveOpen: false, jobs: s.jobs.map(j => j.key === k && j.ctx === from ? { ...j, ctx: id, name } : j) }; });
+      this.flash('Saved “' + name + '”');
+      if (this._pending) { const p = this._pending; this._pending = null; p(); }
+    };
+    const vmLabel = { network: 'Network', linear: 'Alignment' };
+    return {
+      savedViews: st.views.map(v => { const on = v.id === st.activeView && st.view === 'compare';
+        return { name: v.name, meta: v.sel.length + (v.sel.length === 1 ? ' plasmid' : ' plasmids'), active: on, weight: on ? 600 : 500, bg: on ? '#F5FBF7' : 'transparent',
+          open: () => load(v),
+          remove: e => { e.stopPropagation(); this.setState(s => ({ views: s.views.filter(x => x.id !== v.id), activeView: s.activeView === v.id ? null : s.activeView })); this.flash('View deleted'); } }; }),
+      noSavedViews: st.views.length === 0,
+      cvName: av ? av.name : 'New comparison', cvDirty: dirty,
+      cvShowSave: av ? dirty : n > 0, cvSaveLabel: av ? 'Save changes' : 'Save view', cvCanSaveAsNew: !!av && n > 0,
+      cvSaveAction: () => { if (av) { this.setState(s => ({ views: s.views.map(v => v.id === av.id ? { ...v, ...this.snap(s), date: 'Today' } : v) })); this.flash('Changes saved'); } else openSave('new'); },
+      openSaveAsNew: () => openSave('new'),
+      ...this.navVals(st, av),
+      ...this.leaveVals(st, av),
+      viewsMenuOpen: st.viewsMenu, toggleViewsMenu: () => this.setState({ viewsMenu: !st.viewsMenu }),
+      savedMenuOpen: st.savedMenu, toggleSavedMenu: () => this.setState({ savedMenu: !st.savedMenu }),
+      newComparison: () => this.setState({ activeView: null, selected: [], dcj: 4, minShared: 50, colorBy: 'sub', viewMode: 'network', focus: null, pos: {}, viewsMenu: false, tip: null }),
+      saveOpen: st.saveOpen, closeSave: () => { this._pending = null; this.setState({ saveOpen: false }); }, saveTitle: av ? 'Save as new view' : 'Save comparison as view',
+      saveName: st.saveName, onSaveName: e => this.setState({ saveName: e.target.value }), onSaveKey: e => { if (e.key === 'Enter') doSave(); if (e.key === 'Escape') this.setState({ saveOpen: false }); },
+      saveChips: [n + ' plasmids', '≥' + st.minShared + '% shared', '≤' + st.dcj + ' edits', vmLabel[st.viewMode] + ' view'],
+      doSave, saveBtnBg: name ? '#157639' : '#A6DDBB', saveBtnCursor: name ? 'pointer' : 'not-allowed',
+      hasToast: !!st.toast, toast: st.toast || ''
+    };
+  }
+  updVals(st) {
+    const av = st.activeView, u = st.view === 'compare' && av ? (st.upd || {})[av] : null;
+    const show = !!u && !(st.updHide || {})[av];
+    const n = u ? u.changed.length + u.removed.length : 0;
+    const pick = st.updPick || [];
+    const ctgTxt = c => c === 1 ? 'complete' : c + ' contigs';
+    const ud = (st.updated || {})[av];
+    return {
+      updRows: show ? '1fr' : '0fr', updOpacity: show ? 1 : 0, updHidden: show ? 'false' : 'true',
+      updBannerText: u ? 'Your samples were updated to a new analysis version. ' + n + ' plasmids in this comparison changed.' : '',
+      hasUpdatedNote: st.view === 'compare' && (!!ud || !!u), updatedNote: ud ? 'Updated ' + ud.date : u ? 'Showing previous results' : '',
+      openUpd: () => this.setState({ updOpen: true, updPick: [], updAddOpen: false }), closeUpd: () => this.setState({ updOpen: false }),
+      hideUpd: () => this.setState(s => ({ updHide: { ...s.updHide, [av]: true } })),
+      keepUpd: () => this.setState(s => ({ updOpen: false, updHide: { ...s.updHide, [av]: true } })),
+      updOpen: !!st.updOpen && !!u,
+      updSub: u ? 'The new analysis version changed these plasmids. This comparison still shows the previous results.' : '',
+      updTitle: 'Changes in the new version',
+      updHasChanged: !!u && u.changed.length > 0, updHasRemoved: !!u && u.removed.length > 0, updHasAdded: !!u && u.added.length > 0,
+      updAddOpen: true, updAddChev: st.updAddOpen ? 'rotate(90deg)' : 'none',
+      toggleUpdAdd: () => this.setState(s => ({ updAddOpen: !s.updAddOpen })),
+      updAddTitle: u ? u.added.length + ' new ' + (u.added.length === 1 ? 'plasmid' : 'plasmids') + ' found in these samples' : '',
+      updAddHasPicked: pick.length > 0, updAddPicked: pick.length + ' added',
+      updChanged: u ? u.changed.map(c => { const leaves = c.from === 1 && c.to > 1, joins = c.from > 1 && c.to === 1;
+        return { name: c.id, delta: (c.from === 1 ? '1 contig' : c.from + ' contigs') + ' → ' + (c.to === 1 ? '1 contig' : c.to + ' contigs'),
+          note: leaves ? 'Now fragmented, so it leaves the network' : joins ? 'Now complete, so it joins the network' : 'Contig count changed', noteColor: leaves ? '#B54708' : '#667085' }; }) : [],
+      updRemoved: u ? u.removed.map(id => ({ name: id })) : [],
+      updAdded: u ? u.added.map(id => { const p = this.byId(id), on = pick.includes(id);
+        const vw = st.views.find(x => x.id === av), cur = (vw ? vw.sel : []).filter(x => !u.removed.includes(x)).map(x => this.byId(x)).filter(Boolean);
+        const fam = this.family(p.inc), sameRep = cur.filter(q => this.family(q.inc) === fam).length;
+        const samp = cur.find(q => q.sample === p.sample);
+        const hint = samp ? 'From the same sample as ' + samp.id : '';
+        return { name: id, meta: this.kb(p) + ', ' + ctgTxt(p.ctg), frag: p.ctg > 1, on, off: !on, hint, hasHint: !!hint, boxBg: on ? '#157639' : '#FFFFFF', boxBorder: on ? '1px solid #157639' : '1.5px solid #D0D5DD',
+          toggle: () => this.setState(s => ({ updPick: (s.updPick || []).includes(id) ? s.updPick.filter(x => x !== id) : [...(s.updPick || []), id] })) }; }) : [],
+      updCost: 'About 20 min to rebuild', updKeepLabel: 'Keep previous results',
+      applyUpd: () => {
+        if (!u) return;
+        u.changed.forEach(c => { const p = this.byId(c.id); if (p) p.ctg = c.to; });
+        this._dataRev = (this._dataRev || 0) + 1;
+        const ids = {};
+        u.changed.forEach(c => ids[c.id] = (c.from === 1 ? '1 contig' : c.from + ' contigs') + ' → ' + (c.to === 1 ? '1 contig' : c.to + ' contigs') + ' in the new version');
+        pick.forEach(id => ids[id] = 'Newly detected in the new version');
+        const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        this.setState(s => {
+          const v = s.views.find(x => x.id === av); if (!v) return {};
+          const sel = v.sel.filter(id => !u.removed.includes(id)).concat(pick.filter(id => !v.sel.includes(id))).slice(0, this.MAXSEL);
+          const upd = { ...s.upd }; delete upd[av];
+          return { views: s.views.map(x => x.id === av ? { ...x, sel, date: 'Today' } : x), selected: sel, upd, updOpen: false, updPick: [], updated: { ...s.updated, [av]: { date, ids, ver: u.to } }, focus: null };
+        });
+        this.flash('Updating comparison, rebuilding the network');
+      }
+    };
+  }
+  renderVals() {
+    const st = this.state, P = this.P, sel = st.selected, selSet = new Set(sel);
+    const F = st.filters;
+    const uniq = arr => [...new Set(arr)].sort();
+    const defs = [
+      { key: 'sp', label: 'Species', ph: 'Search species', italic: true, vals: p => [p.sp] },
+      { key: 'st', label: 'Sample ST', ph: 'Search ST', vals: p => [p.st] },
+      { key: 'cl', label: 'MOB-suite cluster', ph: 'Search cluster', vals: p => [p.cluster] },
+      { key: 'mob', label: 'Predicted mobility', ph: 'Search mobility', vals: p => [p.mob] },
+      { key: 'inc', label: 'Replicon type', ph: 'Search replicon', vals: p => p.inc ? p.inc.split(',').map(s => s.trim()) : ['None'] },
+      { key: 'ctg', label: 'Contigs', ph: 'Search', vals: p => [p.ctg > 1 ? 'Fragmented (more than 1)' : 'Complete (1)'] }
+    ];
+    const passes = (p, except) => defs.every(d => d.key === except || !F[d.key].length || d.vals(p).some(v => F[d.key].includes(v)));
+    const setF = (k, v) => this.setState(s => { const cur = s.filters[k]; return { filters: { ...s.filters, [k]: cur.includes(v) ? cur.filter(x => x !== v) : [...cur, v] } }; });
+    const clearF = k => this.setState(s => ({ filters: { ...s.filters, [k]: [] } }));
+    const combos = defs.map(d => {
+      const sl = F[d.key], open = st.combo === d.key, q = open ? st.comboQ.toLowerCase() : '';
+      const all = uniq(P.flatMap(d.vals)).filter(v => !q || v.toLowerCase().includes(q));
+      return { label: d.label, ph: d.ph, hasSel: sl.length > 0, open, query: open ? st.comboQ : '',
+        onClear: () => clearF(d.key), onToggle: () => this.setState({ combo: open ? null : d.key, comboQ: '' }), onSearch: e => this.setState({ comboQ: e.target.value }),
+        trigBorder: sl.length ? '#A6DDBB' : '#E4E7EC', trigBg: sl.length ? '#F6FEF9' : '#fff', textColor: sl.length ? '#11612E' : '#667085',
+        summary: !sl.length ? 'Any ' + d.label.toLowerCase() : sl.length === 1 ? sl[0] : sl.length + ' selected',
+        selLabel: sl.length ? sl.length + ' selected' : 'None selected', empty: all.length === 0,
+        options: all.map(v => { const on = sl.includes(v); return { label: v, active: on, onClick: () => setF(d.key, v),
+          count: P.filter(p => passes(p, d.key) && d.vals(p).includes(v)).length,
+          boxBg: on ? '#157639' : '#fff', boxBorder: on ? '1px solid #157639' : '1.5px solid #D0D5DD',
+          labelColor: on ? '#11612E' : '#344054', labelWeight: on ? 600 : 400, fontStyle: d.italic && v !== 'Unavailable' ? 'italic' : 'normal' }; }) };
+    });
+    const facetChips = defs.filter(d => F[d.key].length).map(d => F[d.key].length === 1 ? { label: F[d.key][0], onRemove: () => setF(d.key, F[d.key][0]) } : { label: d.label + ', ' + F[d.key].length, onRemove: () => clearF(d.key) });
+    const activeCount = defs.reduce((n, d) => n + F[d.key].length, 0);
+    const facetActive = activeCount > 0;
+    const filterDefs = [], chips = [];
+    const visible = P.filter(p => this.matches(p, st.search) && passes(p, null));
+    const MOB = { 'Conjugative': ['#F4F3FF', '#5925DC'], 'Mobilizable': ['#EFF8FF', '#175CD3'], 'Non-mobilizable': ['#F2F4F7', '#344054'] };
+    const rows = visible.map(p => {
+      const on = selSet.has(p.id);
+      return { id: p.id, sample: p.sample, sp: p.sp, spStyle: p.sp === 'Unavailable' ? 'normal' : 'italic', spColor: p.sp === 'Unavailable' ? '#667085' : '#344054',
+        hasSt: p.st !== 'No ST', noSt: p.st === 'No ST', st: p.st,
+        cluster: p.cluster, verified: !!p.verified, unverified: !p.verified,
+        kbText: this.kb(p), ctg: p.ctg, mob: p.mob, mobBg: MOB[p.mob][0], mobColor: MOB[p.mob][1],
+        inc: p.inc, amrN: p.amr.length, hasAmr: p.amr.length > 0, date: p.date,
+        ...this.cb(on), ...(!on && sel.length >= this.MAXSEL ? { cbBg: '#F2F4F7', cbBorder: '#EAECF0' } : {}), rowBg: on ? '#F6FEF9' : '#fff', toggle: () => this.toggleSel(p.id) };
+    });
+    const visSel = visible.filter(p => selSet.has(p.id)).length;
+    const allOn = visible.length > 0 && visSel === visible.length, mixed = visSel > 0 && !allOn;
+    const hdr = { checked: allOn, mixed, bg: allOn || mixed ? '#099250' : '#fff', border: allOn || mixed ? '#099250' : '#D0D5DD',
+      toggle: () => { const vis = visible.map(p => p.id); if (allOn) { this.setSel(sel.filter(id => !vis.includes(id))); return; }
+      const room = Math.max(0, this.MAXSEL - sel.length), add = vis.filter(id => !selSet.has(id));
+      if (add.length > room) this.flash(room ? 'Selected the first ' + room + '. You can compare up to ' + this.MAXSEL + ' plasmids' : 'You can compare up to ' + this.MAXSEL + ' plasmids');
+      this.setSel([...sel, ...add.slice(0, room)]); } };
+    const canCompare = sel.length >= 2;
+
+    const net = sel.filter(id => !this.isFrag(id) && (st.showHubs || !this.byId(id).hub));
+    const edges = this.edgesFor(net, st.dcj);
+    const deg = {}; edges.forEach(e => { deg[e.a] = (deg[e.a] || 0) + 1; deg[e.b] = (deg[e.b] || 0) + 1; });
+    const parent = {}; sel.forEach(id => parent[id] = id);
+    const find = x => parent[x] === x ? x : (parent[x] = find(parent[x]));
+    edges.forEach(e => { parent[find(e.a)] = find(e.b); });
+    const compSize = {}; sel.forEach(id => { const r = find(id); compSize[r] = (compSize[r] || 0) + 1; });
+    const comps = Object.values(compSize).filter(n => n > 1).length;
+    const isolated = sel.filter(id => !deg[id]).length;
+
+    const focusId = st.focus && st.focus.type === 'node' ? st.focus.id : null;
+    const selRows = sel.map(id => {
+      const p = this.byId(id); const n = deg[id] || 0; const fr = this.ctg(p) > 1;
+      const netReady = (() => { const k = this.keyOf(st.selected); return !k || !!st.results[k]; })();
+      const badge = fr ? 'Fragmented' : !netReady ? '' : p.hub && !st.showHubs ? 'Hidden' : n ? n + ' related' : 'No links';
+      const ud = (st.updated || {})[st.activeView];
+      return { id, isUpdated: !!(ud && ud.ids[id]), updTitle: ud && ud.ids[id] ? ud.ids[id] : '', tagPending: !badge, spTitle: id + ', ' + (p.sp && p.sp !== 'Unavailable' ? p.sp : 'Unknown species'), hasTag: !!badge, ...((mc => ({ hasMob: false && !!mc, mobLabel: p.mob, mobColor: mc ? mc[0] : '', mobBg: mc ? mc[1] : '', mobBorder: mc ? mc[2] : '' }))(({ Conjugative: ['#6941C6','#F9F5FF','#E9D7FE'], Mobilizable: ['#175CD3','#EFF8FF','#B2DDFF'], 'Non-mobilizable': ['#475467','#F2F4F7','#EAECF0'] })[p.mob])), hasAmr: false, amrLabel: (p.amr || []).length + ' AMR', kb: this.kb(p), showOpen: st.hoverNode === id, openHref: '#plasmid=' + encodeURIComponent(id), stopOpen: e => e.stopPropagation(), spShort: this.spShort(p.sp), inc: p.inc || 'No replicon', dot: fr ? '#D0D5DD' : this.colorOf(p),
+        hasBadge: true, badge, tag: badge, tagColor: fr ? '#B54708' : (n || !netReady) ? '#475467' : '#98A2B3', tagBg: fr ? '#FFFAEB' : '#F2F4F7', tagBorder: fr ? '#FEDF89' : '#EAECF0', stDone: this.annStatus(id) === 'done', stRunning: this.annStatus(id) === 'running', stNone: this.annStatus(id) === 'none', badgeBg: fr ? '#FFFAEB' : n ? '#F2F4F7' : 'transparent', badgeColor: fr ? '#B54708' : n ? '#475467' : '#98A2B3', grp: fr ? 'Not compared, fragmented' : this.subOf(id),
+        showFragTip: fr && st.hoverNode === id, fragTip: 'Split into ' + this.ctg(p) + ' contigs, so it can\'t be added to the network.',
+        linksText: fr ? 'fragmented' : p.hub && !st.showHubs ? 'hub, hidden' : n ? n + ' related' : 'no matches', linksColor: fr ? '#B54708' : n ? '#667085' : '#98A2B3',
+        rowBg: focusId === id ? '#EDFCF2' : st.hoverNode === id ? '#F9FAFB' : 'transparent',
+        focus: () => this.setState({ focus: { type: 'node', id } }),
+        enter: () => this.setState({ hoverNode: id }), leave: () => this.setState({ hoverNode: null }),
+        remove: ev => { ev.stopPropagation(); this.setState({ hoverNode: null }); this.toggleSel(id); } };
+    });
+
+    const gOrder = k => k.startsWith('Type ') ? +k.slice(5) : k === 'Hub' ? 900 : k === 'Singleton' ? 950 : 999;
+    const gMap = {}; selRows.forEach(r => { (gMap[r.grp] = gMap[r.grp] || []).push(r); });
+    const selGroups = Object.keys(gMap).sort((a, b) => gOrder(a) - gOrder(b)).map(k => { const p0 = this.byId(gMap[k][0].id); const fr = k.startsWith('Not compared');
+      const col = fr ? '#D0D5DD' : k.startsWith('Type ') ? Component.CAT[(+k.slice(5) - 1) % Component.CAT.length] : k === 'Hub' ? '#344054' : '#98A2B3';
+      return { label: k === 'Singleton' ? 'Singletons' : k === 'Hub' ? 'Hubs' : k, count: gMap[k].length, rows: gMap[k], dot: k === 'Hub' ? '#fff' : col, ring: k === 'Hub' ? '2px solid #344054' : 'none' }; });
+    const selComs = new Set(sel.map(id => this.byId(id).com).filter(Boolean));
+    const pick = p => ({ isFrag: this.ctg(p) > 1, id: p.id, spShort: this.spShort(p.sp), inc: p.inc || 'No replicon', kbText: this.kb(p), dot: this.colorOf(p), ...this.cb(selSet.has(p.id)), toggle: () => this.toggleSel(p.id) });
+    const pv = P.filter(p => this.matches(p, st.pickerSearch));
+    const relatedP = pv.filter(p => p.com && selComs.has(p.com) && !selSet.has(p.id));
+    const relIds = new Set(relatedP.map(p => p.id));
+    const others = pv.filter(p => !relIds.has(p.id)).map(pick);
+
+    const by = st.colorBy;
+    const legendVals = by === 'sub'
+      ? [...new Set(net.map(id => this.subOf(id)))].sort((a, b) => (a.startsWith('Type') ? 0 : a === 'Hub' ? 1 : 2) - (b.startsWith('Type') ? 0 : b === 'Hub' ? 1 : 2) || a.localeCompare(b, undefined, { numeric: true })).map(s => ({ label: s, color: this.colorOf(net.map(id => this.byId(id)).find(p => this.subOf(p.id) === s)), fontStyle: 'normal' }))
+      : by === 'community'
+      ? [...new Set(net.map(id => this.byId(id).com || 0))].sort((a, b) => (a || 9) - (b || 9)).map(c => ({ label: c ? 'Community ' + c : 'Singleton', color: c ? Component.COM[c] : '#98A2B3', fontStyle: 'normal' }))
+      : [...new Map(net.map(id => { const p = this.byId(id); const k = by === 'replicon' ? this.family(p.inc) : by === 'mobility' ? p.mob : this.hostKey(p); const split = by === 'species' && !!st.stSplit;
+        return [k, { key: k, label: split ? this.spShort(p.sp) : k, hasSt: split, stLabel: split ? this.stLabel(p) : '', count: 0, color: this.colorOf(p), fontStyle: by === 'species' ? 'italic' : 'normal' }]; })).values()].sort((a, b) => a.key.localeCompare(b.key, undefined, { numeric: true }));
+    const gkActive = st.hoverGroup != null ? st.hoverGroup : st.lockGroup;
+    legendVals.forEach(l => { const k = l.key != null ? l.key : l.label.startsWith('Community ') ? l.label.slice(10) : l.label === 'Singleton' && by === 'community' ? '0' : l.label;
+      l.enter = () => this.setState({ hoverGroup: k }); l.leave = () => this.setState({ hoverGroup: null });
+      l.click = () => this.setState({ lockGroup: st.lockGroup === k ? null : k });
+      l.bg = gkActive === k ? '#F2F4F7' : 'transparent'; l.weight = st.lockGroup === k ? 600 : 400; });
+
+    let d = { isSummary: true, n: sel.length, edges: edges.length, comps, isolated, short: sel.length + ' plasmids, ' + edges.length + ' links' };
+    if (st.focus && st.focus.type === 'node' && selSet.has(st.focus.id)) {
+      const p = this.byId(st.focus.id);
+      const links = edges.filter(e => e.a === p.id || e.b === p.id).map(e => { const o = e.a === p.id ? e.b : e.a; return { id: o, dcj: e.dcj, dcjText: e.dcj + (e.dcj === 1 ? ' edit' : ' edits'), dot: this.colorOf(this.byId(o)), focus: () => this.setState({ focus: { type: 'node', id: o } }) }; }).sort((a, b) => a.dcj - b.dcj);
+      d = { isNode: true, id: p.id, sp: p.sp, sample: p.sample, inc: p.inc, kbText: this.kb(p), amr: p.amr, dot: this.colorOf(p),
+        comText: p.com ? 'Community ' + p.com : 'Singleton', isHub: !!p.hub && st.showHubs,
+        links, noLinks: !links.length, linksTitle: 'Related (' + links.length + ')', remove: () => this.toggleSel(p.id) };
+    } else if (st.focus && st.focus.type === 'edge') {
+      const e = edges.find(x => x.key === st.focus.key);
+      if (e) {
+        const A = this.byId(e.a), B = this.byId(e.b); const shared = A.amr.filter(g => B.amr.includes(g));
+        d = { isEdge: true, a: A.id, b: B.id, aDot: this.colorOf(A), bDot: this.colorOf(B), aKb: this.kb(A), bKb: this.kb(B),
+          dcj: e.dcj, cont: Math.round((1 - e.cont) * 100) + '%', shared, noShared: !shared.length,
+          focusA: () => this.setState({ focus: { type: 'node', id: A.id } }), focusB: () => this.setState({ focus: { type: 'node', id: B.id } }) };
+      }
+    }
+
+    const chipStyle = (on) => ({ bg: on ? '#FFFFFF' : '#F9FAFB', border: on ? '#D0D5DD' : '#EAECF0', color: on ? '#344054' : '#98A2B3' });
+    let hc = { show: false, rows: [] };
+    const cw = st.cw || 600, ch = st.ch || 400;
+    const place = (ax, ay, w, h) => { let l = ax + 16, t = ay + 16; if (l + w > cw - 8) l = ax - w - 16; if (t + h > ch - 8) t = ay - h - 16; return { left: Math.max(8, l) + 'px', top: Math.max(8, t) + 'px' }; };
+    const anchorOf = (x, y) => { const svg = this.svgRef.current, cv = this._cv; if (!svg || !cv || !svg.getScreenCTM()) return null; const pt = svg.createSVGPoint(); pt.x = x; pt.y = y; const s = pt.matrixTransform(svg.getScreenCTM()); const r = cv.getBoundingClientRect(); return { x: s.x - r.left, y: s.y - r.top }; };
+    const nodeCard = (id, pinned) => { const p = this.byId(id); const n = deg[p.id] || 0;
+      return { show: true, pinned, hint: !pinned, pe: pinned ? 'auto' : 'none', canRemove: pinned, remove: () => { this.setState({ focus: null }); this.toggleSel(id); },
+        title: p.id, dot: this.colorOf(p), sub: p.sp, subStyle: 'italic', canOpen: pinned, openHref: '#plasmid=' + encodeURIComponent(p.id), hasNote: !!p.hub, note: "Hub: looks linked to many plasmids only because they share a jumping gene (transposon). Pling ignores its links when grouping.",
+        rows: [{ l: 'Pling type', v: this.subOf(p.id) }, { l: 'Community', v: p.com ? 'C' + p.com : 'Singleton' }, { l: 'Host ST', v: this.stLabel(p) === 'ST unknown' ? 'Unknown' : this.stLabel(p) }, { l: 'Mobility', v: p.mob }, { l: 'Replicon', v: p.inc || 'None' }, { l: 'Length', v: this.kb(p) }, { l: 'Related', v: String(n) }, { l: 'AMR', v: p.amr.join(', ') || 'None' }] }; };
+    const edgeCard = (e, pinned) => { const A = this.byId(e.a), B = this.byId(e.b); const sh = A.amr.filter(g => B.amr.includes(g));
+      return { show: true, pinned, hint: !pinned, pe: pinned ? 'auto' : 'none', canRemove: false,
+        title: A.id, dot: this.colorOf(A), sub: '↔ ' + B.id, subStyle: 'normal', hasNote: false, note: '',
+        rows: [{ l: 'Edits', v: String(e.dcj) }, { l: 'Shared', v: Math.round((1 - e.cont) * 100) + '%' }, { l: 'Shared AMR', v: sh.join(', ') || 'None' }] }; };
+    if (st.view === 'compare' && !st.tip && !st.panning) {
+      const fn = st.focus && st.focus.type === 'node' && selSet.has(st.focus.id) && !this.isFrag(st.focus.id) ? st.focus.id : null;
+      const fe = st.focus && st.focus.type === 'edge' ? edges.find(x => x.key === st.focus.key) : null;
+      if (st.hoverNode && st.pos[st.hoverNode] && !this.isFrag(st.hoverNode) && st.hoverNode !== fn) { const a = anchorOf(st.pos[st.hoverNode].x, st.pos[st.hoverNode].y); if (a) hc = { ...nodeCard(st.hoverNode, false), ...place(a.x, a.y, 230, 150) }; }
+      else if (st.hoverEdge && (!fe || fe.key !== st.hoverEdge) && st.mx) { const e = edges.find(x => x.key === st.hoverEdge); if (e) hc = { ...edgeCard(e, false), ...place(st.mx, st.my, 230, 130) }; }
+      else if (fn && st.pos[fn]) { const a = anchorOf(st.pos[fn].x, st.pos[fn].y); if (a) hc = { ...nodeCard(fn, true), ...place(a.x, a.y, 230, 180) }; }
+      else if (fe && st.pos[fe.a] && st.pos[fe.b]) { const a = anchorOf((st.pos[fe.a].x + st.pos[fe.b].x) / 2, (st.pos[fe.a].y + st.pos[fe.b].y) / 2); if (a) hc = { ...edgeCard(fe, true), ...place(a.x, a.y, 230, 150) }; }
+    }
+    return {
+      stop: ev => ev.stopPropagation(), hubNote: st.showHubs && net.some(id => this.byId(id).hub), notPicker: !st.pickerOpen,
+      ...this.linVals(sel, st),
+      ...this.updVals(st),
+      ...this.viewVals(st),
+      ...this.jobVals(st),
+      appCols: st.view === 'compare' && st.vw < 1280 ? '0px minmax(0,1fr)' : '260px minmax(0,1fr)',
+      isTable: st.view === 'table', isCompare: st.view === 'compare',
+      goTable: this.guarded('leave', () => this.setState({ view: 'table', tab: 'all', pickerOpen: false, addMode: false })),
+      goBackTab: this.guarded('leave', () => this.setState(s => ({ view: 'table', tab: s.tab || 'all', pickerOpen: false, addMode: false }))),
+      goCompare: () => this.setState({ view: 'compare', focus: null, addMode: false }),
+      ...(() => {
+        const picked = st.selected;
+        const rows = st.views.map(v => {
+          const fresh = picked.filter(id => !v.sel.includes(id));
+          const total = v.sel.length + fresh.length, full = total > this.MAXSEL, none = fresh.length === 0;
+          return { name: v.name, meta: none ? 'Already in' : full ? 'Over ' + this.MAXSEL : v.sel.length + ' → ' + total,
+            metaColor: none || full ? '#98A2B3' : '#667085', opacity: none || full ? 0.55 : 1, cursor: none || full ? 'not-allowed' : 'pointer',
+            title: full ? 'A comparison can have up to ' + this.MAXSEL + ' plasmids' : none ? 'All selected plasmids are already in it' : 'Add ' + fresh.length + ' and rebuild the network',
+            pick: () => { if (none || full) return; this.setState(s => ({ views: s.views.map(x => x.id === v.id ? { ...x, sel: [...x.sel, ...fresh], date: 'Today' } : x), addToMenu: false, selected: [] })); this.flash('Added ' + fresh.length + ' to “' + v.name + '”'); } };
+        });
+        return { addToOpen: !!st.addToMenu, toggleAddTo: () => this.setState({ addToMenu: !st.addToMenu }), addToRows: rows, addToEmpty: !rows.length,
+          addToCount: picked.length === 1 ? '1 plasmid' : picked.length + ' plasmids', addToBtnBg: st.addToMenu ? '#344054' : 'transparent',
+          addToNew: () => this.setState(s => { const base = s.selected.slice(0, this.MAXSEL); if (!base.length) return { addToMenu: false }; const name = this.autoName(base, s.views); const v = { id: 'v' + Date.now(), name, date: 'Today', sel: base.slice(), dcj: s.dcj, minShared: s.minShared, colorBy: s.colorBy, viewMode: 'network' }; setTimeout(() => this.flash('Created “' + name + '”'), 0); return { views: [v, ...s.views], activeView: v.id, selected: base.slice(), view: 'compare', viewMode: 'network', addModal: false, addQ: '', editDraft: null, createBase: null, newName: '', nameTouched: false, focus: null, pos: {}, tip: null, addMode: false, addToMenu: false }; }) };
+      })(),
+      openCompare: () => this.setState(s => { const base = s.tab === 'cmp' ? [] : s.selected.slice(0, this.MAXSEL);
+        if (!base.length) return { view: 'compare', activeView: null, selected: [], focus: null, pos: {}, viewMode: 'network', addModal: false, tip: null };
+        const name = this.autoName(base, s.views); const v = { id: 'v' + Date.now(), name, date: 'Today', sel: base.slice(), dcj: s.dcj, minShared: s.minShared, colorBy: s.colorBy, viewMode: 'network' }; setTimeout(() => this.flash('Created “' + name + '”'), 0); return { views: [v, ...s.views], activeView: v.id, selected: base.slice(), view: 'compare', viewMode: 'network', addModal: false, addQ: '', editDraft: null, createBase: null, newName: '', nameTouched: false, focus: null, pos: {}, tip: null, addMode: false, addToMenu: false }; }), tableTop: st.addMode ? '92px' : '48px', addMode: !!st.addMode, notAddMode: !st.addMode, cancelAdd: () => this.setState({ addMode: false }),
+      compareLabel: st.addMode ? 'Back to comparison' : 'Compare',
+      noSel: sel.length === 0,
+      emptyTitle: sel.length === 0 ? 'New plasmid comparison' : net.length === 1 && sel.length === 1 ? 'Add one more plasmid' : 'Not enough complete plasmids',
+      emptyBody: sel.length === 0 ? (st.views.length ? 'Add plasmids, or open a comparison you created before.' : 'Add 2 or more plasmids to see how they relate.') : net.length === 1 && sel.length === 1 ? 'Add one more to draw the network.' : 'Fragmented assemblies can\'t be compared. Add at least 2 complete plasmids.',
+      search: st.search, onSearch: e => this.setState({ search: e.target.value }),
+      drawerOpen: st.drawer && st.tab !== 'cmp' && st.view === 'table', toggleDrawer: () => this.setState({ drawer: !st.drawer, combo: null }),
+      combos, facetChips, facetActive, facetCount: activeCount, sfClear: () => this.setState({ filters: { sp: [], st: [], cl: [], mob: [], inc: [], ctg: [] } }),
+      fbColor: facetActive ? '#11612E' : '#344054', fbBg: facetActive ? '#F5FBF7' : '#fff', fbBorder: facetActive ? '#CDE9D6' : '#D0D5DD',
+      filterDefs, anyMenuOpen: !!st.openMenu, closeMenus: () => this.setState({ openMenu: null }),
+      filtersOpen: st.openMenu === 'filters', toggleFilters: () => this.setState({ openMenu: st.openMenu === 'filters' ? null : 'filters' }),
+      hasActive: activeCount > 0, activeCount, filtersBorder: activeCount ? '#73E2A3' : '#D0D5DD', filtersBg: activeCount ? '#F6FEF9' : '#fff',
+      chips, hasChips: chips.length > 0, clearFilters: () => this.setState({ filters: { sp: [], st: [], cl: [], mob: [], inc: [], ctg: [] } }),
+      shownText: 'Showing ' + visible.length + ' of ' + P.length,
+      rows, noRows: !rows.length, hdr,
+      hasSel: sel.length > 0, selCount: sel.length, selText: sel.length + ' of ' + this.MAXSEL + ' selected', clearSel: () => this.setSel([]),
+      compareBg: '#099250', compareColor: '#fff', compareCursor: 'pointer',
+      compareTitle: canCompare ? 'Open network comparison' : 'Open comparison and add more plasmids',
+      dcj: st.dcj, onDcj: e => this.setState({ dcj: +e.target.value }),
+      sharedPresets: [[50, 'Broad 50%'], [70, 'Transmission 70%']].map(([v, l]) => { const on = st.minShared === v; const pct = (v - 50) / 45 * 100;
+        return { label: l, pick: () => this.setState({ minShared: v }), enter: () => this.setState({ tip: 'p-' + v }), left: pct + '%', shift: v === 50 ? 'none' : 'translateX(-50%)', weight: on ? 600 : 500, color: on ? '#087443' : '#667085' }; }),
+      minShared: st.minShared, onShared: e => this.setState({ minShared: +e.target.value }),
+      sharedDown: () => this.setState({ minShared: Math.max(50, st.minShared - 5) }), sharedUp: () => this.setState({ minShared: Math.min(95, st.minShared + 5) }),
+      dcjDown: () => this.setState({ dcj: Math.max(0, st.dcj - 1) }), dcjUp: () => this.setState({ dcj: Math.min(10, st.dcj + 1) }),
+      colorChips: [['sub', 'Pling type', 'Subcommunity: plasmids within the max. edits of each other. Pling\'s typing unit.'], ['replicon', 'Replicon', 'Plasmid family (Inc type).'], ['species', 'Species', 'Host species. A shared plasmid across species or STs suggests the plasmid moved between strains.']].map(([k, l, help], i) => {
+        const on = by === k, cs = chipStyle(on);
+        return { label: l, ...cs, segBg: on ? '#FFFFFF' : 'transparent', segColor: on ? '#101828' : '#667085', segShadow: on ? '0 1px 2px rgba(16,24,40,0.08), 0 0 0 1px #EAECF0' : 'none', deco: 'none', hasDot: false, help, hasTip: st.tip === 'c-' + k, tipLeft: i === 2 ? '-80px' : '0', toggle: () => this.setState({ colorBy: k, lockGroup: null, hoverGroup: null, colorMenu: false }), enter: () => this.setState({ tip: 'c-' + k }), on };
+      }),
+      isSpeciesColor: by === 'species', stSplitOn: !!st.stSplit, stSwitchBg: st.stSplit ? '#157639' : '#D0D5DD', stKnobLeft: st.stSplit ? '14px' : '2px',
+      toggleStSplit: () => this.setState(s => ({ stSplit: !s.stSplit, lockGroup: null, hoverGroup: null })),
+      colorMenuOpen: st.colorMenu, toggleColorMenu: () => this.setState({ colorMenu: !st.colorMenu }),
+      colorLabel: ({ community: 'Community', mobility: 'Mobility', replicon: 'Replicon', species: 'Species' })[by],
+      displayChips: [['labels', 'Edit counts', 'Show the number of edits on each link.'], ['showRemoved', 'Removed links', 'Dashed lines: pairs that share sequence but are more than the max. edits apart.']].map(([k, l, help], i) => {
+        const on = !!st[k], cs = chipStyle(on);
+        return { label: l, ...cs, deco: on ? 'none' : 'line-through', hasDot: false, help, hasTip: st.tip === 'd-' + k, tipLeft: i === 1 ? '-40px' : '0', toggle: () => this.setState({ [k]: !st[k] }), enter: () => this.setState({ tip: 'd-' + k }) };
+      }),
+      legend: legendVals,
+      showConjKey: !!st.markConj && net.some(id => this.byId(id).mob === 'Conjugative'),
+      fit: () => { const vb = this.fitVb(st.pos); this.setState({ vb, fitW: vb[2] }); },
+      zoomIn: () => this.zoomCenter(1 / 1.25), zoomOut: () => this.zoomCenter(1.25),
+      zoomPct: Math.round((st.fitW || st.vb[2]) / st.vb[2] * 100) + '%',
+      zoomVal: Math.round((st.fitW || st.vb[2]) / st.vb[2] * 100),
+      onZoomSlider: e => { const target = +e.target.value / 100; const cur = (st.fitW || st.vb[2]) / st.vb[2]; this.zoomCenter(cur / target); },
+      canvasCursor: st.panning ? 'grabbing' : 'grab',
+      addMargin: sel.length ? '0' : 'auto',
+      hasNet: net.length >= 2, emptyNet: net.length < 2, net: net.length >= 2 ? this.buildNet(net, edges) : null,
+      canvasRef: this.canvasRef,
+      onCanvasMove: ev => { if (this._pan) return; const el = this._cv; if (!el) return; const r = el.getBoundingClientRect(); this.setState({ mx: ev.clientX - r.left, my: ev.clientY - r.top, cw: r.width, ch: r.height }); },
+      hc,
+      tips: {
+        dcj: st.tip === 'dcj', cont: st.tip === 'cont', eDcj: st.tip === 'eDcj', eCont: st.tip === 'eCont',
+        dcjOn: () => this.setState({ tip: 'dcj' }), contOn: () => this.setState({ tip: 'cont' }), eDcjOn: () => this.setState({ tip: 'eDcj' }), eContOn: () => this.setState({ tip: 'eCont' }),
+        pBroad: st.tip === 'p-50', pTrans: st.tip === 'p-70',
+        off: () => this.setState({ tip: null })
+      },
+      selRows, selGroups, d, clearFocus: () => this.setState({ focus: null }),
+      pickerOpen: st.pickerOpen, closePicker: () => this.setState({ pickerOpen: false, pickerSearch: '' }),
+      pickerSearch: st.pickerSearch, onPickerSearch: e => this.setState({ pickerSearch: e.target.value }),
+      related: relatedP.map(pick), hasRelated: relatedP.length > 0, relatedCount: relatedP.length,
+      addAllRelated: () => this.setSel([...sel, ...relatedP.map(p => p.id)]), others
+    };
+  }
+}
+</script>
+</body>
+</html>

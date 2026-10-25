@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&amp;display=swap" rel="stylesheet"><style>@keyframes cbBlink{0%,50%{opacity:1}50.01%,100%{opacity:0}}</style><style>@keyframes cbSpin{to{transform:rotate(360deg)}}</style>
+</helmet>
+<div ref="{{ outerRef }}" style="width:100%;display:flex;flex-direction:column;gap:12px;font-family:Lato,'Helvetica Neue',Arial,sans-serif">
+<sc-if value="{{ showSwitch }}" hint-placeholder-val="{{ true }}"><div style="display:flex;justify-content:center"><div style="display:flex;gap:4px;padding:4px;border-radius:999px;border:1px solid rgba(128,128,128,.35)">
+  <button onClick="{{ goV1 }}" style="font:inherit;font-size:13px;font-weight:700;border:0;cursor:pointer;padding:7px 16px;border-radius:999px;background:{{ s1Bg }};color:{{ s1C }};transition:background 250ms,color 250ms">Version 1 · Sections + templates</button>
+  <button onClick="{{ goV2 }}" style="font:inherit;font-size:13px;font-weight:700;border:0;cursor:pointer;padding:7px 16px;border-radius:999px;background:{{ s2Bg }};color:{{ s2C }};transition:background 250ms,color 250ms">Version 2 · AI only</button>
+</div></div></sc-if>
+<div style="position:relative;width:100%;height:{{ outerH }};overflow:hidden;border-radius:12px">
+<div ref="{{ stageRef }}" role="img" aria-label="Connector Builder, two versions: sections with templates, and AI only" style="position:absolute;left:0;top:0;width:1100px;height:720px;transform-origin:0 0;transform:scale({{ scale }});background:#FFFFFF;color:#1A1A1A;font-size:13px;display:flex;flex-direction:column">
+  <div style="height:46px;flex:none;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 14px">
+    <div style="display:flex;align-items:center;gap:14px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg><span style="font-size:16px;font-weight:700">My connector</span></div>
+    <div style="display:flex;align-items:center;background:#F2F2F0;border-radius:6px">
+      <span style="font-size:11.5px;font-weight:700;padding:6px 20px;border-radius:5px;background:#fff;border:1px solid #1A1A1A">Edit connector</span>
+      <span style="font-size:11.5px;padding:6px 20px;color:#444">Preview data</span>
+      <span style="width:1px;height:16px;background:#D9D9D5"></span>
+      <span style="font-size:11.5px;padding:6px 20px;color:#444">Logs</span>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px"><span style="font-size:12.5px;font-weight:700;color:#fff;background:#1A1A1A;border-radius:4px;padding:7px 12px">Save changes</span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.4M12 17h.01"></path></svg></div>
+  </div>
+  <div style="flex:1;min-height:0;display:flex;padding:0 6px 6px 6px">
+    <div style="flex:0 0 {{ railW }};overflow:hidden;transition:flex-basis 500ms cubic-bezier(.4,0,.2,1)">
+      <div style="width:88px;display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:6px;opacity:{{ railOp }};transition:opacity 250ms">
+        <sc-for list="{{ rail }}" as="r" hint-placeholder-count="5"><div data-rail="{{ r.t }}" style="width:80px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 0;border-radius:6px;font-size:9.5px;white-space:nowrap;background:#fff;border:1px solid {{ r.bd }};color:{{ r.c }};font-weight:{{ r.fw }};box-shadow:{{ r.sh }};transition:border-color 250ms,color 250ms,box-shadow 250ms"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="{{ r.d }}"></path></svg>{{ r.t }}</div></sc-for>
+      </div>
+    </div>
+    <div style="flex:0 0 320px;margin-right:8px;position:relative;background:#fff;border:1px solid #ECECE8;border-radius:8px;overflow:hidden">
+      <div style="position:absolute;inset:0;padding:16px;display:flex;flex-direction:column;gap:12px;opacity:{{ v1Op }};transition:opacity 350ms">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#777;font-size:12px;opacity:{{ emptyOp }};transition:opacity 250ms">Choose a section to start</div>
+        <div style="display:flex;flex-direction:column;gap:12px;opacity:{{ gOp }};transform:translateY({{ gY }});transition:opacity 300ms,transform 400ms cubic-bezier(.2,.9,.3,1.1)">
+          <div style="height:28px;display:flex;align-items:center;gap:10px;padding:0 4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B4FD8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"></path><circle cx="12" cy="11" r="1.6"></circle><path d="M12 12.6V15"></path></svg><span style="font-size:14px;font-weight:700">Authentication</span></div>
+          <span style="font-size:11.5px;line-height:1.55;color:#444">Choose how people sign in to the data source. Start from a template, then adjust it to the API.</span>
+          <div style="border:1px solid #ECECE8;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-weight:700;font-size:12.5px">Apply template</span><span data-apply1="" style="display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:4px;border:1px solid {{ a1Bd }};background:{{ a1Bg }};color:{{ a1C }};transform:scale({{ a1S }});transition:background 250ms ease,border-color 250ms ease,color 250ms ease,transform 160ms ease"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B4FD8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:{{ a1Ic }};flex:none"><circle cx="12" cy="12" r="9" stroke-width="1.7"></circle><path d="M8 12.3l2.7 2.7L16 9.7"></path></svg>{{ a1L }}</span></div>
+            <div style="display:flex;gap:6px"><span style="font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid #3B4FD8;color:#3B4FD8;font-weight:700;background:#EEF0FF">API key</span><span style="font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid #DDDDD8;color:#444">OAuth2</span><span style="font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid #DDDDD8;color:#444">Basic</span></div>
+            <pre style="margin:0;background:#141416;color:#E9E9EC;border-radius:4px;padding:10px;font:10px/1.6 ui-monospace,Menlo,monospace;white-space:pre"><span style="color:#7FB2FF">"authentication"</span>: {
+  <span style="color:#7FB2FF">"type"</span>: "user_input",
+  <span style="color:#7FB2FF">"userInputs"</span>: [ account_name, api_key ]
+}</pre>
+          </div>
+        </div>
+      </div>
+      <div style="position:absolute;inset:0;padding:14px 12px 12px;display:flex;flex-direction:column;gap:11px;font-size:11.5px;line-height:1.5;opacity:{{ v2Op }};transition:opacity 350ms">
+        <div style="height:28px;display:flex;align-items:center;gap:10px;padding:0 4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B4FD8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M10 3l1.6 4.4a2.5 2.5 0 0 0 1.5 1.5L17.5 10.5l-4.4 1.6a2.5 2.5 0 0 0-1.5 1.5L10 18l-1.6-4.4a2.5 2.5 0 0 0-1.5-1.5L2.5 10.5l4.4-1.6a2.5 2.5 0 0 0 1.5-1.5z"></path><path d="M18.5 15l.7 1.8a1 1 0 0 0 .6.6l1.7.6-1.7.7a1 1 0 0 0-.6.6l-.7 1.7-.6-1.7a1 1 0 0 0-.6-.6l-1.8-.7 1.8-.6a1 1 0 0 0 .6-.6z"></path></svg><span style="font-size:14px;font-weight:700">Build with AI</span></div>
+        <div style="background:#EEF0FF;border-radius:8px;padding:11px 13px;opacity:{{ msgOp }};transform:translateY({{ msgY }});transition:opacity 300ms,transform 400ms cubic-bezier(.16,1,.3,1)">Let’s draft a first version of the connector using this documentation: https://developers.adflow.io/docs</div>
+        <div style="display:flex;flex-direction:column;gap:4px;opacity:{{ repOp }};transition:opacity 350ms"><span style="display:flex;align-items:center;gap:7px;font-weight:700;font-size:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B4FD8" stroke-width="1.8" stroke-linejoin="round" style="flex:none"><path d="M10 3l1.6 4.4a2.5 2.5 0 0 0 1.5 1.5L17.5 10.5l-4.4 1.6a2.5 2.5 0 0 0-1.5 1.5L10 18l-1.6-4.4a2.5 2.5 0 0 0-1.5-1.5L2.5 10.5l4.4-1.6a2.5 2.5 0 0 0 1.5-1.5z"></path><path d="M18.5 15l.7 1.8a1 1 0 0 0 .6.6l1.7.6-1.7.7a1 1 0 0 0-.6.6l-.7 1.7-.6-1.7a1 1 0 0 0-.6-.6l-1.8-.7 1.8-.6a1 1 0 0 0 .6-.6z"></path></svg>Connector builder</span><span>I’ve drafted an initial version of the connector. Here are templates that fit this API:</span></div>
+        <div style="display:flex;flex-direction:column;border:1px solid #ECECE8;border-radius:8px;opacity:{{ sOp }};transform:translateY({{ sY }});transition:opacity 300ms,transform 450ms cubic-bezier(.2,.9,.3,1.1)">
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-bottom:1px solid #ECECE8"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6zM12 9.4a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 1 0 0-3.2M12 12.6V15"></path></svg><span style="display:flex;flex-direction:column;flex:1;min-width:0"><span style="font-weight:700">Authentication</span><span style="font-size:10.5px;color:#666">API key with account name</span></span><span data-apply2="" style="display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;border:1px solid {{ a2Bd }};background:{{ a2Bg }};color:{{ a2C }};transform:scale({{ a2S }});transition:background 250ms ease,border-color 250ms ease,color 250ms ease,transform 160ms ease"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3B4FD8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:{{ a2Ic }};flex:none"><circle cx="12" cy="12" r="9" stroke-width="1.7"></circle><path d="M8 12.3l2.7 2.7L16 9.7"></path></svg>{{ a2L }}</span></div>
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-bottom:1px solid #ECECE8"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M5 8a2 2 0 1 0 4 0 2 2 0 1 0-4 0M15 8a2 2 0 1 0 4 0 2 2 0 1 0-4 0M10 16a2 2 0 1 0 4 0 2 2 0 1 0-4 0M8 10l2.5 4.5M16 10l-2.5 4.5"></path></svg><span style="display:flex;flex-direction:column;flex:1;min-width:0"><span style="font-weight:700">Accounts</span><span style="font-size:10.5px;color:#666">List accounts from /accounts</span></span><span style="font-size:11px;font-weight:700;border:1px solid #1A1A1A;border-radius:4px;padding:3px 10px">Apply</span></div>
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M6 3h9l4 4v14H6zM9 12h6M9 16h4"></path></svg><span style="display:flex;flex-direction:column;flex:1;min-width:0"><span style="font-weight:700">Reports</span><span style="font-size:10.5px;color:#666">Standard metrics and dimensions</span></span><span style="font-size:11px;font-weight:700;border:1px solid #1A1A1A;border-radius:4px;padding:3px 10px">Apply</span></div>
+        </div>
+        <span style="opacity:{{ m2 }};transition:opacity 300ms">Updating authentication setup…</span>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;opacity:{{ m3 }};transition:opacity 300ms">
+          <span>Done! Authentication is set up. Enter your API key to test the connection.</span>
+          <div style="align-self:stretch;display:flex;align-items:center;gap:8px;border:1px solid #DDDDD8;border-radius:4px;padding:7px 10px;background:#fff;font-size:12px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><span style="display:{{ keyPh }};color:#999">API key</span><span style="flex:1;min-width:0;letter-spacing:.08em;color:#1A1A1A">{{ keyTxt }}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></div>
+          <span data-test="" style="font-size:12px;font-weight:700;padding:6px 12px;border-radius:4px;border:1px solid #1A1A1A;background:{{ testBg }};transition:background 200ms">Test connection now</span>
+          <span style="display:{{ tst1D }};align-items:center;gap:8px;color:#666;opacity:{{ tst1 }};transition:opacity 300ms"><span style="width:12px;height:12px;border-radius:99px;border:2px solid #DDDDD8;border-top-color:#3B4FD8;box-sizing:border-box;display:block;animation:cbSpin .8s linear infinite"></span>Testing connection…</span>
+          <span style="display:{{ tst2D }};flex-direction:column;gap:4px;opacity:{{ tst2 }};transition:opacity 300ms"><span style="display:flex;align-items:center;gap:7px;font-weight:700;color:#1A7F4B"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Connection works</span><span style="color:#444">Signed in and fetched sample data. Next, set up the data you want to pull in.</span></span>
+        </div>
+        <div style="margin-top:auto;display:flex;align-items:center;gap:9px;border:1px solid {{ inBd }};border-radius:6px;padding:10px 12px;color:{{ inC }};transition:border-color 200ms"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="1.6" stroke-linejoin="round" style="flex:none"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg><span style="flex:1;min-width:0">{{ inTxt }}<span style="display:{{ caretD }};vertical-align:-2px;width:1px;height:13px;margin-left:1px;background:#1A1A1A"></span></span><span style="display:{{ sendD }};flex:none;width:22px;height:22px;border-radius:4px;background:#1A1A1A;color:#fff;align-items:center;justify-content:center;transform:scale({{ sendS }});transition:transform 140ms"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></span></div>
+      </div>
+    </div>
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;background:#fff;border:1px solid #ECECE8;border-radius:8px;padding:0 9px 9px">
+      <div style="height:42px;flex:none;display:flex;align-items:center;gap:10px;padding:0 4px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B4FD8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="4"></rect><path d="M10 10l-2 2 2 2M14 10l2 2-2 2"></path></svg>
+        <span style="font-size:14px;font-weight:700">Code editor</span>
+        <span style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:10px;color:#2B2FA8;padding:4px 8px;border-radius:4px;background:#F3F4FF"><span style="font-weight:700">Version 1.0.1</span>(Latest)<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#2B2FA8" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></span>
+        <span style="width:1px;height:16px;background:#E4E4E0"></span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.7"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+      </div>
+      <div style="flex:1;min-height:0;background:#141416;border-radius:4px;display:flex;flex-direction:column;overflow:hidden">
+        <div style="height:38px;flex:none;display:flex;align-items:center;padding:0 22px;background:#1C1C1F;box-shadow:0 2px 6px rgba(0,0,0,.4)"><span style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:{{ crumbRootC }};transition:color 250ms">connector</span><span style="display:flex;align-items:center;gap:8px;opacity:{{ crumbOp }};transform:translateX({{ crumbX }});transition:opacity 250ms,transform 300ms ease-out"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8A8A90" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg><span style="color:#F2F2F2">authentication</span></span></span></div>
+        <div style="flex:1;min-height:0;overflow:hidden;padding:10px 0;font:10.5px/1.62 ui-monospace,Menlo,monospace">
+          <sc-for list="{{ lines }}" as="l" hint-placeholder-count="30"><div data-ln="{{ l.ln }}" style="display:flex;padding:0 14px 0 12px;white-space:pre;background:{{ l.bg }};box-shadow:inset 2px 0 0 {{ l.bar }};opacity:{{ l.op }};transition:background 350ms ease {{ l.dl }},box-shadow 350ms ease {{ l.dl }},opacity 350ms ease"><span style="width:20px;text-align:right;color:{{ l.nc }};flex:none;transition:color 350ms ease {{ l.dl }}">{{ l.n }}</span><span style="width:1px;background:#2E2E33;margin:0 10px;flex:none"></span><span style="color:#E9E9EC">{{ l.ind }}</span><span style="color:#7FB2FF">{{ l.key }}</span><span style="color:#E9E9EC">{{ l.rest }}</span><span style="display:{{ l.caret }};width:1.5px;height:13px;background:#F2F2F2;margin-left:1px;align-self:center;animation:cbBlink 1s infinite"></span></div></sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:{{ cx }};top:{{ cy }};opacity:{{ cOp }};transform:scale({{ cScale }});transform-origin:4px 2px;transition:left 900ms cubic-bezier(.45,0,.2,1),top 900ms cubic-bezier(.45,0,.2,1),opacity 300ms,transform 140ms;pointer-events:none;z-index:10"><svg width="22" height="22" viewBox="0 0 24 24" style="display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))"><path d="M5 3l14 7.5-6.2 1.6L10 18.5z" fill="#1A1A1A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"></path></svg></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const V1 = 9000, TYPE = 2400, KEY = 3000, V2 = 10500 + TYPE + KEY, LOOP = V1 + V2;
+const PROMPT = "Let’s draft a first version of the connector using this documentation: https://developers.adflow.io/docs";
+const CODE = ['{','  "$schema": "https://api.supermetrics.com/cc/v1/schema/connector",','  "info": {','    "title": "My connector",','    "version": "1.0",','    "description": "A short description of what this connector does."','  },','  "authentication": {','    "type": "user_input",','    "userInputs": [','      {','        "id": "account_name",','        "label": "Account Name",','        "type": "text",','        "helpText": "A unique name for this account."','      },','      {','        "id": "api_key",','        "label": "API Key",','        "type": "secret",','        "helpText": "Your API key for the service."','      }','    ]','  },','  "dataSourceUser": {','    "userInfo": {','      "id": {','        "source": "user_input",','        "value": "account_name"','      },','      "label": {','        "source": "user_input",','        "value": "account_name"','      },','      "token": {','        "source": "user_input",','        "value": "api_key"','      }','    }','  },','  "accounts": {','    "has_accounts": false'].map((s, i) => {
+  const m = s.match(/^(\s*)("[^"]+")(:.*)$/);
+  return m ? { n: i + 1, ind: m[1], key: m[2], rest: m[3] } : { n: i + 1, ind: s.match(/^\s*/)[0], key: '', rest: s.trim() };
+});
+const RAIL = [
+  ['Authentication', 'M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6zM12 9.4a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 1 0 0-3.2M12 12.6V15'],
+  ['User', 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6 8-6s8 2 8 6'],
+  ['Accounts', 'M5 8a2 2 0 1 0 4 0 2 2 0 1 0-4 0M15 8a2 2 0 1 0 4 0 2 2 0 1 0-4 0M10 16a2 2 0 1 0 4 0 2 2 0 1 0-4 0M8 10l2.5 4.5M16 10l-2.5 4.5'],
+  ['Reports', 'M6 3h9l4 4v14H6zM9 12h6M9 16h4'],
+  ['Error handling', 'M6 3v12M6 15a3 3 0 1 0 0 6 3 3 0 1 0 0-6M18 3a3 3 0 1 0 0 6 3 3 0 1 0 0-6M18 9c0 5-6 4-12 6'],
+];
+class Component extends DCLogic {
+  outerRef = React.createRef();
+  stageRef = React.createRef();
+  state = { t: 0, w: 800, cx: 900, cy: 600 };
+  componentDidMount() {
+    const el = this.outerRef.current;
+    if (el && window.ResizeObserver) { this.ro = new ResizeObserver((e) => this.setState({ w: e[0].contentRect.width })); this.ro.observe(el); }
+    this.start = performance.now();
+    this.timer = setInterval(() => {
+      const el = performance.now() - this.start;
+      const t = this.props.mode === 'ai' ? V1 + (el % V2) : el % LOOP;
+      const tgt = this.cursorTarget(t);
+      this.setState({ t, cx: tgt[0], cy: tgt[1] });
+    }, 50);
+  }
+  componentWillUnmount() { clearInterval(this.timer); this.ro && this.ro.disconnect(); }
+  jump(ms) { this.start = performance.now() - ms; }
+  at(sel, fx, fy) {
+    const st = this.stageRef.current; const el = st && st.querySelector(sel);
+    if (!el) return [900, 600];
+    const a = st.getBoundingClientRect(), b = el.getBoundingClientRect(), k = a.width / 1100 || 1;
+    return [(b.left - a.left + b.width * fx) / k - 4, (b.top - a.top + b.height * fy) / k - 2];
+  }
+  cursorTarget(t) {
+    if (t < V1) {
+      if (t < 500) return [760, 460];
+      if (t < 2300) return this.at('[data-rail="Authentication"]', 0.5, 0.45);
+      if (t < 5000) return this.at('[data-apply1]', 0.5, 0.6);
+      return [760, 460];
+    }
+    const u = t - V1 - TYPE;
+    if (u < 1600) return [760, 460];
+    if (u < 4000) return this.at('[data-apply2]', 0.5, 0.6);
+    if (u < 5600) return [760, 460];
+    if (u < 5600 + KEY) return this.at('[data-ln="key"]', 0.62, 0.55);
+    return this.at('[data-test]', 0.35, 0.6);
+  }
+  renderVals() {
+    const t = this.state.t, v2 = t >= V1, p = t - V1, u = p - TYPE;
+    const typing = v2 && p < TYPE, nChars = typing ? Math.max(0, Math.min(PROMPT.length, Math.floor((p - 200) / 1600 * PROMPT.length))) : 0;
+    const on = (ms) => (v2 && u >= ms ? 1 : 0);
+    const authOn = !v2 && t > 1900;
+    const hl = v2 ? u > 4000 && u < 6600 : t > 4400 && t < 7200;
+    const seg = (a) => ({ bg: a ? '#1A1A1A' : 'transparent', c: a ? '#fff' : '#888' });
+    const s1 = seg(!v2), s2 = seg(v2);
+    return {
+      outerRef: this.outerRef, stageRef: this.stageRef, showSwitch: this.props.mode !== 'ai',
+      scale: this.state.w / 1100, outerH: (this.state.w * 720 / 1100) + 'px',
+      s1Bg: s1.bg, s1C: s1.c, s2Bg: s2.bg, s2C: s2.c,
+      goV1: () => this.jump(0), goV2: () => this.jump(V1),
+      crumbOp: (authOn || (v2 && u > 3700)) ? 1 : 0, crumbX: (authOn || (v2 && u > 3700)) ? '0px' : '-6px', crumbRootC: (authOn || (v2 && u > 3700)) ? '#9A9AA0' : '#F2F2F2', crumbRootU: (authOn || (v2 && u > 3700)) ? 'none' : 'underline',
+      railW: v2 ? '0px' : '96px', railOp: v2 ? 0 : 1,
+      v1Op: v2 ? 0 : 1, v2Op: v2 ? 1 : 0,
+      emptyOp: authOn ? 0 : 1, gOp: authOn ? 1 : 0, gY: authOn ? '0px' : '10px',
+      a1Bd: (!v2 && t > 4400) ? 'transparent' : '#1A1A1A', a1Bg: (!v2 && t > 4400) ? '#EEF0FF' : '#fff', a1C: (!v2 && t > 4400) ? '#3B4FD8' : '#1A1A1A', a1S: (!v2 && t > 4200 && t < 4400) ? 0.94 : 1, a1Ic: (!v2 && t > 4400) ? 'block' : 'none', a1L: (!v2 && t > 4400) ? 'Applied' : 'Apply',
+      sOp: on(1000), sY: on(1000) ? '0px' : '12px',
+      a2Bd: (v2 && u > 3700) ? 'transparent' : '#1A1A1A', a2Bg: (v2 && u > 3700) ? '#EEF0FF' : '#fff', a2C: (v2 && u > 3700) ? '#3B4FD8' : '#1A1A1A', a2S: (v2 && u > 3500 && u < 3700) ? 0.94 : 1, a2Ic: (v2 && u > 3700) ? 'block' : 'none', a2L: (v2 && u > 3700) ? 'Applied' : 'Apply',
+      m2: on(3900), m3: on(4900),
+      msgOp: v2 && u >= 0 ? 1 : 0, msgY: v2 && u >= 0 ? '0px' : '8px', repOp: on(500),
+      inTxt: typing && p > 200 ? PROMPT.slice(0, nChars) : 'Ask a follow-up or continue building',
+      inC: typing && p > 200 ? '#1A1A1A' : '#777', inBd: typing ? '#3B4FD8' : '#DDDDD8',
+      caretD: typing && p > 200 && p < 2000 && Math.floor(p / 450) % 2 === 0 ? 'inline-block' : 'none',
+      sendD: typing && p > 1800 ? 'flex' : 'none', sendS: typing && p > 2100 ? 0.85 : 1,
+      testBg: v2 && u > 7200 + KEY ? '#EEF0FF' : '#fff',
+      tst1: v2 && u > 7500 + KEY && u <= 8900 + KEY ? 1 : 0, tst1D: v2 && u > 7500 + KEY && u <= 8900 + KEY ? 'flex' : 'none',
+      tst2: v2 && u > 8900 + KEY ? 1 : 0, tst2D: v2 && u > 8900 + KEY ? 'flex' : 'none',
+      rail: RAIL.map(([tt, d], i) => { const a = i === 0 && authOn; return { t: tt, d, bd: a ? '#9AA6E8' : 'transparent', c: a ? '#3B4FD8' : '#1A1A1A', fw: a ? 700 : 400, sh: a ? '0 4px 10px rgba(59,79,216,.10)' : 'none' }; }),
+      keyTxt: (() => { if (!v2 || u < 6500) return ''; const n = Math.max(0, Math.min(16, Math.floor((u - 6500) / 1300 * 16))); return '•'.repeat(n); })(),
+      keyPh: (!v2 || u < 6500) ? 'block' : 'none',
+      lines: (() => { const out = []; CODE.forEach((l) => { out.push(l); if (false) { const K = 'sk_live_4f8a2c91e7b3', k = Math.max(0, Math.min(K.length, Math.floor((u - 6500) / 1500 * K.length))); out.push({ n: 'key', ind: '        ', key: '"value"', rest: ': "' + (u < 6500 + 1500 ? K.slice(0, k) : '••••••••••••••••') + '",', keyLine: true }); } }); return out; })().map((l) => { const on = l.keyLine ? true : (hl && l.n >= 8 && l.n <= 24); return { ...l, ln: l.keyLine ? 'key' : l.n, n: l.keyLine ? '' : l.n, bg: on ? 'rgba(110,139,255,.10)' : 'transparent', bar: on ? '#6E8BFF' : 'transparent', nc: on ? '#AFC0FF' : '#4E5A86', op: hl && !on ? 0.4 : 1, dl: on ? ((l.n - 8) * 28) + 'ms' : '0ms', caret: l.n === 8 && (authOn || (v2 && u > 3700)) ? 'block' : 'none' }; }),
+      cx: this.state.cx + 'px', cy: this.state.cy + 'px',
+      cOp: (!v2 && t > 300 && t < 7600) || (v2 && u > 1200 && u < 9200 + KEY) ? 1 : 0,
+      cScale: (!v2 && ((t > 1800 && t < 2000) || (t > 4200 && t < 4400))) || (v2 && ((u > 3500 && u < 3700) || (u > 6300 && u < 6450) || (u > 7100 + KEY && u < 7300 + KEY))) ? 0.82 : 1,
+    };
+  }
+}
+</script>
+</body>
+</html>

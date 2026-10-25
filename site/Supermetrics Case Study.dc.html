@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Supermetrics — Case study · Margo Gaińska</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('mg-theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+<script src="./image-slot.js"></script>
+<style>
+:root{--bg:#0d0d0e;--card:#161618;--card2:#1c1c1f;--fg:#f1f0ec;--mut:#9a9994;--line:rgba(241,240,236,.1);--line2:rgba(241,240,236,.24);--solu:oklch(0.82 0.13 158);--sm:oklch(0.76 0.12 280);--warn:oklch(0.82 0.13 88);--bad:oklch(0.72 0.15 25);--info:oklch(0.78 0.1 250);--mark:var(--sm);color-scheme:dark}
+[data-theme=light]{--bg:#f3f2ee;--card:#e8e7e2;--card2:#dfded8;--fg:#121211;--mut:#5f5e59;--line:rgba(18,18,17,.1);--line2:rgba(18,18,17,.26);--solu:oklch(0.55 0.13 158);--sm:oklch(0.5 0.16 275);--warn:oklch(0.62 0.12 88);--bad:oklch(0.55 0.16 25);--info:oklch(0.55 0.12 250);--mark:var(--sm);color-scheme:light}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Geist,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--fg)}
+:root{--ga1:oklch(0.72 0.16 295);--ga2:oklch(0.78 0.14 345);--ga3:oklch(0.86 0.11 55);--gs1:oklch(0.8 0.14 160);--gs2:oklch(0.84 0.11 195);--gs3:oklch(0.9 0.11 120);--gm1:oklch(0.82 0.08 265);--gm2:oklch(0.7 0.14 268);--gm3:oklch(0.6 0.17 272);--gsi1:oklch(0.5 0.13 160);--gsi2:oklch(0.52 0.1 200);--gsi3:oklch(0.58 0.12 130);--gmi1:oklch(0.5 0.14 268);--gmi2:oklch(0.42 0.16 270);--gmi3:oklch(0.34 0.15 272)}
+[data-theme=light]{--ga1:oklch(0.530 0.18 295);--ga2:oklch(0.530 0.17 345);--ga3:oklch(0.520 0.14 50);--gs1:oklch(0.490 0.13 160);--gs2:oklch(0.495 0.1 200);--gs3:oklch(0.500 0.12 130);--gm1:oklch(0.5 0.14 268);--gm2:oklch(0.42 0.16 270);--gm3:oklch(0.34 0.15 272);--gsi1:oklch(0.8 0.14 160);--gsi2:oklch(0.84 0.11 195);--gsi3:oklch(0.9 0.11 120);--gmi1:oklch(0.82 0.08 265);--gmi2:oklch(0.7 0.14 268);--gmi3:oklch(0.6 0.17 272)}
+::selection{background:var(--fg);color:var(--bg)}
+body.mg-cursor,body.mg-cursor *{cursor:none!important}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+@keyframes smPanA{0%{transform:scale(1) translateY(0)}100%{transform:scale(1.12) translateY(-6%)}}
+@keyframes smPanB{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.15) translate(-4%,-5%)}}
+@media (prefers-reduced-motion:reduce){img{animation:none!important}}
+</style>
+<style>@media (prefers-reduced-motion:no-preference){html:not(.mg-ready) [data-rise]{transform:translateY(108%) rotate(2deg)}html:not(.mg-ready) [data-reveal]{opacity:0}}</style>
+<script>setTimeout(function(){document.documentElement.classList.add('mg-ready')},3000)</script>
+<script src="motion.js"></script>
+</helmet>
+
+<div data-cursor-dot="" style="position:fixed;left:0;top:0;width:12px;height:12px;border-radius:999px;background:#fff;mix-blend-mode:difference;z-index:100;pointer-events:none;display:none;align-items:center;justify-content:center;will-change:transform">
+  <span data-cursor-label="" style="font-family:'Geist Mono',monospace;font-size:12px;color:#000;opacity:0;transition:opacity .2s"></span>
+  <svg data-cursor-arrow="" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:50%;top:50%;width:28px;height:28px;margin:-14px 0 0 -14px;opacity:0;transform:rotate(-45deg) scale(.3);transition:opacity .25s,transform .5s cubic-bezier(.16,1,.3,1)"><path d="M7 17 17 7"></path><path d="M8.5 7H17v8.5"></path></svg>
+</div>
+
+<div style="position:fixed;top:0;left:0;right:0;height:2px;z-index:60;pointer-events:none"><div data-progress="" style="height:100%;background:var(--sm);transform-origin:0 50%;transform:scaleX(0)"></div></div>
+
+<header data-nav="" style="position:fixed;top:0;left:0;right:0;z-index:50;isolation:isolate;padding:16px clamp(32px,7.5vw,136px);display:flex;align-items:center;justify-content:space-between;gap:16px;transition:transform .6s cubic-bezier(.16,1,.3,1);pointer-events:none">
+  <div aria-hidden="true" style="position:absolute;inset:0 0 -28px 0;z-index:-1;pointer-events:none;background:linear-gradient(to bottom,var(--bg) 0%,color-mix(in oklab,var(--bg) 82%,transparent) 55%,transparent 100%);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);-webkit-mask-image:linear-gradient(to bottom,#000 60%,transparent);mask-image:linear-gradient(to bottom,#000 60%,transparent)"></div>
+  <a href="index.html" onMouseEnter="{{ logoIn }}" onMouseLeave="{{ logoOut }}" onMouseDown="{{ logoDown }}" onMouseUp="{{ logoUp }}" style="pointer-events:auto;display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;letter-spacing:-0.01em">
+    <span style="width:24px;height:22px;border-radius:{{ logoR }};background-image:url(assets/grain-light.svg),linear-gradient(135deg,var(--ga1),var(--ga2) 55%,var(--ga3));background-size:60px 60px,100% 100%;display:block;transform:{{ logoT }};transition:{{ logoTr }}"></span>
+    <span>Margo Gaińska</span>
+  </a>
+  <div style="pointer-events:auto;display:flex;align-items:center;gap:4px;padding:5px;border-radius:999px;border:1px solid var(--line);background:color-mix(in oklab,var(--bg) 72%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
+    <a href="Solu Case Study.dc.html" style="font-size:14px;padding:8px 14px;border-radius:999px;color:var(--mut);transition:background .3s,color .3s" style-hover="background:var(--line);color:var(--fg)">Next: Solu →</a>
+    <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="display:flex;align-items:center;gap:8px;font:inherit;font-size:14px;padding:8px 12px 8px 10px;border-radius:999px;border:0;background:var(--fg);color:var(--bg);cursor:pointer">
+      <span style="width:14px;height:14px;border-radius:999px;border:1.5px solid var(--bg);background:linear-gradient(90deg,var(--bg) 50%,transparent 50%);box-sizing:border-box;display:block"></span>
+      <span>{{ themeLabel }}</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section data-screen-label="Supermetrics hero" style="padding:clamp(130px,16vw,200px) clamp(32px,7.5vw,136px) 0;display:flex;flex-direction:column;gap:clamp(40px,5vw,72px)">
+    <div data-reveal="" data-hero-mark="" style="display:flex;align-items:center;gap:14px"><img src="assets/sm/logomark.png" alt="" aria-hidden="true" style="height:clamp(36px,3.4vw,52px);width:auto;display:block"><span style="font-size:clamp(20px,1.8vw,26px);font-weight:500;letter-spacing:-0.02em">Supermetrics</span></div>
+    <h1 style="margin:0;font-weight:500;font-size:clamp(48px,8.6vw,148px);line-height:.92;letter-spacing:-0.055em;max-width:1400px">
+      <span style="display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.12em"><span data-rise="0" style="display:block">Making complex data</span></span>
+      <span style="display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.12em"><span data-rise="100" style="display:block">transformations <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gm1),var(--gm2) 45%,var(--gm3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">easy</span></span></span>
+      <span style="display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.12em"><span data-rise="200" style="display:block">for marketers</span></span>
+    </h1>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;border-top:1px solid var(--line);padding-top:24px">
+      <div data-reveal="" style="flex:1 1 180px;min-width:min(100%,180px);display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;color:var(--mut)">Role</span><span style="font-size:17px;line-height:1.4">Senior Product Designer</span></div>
+      <div data-reveal="" data-delay="60" style="flex:1 1 180px;min-width:min(100%,180px);display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;color:var(--mut)">Timeline</span><span style="font-size:17px;line-height:1.4">Mar 2024 — Dec 2025</span></div>
+      <div data-reveal="" data-delay="120" style="flex:1 1 180px;min-width:min(100%,180px);display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;color:var(--mut)">Team</span><span style="font-size:17px;line-height:1.4">PM, engineering, solutions experts</span></div>
+      <div data-reveal="" data-delay="180" style="flex:1 1 180px;min-width:min(100%,180px);display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;color:var(--mut)">Platform</span><span style="font-size:17px;line-height:1.4">Web app · B2B SaaS</span></div>
+      <div data-reveal="" data-delay="240" style="flex:1 1 180px;min-width:min(100%,180px);display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;color:var(--mut)">Scope</span><span style="font-size:17px;line-height:1.4">4 shipped features, strategy &amp; vision</span></div>
+    </div>
+    <div data-reveal="clip" role="img" aria-label="Supermetrics connector builder with AI assistant" style="position:relative;border-radius:28px;overflow:hidden;background:radial-gradient(120% 90% at 30% 85%,#7b7fd0 0%,#4d4a9a 30%,#241a4a 62%,#0b0812 100%);padding:clamp(24px,5vw,80px);display:flex;justify-content:center"><div aria-hidden="true" style="position:absolute;inset:0;background:url(assets/grain-light.svg);background-size:140px 140px;opacity:.55;mix-blend-mode:overlay"></div><div style="position:relative;width:100%;max-width:1200px;border-radius:12px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)"><dc-import name="Connector Builder Animation" mode="ai" hint-size="100%,560px"></dc-import></div></div>
+  </section>
+
+  <section data-screen-label="TLDR" style="padding:clamp(104px,13vw,200px) clamp(32px,7.5vw,136px)">
+    <div style="display:flex;flex-wrap:wrap;gap:24px">
+      <div data-reveal="" style="flex:1 1 300px;min-width:min(100%,300px);background:var(--card);border-radius:22px;padding:36px;display:flex;flex-direction:column;gap:24px">
+        <span style="font-size:14px;color:var(--mut)">The problem</span>
+        <p style="margin:0;font-size:19px;line-height:1.45;letter-spacing:-0.01em;text-wrap:pretty">Marketers relied on analysts to combine and clean data, as powerful transformation tools felt too technical to use independently.</p>
+      </div>
+      <div data-reveal="" data-delay="80" style="flex:1 1 300px;min-width:min(100%,300px);background:var(--card);border-radius:22px;padding:36px;display:flex;flex-direction:column;gap:24px">
+        <span style="font-size:14px;color:var(--mut)">What I did</span>
+        <p style="margin:0;font-size:19px;line-height:1.45;letter-spacing:-0.01em;text-wrap:pretty">Designed 4 end-to-end, visual and guided transformation features that made advanced analytics approachable, so marketers could work with complex data on their own.</p>
+      </div>
+      <div data-reveal="" data-delay="160" style="flex:1 1 300px;min-width:min(100%,300px);background:var(--fg);color:var(--bg);border-radius:22px;padding:36px;display:flex;flex-direction:column;gap:28px">
+        <span style="font-size:14px;opacity:.7">The outcome</span>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+          <div style="display:flex;flex-direction:column;gap:4px"><span data-count="" style="font-size:34px;font-weight:500;letter-spacing:-0.045em">+125%</span><span style="font-size:13px;line-height:1.35;opacity:.75">custom fields use, year on year</span></div>
+          <div style="display:flex;flex-direction:column;gap:4px"><span data-count="" style="font-size:34px;font-weight:500;letter-spacing:-0.045em">~80%</span><span style="font-size:13px;line-height:1.35;opacity:.75">less setup time with account tagging</span></div>
+          <div style="display:flex;flex-direction:column;gap:4px"><span data-count="" style="font-size:34px;font-weight:500;letter-spacing:-0.045em">+224%</span><span style="font-size:13px;line-height:1.35;opacity:.75">blending use, year on year</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="padding:0 clamp(32px,7.5vw,136px);display:flex;gap:clamp(32px,5vw,80px);align-items:flex-start">
+    
+    <article style="flex:1 1 0;min-width:0;max-width:1080px">
+
+      <section id="context" style="padding:clamp(96px,12vw,184px) 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:44px">
+        <h2 data-reveal="" style="margin:0;font-weight:500;font-size:clamp(34px,4.2vw,60px);line-height:1;letter-spacing:-0.045em;text-wrap:balance;max-width:900px">From data extraction tool to <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gm1),var(--gm2) 45%,var(--gm3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">end-to-end analytics</span></h2>
+        <div style="display:flex;flex-wrap:wrap;gap:32px 48px">
+          <p data-reveal="" style="flex:1 1 320px;min-width:min(100%,320px);margin:0;font-size:18px;line-height:1.6;color:var(--mut);text-wrap:pretty">Supermetrics helps marketers collect and analyse data from hundreds of platforms. As the company evolved from a data extraction tool into an end-to-end analytics product, the Transformation space was created to let users clean, combine and model data without code.</p>
+          <p data-reveal="" data-delay="80" style="flex:1 1 320px;min-width:min(100%,320px);margin:0;font-size:18px;line-height:1.6;color:var(--mut);text-wrap:pretty">I <span style="color:var(--fg)">led end-to-end design for the Transformation product space</span>, defining strategy and vision together with the PM, and collaborating with engineering and solutions experts on four features shipped to production.</p>
+        </div>
+      </section>
+
+      <section id="problem" style="padding:clamp(96px,12vw,184px) 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:44px">
+        <h2 data-reveal="" style="margin:0;font-weight:500;font-size:clamp(34px,4.2vw,60px);line-height:1;letter-spacing:-0.045em;text-wrap:balance;max-width:900px">Make advanced data operations feel <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gm1),var(--gm2) 45%,var(--gm3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">human, visual and safe</span> to explore</h2>
+        <div style="display:flex;flex-wrap:wrap;gap:24px">
+          <div data-reveal="" style="flex:1 1 300px;min-width:min(100%,300px);border:1px solid var(--line2);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:16px"><span style="font-size:14px;color:var(--mut)">User goal</span><span style="font-size:21px;line-height:1.35;letter-spacing:-0.02em;text-wrap:pretty">Answer cross-channel questions like “what’s my real ROAS?” without filing a ticket with an analyst.</span></div>
+          <div data-reveal="" data-delay="80" style="flex:1 1 300px;min-width:min(100%,300px);border:1px solid var(--line2);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:16px"><span style="font-size:14px;color:var(--mut)">Business goal</span><span style="font-size:21px;line-height:1.35;letter-spacing:-0.02em;text-wrap:pretty">Grow Supermetrics from a data pipe into the place where analysis actually happens.</span></div>
+        </div>
+        <div data-reveal="" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px"><span style="font-size:14px;color:var(--mut);margin-right:8px">Constraints</span><span style="font-size:15px;padding:8px 16px;border-radius:999px;border:1px solid var(--line2)">Keep analyst power</span><span style="font-size:15px;padding:8px 16px;border-radius:999px;border:1px solid var(--line2)">Hundreds of sources</span><span style="font-size:15px;padding:8px 16px;border-radius:999px;border:1px solid var(--line2)">Mixed skill levels</span></div>
+      </section>
+
+      <section id="blending" style="padding:clamp(96px,12vw,184px) 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:44px">
+        <h2 data-reveal="" style="margin:0;font-weight:500;font-size:clamp(34px,4.2vw,60px);line-height:1;letter-spacing:-0.045em;text-wrap:balance;max-width:900px">Blending data, <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gm1),var(--gm2) 45%,var(--gm3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">without the jargon</span></h2>
+        <div style="display:flex;flex-direction:column;gap:20px"><span data-reveal="" style="font-size:20px;font-weight:500;letter-spacing:-0.02em">Templates</span>
+          <p data-reveal="" style="margin:0;font-size:clamp(18px,1.6vw,21px);line-height:1.6;max-width:760px;text-wrap:pretty">Blending data is one of the most powerful yet intimidating parts of analytics. Performance marketers didn’t know what a blend was, or why they’d need one.</p>
+          <p data-reveal="" style="margin:0;font-size:clamp(18px,1.6vw,21px);line-height:1.6;max-width:760px;text-wrap:pretty">I designed a template library organised around real use cases, framed around the value and outcome for the user, such as paid campaign mix or cross-channel ROAS. Each template guides users step by step through the blend, keeping focus on the outcome.</p>
+        </div>
+        <div data-reveal="clip" style="position:relative;border-radius:20px;overflow:hidden;background:radial-gradient(120% 90% at 30% 85%,#7b7fd0 0%,#4d4a9a 30%,#241a4a 62%,#0b0812 100%);padding:clamp(24px,4vw,56px);display:flex;flex-direction:column;align-items:center;gap:clamp(20px,3vw,40px)"><div aria-hidden="true" style="position:absolute;inset:0;background:url(assets/grain-light.svg);background-size:140px 140px;opacity:.55;mix-blend-mode:overlay"></div><img src="assets/sm/data-blending-page.png" alt="Data blending page with the template library above the list of saved blends" style="position:relative;display:block;width:100%;max-width:1200px;height:auto;border-radius:12px"><div style="position:relative;width:100%;max-width:1200px"><dc-import name="Join Step Animation" hint-size="100%,600px"></dc-import></div></div>
+        <div data-reveal="" style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap"><span data-count="" style="font-size:clamp(44px,5vw,72px);font-weight:500;letter-spacing:-0.055em;line-height:1">3×</span><span style="font-size:17px;line-height:1.5;color:var(--mut);max-width:520px">Users blended data up to 3× faster, with consistent adoption across teams of different technical skill.</span></div>
+        <div data-reveal="" style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap"><span style="font-size:clamp(44px,5vw,72px);font-weight:500;letter-spacing:-0.055em;line-height:1;color:var(--sm)">+224%</span><span style="flex:1 1 280px;font-size:17px;line-height:1.5;color:var(--mut);max-width:520px">Year-on-year growth in data searches using Data Blending, alongside the blending templates we shipped. Source: <a href="https://supermetrics.com/blog/supermetrics-wrapped-2025" target="_blank" rel="noopener" style="color:var(--mut);text-decoration:underline;text-underline-offset:3px">Supermetrics Wrapped 2025</a>.</span></div>
+      <div style="height:1px;background:var(--line);margin-top:clamp(24px,4vw,56px)"></div>
+        <div style="display:flex;flex-direction:column;gap:20px"><span data-reveal="" style="font-size:20px;font-weight:500;letter-spacing:-0.02em">Joins, the hardest kind of blend</span>
+          <p data-reveal="" style="margin:0;font-size:clamp(18px,1.6vw,21px);line-height:1.6;max-width:760px;text-wrap:pretty">Cross-platform analysis depends on joins, yet most marketers neither know what a join is nor why they need it.</p>
+          <p data-reveal="" style="margin:0;font-size:clamp(18px,1.6vw,21px);line-height:1.6;max-width:760px;text-wrap:pretty">I designed a guided flow that translates SQL logic into a visual process: select sources, define join logic in plain language, and instantly preview results.</p>
+        </div>
+        <div data-reveal="clip" style="position:relative;border-radius:20px;overflow:hidden;background:radial-gradient(120% 90% at 70% 85%,#7b7fd0 0%,#4d4a9a 30%,#241a4a 62%,#0b0812 100%);padding:clamp(24px,4vw,56px);display:flex;flex-direction:column;gap:clamp(20px,3vw,40px);align-items:center">
+          <div aria-hidden="true" style="position:absolute;inset:0;background:url(assets/grain-light.svg);background-size:140px 140px;opacity:.55;mix-blend-mode:overlay"></div>
+          <div style="position:relative;width:100%;max-width:1200px;aspect-ratio:2380/1547;border-radius:12px;overflow:hidden;background:#fff"><img src="assets/sm/blend-setup-join.png" alt="Blend setup joining Facebook Ads and Google Analytics with a full-outer join" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;object-position:0 0"></div>
+          <div style="position:relative;width:100%;max-width:1200px;aspect-ratio:2090/965;border-radius:12px;overflow:hidden;background:#fff"><img src="assets/sm/join-types.gif" alt="Join type picker with a live example of left, right, inner and full outer joins" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;object-position:0 0"></div>
+        </div>
+      </section>
+
+      <section id="fields" style="padding:clamp(96px,12vw,184px) 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:44px">
+        <h2 data-reveal="" style="margin:0;font-weight:500;font-size:clamp(34px,4.2vw,60px);line-height:1;letter-spacing:-0.045em;text-wrap:balance;max-width:900px">Custom fields <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gm1),var(--gm2) 45%,var(--gm3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">in context</span></h2>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <p data-reveal="" style="margin:0;font-size:clamp(18px,1.6vw,21px);line-height:1.6;max-width:760px;text-wrap:pretty">Marketers often needed to adjust data on the fly, but creating calculated fields meant complex formulas and leaving the workflow.</p>
+          <p data-reveal="" style="margin:0;font-size:clamp(18px,1.6vw,21px);line-height:1.6;max-width:760px;text-wrap:pretty">I designed a no-code interface for defining custom fields directly in context, with instant previews that show the impact in real time.</p>
+        </div>
+        <div data-reveal="clip" style="position:relative;aspect-ratio:16/10;border-radius:20px;overflow:hidden;background:radial-gradient(120% 90% at 30% 85%,#7b7fd0 0%,#4d4a9a 30%,#241a4a 62%,#0b0812 100%)">
+          <div aria-hidden="true" style="position:absolute;inset:0;background:url(assets/grain-light.svg);background-size:140px 140px;opacity:.55;mix-blend-mode:overlay"></div>
+          <div style="position:absolute;left:14%;top:12%;width:36%;aspect-ratio:814/700;border-radius:12px;overflow:hidden;background:#fff;border:1px solid rgba(255,255,255,.6)"><img src="assets/sm/custom-field-function.gif" alt="Choosing a custom field function: AI image analysis" loading="lazy" style="display:block;width:100%;height:auto"></div>
+          <div style="position:absolute;left:47%;top:40%;width:37%;aspect-ratio:686/534;border-radius:12px;overflow:hidden;background:#fff;border:1px solid rgba(255,255,255,.6)"><img src="assets/sm/custom-field-preview.gif" alt="Live preview of a custom field as you type a sample input" loading="lazy" style="display:block;width:100%;height:auto"></div>
+        </div>
+        <div data-reveal="" style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap"><span style="font-size:clamp(44px,5vw,72px);font-weight:500;letter-spacing:-0.055em;line-height:1;color:var(--sm)">+125%</span><span style="flex:1 1 280px;font-size:17px;line-height:1.5;color:var(--mut);max-width:520px">Year-on-year growth in data searches using Custom Fields. Marketers are building their own metrics. Source: <a href="https://supermetrics.com/blog/supermetrics-wrapped-2025" target="_blank" rel="noopener" style="color:var(--mut);text-decoration:underline;text-underline-offset:3px">Supermetrics Wrapped 2025</a>.</span></div>
+      </section>
+
+      <section id="tagging" style="padding:clamp(96px,12vw,184px) 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:44px">
+        <h2 data-reveal="" style="margin:0;font-weight:500;font-size:clamp(34px,4.2vw,60px);line-height:1;letter-spacing:-0.045em;text-wrap:balance;max-width:900px">Account <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gm1),var(--gm2) 45%,var(--gm3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">tagging</span></h2>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <p data-reveal="" style="margin:0;font-size:clamp(18px,1.6vw,21px);line-height:1.6;max-width:760px;text-wrap:pretty">Large marketing teams manage dozens of ad accounts across platforms. My goal was to design a system that lets users organise accounts the way that suits them and reuse those groups in reports, which removes repetitive setup and manual errors.</p>
+          <div data-reveal="" style="display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:22px;overflow:hidden">
+          <div style="flex:1 1 260px;min-width:min(100%,260px);background:var(--bg);padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;gap:12px"><div aria-hidden="true" style="font-family:'DM Sans',system-ui,sans-serif;background:#FAFAF7;color:#2B2B2B;border-radius:14px;border:1px solid #E7E6E1;padding:18px;display:flex;flex-direction:column;gap:12px;font-size:13px;line-height:18px;margin-bottom:8px;box-sizing:border-box;height:290px;overflow:hidden;position:relative">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-size:15px;font-weight:600">Accounts</span><span style="font-size:12px;font-weight:600;color:#fff;background:#2B2B2B;border:1px solid #2B2B2B;border-radius:4px;padding:5px 12px;white-space:nowrap">Create folder</span></div>
+              <div style="display:flex;flex-direction:column;border-top:1px solid #E7E6E1;padding-top:6px">
+                <div style="display:flex;align-items:center;gap:10px;padding:7px 8px;font-weight:500"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B66" stroke-width="1.6" stroke-linejoin="round" style="flex:none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.2l2 2h8.8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"></path></svg><span>EMEA</span></div><div style="display:flex;align-items:center;padding:7px 8px 7px 34px;color:#2B2B2B">Meta Ads · Germany</div><div style="display:flex;align-items:center;padding:7px 8px 7px 34px;color:#2B2B2B">Google Ads · France</div>
+                <div style="display:flex;align-items:center;gap:10px;padding:7px 8px;font-weight:500"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B66" stroke-width="1.6" stroke-linejoin="round" style="flex:none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.2l2 2h8.8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"></path></svg><span>Spring campaign</span></div><div style="display:flex;align-items:center;padding:7px 8px 7px 34px;color:#2B2B2B">TikTok Ads · US</div>
+              </div>
+            </div><span style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--mut)">Explored</span><span style="font-size:20px;font-weight:500;letter-spacing:-0.02em;color:var(--mut)">Folders</span><span style="font-size:15px;line-height:1.55;color:var(--mut)">Familiar, but an account can sit in only one place. A German Meta account couldn’t be in EMEA and in spring campaigns at once.</span></div>
+          <div style="flex:1 1 260px;min-width:min(100%,260px);background:var(--card);padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;gap:12px"><div aria-hidden="true" style="font-family:'DM Sans',system-ui,sans-serif;background:#FAFAF7;color:#2B2B2B;border-radius:14px;border:1px solid #E7E6E1;padding:18px;display:flex;flex-direction:column;gap:12px;font-size:13px;line-height:18px;margin-bottom:8px;box-sizing:border-box;height:290px;overflow:hidden;position:relative">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-size:15px;font-weight:600">Accounts</span><span style="font-size:12px;font-weight:600;color:#fff;background:#2B2B2B;border:1px solid #2B2B2B;border-radius:4px;padding:5px 12px;white-space:nowrap">Add new tag</span></div>
+              <div style="display:flex;flex-direction:column">
+                <div style="display:flex;align-items:center;gap:8px;padding:10px 4px;border-top:1px solid #E7E6E1"><span style="white-space:nowrap">Meta Ads · Germany</span><span style="margin-left:auto;display:flex;gap:4px"><span style="font-size:12px;line-height:18px;padding:1px 7px;border-radius:4px;background:#CFE0F6;color:#1F1F1F;white-space:nowrap">EMEA</span><span style="font-size:12px;line-height:18px;padding:1px 7px;border-radius:4px;background:#C9F0CF;color:#1F1F1F;white-space:nowrap">Spring campaign</span></span></div>
+                <div style="display:flex;align-items:center;gap:8px;padding:10px 4px;border-top:1px solid #E7E6E1"><span style="white-space:nowrap">Google Ads · France</span><span style="margin-left:auto;display:flex;gap:4px"><span style="font-size:12px;line-height:18px;padding:1px 7px;border-radius:4px;background:#CFE0F6;color:#1F1F1F;white-space:nowrap">EMEA</span></span></div>
+                <div style="display:flex;align-items:center;gap:8px;padding:10px 4px;border-top:1px solid #E7E6E1"><span style="white-space:nowrap">TikTok Ads · US</span><span style="margin-left:auto;display:flex;gap:4px"><span style="font-size:12px;line-height:18px;padding:1px 7px;border-radius:4px;background:#C9F0CF;color:#1F1F1F;white-space:nowrap">Spring campaign</span></span></div>
+              </div>
+            </div><span style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--sm)">Shipped</span><span style="font-size:20px;font-weight:500;letter-spacing:-0.02em">Tags</span><span style="font-size:15px;line-height:1.55">One account can carry as many tags as it needs, like region and campaign, and every tag works as a filter in reports.</span></div>
+        </div>
+        </div>
+        <div data-reveal="clip" style="aspect-ratio:2322/1432;border-radius:20px;overflow:hidden;position:relative;background:#fff;border:1px solid var(--line)"><img src="assets/sm/account-tagging.gif" alt="Account tagging: creating a first tag and applying it to accounts" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block"></div>
+        <div data-reveal="" style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap"><span data-count="" style="font-size:clamp(44px,5vw,72px);font-weight:500;letter-spacing:-0.055em;line-height:1">~80%</span><span style="font-size:17px;line-height:1.5;color:var(--mut);max-width:520px">Manual setup time for multi-account teams.</span></div>
+        <p data-reveal="" style="margin:0;font-size:clamp(20px,2vw,26px);line-height:1.35;letter-spacing:-0.02em;max-width:820px;text-wrap:pretty">Enterprise teams could now build their own account structure. One tag pulls every matching account into a dashboard, instead of selecting accounts one by one, remembering which ones belong together, or asking Supermetrics support to set it up.</p>
+      </section>
+
+      <section id="connectors" style="padding:clamp(96px,12vw,184px) 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:44px">
+        <h2 data-reveal="" style="margin:0;font-weight:500;font-size:clamp(34px,4.2vw,60px);line-height:1;letter-spacing:-0.045em;text-wrap:balance;max-width:900px">Connect <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gm1),var(--gm2) 45%,var(--gm3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">any source</span></h2>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <p data-reveal="" style="margin:0;font-size:clamp(18px,1.6vw,21px);line-height:1.6;max-width:760px;text-wrap:pretty">Supermetrics has 100+ native connectors, but large customers often needed a source we didn’t support, like a private API. Connector Builder lets teams build that connector themselves, low-code, starting from a template and with an AI assistant to help.</p>
+        <div data-reveal="" style="display:flex;flex-wrap:wrap;gap:24px 40px;margin-top:12px">
+            <div style="flex:1 1 280px;min-width:min(100%,280px);display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1px solid var(--line2)"><span style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--sm)">Version 1</span><span style="font-size:19px;font-weight:500;letter-spacing:-0.015em">Foundations first</span><span style="font-size:16px;line-height:1.55;color:var(--mut);text-wrap:pretty">A section for each part of a connector, with a template to start from. We opened it to a small group of partners to test before releasing it more widely.</span></div>
+            <div style="flex:1 1 280px;min-width:min(100%,280px);display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1px solid var(--line2)"><span style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--sm)">Version 2</span><span style="font-size:19px;font-weight:500;letter-spacing:-0.015em">Then AI</span><span style="font-size:16px;line-height:1.55;color:var(--mut);text-wrap:pretty">Once partners were using the sections and templates successfully, we added AI. It reads the API docs, drafts the connector and suggests the right templates.</span></div>
+          </div>
+        </div>
+        <div data-reveal="clip" style="position:relative;border-radius:20px;overflow:hidden;background:radial-gradient(120% 90% at 30% 85%,#7b7fd0 0%,#4d4a9a 30%,#241a4a 62%,#0b0812 100%);padding:clamp(24px,4vw,56px);display:flex;justify-content:center"><div aria-hidden="true" style="position:absolute;inset:0;background:url(assets/grain-light.svg);background-size:140px 140px;opacity:.55;mix-blend-mode:overlay"></div><div style="position:relative;width:100%;max-width:1200px"><dc-import name="Connector Builder Animation" hint-size="100%,640px"></dc-import></div></div>
+        <p data-reveal="" style="margin:0;font-size:clamp(20px,2vw,26px);line-height:1.35;letter-spacing:-0.02em;max-width:820px;text-wrap:pretty">A custom connector is shared with the whole team and behaves like a native one, so a missing source no longer blocks a deal or a dashboard.</p>
+      </section>
+
+      <section id="learnings" style="padding:clamp(96px,12vw,184px) 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:44px">
+        <p data-reveal="" style="margin:0;font-size:clamp(26px,3vw,42px);line-height:1.2;letter-spacing:-0.035em;text-wrap:pretty;max-width:960px">Making technical tools approachable can mean designing <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gm1),var(--gm2) 45%,var(--gm3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">clear structures and language</span> around them, without taking away what they can do.</p>
+        <div data-reveal="" style="display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;padding-top:28px;border-top:1px solid var(--line)"><span style="flex:0 0 auto;font-size:14px;color:var(--mut)">Reflection</span><span style="flex:1 1 320px;min-width:min(100%,320px);font-size:17px;line-height:1.6;text-wrap:pretty;max-width:42em">My biggest challenge was the technical constraints of legacy code. Much of the work was negotiation: showing engineering and product that extra effort on the code underneath could unlock a far better experience, and that a better experience is what drives growth.</span></div>
+      </section>
+    </article>
+  </div>
+
+  <a href="Solu Case Study.dc.html" data-cursor="Next" data-screen-label="Next project" style="display:block;margin:clamp(40px,6vw,80px) clamp(32px,7.5vw,136px) 0;border-radius:32px 32px 0 0;background:var(--fg);color:var(--bg);padding:clamp(48px,8vw,120px) clamp(20px,4vw,56px)">
+    <span style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <span style="font-size:clamp(48px,9vw,156px);font-weight:500;letter-spacing:-0.055em;line-height:.9">So<span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gsi1),var(--gsi2) 45%,var(--gsi3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">lu</span></span>
+      <span style="font-size:clamp(32px,4vw,64px)">→</span>
+    </span>
+  </a>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Expressive&quot;,&quot;Subtle&quot;],&quot;default&quot;:&quot;Expressive&quot;,&quot;tsType&quot;:&quot;'Expressive'|'Subtle'&quot;},&quot;customCursor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { theme: 'dark', wide: true };
+  componentDidMount() {
+    this._onResize = () => this.setState({ wide: window.innerWidth >= 1080 });
+    this._onResize();
+    window.addEventListener('resize', this._onResize);
+    this.setState({ theme: document.documentElement.dataset.theme || 'dark' });
+    this._onTheme = (e) => this.setState({ theme: e.detail });
+    window.addEventListener('mg-theme', this._onTheme);
+    new Promise((res) => { const t = () => window.MGMotion ? res(window.MGMotion) : setTimeout(t, 20); t(); }).then((m) => Promise.race([document.fonts ? document.fonts.ready : null, new Promise((r) => setTimeout(r, 800))]).then(() => m)).then((m) => {
+      this.m = m;
+      requestAnimationFrame(() => { this._cleanup = m.initMotion({ subtle: (this.props.motion ?? 'Expressive') === 'Subtle', cursor: this.props.customCursor ?? true }); });
+    });
+  }
+  componentDidUpdate(prev, prevState) {
+    if (this.m && (prev.motion !== this.props.motion || prev.customCursor !== this.props.customCursor || prevState.wide !== this.state.wide)) {
+      this._cleanup && this._cleanup();
+      this._cleanup = this.m.initMotion({ subtle: (this.props.motion ?? 'Expressive') === 'Subtle', cursor: this.props.customCursor ?? true });
+    }
+  }
+  componentWillUnmount() {
+    window.removeEventListener('mg-theme', this._onTheme);
+    window.removeEventListener('resize', this._onResize);
+    this._cleanup && this._cleanup();
+  }
+  renderVals() {
+    return {
+      ...(() => { const st = this.state.logo || 0; const R = ['62% 38% 54% 46% / 48% 60% 40% 52%', '42% 58% 38% 62% / 60% 42% 58% 40%', '50% 50% 46% 54% / 54% 46% 54% 46%']; const T = ['rotate(-8deg)', 'rotate(14deg) scale(1.08)', 'rotate(30deg) scale(.86)']; return { logoR: R[st], logoT: T[st], logoTr: st === 2 ? 'border-radius .2s ease,transform .2s ease' : 'border-radius .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)', logoIn: () => this.setState({ logo: 1 }), logoOut: () => this.setState({ logo: 0 }), logoDown: () => this.setState({ logo: 2 }), logoUp: () => this.setState({ logo: 1 }) }; })(),
+      wide: this.state.wide,
+      themeLabel: this.state.theme === 'dark' ? 'Light' : 'Dark',
+      toggleTheme: (e) => this.m && this.m.toggleTheme(e),
+    };
+  }
+}
+</script>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0d0d0e"/><circle cx="50" cy="50" r="3" fill="#0d0d0e"/></svg></template>
+</body>
+</html>

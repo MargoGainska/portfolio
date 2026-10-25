@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;padding:0}
+  input[type=range]{accent-color:#157639;width:100%;height:4px}
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-thumb{background:#D0D5DD;border-radius:8px}
+</style>
+</helmet>
+<div style="height:100vh;display:flex;flex-direction:column;font-family:'IBM Plex Sans',system-ui,sans-serif;background:#F2F3F5;color:#101828;overflow:hidden">
+
+  <!-- top bar -->
+  <div style="flex:none;height:58px;display:flex;align-items:center;gap:14px;padding:0 20px;background:#fff;border-bottom:1px solid #EAECF0">
+    <div style="width:26px;height:26px;border-radius:7px;background:#157639;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;font-family:'IBM Plex Mono',monospace">S</div>
+    <div>
+      <div style="font-size:14px;font-weight:600;line-height:1.15">Ward 4B — suspected CRE cluster</div>
+      <div style="font-size:11px;color:#98A2B3;font-family:'IBM Plex Mono',monospace">investigation canvas · opened 2d ago · Margo</div>
+    </div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:2px;background:#F2F4F7;border:1px solid #EAECF0;border-radius:9px;padding:3px">
+        <button onClick="{{ zoomOut }}" style="width:26px;height:26px;border-radius:6px;display:grid;place-items:center;font-size:16px;color:#475467" style-hover="background:#fff">−</button>
+        <div style="min-width:46px;text-align:center;font-size:12px;font-weight:600;color:#475467;font-family:'IBM Plex Mono',monospace">{{ zoomPct }}</div>
+        <button onClick="{{ zoomIn }}" style="width:26px;height:26px;border-radius:6px;display:grid;place-items:center;font-size:16px;color:#475467" style-hover="background:#fff">+</button>
+      </div>
+      <button onClick="{{ resetPan }}" style="padding:7px 12px;border-radius:8px;font-size:13px;font-weight:600;background:#fff;color:#344054;border:1px solid #D0D5DD" style-hover="background:#F9FAFB">Fit</button>
+      <button onClick="{{ genReport }}" style="display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;background:#157639;color:#fff" style-hover="background:#11612E">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        Generate report
+      </button>
+    </div>
+  </div>
+
+  <div style="flex:1;display:flex;min-height:0">
+
+    <!-- palette rail -->
+    <div style="flex:none;width:212px;background:#fff;border-right:1px solid #EAECF0;display:flex;flex-direction:column;padding:16px 14px;gap:4px">
+      <div style="font-size:10.5px;font-weight:600;letter-spacing:.06em;color:#98A2B3;font-family:'IBM Plex Mono',monospace;padding:0 4px 8px">ADD TO CANVAS</div>
+      <sc-for list="{{ paletteItems }}" as="p" hint-placeholder-count="7">
+        <button onClick="{{ p.add }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border-radius:9px;font-size:13px;font-weight:500;color:#344054;text-align:left" style-hover="background:#F2F4F7">
+          <span style="{{ p.dotStyle }}"></span>
+          <span style="flex:1">{{ p.label }}</span>
+          <span style="font-size:15px;color:#98A2B3">+</span>
+        </button>
+      </sc-for>
+      <div style="margin-top:auto;padding:12px 8px 0;border-top:1px solid #F2F4F7;font-size:11px;line-height:1.5;color:#98A2B3">
+        Drag a card by its title bar. Drag the empty canvas to pan. Every card is a live block — the report is built from whatever sits here.
+      </div>
+    </div>
+
+    <!-- canvas -->
+    <div onPointerDown="{{ onCanvasDown }}" style="flex:1;position:relative;overflow:hidden;cursor:grab;background:#F2F3F5" style-active="cursor:grabbing">
+      <div style="{{ worldStyle }}">
+
+        <!-- edges -->
+        <svg style="position:absolute;left:0;top:0;width:3400px;height:2400px;overflow:visible;pointer-events:none">
+          <sc-for list="{{ edges }}" as="e" hint-placeholder-count="0">
+            <path d="{{ e.d }}" fill="none" stroke="#C4D8CA" stroke-width="2"></path>
+          </sc-for>
+        </svg>
+
+        <!-- nodes -->
+        <sc-for list="{{ nodes }}" as="node" hint-placeholder-count="0">
+          <div onPointerDown="{{ node.onSelect }}" style="{{ node.boxStyle }}">
+            <!-- header / drag handle -->
+            <div onPointerDown="{{ node.onDown }}" style="display:flex;align-items:center;gap:8px;padding:9px 11px;border-bottom:1px solid #F0F1F3;cursor:grab;user-select:none" style-active="cursor:grabbing">
+              <span style="{{ node.accentStyle }}"></span>
+              <span style="flex:1;font-size:12.5px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ node.title }}</span>
+              <span style="font-size:9.5px;font-weight:600;color:#98A2B3;font-family:'IBM Plex Mono',monospace;text-transform:uppercase">{{ node.kind }}</span>
+              <button onClick="{{ node.onClose }}" style="width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#B0B7C3;font-size:13px;flex:none" style-hover="background:#F2F4F7;color:#475467">×</button>
+            </div>
+
+            <!-- QUESTION -->
+            <sc-if value="{{ node.isQuestion }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:12px">
+                <div style="font-size:12px;color:#667085;line-height:1.5;margin-bottom:10px">6 isolates flagged within 15 SNPs. Same ward, overlapping stays. Confirm transmission or rule out.</div>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#B42318;background:#FEF3F2;border:1px solid #FECDCA;padding:4px 9px;border-radius:999px"><span style="width:6px;height:6px;border-radius:999px;background:#F04438"></span>3 samples escalated</span>
+              </div>
+            </sc-if>
+
+            <!-- ISOLATE SET -->
+            <sc-if value="{{ node.isIso }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:6px 4px">
+                <sc-for list="{{ node.items }}" as="row" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;gap:8px;padding:6px 9px;border-radius:7px" style-hover="background:#F9FAFB">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:#101828;min-width:60px">{{ row.id }}</span>
+                    <span style="flex:1;font-size:11.5px;color:#475467;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ row.org }}</span>
+                    <span style="font-size:10.5px;color:#98A2B3;font-family:'IBM Plex Mono',monospace">{{ row.ward }}</span>
+                  </div>
+                </sc-for>
+                <div style="padding:5px 9px;font-size:11px;color:#98A2B3">+2 more isolates</div>
+              </div>
+            </sc-if>
+
+            <!-- CLUSTER (pipeline tuning) -->
+            <sc-if value="{{ node.isCluster }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:12px">
+                <div style="display:flex;gap:4px;background:#F2F4F7;border-radius:8px;padding:3px;margin-bottom:12px">
+                  <button onClick="{{ node.setSNP }}" style="{{ node.snpStyle }}">SNP distance</button>
+                  <button onClick="{{ node.setCg }}" style="{{ node.cgStyle }}">cgMLST</button>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px"><span style="color:#667085">Threshold</span><span style="font-weight:600;font-family:'IBM Plex Mono',monospace">≤ {{ node.threshold }} {{ node.unit }}</span></div>
+                <input type="range" min="1" max="30" value="{{ node.threshold }}" onChange="{{ node.onThreshold }}">
+                <div style="margin-top:12px;display:flex;align-items:center;gap:8px;background:#ECFDF3;border:1px solid #A6F4C5;border-radius:8px;padding:9px 11px">
+                  <span style="font-size:20px;font-weight:700;color:#157639;font-family:'IBM Plex Mono',monospace">{{ node.members }}</span>
+                  <span style="font-size:11.5px;color:#087443;line-height:1.35">isolates form a cluster<br>at this threshold</span>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- PHYLOGENY -->
+            <sc-if value="{{ node.isPhylo }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:12px">
+                <svg width="100%" height="132" viewBox="0 0 240 132" fill="none" stroke="#98A2B3" stroke-width="1.6">
+                  <path d="M12 66 H44 M44 30 V102 M44 30 H86 M44 102 H72 M86 30 H120 M86 18 V42 M86 18 H120 M72 102 V78 M72 78 H120 M72 126 V102 M72 126 H120"/>
+                  <circle cx="122" cy="18" r="4" fill="#F04438" stroke="none"/><circle cx="122" cy="42" r="4" fill="#F04438" stroke="none"/>
+                  <circle cx="122" cy="78" r="4" fill="#157639" stroke="none"/><circle cx="122" cy="126" r="4" fill="#98A2B3" stroke="none"/>
+                  <text x="134" y="21" font-size="10" fill="#475467" font-family="'IBM Plex Mono',monospace" stroke="none">Kp-014</text>
+                  <text x="134" y="45" font-size="10" fill="#475467" font-family="'IBM Plex Mono',monospace" stroke="none">Kp-021</text>
+                  <text x="134" y="81" font-size="10" fill="#475467" font-family="'IBM Plex Mono',monospace" stroke="none">Kp-033</text>
+                  <text x="134" y="129" font-size="10" fill="#98A2B3" font-family="'IBM Plex Mono',monospace" stroke="none">Kp-047</text>
+                </svg>
+              </div>
+            </sc-if>
+
+            <!-- COMPARISON -->
+            <sc-if value="{{ node.isCompare }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:8px 4px">
+                <div style="display:flex;padding:4px 10px;font-size:10px;font-weight:600;color:#98A2B3;font-family:'IBM Plex Mono',monospace;text-transform:uppercase"><span style="min-width:64px">Isolate</span><span style="flex:1">ST</span><span>Key gene</span></div>
+                <sc-for list="{{ node.rows }}" as="r" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;padding:6px 10px;font-size:11.5px;border-top:1px solid #F5F6F7"><span style="min-width:64px;font-family:'IBM Plex Mono',monospace;font-weight:600">{{ r.id }}</span><span style="flex:1;color:#475467">{{ r.st }}</span><span style="font-family:'IBM Plex Mono',monospace;color:#B42318">{{ r.gene }}</span></div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <!-- RESISTOME -->
+            <sc-if value="{{ node.isAmr }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:12px;display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ node.chips }}" as="chip" hint-placeholder-count="5">
+                  <span style="{{ chip.style }}">{{ chip.label }}</span>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <!-- AI NEXT STEPS -->
+            <sc-if value="{{ node.isAi }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:10px 12px 12px">
+                <sc-for list="{{ node.steps }}" as="step" hint-placeholder-count="3">
+                  <div style="display:flex;gap:9px;padding:7px 0;border-bottom:1px solid #F5F6F7">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7A5AF8" stroke-width="2" style="flex:none;margin-top:1px"><path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z"/></svg>
+                    <span style="font-size:11.5px;color:#475467;line-height:1.4">{{ step }}</span>
+                  </div>
+                </sc-for>
+                <button style="margin-top:10px;width:100%;padding:7px;border-radius:8px;font-size:12px;font-weight:600;color:#5925DC;background:#F4F3FF;border:1px solid #D9D6FE" style-hover="background:#EBE9FE">Ask AI to draft the summary</button>
+              </div>
+            </sc-if>
+
+            <!-- NOTE -->
+            <sc-if value="{{ node.isNote }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:12px;font-size:12px;color:#475467;line-height:1.55;min-height:60px">{{ node.text }}</div>
+            </sc-if>
+
+            <!-- REPORT -->
+            <sc-if value="{{ node.isReport }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:12px">
+                <div style="font-size:11.5px;color:#667085;line-height:1.5;margin-bottom:10px">Pulls the cluster, phylogeny and resistome on this canvas into a shareable report.</div>
+                <button onClick="{{ genReport }}" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:8px;border-radius:8px;font-size:12.5px;font-weight:600;background:#157639;color:#fff" style-hover="background:#11612E">Build report ↦</button>
+              </div>
+            </sc-if>
+
+          </div>
+        </sc-for>
+
+      </div>
+
+      <!-- report toast -->
+      <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:50%;bottom:24px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:#101828;color:#fff;padding:11px 16px;border-radius:10px;font-size:13px;box-shadow:0 8px 24px rgba(16,24,40,.24)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6CE9A6" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>
+          Report drafted from {{ nodeCount }} canvas blocks
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = {
+      pan: { x: 30, y: 20 }, zoom: 1, drag: null, sel: 'clu', toast: false,
+      pipeline: 'SNP', threshold: 15,
+      nodes: this.seed(),
+      edges: [['q','iso'],['q','clu'],['iso','clu'],['clu','phy'],['clu','cmp'],['clu','amr'],['q','ai'],['cmp','rep'],['amr','rep']],
+      counter: 1,
+    };
+  }
+
+  seed(){
+    return [
+      { id:'q',   type:'question', x:150, y:70,  w:320, h:150, title:'Ward 4B — suspected CRE cluster' },
+      { id:'iso', type:'iso',      x:130, y:320, w:266, h:214, title:'Isolate set',
+        items:[ {id:'Kp-014',org:'K. pneumoniae',ward:'4B'},{id:'Kp-021',org:'K. pneumoniae',ward:'4B'},{id:'Kp-033',org:'K. pneumoniae',ward:'ICU'},{id:'Kp-047',org:'K. pneumoniae',ward:'4B'} ] },
+      { id:'clu', type:'cluster',  x:480, y:300, w:300, h:236, title:'Cluster analysis' },
+      { id:'phy', type:'phylo',    x:870, y:80,  w:280, h:196, title:'Phylogeny' },
+      { id:'cmp', type:'compare',  x:870, y:320, w:300, h:180, title:'Comparison',
+        rows:[ {id:'Kp-014',st:'ST258',gene:'blaKPC-3'},{id:'Kp-021',st:'ST258',gene:'blaKPC-3'},{id:'Kp-033',st:'ST512',gene:'blaKPC-2'} ] },
+      { id:'amr', type:'amr',      x:480, y:600, w:296, h:150, title:'Resistome',
+        chips:[ {label:'blaKPC-3',sev:'hi'},{label:'blaOXA-48',sev:'hi'},{label:'blaSHV-11',sev:'md'},{label:'aac(6′)',sev:'md'},{label:'qnrB',sev:'lo'} ] },
+      { id:'ai',  type:'ai',       x:120, y:600, w:300, h:200, title:'AI · Suggested next steps',
+        steps:[ 'Kp-033 is 18 SNPs out — likely not part of this cluster. Consider excluding.','Request ward-movement data for the 4B isolates to test the transmission link.','Two isolates share blaKPC-3 on an identical plasmid — flag for infection control.' ] },
+      { id:'rep', type:'report',   x:880, y:560, w:270, h:150, title:'Draft report' },
+    ];
+  }
+
+  blank(type){
+    const n = this.state.counter + 1;
+    const base = { question:{title:'New question',w:300,h:140}, iso:{title:'Isolate set',w:266,h:180,items:[{id:'—',org:'add isolates',ward:''}]},
+      cluster:{title:'Cluster analysis',w:300,h:236}, phylo:{title:'Phylogeny',w:280,h:196},
+      compare:{title:'Comparison',w:300,h:150,rows:[{id:'—',st:'—',gene:'—'}]},
+      amr:{title:'Resistome',w:296,h:120,chips:[{label:'add genes',sev:'lo'}]},
+      ai:{title:'AI · Suggested next steps',w:300,h:150,steps:['Ask AI for suggestions on this canvas.']},
+      note:{title:'Note',w:260,h:110,text:'Type your observation here…'},
+      report:{title:'Draft report',w:270,h:150} }[type];
+    const px = -this.state.pan.x / this.state.zoom + 360 + (n%3)*26;
+    const py = -this.state.pan.y / this.state.zoom + 180 + (n%3)*26;
+    return { id: type + n, type, x: px, y: py, ...base };
+  }
+
+  componentDidMount(){
+    this._move = (e)=>this.onMove(e); this._up = ()=>this.onUp();
+    window.addEventListener('pointermove', this._move);
+    window.addEventListener('pointerup', this._up);
+  }
+  componentWillUnmount(){
+    window.removeEventListener('pointermove', this._move);
+    window.removeEventListener('pointerup', this._up);
+  }
+
+  onCanvasDown(e){ this.setState({ sel:null, drag:{ mode:'pan', sx:e.clientX, sy:e.clientY, px:this.state.pan.x, py:this.state.pan.y } }); }
+  onNodeSelect(id,e){ e.stopPropagation(); this.setState({ sel:id }); }
+  onNodeDown(id,e){ e.stopPropagation(); const nd=this.state.nodes.find(n=>n.id===id); this.setState({ sel:id, drag:{ mode:'node', id, sx:e.clientX, sy:e.clientY, ox:nd.x, oy:nd.y } }); }
+  onMove(e){
+    const d=this.state.drag; if(!d) return;
+    if(d.mode==='pan'){ this.setState({ pan:{ x:d.px+(e.clientX-d.sx), y:d.py+(e.clientY-d.sy) } }); }
+    else { const z=this.state.zoom; const nx=d.ox+(e.clientX-d.sx)/z, ny=d.oy+(e.clientY-d.sy)/z;
+      this.setState(s=>({ nodes:s.nodes.map(n=> n.id===d.id ? {...n,x:nx,y:ny} : n) })); }
+  }
+  onUp(){ if(this.state.drag) this.setState({ drag:null }); }
+
+  addNode(type){ this.setState(s=>({ nodes:[...s.nodes, this.blank(type)], counter:s.counter+1, sel:type+(s.counter+1) })); }
+  removeNode(id){ this.setState(s=>({ nodes:s.nodes.filter(n=>n.id!==id), edges:s.edges.filter(e=>e[0]!==id&&e[1]!==id), sel:null })); }
+  zoomIn(){ this.setState(s=>({ zoom:Math.min(1.6, +(s.zoom+0.1).toFixed(2)) })); }
+  zoomOut(){ this.setState(s=>({ zoom:Math.max(0.5, +(s.zoom-0.1).toFixed(2)) })); }
+  resetPan(){ this.setState({ pan:{x:30,y:20}, zoom:1 }); }
+  setPipeline(p){ this.setState({ pipeline:p, threshold: p==='SNP'?15:3 }); }
+  setThreshold(v){ this.setState({ threshold:v }); }
+  genReport(){ this.setState({ toast:true }); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({toast:false}),2600); }
+
+  renderVals(){
+    const { nodes, edges, pan, zoom, sel, pipeline, threshold } = this.state;
+    const isSNP = pipeline==='SNP';
+    const members = isSNP ? (threshold>=15?5:threshold>=10?4:threshold>=6?3:2) : (threshold>=3?5:threshold>=2?4:3);
+
+    const accent = { question:'#F04438', iso:'#157639', cluster:'#157639', phylo:'#2E90FA', compare:'#F79009', amr:'#B42318', ai:'#7A5AF8', note:'#98A2B3', report:'#101828' };
+    const kind = { question:'ask', iso:'set', cluster:'cluster', phylo:'tree', compare:'compare', amr:'resistome', ai:'ai', note:'note', report:'report' };
+
+    const map = {}; nodes.forEach(n=>{ map[n.id]=n; });
+    const edgeVals = edges.map((e,i)=>{
+      const s=map[e[0]], t=map[e[1]]; if(!s||!t) return { d:'' };
+      const x1=s.x+s.w/2, y1=s.y+s.h/2, x2=t.x+t.w/2, y2=t.y+t.h/2, mx=(x1+x2)/2;
+      return { d:`M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}` };
+    });
+
+    const sevStyle = (sev)=>{
+      const c = sev==='hi'?['#FEF3F2','#FECDCA','#B42318'] : sev==='md'?['#FFFAEB','#FEDF89','#B54708'] : ['#F2F4F7','#E4E7EC','#475467'];
+      return `font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;padding:4px 9px;border-radius:7px;background:${c[0]};border:1px solid ${c[1]};color:${c[2]}`;
+    };
+
+    const nodeVals = nodes.map(n=>{
+      const selected = n.id===sel;
+      const boxStyle = `position:absolute;left:${n.x}px;top:${n.y}px;width:${n.w}px;background:#fff;border:1px solid ${selected?'#157639':'#E4E7EC'};border-radius:12px;box-shadow:${selected?'0 0 0 3px rgba(21,118,57,.12),':''}0 1px 2px rgba(16,24,40,.06),0 6px 16px rgba(16,24,40,.05)`;
+      return {
+        ...n,
+        boxStyle,
+        kind: kind[n.type],
+        accentStyle:`width:16px;height:16px;border-radius:5px;flex:none;background:${accent[n.type]}`,
+        isQuestion:n.type==='question', isIso:n.type==='iso', isCluster:n.type==='cluster', isPhylo:n.type==='phylo',
+        isCompare:n.type==='compare', isAmr:n.type==='amr', isAi:n.type==='ai', isNote:n.type==='note', isReport:n.type==='report',
+        onSelect:(e)=>this.onNodeSelect(n.id,e), onDown:(e)=>this.onNodeDown(n.id,e), onClose:(e)=>{ e.stopPropagation(); this.removeNode(n.id); },
+        chips:(n.chips||[]).map(c=>({ label:c.label, style:sevStyle(c.sev) })),
+        threshold, unit:isSNP?'SNPs':'alleles', members, isSNP,
+        snpStyle:`flex:1;padding:6px;border-radius:6px;font-size:11.5px;font-weight:600;${isSNP?'background:#fff;color:#157639;box-shadow:0 1px 2px rgba(16,24,40,.08)':'color:#667085'}`,
+        cgStyle:`flex:1;padding:6px;border-radius:6px;font-size:11.5px;font-weight:600;${!isSNP?'background:#fff;color:#157639;box-shadow:0 1px 2px rgba(16,24,40,.08)':'color:#667085'}`,
+        setSNP:(e)=>{ e.stopPropagation(); this.setPipeline('SNP'); }, setCg:(e)=>{ e.stopPropagation(); this.setPipeline('cgMLST'); },
+        onThreshold:(e)=>this.setThreshold(+e.target.value),
+      };
+    });
+
+    const palette = [
+      ['iso','Isolate set'],['cluster','Cluster analysis'],['phylo','Phylogeny'],['compare','Comparison'],
+      ['amr','Resistome'],['ai','AI next steps'],['note','Note'],['report','Draft report'],
+    ];
+    const paletteItems = palette.map(([type,label])=>({
+      label, add:()=>this.addNode(type),
+      dotStyle:`width:14px;height:14px;border-radius:4px;flex:none;background:${accent[type]}`,
+    }));
+
+    return {
+      nodes:nodeVals, edges:edgeVals, paletteItems,
+      worldStyle:`position:absolute;left:0;top:0;width:3400px;height:2400px;transform-origin:0 0;transform:translate(${pan.x}px,${pan.y}px) scale(${zoom});background-image:radial-gradient(circle,#DDE1E6 1px,transparent 1px);background-size:24px 24px`,
+      zoomPct:Math.round(zoom*100)+'%', nodeCount:nodes.length, toast:this.state.toast,
+      onCanvasDown:(e)=>this.onCanvasDown(e),
+      zoomIn:()=>this.zoomIn(), zoomOut:()=>this.zoomOut(), resetPan:()=>this.resetPan(), genReport:()=>this.genReport(),
+    };
+  }
+}
+</script>
+</body>
+</html>

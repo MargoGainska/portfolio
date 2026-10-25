@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#F9FAFB">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(600,400)">
+      <circle r="250" fill="none" stroke="#EAECF0" stroke-width="2"/>
+      <circle r="250" fill="none" stroke="#16B364" stroke-width="34" stroke-dasharray="120 26 70 30 150 40 90 24" stroke-linecap="butt"/>
+      <circle r="250" fill="none" stroke="#F04438" stroke-width="34" stroke-dasharray="0 540 200 1000" stroke-linecap="butt"/>
+      <circle r="195" fill="none" stroke="#344054" stroke-width="14" stroke-dasharray="8 10"/>
+      <circle r="150" fill="none" stroke="#16B364" stroke-width="10" stroke-dasharray="6 12"/>
+      <circle r="110" fill="none" stroke="#D0D5DD" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="IBM Plex Serif, Georgia, serif" font-style="italic" font-weight="600" font-size="34" fill="#101828">plasmid map</text>
+    </g>
+  </svg>
+</template>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <script src="_ds/solu-report-builder-17b76442-1758-43ef-afd7-ef7de69d1e2b/_ds_bundle.js"></script>
+  <style>
+    html,body{margin:0;padding:0;height:100%;background:#F9FAFB;}
+    /* the mount wrappers are display:block with height:auto, which breaks the
+       percentage-height chain and lets the card grow past the viewport */
+    body > div, .sc-host, .sc-host > div{height:100%;}
+    *{box-sizing:border-box;}
+  </style>
+</helmet>
+<div style="{{ rootStyle }}">
+  <div style="{{ cardStyle }}">
+
+    <div style="display:flex;align-items:center;gap:16px;padding:15px 22px;border-bottom:1px solid #EAECF0;flex:none;">
+      <div style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+        <div style="font-size:17px;font-weight:600;letter-spacing:-0.01em;">Plasmid map</div>
+        <div style="font-size:12.5px;color:#667085;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap;">{{ plasmidName }} · {{ lengthLabel }}</div>
+      </div>
+      <div style="{{ exportWrapStyle }}">
+        <button onClick="{{ toggleExport }}" style="display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;border:1px solid #D0D5DD;background:#FFFFFF;color:#344054;font-size:13.5px;font-weight:600;font-family:inherit;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,0.05);transition:background 120ms;" onMouseEnter="{{ exportHover }}" onMouseLeave="{{ exportLeave }}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Export
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="margin-left:-1px;color:#98A2B3;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <sc-if value="{{ exportOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ closeExport }}" style="position:fixed;inset:0;z-index:30;"></div>
+          <div style="position:absolute;top:calc(100% + 7px);right:0;z-index:31;background:#FFFFFF;border:1px solid #EAECF0;border-radius:11px;box-shadow:0 14px 32px -8px rgba(16,24,40,0.22);padding:5px;min-width:230px;">
+            <div style="font-size:11px;color:#98A2B3;font-weight:600;padding:6px 10px 4px 10px;">Download figure as</div>
+            <button onClick="{{ onExportPNG }}" onMouseEnter="{{ itemHover }}" onMouseLeave="{{ itemLeave }}" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 10px;border-radius:7px;border:none;background:transparent;cursor:pointer;font-family:inherit;transition:background 100ms;">
+              <span style="display:grid;place-items:center;width:26px;height:26px;border-radius:6px;background:#F2F4F7;color:#475467;font-size:9.5px;font-weight:700;font-family:'IBM Plex Sans',sans-serif;flex:none;">PNG</span>
+              <span style="display:flex;flex-direction:column;gap:1px;"><span style="font-size:13.5px;font-weight:600;color:#101828;">Full map (.png)</span><span style="font-size:11.5px;color:#98A2B3;">Figure with typing &amp; AMR summary</span></span>
+            </button>
+            <button onClick="{{ onExportSVG }}" onMouseEnter="{{ itemHover }}" onMouseLeave="{{ itemLeave }}" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 10px;border-radius:7px;border:none;background:transparent;cursor:pointer;font-family:inherit;transition:background 100ms;">
+              <span style="display:grid;place-items:center;width:26px;height:26px;border-radius:6px;background:#EDFCF2;color:#099250;font-size:9.5px;font-weight:700;font-family:'IBM Plex Sans',sans-serif;flex:none;">SVG</span>
+              <span style="display:flex;flex-direction:column;gap:1px;"><span style="font-size:13.5px;font-weight:600;color:#101828;">Vector (.svg)</span><span style="font-size:11.5px;color:#98A2B3;">Editable, infinite resolution</span></span>
+            </button>
+            <sc-if value="{{ hasRegionExport }}" hint-placeholder-val="{{ false }}">
+              <div style="height:1px;background:#F2F4F7;margin:5px 8px;"></div>
+              <button onClick="{{ onExportRegionPNG }}" onMouseEnter="{{ itemHover }}" onMouseLeave="{{ itemLeave }}" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 10px;border-radius:7px;border:none;background:transparent;cursor:pointer;font-family:inherit;transition:background 100ms;">
+                <span style="display:grid;place-items:center;width:26px;height:26px;border-radius:6px;background:#EDFCF2;color:#099250;flex:none;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></span>
+                <span style="display:flex;flex-direction:column;gap:1px;"><span style="font-size:13.5px;font-weight:600;color:#101828;">Highlighted feature (.png)</span><span style="font-size:11.5px;color:#98A2B3;">{{ regionName }} with its summary</span></span>
+              </button>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:stretch;border-bottom:1px solid #EAECF0;background:#FCFCFD;flex:none;position:relative;z-index:5;">
+      <sc-for list="{{ mobMeta }}" as="m" hint-placeholder-count="4">
+        <div style="{{ m.cellStyle }}" onMouseEnter="{{ m.onEnter }}" onMouseLeave="{{ m.onLeave }}">
+          <div style="display:flex;align-items:baseline;gap:8px;min-width:0;">
+            <span style="font-size:11.5px;color:#667085;font-weight:500;flex:none;">{{ m.label }}</span>
+            <span style="font-size:14.5px;font-weight:600;color:#101828;letter-spacing:-0.01em;min-width:0;line-height:1.25;overflow-wrap:anywhere;">{{ m.value }}</span>
+          </div>
+          <div style="font-size:11px;color:#98A2B3;margin-top:2px;">{{ m.subtitle }}</div>
+          <sc-if value="{{ m.hovered }}" hint-placeholder-val="{{ false }}">
+            <div style="{{ m.tipStyle }}">
+              <div style="{{ m.caretStyle }}"></div>
+              <div style="font-size:12px;line-height:1.5;color:rgba(255,255,255,0.86);">{{ m.help }}</div>
+              <sc-if value="{{ m.hasDetail }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:11.5px;color:rgba(255,255,255,0.95);margin-top:8px;font-weight:500;">{{ m.detail }}</div>
+              </sc-if>
+              <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:8px;font-weight:500;">Method · {{ m.method }}</div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="flex:1;display:flex;min-height:0;position:relative;">
+      <div ref="{{ wrapRef }}" onPointerMove="{{ onMove }}" onPointerDown="{{ onDown }}" onPointerUp="{{ onUp }}" onPointerLeave="{{ onLeave }}" onClick="{{ onClick }}" style="flex:1;position:relative;display:grid;place-items:center;min-width:0;overflow:hidden;cursor:grab;touch-action:none;user-select:none;">
+        {{ plot }}
+        <sc-if value="{{ showInferredChip }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;top:14px;left:16px;z-index:14;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#B54708;background:#FFFAEB;border:1px solid #FEDF89;border-radius:999px;padding:4px 10px;white-space:nowrap;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DC6803" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            Estimated layout · short-read
+          </div>
+        </sc-if>
+        <div style="{{ hintStyle }}">Scroll to zoom · drag to pan · hover rings for values</div>
+      </div>
+
+      <div data-panel="1" style="width:282px;flex:none;border-left:1px solid #EAECF0;display:flex;flex-direction:column;overflow-y:auto;background:#FFFFFF;">
+        <div style="padding:15px 18px 3px 18px;">
+          <div style="font-size:12.5px;color:#475467;font-weight:600;font-family:'IBM Plex Sans',sans-serif;margin-bottom:8px;">Display</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;">
+            <sc-for list="{{ chips }}" as="chip" hint-placeholder-count="5">
+              <div style="position:relative;">
+                <button onClick="{{ chip.onClick }}" onMouseEnter="{{ chip.onEnter }}" onMouseLeave="{{ chip.onLeave }}" style="{{ chip.style }}"><span style="{{ chip.dotStyle }}">{{ chip.icon }}</span>{{ chip.label }}</button>
+                <sc-if value="{{ chip.hasHelp }}" hint-placeholder-val="{{ false }}">
+                  <div style="{{ chip.tipStyle }}">{{ chip.help }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ featuresOn }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:11px 18px 3px 18px;border-top:1px solid #F2F4F7;margin-top:7px;">
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+            <div style="font-size:12.5px;color:#475467;font-weight:600;font-family:'IBM Plex Sans',sans-serif;">Feature types</div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;">
+            <sc-for list="{{ typeChips }}" as="tc" hint-placeholder-count="5">
+              <div style="position:relative;">
+                <button onClick="{{ tc.onClick }}" onMouseEnter="{{ tc.onEnter }}" onMouseLeave="{{ tc.onLeave }}" style="{{ tc.style }}"><span style="{{ tc.dotStyle }}"></span>{{ tc.label }}</button>
+                <sc-if value="{{ tc.hasHelp }}" hint-placeholder-val="{{ false }}">
+                  <div style="{{ tc.tipStyle }}">{{ tc.help }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:11px 18px 3px 18px;border-top:1px solid #F2F4F7;margin-top:7px;">
+          <div style="font-size:12.5px;color:#475467;font-weight:600;font-family:'IBM Plex Sans',sans-serif;margin-bottom:6px;">AMR &amp; virulence</div>
+          <div style="display:flex;flex-direction:column;">
+            <sc-for list="{{ amrItems }}" as="amr" hint-placeholder-count="4">
+              <button onClick="{{ amr.onClick }}" onMouseEnter="{{ amr.onEnter }}" onMouseLeave="{{ amr.onLeave }}" style="{{ amr.style }}">
+                <span style="{{ amr.dotStyle }}"></span>
+                <span style="font-family:'IBM Plex Sans',sans-serif;font-style:italic;font-size:12.5px;color:#101828;flex:none;white-space:nowrap;">{{ amr.name }}</span>
+                <span style="font-size:11px;color:#98A2B3;margin-left:auto;font-family:'IBM Plex Sans',sans-serif;">{{ amr.posLabel }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <div style="padding:11px 18px;border-top:1px solid #F2F4F7;margin-top:7px;">
+          <div style="font-size:12.5px;color:#475467;font-weight:600;font-family:'IBM Plex Sans',sans-serif;margin-bottom:8px;">View</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button onClick="{{ zoomOut }}" style="width:30px;height:30px;border:1px solid #D0D5DD;border-radius:7px;background:#FFFFFF;color:#344054;font-size:17px;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none;">−</button>
+            <input type="range" min="1" max="6" step="0.05" value="{{ sliderValue }}" onInput="{{ onSlider }}" style="flex:1;accent-color:#099250;cursor:pointer;"/>
+            <button onClick="{{ zoomIn }}" style="width:30px;height:30px;border:1px solid #D0D5DD;border-radius:7px;background:#FFFFFF;color:#344054;font-size:17px;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none;">+</button>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+            <span style="font-size:12px;color:#667085;font-family:'IBM Plex Sans',sans-serif;">{{ zoomPct }}</span>
+            <button onClick="{{ reset }}" style="font-size:12.5px;color:#099250;font-weight:600;background:none;border:none;cursor:pointer;font-family:inherit;padding:2px 4px;">Reset view</button>
+          </div>
+        </div>
+
+        <div style="margin-top:auto;position:sticky;bottom:0;border-top:1px solid #EAECF0;background:#FCFCFD;padding:12px 18px 14px 18px;box-shadow:0 -10px 18px -10px rgba(16,24,40,0.12);">
+          <sc-if value="{{ hasDetail }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:9px;">
+                <span style="{{ detailSwatchStyle }}"></span>
+                <span style="font-family:'IBM Plex Sans',sans-serif;font-style:italic;font-size:14px;font-weight:600;color:#101828;flex:none;">{{ detailName }}</span>
+                <button onClick="{{ clearPin }}" title="Unpin" style="margin-left:auto;flex:none;width:22px;height:22px;display:grid;place-items:center;border-radius:6px;border:none;background:#F2F4F7;color:#667085;cursor:pointer;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+              <div style="font-size:11.5px;color:#667085;line-height:1.45;">{{ detailCategory }} · {{ detailLen }} · {{ detailStrand }}</div>
+              <div style="font-size:11.5px;color:#667085;">{{ detailPos }} · GC {{ detailGc }}</div>
+              <button onClick="{{ onExportRegionPNG }}" style="display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:2px;padding:7px 12px;border-radius:8px;border:1px solid #099250;background:#FFFFFF;color:#066043;font-size:12.5px;font-weight:600;font-family:inherit;cursor:pointer;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export this section (PNG)
+              </button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noDetail }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#98A2B3;line-height:1.5;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B0B7C3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Click a feature to pin its details and export the section.</span>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+      <sc-if value="{{ showTeaser }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;z-index:30;display:grid;place-items:center;background:rgba(249,250,251,0.5);backdrop-filter:blur(6px) saturate(1.05);-webkit-backdrop-filter:blur(6px) saturate(1.05);">
+          <sc-if value="{{ quotaOk }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;padding:24px;background:rgba(255,255,255,0.72);border-radius:14px;">
+              <div style="font-size:18px;font-weight:600;letter-spacing:-0.01em;color:#101828;">Run plasmid analysis</div>
+              <div style="font-size:13.5px;color:#667085;max-width:300px;line-height:1.5;">Map this plasmid's genes and GC profile.</div>
+              <button onClick="{{ startTeaser }}" onMouseEnter="{{ startHover }}" onMouseLeave="{{ startLeave }}" style="margin-top:3px;padding:10px 20px;border-radius:8px;border:none;background:#099250;color:#FFFFFF;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,0.1);transition:background 120ms;">Start new analysis</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ quotaReached }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;padding:24px 26px;background:rgba(255,255,255,0.82);border-radius:14px;max-width:340px;">
+              <div style="width:40px;height:40px;border-radius:999px;background:#FEF3F2;display:grid;place-items:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D92D20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
+              <div style="font-size:18px;font-weight:600;letter-spacing:-0.01em;color:#101828;">Plasmid analysis limit reached</div>
+              <div style="font-size:13.5px;color:#667085;line-height:1.5;">You've used all {{ quotaLimit }} plasmid analyses in your plan. Contact us to learn more.</div>
+              <button onClick="{{ startHover }}" onMouseLeave="{{ startLeave }}" style="margin-top:3px;padding:10px 20px;border-radius:8px;border:none;background:#099250;color:#FFFFFF;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,0.1);transition:background 120ms;">Contact us</button>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1140,&quot;height&quot;:760},&quot;plasmidName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;AA739&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;plasmidLengthBp&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:54035,&quot;min&quot;:2000,&quot;max&quot;:400000,&quot;tsType&quot;:&quot;number&quot;},&quot;repliconType&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;IncX3&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;clusterId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;AA474&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;relaxaseType&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;MOB_F&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;mpfType&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;MPF_T&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;predictedMobility&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Conjugative&quot;,&quot;Mobilizable&quot;,&quot;Non-mobilizable&quot;],&quot;default&quot;:&quot;Conjugative&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;closestNeighbor&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;closestAni&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showFeatureLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showStrandArrows&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;embedded&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;teaser&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;inferred&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;brokenRing&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;plan&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;trial&quot;,&quot;research&quot;,&quot;surveillance&quot;],&quot;default&quot;:&quot;trial&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;annotationsUsed&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;min&quot;:0,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.C = 400; this.VB = 800; this.N = 420;
+    this.geneOut = 257; this.geneIn = 238;
+    this.meOut = 229; this.meIn = 219.5;
+    this.gcBase = 183; this.gcAmp = 18;
+    this.skewBase = 141; this.skewAmp = 19;
+    this.scaleR = 110;
+    this.state = {
+      localVariant: (props && props.variant) || 'Clean',
+      show: { genes:true, gc:true, skewPos:true, skewNeg:true, scale:true, splitStrands:false, contigs:true, labels: !(props && props.showFeatureLabels === false), arrows: !(props && props.showStrandArrows === false) },
+      showType: { amr:true, mobile:true, integron:true, orit:true, conj:true, replicon:true, cds:true, virulence:true, rna:false },
+      pinned:null,
+      vbX:0, vbY:0, vbW:800, side:560,
+      hoverGene:null, detailGene:null, tip:null, tipLeft:0, tipTop:0
+    };
+    this._svgRef = (el)=>{ this._svg = el; };
+    this._wrapRef = (el)=>{
+      if(el){
+        this._wrap = el;
+        if(!this._bound){
+          this._bound = true;
+          this._wheelH = (e)=>this.onWheel(e);
+          el.addEventListener('wheel', this._wheelH, {passive:false});
+          this._ro = new ResizeObserver(()=>{
+            const s = Math.floor(Math.min(el.clientWidth, el.clientHeight));
+            if(s>0 && s !== this.state.side) this.setState({side:s});
+          });
+          this._ro.observe(el);
+        }
+      }
+    };
+    this._build();
+  }
+  componentWillUnmount(){ if(this._wrap && this._wheelH) this._wrap.removeEventListener('wheel', this._wheelH); if(this._ro) this._ro.disconnect(); }
+
+  _rng(seed){ let t = seed>>>0; return ()=>{ t += 0x6D2B79F5; let r = Math.imul(t ^ (t>>>15), 1 | t); r ^= r + Math.imul(r ^ (r>>>7), 61 | r); return ((r ^ (r>>>14))>>>0)/4294967296; }; }
+  _smooth(arr, passes){ let a = arr.slice(); const n = a.length; for(let p=0;p<passes;p++){ const b = a.slice(); for(let i=0;i<n;i++){ let s=0,c=0; for(let k=-2;k<=2;k++){ s+=a[(i+k+n)%n]; c++; } b[i]=s/c; } a=b; } return a; }
+
+  _build(){
+    // Feature TYPES we can actually obtain in v1: Bakta gives CDS + coordinates;
+    // AMRFinderPlus/Bakta flag AMR + virulence genes (with coords); Bakta annotates
+    // mobile elements (IS/transposase/integrase) and RNA features. We do NOT attempt
+    // to auto-assign functional "regions" (replication / transfer / MDR), MobSuite
+    // reports those as plasmid-level types without coordinates (shown in the header).
+    const TYPES = {
+      amr:       { label:'AMR gene',       color:'#DD2590' },
+      mobile:    { label:'IS',              color:'#EAAA08' },
+      integron:  { label:'Integron',        color:'#15B79E' },
+      rna:       { label:'RNA',             color:'#7A5AF8' },
+      orit:      { label:'oriT',            color:'#EF6820' },
+      conj:      { label:'Conjugation',     color:'#875BF7' },
+      replicon:  { label:'Replicon',        color:'#669F2A' },
+      virulence: { label:'Virulence',      color:'#2E90FA' },
+
+      cds:       { label:'CDS',            color:'#D0D5DD' }
+    };
+    this.TYPES = TYPES;
+    // ordered around the circle, each with an approximate length (bp); an acquired
+    // island (AMR + mobile elements) is clustered so it coincides with the GC anomaly.
+    const defs = [
+      ['repA','replicon',900],['repB','replicon',1100],['parA','cds',1100],['stbA','cds',600],['parM','cds',1000],
+      ['ISL3','mobile',1300],['umuD','cds',420],['IS6','mobile',820],['blaSHV-12','amr',861],['intI1','integron',1014],
+      ['groEL','cds',1650],['cutA1','cds',370],['dsbC','cds',710],['ble','amr',375],['blaNDM-1','amr',813],
+      ['IS30','mobile',1050],['IS5','mobile',1195],['Tn3','mobile',3050],
+      ['topB','cds',1980],['parB','cds',900],['kikA','cds',600],
+      ['oriT','orit',210],['taxB','conj',2400],['pilX5','conj',1080],['pilX3','conj',900],['pilX1','conj',1320],['taxA','conj',700],['taxC','conj',1500],
+      ['pemK','cds',340],['pemI','cds',260],['dnaJ','cds',1130],['senB','virulence',700],['orf1','cds',300]
+    ];
+    // strands: keep operon-like runs co-oriented rather than fully random
+    const strandRuns = [1,1,1,-1,-1, -1,-1,-1,-1,-1, 1,1,1,-1,-1, -1,-1,-1, 1,1,1, 1, 1,1,1,1,1,1, -1,1,1,-1,-1];
+    // place sequentially with irregular intergenic gaps, then normalise to the circle
+    const rg = this._rng(13);
+    let cursor = 0; const raw = [];
+    defs.forEach(([name,type,len],i)=>{
+      const gap = 45 + rg()*240 + (rg()>0.84 ? rg()*900 : 0);
+      const start = cursor; const end = cursor + len;
+      raw.push({ name, type, len, start, end });
+      cursor = end + gap;
+    });
+    // IS elements, transposons and integrons bracket the genes they mobilise, so their
+    // spans overlap neighbouring CDS. That overlap is exactly why they need their own band.
+    const spans = new Set(['mobile','integron']);
+    raw.forEach((r,i)=>{
+      if(!spans.has(r.type)) return;
+      const prev = raw[i-1], next = raw[i+1];
+      if(next && !spans.has(next.type)) r.end = next.end + 140;
+      if(prev && !spans.has(prev.type)) r.start = Math.max(0, prev.start - 140);
+      r.len = r.end - r.start;
+    });
+    // then cut each element back so it never touches the next one on the band,
+    // giving the same visible break between arrows as the CDS ring has
+    const meList = raw.filter(r=>spans.has(r.type));
+    for(let i=0;i<meList.length-1;i++){
+      const cur=meList[i], nxt=meList[i+1];
+      const minGap=260;
+      if(cur.end > nxt.start - minGap){
+        cur.end = Math.max(cur.start+200, nxt.start - minGap);
+        cur.len = cur.end - cur.start;
+      }
+    }
+    const total = cursor;
+    const genes = raw.map((r,i)=>{
+      const s = r.start/total, e = r.end/total;
+      return { name:r.name, type:r.type, category:TYPES[r.type].label, lenBp:r.len, s, e, mid:(s+e)/2, color:TYPES[r.type].color,
+        strand: strandRuns[i] || 1,
+        res:r.type==='amr', mob:r.type==='mobile'||r.type==='integron', vir:r.type==='virulence' };
+    });
+    this.genes = genes;
+    this.bpTotal = total;
+    this.islandStart = raw[5].start/total; this.islandEnd = raw[17].end/total;
+    // replication origin sits with the rep genes; the terminus is opposite it. GC skew
+    // holds one sign across each replichore and flips at those two points.
+    const repGenes = genes.filter(g=>g.type==='replicon');
+    this.oriF = repGenes.length ? repGenes[repGenes.length-1].e : 0;
+    this.terF = (this.oriF + 0.5) % 1;
+
+    // GC content + skew windows (fraction-based, length-independent)
+    const N = this.N, rA = this._rng(91), rB = this._rng(53);
+    const noiseG = this._smooth(Array.from({length:N},()=>rA()-0.5), 1);
+    const noiseS = this._smooth(Array.from({length:N},()=>rB()-0.5), 1);
+    const win = [];
+    let sum = 0;
+    const iS = this.islandStart, iE = this.islandEnd, iSpan = iE - iS;
+    for(let i=0;i<N;i++){
+      const f = i/N;
+      let gc = 0.525 + noiseG[i]*0.34;
+      // acquired island (AMR + mobile cluster) reads with distinctly lower GC
+      if(f>iS && f<iE) gc -= 0.055;
+      if(f>iS+0.34*iSpan && f<iS+0.46*iSpan) gc += 0.085;
+      if(f>iS+0.74*iSpan && f<iS+0.86*iSpan) gc -= 0.05;
+      gc = Math.max(0.30, Math.min(0.68, gc));
+      const dOri = ((f - this.oriF) % 1 + 1) % 1;
+      const repl = dOri < 0.5 ? 1 : -1;                 // leading / lagging replichore
+      const edge = Math.min(dOri, Math.abs(dOri-0.5), 1-dOri) / 0.06;
+      const ramp = Math.min(1, Math.max(0.12, edge));   // ease through ori and terminus
+      let skew = repl * 0.115 * ramp + noiseS[i] * 0.115;
+
+      win.push({ f, gc, skew });
+      sum += gc;
+    }
+    const mean = sum/N;
+    this.win = win; this.gcMean = mean;
+    let mdev=0, mskew=0; for(const w of win){ mdev=Math.max(mdev,Math.abs(w.gc-mean)); mskew=Math.max(mskew,Math.abs(w.skew)); }
+    this.maxDev = mdev || 1; this.maxSkew = mskew || 1;
+
+    // broken-ring mode for short-read: split genome into contig arcs with gaps
+    if(this.props.brokenRing){
+      const groups = 6, per = Math.ceil(genes.length/groups);
+      const segs = []; const gapDeg = 10; const nGaps = groups;
+      const budget = 360 - nGaps*gapDeg;
+      const spans = [];
+      for(let gi=0; gi<groups; gi++){
+        const slice = genes.slice(gi*per, (gi+1)*per);
+        if(!slice.length) continue;
+        const f0 = Math.max(0, slice[0].s - 0.004), f1 = Math.min(1, slice[slice.length-1].e + 0.004);
+        spans.push({ f0, f1, span:f1-f0, name:'contig_'+(spans.length+1) });
+      }
+      const totalSpan = spans.reduce((s,x)=>s+x.span,0);
+      let ang = gapDeg/2;
+      spans.forEach(s=>{ const aw = s.span/totalSpan*budget; s.a0=ang; s.a1=ang+aw; ang += aw + gapDeg; });
+      this._segs = spans;
+    } else { this._segs = null; }
+
+    // precompute path d-strings (variant-independent geometry)
+    this._gcD = this._area(i=> this.gcBase + Math.max(-1,Math.min(1,(win[i].gc-mean)/this.maxDev))*this.gcAmp, this.gcBase);
+    this._skewPosD = this._area(i=> this.skewBase + Math.max(0,win[i].skew)/this.maxSkew*this.skewAmp, this.skewBase);
+    this._skewNegD = this._area(i=> this.skewBase - Math.max(0,-win[i].skew)/this.maxSkew*this.skewAmp, this.skewBase);
+  }
+
+  P(r, deg){ const a = deg*Math.PI/180; return { x: this.C + r*Math.sin(a), y: this.C - r*Math.cos(a) }; }
+  _ang(f){ const segs=this._segs; if(!segs) return f*360; for(const s of segs){ if(f<=s.f1){ const ff=Math.max(s.f0,f); return s.a0+(ff-s.f0)/(s.f1-s.f0)*(s.a1-s.a0); } } return segs[segs.length-1].a1; }
+  _segOf(f){ const segs=this._segs; if(!segs) return null; for(const s of segs){ if(f>=s.f0 && f<=s.f1) return s; } return null; }
+  _area(rOf, base){
+    const n = this.win.length;
+    if(this._segs){
+      let d='';
+      this._segs.forEach(s=>{
+        const idx=[]; for(let i=0;i<n;i++){ if(this.win[i].f>=s.f0 && this.win[i].f<=s.f1) idx.push(i); }
+        if(idx.length<2) return;
+        idx.forEach((i,k)=>{ const p=this.P(rOf(i), this._ang(this.win[i].f)); d += (k?'L':'M') + p.x.toFixed(1) + ' ' + p.y.toFixed(1); });
+        for(let k=idx.length-1;k>=0;k--){ const p=this.P(base, this._ang(this.win[idx[k]].f)); d += 'L' + p.x.toFixed(1) + ' ' + p.y.toFixed(1); }
+        d += 'Z';
+      });
+      return d;
+    }
+    let d = '';
+    for(let i=0;i<n;i++){ const p = this.P(rOf(i), this.win[i].f*360); d += (i?'L':'M') + p.x.toFixed(1) + ' ' + p.y.toFixed(1); }
+    for(let i=n-1;i>=0;i--){ const p = this.P(base, this.win[i].f*360); d += 'L' + p.x.toFixed(1) + ' ' + p.y.toFixed(1); }
+    return d + 'Z';
+  }
+  _arcPts(r, from, to){
+    const step = 1.1, n = Math.max(1, Math.ceil(Math.abs(to-from)/step)), out = [];
+    for(let i=0;i<=n;i++){ const a = from + (to-from)*i/n; out.push(this.P(r, a)); }
+    return out;
+  }
+  // IS elements and integrons get their own inner band, because they can span across
+  // coding sequences and would otherwise collide with them on the CDS ring.
+  // same pentagon arrow as the CDS ring, just on the inner mobile-element band
+  _mePath(s, e, strand){
+    const rIn=this.meIn, rOut=this.meOut, rMid=(rIn+rOut)/2;
+    let a0=this._ang(s)+0.12, a1=this._ang(e)-0.12;
+    if(a1<a0+0.3) a1=a0+0.3;
+    const span=a1-a0;
+    const head=Math.min(span, 4.6);
+    const toD=pts=>'M'+pts.map(p=>p.x.toFixed(1)+' '+p.y.toFixed(1)).join('L')+'Z';
+    let pts;
+    if(strand>=0){
+      const aH=a1-head;
+      if(aH<=a0+0.05){ pts=[ this.P(rOut,a0), this.P(rMid,a1), this.P(rIn,a0) ]; }
+      else { pts=this._arcPts(rOut,a0,aH); pts.push(this.P(rMid,a1)); pts=pts.concat(this._arcPts(rIn,aH,a0)); }
+    } else {
+      const aH=a0+head;
+      if(aH>=a1-0.05){ pts=[ this.P(rOut,a1), this.P(rMid,a0), this.P(rIn,a1) ]; }
+      else { pts=this._arcPts(rOut,a1,aH); pts.push(this.P(rMid,a0)); pts=pts.concat(this._arcPts(rIn,aH,a1)); }
+    }
+    return toD(pts);
+  }
+  _isME(t){ return t==='mobile' || t==='integron'; }
+  // right-align a chip tooltip when a left-anchored one would run past the panel edge
+  // returns null to keep the tooltip left-anchored, or a px offset for its `right`
+  // so a flipped tooltip lands inside the panel padding instead of past its edge
+  _tipFlip(e){
+    const el = e && e.currentTarget; if(!el) return null;
+    const panel = el.closest('[data-panel]'); if(!panel) return null;
+    const c = el.getBoundingClientRect(), p = panel.getBoundingClientRect();
+    const W = 212, pad = 16;
+    if(c.left + W <= p.right - pad) return null;      // fits left-anchored
+    const gap = p.right - pad - c.right;              // chip right -> panel inner edge
+    return Math.round(Math.min(0, -gap));             // never push it further left
+  }
+
+  // genome-diagram style gene: a thin shaft with a full-height arrowhead pointing
+  // in the direction of transcription (matching pyCirclize / GenomeDiagram).
+  _genePath(s, e, strand, arrows){
+    let rIn=238, rOut=257;
+    if(this.state.show.splitStrands){ if(strand>=0){ rIn=248; rOut=258; } else { rIn=237; rOut=247; } }
+    const rMid=(rIn+rOut)/2;
+    let a0 = this._ang(s) + 0.12, a1 = this._ang(e) - 0.12;
+    // in broken-ring mode, never let a gene bleed past its own contig arc into a gap
+    if(this._segs){ const sg=this._segOf((s+e)/2); if(sg){ a0=Math.max(a0,sg.a0); a1=Math.min(a1,sg.a1); } }
+    if(a1 < a0 + 0.3) a1 = a0 + 0.3;
+    const span = a1 - a0;
+    const toD = pts => 'M' + pts.map(p=>p.x.toFixed(1)+' '+p.y.toFixed(1)).join('L') + 'Z';
+    if(!arrows){
+      return toD(this._arcPts(rOut, a0, a1).concat(this._arcPts(rIn, a1, a0)));
+    }
+    const head = Math.min(span, 4.6);
+    let pts;
+    if(strand >= 0){
+      const aH = a1 - head;
+      if(aH <= a0 + 0.05){ pts = [ this.P(rOut, a0), this.P(rMid, a1), this.P(rIn, a0) ]; }
+      else {
+        pts = this._arcPts(rOut, a0, aH);
+        pts.push(this.P(rMid, a1));
+        pts = pts.concat(this._arcPts(rIn, aH, a0));
+      }
+    } else {
+      const aH = a0 + head;
+      if(aH >= a1 - 0.05){ pts = [ this.P(rOut, a1), this.P(rMid, a0), this.P(rIn, a1) ]; }
+      else {
+        pts = this._arcPts(rOut, a1, aH);
+        pts.push(this.P(rMid, a0));
+        pts = pts.concat(this._arcPts(rIn, aH, a1));
+      }
+    }
+    return toD(pts);
+  }
+  fmt(n){ return Math.round(n).toLocaleString('en-US'); }
+
+  _themes(){
+    const p = this.props || {};
+    const gc = p.gcColor || '#344054', sp = p.skewPositiveColor || '#16B364', sn = p.skewNegativeColor || '#7A5AF8';
+    return {
+      Clean: { bg:'#FFFFFF', grid:'#E4E7EC', dash:'none', gc, gcOp:0.92, sp, sn, sOp:0.92, tick:'#667085', label:'#475467', amr:'#9E165F', cap:'butt', center:'#101828', sub:'#98A2B3' },
+      Soft:  { bg:'#FBFAF7', grid:'#EAECF0', dash:'3 4', gc:'#5B6577', gcOp:0.5, sp, sn, sOp:0.6, tick:'#98A2B3', label:'#667085', amr:'#9E165F', cap:'round', center:'#344054', sub:'#B0B7C3' },
+      Bold:  { bg:'#0E1726', grid:'rgba(255,255,255,0.09)', dash:'none', gc:'#CDD5E0', gcOp:0.85, sp:'#3CCB7F', sn:'#B692F6', sOp:0.92, tick:'rgba(255,255,255,0.45)', label:'#D6DEEA', amr:'#F670C7', cap:'round', center:'#F5F7FA', sub:'rgba(255,255,255,0.45)' }
+    };
+  }
+
+  _hitFrom(e){
+    const svg = this._svg; if(!svg) return null;
+    const sr = svg.getBoundingClientRect();
+    const mx = e.clientX - sr.left, my = e.clientY - sr.top;
+    const dataX = this.state.vbX + (mx/sr.width)*this.state.vbW;
+    const dataY = this.state.vbY + (my/sr.height)*this.state.vbW;
+    const dx = dataX - this.C, dy = dataY - this.C, r = Math.hypot(dx, dy);
+    let ang = Math.atan2(dx, -dy)*180/Math.PI; if(ang<0) ang+=360;
+    return { r, deg:ang, frac:ang/360 };
+  }
+
+  _tipFromEvent(e){ const wrap=this._wrap; if(!wrap) return; const wr=wrap.getBoundingClientRect(); this.setState({ tipLeft:e.clientX-wr.left, tipTop:e.clientY-wr.top }); }
+  onMove(e){
+    const wrap = this._wrap; if(!wrap) return;
+    const wr = wrap.getBoundingClientRect();
+    const tipLeft = e.clientX - wr.left, tipTop = e.clientY - wr.top;
+    if(this._drag){
+      const dx = e.clientX - this._lastX, dy = e.clientY - this._lastY;
+      if(Math.abs(e.clientX-(this._downX??e.clientX))>3 || Math.abs(e.clientY-(this._downY??e.clientY))>3) this._moved=true;
+      this._lastX = e.clientX; this._lastY = e.clientY;
+      const k = this.state.vbW / Math.max(1,this.state.side);
+      this.setState(st=>({ vbX: st.vbX - dx*k, vbY: st.vbY - dy*k }));
+      return;
+    }
+    const h = this._hitFrom(e); if(!h){ return; }
+    const length = this.props.plasmidLengthBp || 54035;
+    const st = this.state;
+    // gene band
+    if(h.r >= 217 && h.r <= 260){
+      const g = this.genes.find(g=> h.frac >= g.s && h.frac <= g.e && st.showType[g.type]);
+      if(g){
+        const sBp = g.s*length, eBp = g.e*length;
+        const noteMap = { amr:'A gene linked to antibiotic resistance. Its presence does not always mean resistance.', mobile:'An insertion sequence or transposon that can relocate itself, taking neighbouring genes with it.', virulence:'A gene that helps the bacterium cause disease.', rna:'A structural RNA gene (ribosomal or transfer RNA).', cds:'A protein-coding gene.' };
+        const tip = { accent:g.color, title:g.name, italic:true, sub:g.category, pinHint:true, note: noteMap[g.type]||'',
+          rows:[ {l:'position', v:this.fmt(sBp)+'\u2013'+this.fmt(eBp)+' bp'}, {l:'length', v:this.fmt(eBp-sBp)+' bp'}, {l:'strand', v:g.strand>0?'+ forward':'\u2212 reverse'}, {l:'type', v:g.category} ] };
+        if(st.hoverGene!==g.name || st.tip===null || st.detailGene!==g) this.setState({ hoverGene:g.name, detailGene:g, tip, tipLeft, tipTop });
+        else this.setState({ tipLeft, tipTop });
+        return;
+      }
+    }
+    // gc band
+    if(st.show.gc && h.r >= this.gcBase-this.gcAmp-4 && h.r <= this.gcBase+this.gcAmp+4){
+      const i = Math.min(this.N-1, Math.max(0, Math.round(h.frac*this.N)));
+      const w = this.win[i]; const d = (w.gc-this.gcMean)*100;
+      const tip = { accent:(this._themes()[this._vkey()].gc), title:'GC content', sub:this.fmt(h.frac*length)+' bp', note:'How G/C-rich this spot is vs the plasmid average. Unusual values can flag acquired DNA.',
+        rows:[ {l:'GC', v:(w.gc*100).toFixed(1)+'%'}, {l:'vs mean', v:(d>=0?'+':'')+d.toFixed(1)+' pts'} ] };
+      this.setState({ hoverGene:null, tip, tipLeft, tipTop });
+      return;
+    }
+    // skew band
+    if((st.show.skewPos || st.show.skewNeg) && h.r >= this.skewBase-this.skewAmp-4 && h.r <= this.skewBase+this.skewAmp+4){
+      const i = Math.min(this.N-1, Math.max(0, Math.round(h.frac*this.N)));
+      const w = this.win[i];
+      const tip = { accent: w.skew>=0 ? (this._themes()[this._vkey()].sp) : (this._themes()[this._vkey()].sn), title:'GC skew', sub:(w.skew>=0?'skew+':'skew\u2212'), note:'G-vs-C balance on the strand. The sign flips near where DNA copying starts and ends.',
+        rows:[ {l:'skew', v:w.skew.toFixed(3)}, {l:'position', v:this.fmt(h.frac*length)+' bp'} ] };
+      this.setState({ hoverGene:null, tip, tipLeft, tipTop });
+      return;
+    }
+    if(st.tip || st.hoverGene) this.setState({ tip:null, hoverGene:null });
+  }
+  onDown(e){ if(e.button!==undefined && e.button!==0) return; this._drag=true; this._moved=false; this._lastX=e.clientX; this._lastY=e.clientY; this._downX=e.clientX; this._downY=e.clientY; try{ e.currentTarget.setPointerCapture(e.pointerId); }catch(_){} if(this._wrap) this._wrap.style.cursor='grabbing'; this.setState({ tip:null }); }
+  onUp(e){ this._drag=false; if(this._wrap) this._wrap.style.cursor='grab'; }
+  onLeave(){ this._drag=false; if(this._wrap) this._wrap.style.cursor='grab'; this.setState({ tip:null, hoverGene:null }); }
+  onClick(e){
+    if(this._moved) return;
+    const h = this._hitFrom(e); if(!h) return;
+    if(h.r >= 217 && h.r <= 260){
+      const g = this.genes.find(g=> h.frac >= g.s && h.frac <= g.e && this.state.showType[g.type]);
+      if(g){ const cur=this.state.pinned; this.setState({ pinned: cur===g.name?null:g.name, detailGene:g }); return; }
+    }
+    if(this.state.pinned) this.setState({ pinned:null });
+  }
+
+  _geneStats(g){
+    if(!g) return null;
+    const length=this.props.plasmidLengthBp||54035;
+    const a=g.s, b=g.e;
+    let sum=0,c=0; for(let i=0;i<this.N;i++){ const f=i/this.N; if(f>=a && f<=b){ sum+=this.win[i].gc; c++; } }
+    const gc=c?sum/c:this.gcMean;
+    return { startBp:Math.round(a*length), endBp:Math.round(b*length), lenBp:Math.round((b-a)*length), gc, dGc:(gc-this.gcMean)*100 };
+  }
+
+  _zoomTo(nW, mx, my){
+    const st = this.state, side = Math.max(1, this.state.side);
+    nW = Math.min(this.VB, Math.max(this.VB/6, nW));
+    if(mx==null){ mx = side/2; my = side/2; }
+    const dataX = st.vbX + (mx/side)*st.vbW, dataY = st.vbY + (my/side)*st.vbW;
+    const nX = dataX - (mx/side)*nW, nY = dataY - (my/side)*nW;
+    this.setState({ vbW:nW, vbX: nW>=this.VB?0:nX, vbY: nW>=this.VB?0:nY });
+  }
+  onWheel(e){ e.preventDefault(); const svg=this._svg; if(!svg) return; const sr=svg.getBoundingClientRect(); const mx=e.clientX-sr.left, my=e.clientY-sr.top; this._zoomTo(this.state.vbW*Math.exp(e.deltaY*0.0015), mx, my); }
+
+  _vkey(){ return 'Clean'; }
+
+  _fname(){ return (this.props.plasmidName || 'plasmid').replace(/[^\w.-]+/g,'_') + '-map'; }
+  _exportSvgString(px){
+    const svg = this._svg; if(!svg) return null;
+    const clone = svg.cloneNode(true);
+    // tight crop around the actual drawn content (center 400, content radius ~330)
+    const x0 = this.C - 332, box = 664;
+    clone.setAttribute('viewBox', x0+' '+x0+' '+box+' '+box);
+    clone.setAttribute('width', px); clone.setAttribute('height', px);
+    clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+    clone.removeAttribute('style');
+    return new XMLSerializer().serializeToString(clone);
+  }
+  _download(url, ext){ const a=document.createElement('a'); a.href=url; a.download=this._fname()+'.'+ext; document.body.appendChild(a); a.click(); a.remove(); }
+  onExportSVG(){
+    const xml = this._exportSvgString(1400); if(!xml) return;
+    const blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n', xml], { type:'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    this._download(url, 'svg'); setTimeout(()=>URL.revokeObjectURL(url), 1500);
+    this.setState({ exportOpen:false });
+  }
+  _wrapText(ctx, text, maxW, font){
+    ctx.font=font; const tokens=(''+text).split(' '); const lines=[]; let cur='';
+    tokens.forEach(t=>{ const trial=cur?cur+' '+t:t; if(ctx.measureText(trial).width>maxW && cur){ lines.push(cur); cur=t; } else cur=trial; });
+    if(cur) lines.push(cur); return lines.length?lines:[''];
+  }
+  _summaryInfo(){
+    const p=this.props, length=p.plasmidLengthBp||54035;
+    const amr=this.genes.filter(g=>g.res).map(g=>g.name);
+    const vir=this.genes.filter(g=>g.vir).map(g=>g.name);
+    const mob=this.genes.filter(g=>g.mob).length;
+    return { title:(p.plasmidName||'AA739'),
+      subtitle:this.fmt(length)+' bp · mean GC '+(this.gcMean*100).toFixed(1)+'%',
+      rows:[ ['Replicon', p.repliconType||'IncX3'], ['Relaxase', p.relaxaseType||'MOB_F'], ['MPF', p.mpfType||'MPF_T'],
+        ['Mobility', p.predictedMobility||'Conjugative'], ['Mobile elements', mob+''],
+        ['AMR genes ('+amr.length+')', amr.join(', ')||'none'], ['Virulence ('+vir.length+')', vir.join(', ')||'none'] ] };
+  }
+  _regionInfo(){
+    const g=(this.state.pinned ? this.genes.find(x=>x.name===this.state.pinned) : null) || this.state.detailGene; if(!g) return null;
+    const r=this._geneStats(g); const length=this.props.plasmidLengthBp||54035;
+    const typeLabel = g.category || 'CDS';
+    return { title:g.name+' · '+(this.props.plasmidName||'AA739'),
+      subtitle:this.fmt(r.startBp)+'\u2013'+this.fmt(r.endBp)+' bp · '+typeLabel,
+      rows:[ ['Length', this.fmt(r.lenBp)+' bp'],
+        ['Strand', g.strand>0?'+ forward':'\u2212 reverse'],
+        ['Local GC', (r.gc*100).toFixed(1)+'% ('+(r.dGc>=0?'+':'')+r.dGc.toFixed(1)+' pts vs plasmid)'],
+        ['Feature type', g.category],
+        ['Plasmid', (this.props.plasmidName||'AA739')+' · '+this.fmt(length)+' bp'] ] };
+  }
+  _composePNG(info){
+    const map=1760, mX=64, top=48, sans="'IBM Plex Sans',sans-serif";
+    const xml = this._exportSvgString(map); if(!xml || !info) return;
+    const img = new Image();
+    img.onload = ()=>{
+      const W = map + mX*2;
+      const meas = document.createElement('canvas').getContext('2d');
+      const labelW=380, valX=mX+labelW, valMaxW=W-mX-valX, lineH=42;
+      const capRows = info.rows.map(([k,v])=>({ k, vlines:this._wrapText(meas, v, valMaxW, '27px '+sans) }));
+      const rowsH = capRows.reduce((a,r)=>a+Math.max(1,r.vlines.length)*lineH+12,0);
+      const figGap=40, divGap=74, capH = divGap + 96 + rowsH + 18;
+      const H = top + map + figGap + capH;
+      const c = document.createElement('canvas'); c.width=W; c.height=H;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle='#FFFFFF'; ctx.fillRect(0,0,W,H);
+      ctx.drawImage(img, mX, top, map, map);
+      let y = top+map+figGap; ctx.strokeStyle='#EAECF0'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(mX,y); ctx.lineTo(W-mX,y); ctx.stroke();
+      y += divGap; ctx.textBaseline='alphabetic'; ctx.fillStyle='#101828'; ctx.font='600 42px '+sans; ctx.fillText(info.title, mX, y);
+      y += 44; ctx.fillStyle='#667085'; ctx.font='28px '+sans; ctx.fillText(info.subtitle, mX, y);
+      y += 54;
+      capRows.forEach(r=>{
+        ctx.fillStyle='#98A2B3'; ctx.font='27px '+sans; ctx.fillText(r.k, mX, y);
+        ctx.fillStyle='#344054'; ctx.font='27px '+sans;
+        r.vlines.forEach((vl,i)=> ctx.fillText(vl, valX, y + i*lineH));
+        y += Math.max(1,r.vlines.length)*lineH + 12;
+      });
+      c.toBlob(b=>{ const url=URL.createObjectURL(b); this._download(url,'png'); setTimeout(()=>URL.revokeObjectURL(url),1500); }, 'image/png');
+    };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+    this.setState({ exportOpen:false });
+  }
+  onExportPNG(){ this._composePNG(this._summaryInfo()); }
+  onExportRegionPNG(){ const info=this._regionInfo(); if(info) this._composePNG(info, this.state.detailGene); }
+
+  renderVals(){
+    const E = React.createElement;
+    const length = this.props.plasmidLengthBp || 54035;
+    const name = this.props.plasmidName || 'AA739';
+    const vkey = this._vkey();
+    const T = this._themes()[vkey];
+    const show = this.state.show;
+    const tShow = this.state.showType;
+    const hover = this.state.hoverGene || this.state.pinned;
+    const els = [];
+
+    els.push(E('rect',{ key:'bg', x:-1200, y:-1200, width:3200, height:3200, fill:T.bg }));
+    // guide circles (full rings normally; per-contig arcs when broken)
+    if(this._segs){
+      this._segs.forEach((s,si)=>{
+        [this.gcBase, this.skewBase].forEach((r,ri)=>{ const steps=10; let dd=''; for(let k=0;k<=steps;k++){ const f=s.f0+(s.f1-s.f0)*k/steps; const p=this.P(r, this._ang(f)); dd+=(k?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1); } els.push(E('path',{key:'g'+si+'_'+ri,d:dd,fill:'none',stroke:T.grid,strokeWidth:1,strokeDasharray:T.dash==='none'?undefined:T.dash})); });
+      });
+    } else {
+      [this.gcBase, this.skewBase].forEach((r,i)=> els.push(E('circle',{ key:'g'+i, cx:this.C, cy:this.C, r, fill:'none', stroke:T.grid, strokeWidth:1, strokeDasharray:T.dash==='none'?undefined:T.dash })));
+    }
+
+    if(show.gc) els.push(E('path',{ key:'gc', d:this._gcD, fill:T.gc, fillOpacity:T.gcOp, stroke:'none' }));
+    if(show.skewNeg) els.push(E('path',{ key:'skn', d:this._skewNegD, fill:T.sn, fillOpacity:T.sOp, stroke:'none' }));
+    if(show.skewPos) els.push(E('path',{ key:'skp', d:this._skewPosD, fill:T.sp, fillOpacity:T.sOp, stroke:'none' }));
+    if(show.scale){
+      if(this._segs){
+        this._segs.forEach((s,si)=>{ const steps=8; let dd=''; for(let k=0;k<=steps;k++){ const f=s.f0+(s.f1-s.f0)*k/steps; const p=this.P(this.scaleR, this._ang(f)); dd+=(k?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1); } els.push(E('path',{key:'sc'+si,d:dd,fill:'none',stroke:T.grid,strokeWidth:1})); });
+      } else {
+        els.push(E('circle',{ key:'sc', cx:this.C, cy:this.C, r:this.scaleR, fill:'none', stroke:T.grid, strokeWidth:1 }));
+      }
+      // pick a round step whose final interval lands closest to a full step, so the
+      // wrap-around gap matches the rest of the ruler instead of reading as short
+      const step = (()=>{
+        const nice=[250,500,1000,1500,2000,2500,3000,4000,5000,6000,7500,8000,10000,12500,15000,20000,25000,30000,40000,50000,100000];
+        let best=null;
+        for(let n=7;n<=11;n++){
+          const raw=length/n;
+          let s=nice[0];
+          for(const c of nice) if(Math.abs(c-raw)<Math.abs(s-raw)) s=c;
+          const ratio=(length%s)/s;
+          const score=Math.min(ratio, 1-ratio);           // 0 = ruler closes evenly
+          if(!best || score<best.score-0.002) best={s,score};
+        }
+        return best ? best.s : 10000;
+      })();
+      for(let t=0;t<length;t+=step){
+        // only drop a final tick that would literally collide with the 0 mark
+        if(t>0 && length - t < step*0.15) continue;
+        const f = t/length; if(this._segs && !this._segOf(f)) continue;
+        const deg = this._ang(f);
+        const o = this.P(this.scaleR, deg), inr = this.P(this.scaleR-6, deg), lp = this.P(this.scaleR-15, deg);
+        els.push(E('line',{ key:'t'+t, x1:o.x, y1:o.y, x2:inr.x, y2:inr.y, stroke:T.tick, strokeWidth:1 }));
+        els.push(E('text',{ key:'tl'+t, x:lp.x, y:lp.y, fill:T.tick, fontSize:10, fontFamily:"'IBM Plex Sans',sans-serif", textAnchor:'middle', dominantBaseline:'central' }, t===0 ? '0 kb' : String(t/1000)));
+      }
+    }
+    if(show.genes){
+      // gray backbone track ring(s) — one gray band per contig (shared by both strands when split)
+      const dark = vkey==='Bold';
+      const bands = [
+        { r:247.5, w:21, c: dark?'rgba(255,255,255,0.07)':'#EDEFF2' },
+        { r:(this.meIn+this.meOut)/2, w:this.meOut-this.meIn, c: dark?'rgba(255,255,255,0.04)':'#F5F6F8' }
+      ];
+      bands.forEach((bd,bi)=>{
+        if(this._segs){
+          this._segs.forEach((s,si)=>{ const steps=10; let dd=''; for(let k=0;k<=steps;k++){ const f=s.f0+(s.f1-s.f0)*k/steps; const p=this.P(bd.r, this._ang(f)); dd+=(k?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1); } els.push(E('path',{key:'bb'+bi+'_'+si,d:dd,fill:'none',stroke:bd.c,strokeWidth:bd.w,strokeLinecap:'butt'})); });
+        } else {
+          els.push(E('circle',{ key:'bb'+bi, cx:this.C, cy:this.C, r:bd.r, fill:'none', stroke:bd.c, strokeWidth:bd.w }));
+        }
+      });
+      this.genes.forEach(g=>{
+        if(!tShow[g.type]) return;
+        const dim = hover && hover!==g.name;
+        const d = this._isME(g.type) ? this._mePath(g.s,g.e,g.strand) : this._genePath(g.s,g.e,g.strand,show.arrows);
+        els.push(E('path',{ key:'ge'+g.name, d, fill:g.color, stroke: vkey==='Bold'?'rgba(0,0,0,0.4)':'rgba(16,24,40,0.34)', strokeWidth:0.5, strokeLinejoin:'round', opacity: dim?0.26:1 }));
+      });
+      // emphasize hovered
+      const hg = hover && this.genes.find(g=>g.name===hover);
+      if(hg && tShow[hg.type]){
+        const hd = this._isME(hg.type) ? this._mePath(hg.s,hg.e,hg.strand) : this._genePath(hg.s,hg.e,hg.strand,show.arrows);
+        els.push(E('path',{ key:'hl', d:hd, fill:hg.color, stroke: vkey==='Bold'?'#FFFFFF':'#101828', strokeWidth:1.3, strokeLinejoin:'round', opacity:1 }));
+      }
+    }
+    if(show.genes){
+      this.genes.forEach(g=>{
+        if(!tShow[g.type]) return;
+        const deg = this._ang(g.mid);
+        const a = this.P(260, deg), b = this.P(266, deg), tp = this.P(269, deg);
+        const rot = deg<=180 ? deg-90 : deg+90, anchor = deg<=180 ? 'start' : 'end';
+        const col = g.vir? '#1849A9' : (g.res? T.amr : (g.mob? '#B54708' : T.label));
+        els.push(E('line',{ key:'ll'+g.name, x1:a.x, y1:a.y, x2:b.x, y2:b.y, stroke:T.grid==='none'?'#ccc':T.tick, strokeWidth:0.8, opacity:0.55 }));
+        els.push(E('text',{ key:'lt'+g.name, x:tp.x, y:tp.y, fill:col, fontSize:10, fontWeight: (g.res||g.vir)?600:400, fontStyle: (g.res||g.vir||g.mob)?'italic':'normal', fontFamily:"'IBM Plex Sans',sans-serif", textAnchor:anchor, dominantBaseline:'central', transform:`rotate(${rot} ${tp.x} ${tp.y})` }, g.name));
+      });
+    }
+    // gap separators + contig names (placed well outside the ring, clear of gene labels)
+    if(this._segs && show.contigs){
+      this._segs.forEach((s,si)=>{
+        [s.a0, s.a1].forEach((a,k)=>{ const p1=this.P(231,a), p2=this.P(257,a); els.push(E('line',{ key:'gc'+si+'_'+k, x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y, stroke: vkey==='Bold'?'rgba(255,255,255,0.4)':'#B0B7C3', strokeWidth:1.6, strokeLinecap:'round' })); });
+        const midF=(s.f0+s.f1)/2, deg=this._ang(midF);
+        const lp=this.P(312, deg), rot = deg<=180 ? deg-90 : deg+90, anchor = deg<=180 ? 'start' : 'end';
+        const cname='contig_'+(si+1);
+        const cTip={ accent:'#98A2B3', title:cname, note:'A separate assembled fragment of the plasmid. The order between contigs is not known.', rows:[] };
+        els.push(E('text',{ key:'cgl'+si, x:lp.x, y:lp.y, fill:T.sub, fontSize:10.5, fontWeight:600, fontFamily:"'IBM Plex Sans',sans-serif", textAnchor:anchor, dominantBaseline:'central', transform:`rotate(${rot} ${lp.x} ${lp.y})`, style:{cursor:'help'},
+          onMouseEnter:(ev)=>{ this.setState({ tip:cTip }); this._tipFromEvent && this._tipFromEvent(ev); },
+          onMouseMove:(ev)=>{ this._tipFromEvent && this._tipFromEvent(ev); },
+          onMouseLeave:()=>this.setState({ tip:null }) }, cname));
+      });
+    }
+    // center label
+    els.push(E('text',{ key:'cn', x:this.C, y:this.C-9, fill:T.center, fontSize:16, fontWeight:600, letterSpacing:'-0.01em', fontFamily:"'IBM Plex Sans',sans-serif", textAnchor:'middle' }, name));
+    els.push(E('text',{ key:'cl', x:this.C, y:this.C+13, fill:T.sub, fontSize:12, fontFamily:"'IBM Plex Sans',sans-serif", textAnchor:'middle' }, this.fmt(length)+' bp'));
+
+    const side = this.state.side;
+    const svg = E('svg',{ key:'svg', ref:this._svgRef, width:side, height:side,
+      viewBox:`${this.state.vbX.toFixed(2)} ${this.state.vbY.toFixed(2)} ${this.state.vbW.toFixed(2)} ${this.state.vbW.toFixed(2)}`,
+      style:{ display:'block', overflow:'visible' } }, els);
+
+    // tooltip
+    let tipEl = null;
+    const tip = this.state.tip;
+    if(tip){
+      const wrapW = this._wrap ? this._wrap.clientWidth : 600;
+      const left = Math.min(this.state.tipLeft+16, wrapW-216);
+      tipEl = E('div',{ key:'tip', style:{ position:'absolute', left:Math.max(8,left)+'px', top:(this.state.tipTop+16)+'px', pointerEvents:'none', background:'#101828', color:'#fff', borderRadius:'9px', padding:'10px 12px', minWidth:'150px', maxWidth:'210px', boxShadow:'0 8px 24px rgba(16,24,40,0.28)', zIndex:20 } }, [
+        E('div',{ key:'h', style:{ display:'flex', alignItems:'center', gap:'7px', marginBottom:'7px' } }, [
+          E('span',{ key:'d', style:{ width:'8px', height:'8px', borderRadius:'3px', background:tip.accent, flex:'none' } }),
+          E('span',{ key:'t', style:{ fontWeight:600, fontSize:'13px', fontStyle: tip.italic?'italic':'normal', fontFamily: tip.italic?"'IBM Plex Sans',sans-serif":"'IBM Plex Sans',sans-serif" } }, tip.title)
+        ]),
+        tip.sub ? E('div',{ key:'s', style:{ fontSize:'11px', color:'rgba(255,255,255,0.55)', fontFamily:"'IBM Plex Sans',sans-serif", marginBottom:'8px', marginTop:'-3px' } }, tip.sub) : null,
+        tip.note ? E('div',{ key:'nt', style:{ fontSize:'11px', lineHeight:1.5, color:'rgba(255,255,255,0.78)', fontFamily:"'IBM Plex Sans',sans-serif", marginBottom:'9px' } }, tip.note) : null,
+        E('div',{ key:'r', style:{ display:'flex', flexDirection:'column', gap:'4px' } }, tip.rows.map((r,i)=>
+          E('div',{ key:i, style:{ display:'flex', justifyContent:'space-between', gap:'14px', fontSize:'11.5px', fontFamily:"'IBM Plex Sans',sans-serif" } }, [
+            E('span',{ key:'l', style:{ color:'rgba(255,255,255,0.5)' } }, r.l),
+            E('span',{ key:'v', style:{ color:'#fff' } }, r.v)
+          ])
+        )),
+        tip.pinHint ? E('div',{ key:'ph', style:{ marginTop:'8px', paddingTop:'7px', borderTop:'1px solid rgba(255,255,255,0.12)', fontSize:'10.5px', color:'rgba(255,255,255,0.6)', fontFamily:"'IBM Plex Sans',sans-serif" } }, 'Click to pin this section') : null
+      ]);
+    }
+    const plot = E(React.Fragment, null, [svg, tipEl]);
+
+    // ---- panel data ----
+    const chipDef = [
+      { key:'skewPos', label:'GC skew +', dot:T.sp },
+      { key:'skewNeg', label:'GC skew −', dot:T.sn },
+      { key:'gc', label:'GC content', dot:T.gc==='#CDD5E0'?'#667085':T.gc },
+      { key:'scale', label:'Scale', icon:'scale' },
+      { key:'splitStrands', label:'Split strands', icon:'split' }
+    ];
+    chipDef.push({ key:'contigs', label:'Contigs', icon:'contigs' });
+    const chipHelp = {
+      contigs:'Show the breaks between contigs (assembled fragments) and their labels. The order between contigs is not known.',
+      splitStrands:'Put forward (+) genes on an outer track and reverse (−) genes on an inner track, so transcription direction is easier to read at a glance.',
+      skewPos:'Where G outweighs C on the strand. Together with skew −, the point where the two cross marks where DNA copying begins or ends.',
+      skewNeg:'Where C outweighs G on the strand. Together with skew +, the crossover points hint at the replication origin and terminus.',
+      gc:'How G/C-rich each stretch of DNA is, compared with the plasmid average. Regions that stand out can hint at DNA the plasmid acquired from elsewhere.',
+      scale:'A position ruler around the plasmid, marked in kilobases (kb).'
+    };
+    const chips = chipDef.map(c=>{
+      const on = !!show[c.key];
+      const iconStyle = { display:'inline-flex', alignItems:'center', justifyContent:'center', flex:'none', width:'15px', height:'15px', color: on?'#475467':'#B0B7C3' };
+      const mkIcon = (kind)=>{
+        // IBM Carbon geometry: 32-unit grid, 2px strokes, square ends
+        const sp = { width:15, height:15, viewBox:'0 0 32 32', fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'butt', strokeLinejoin:'miter', style:{display:'block'} };
+        if(kind==='scale') return E('svg',{...sp,key:'i'},[
+          E('line',{key:'a',x1:4,y1:22,x2:28,y2:22}),
+          E('line',{key:'b',x1:10,y1:22,x2:10,y2:14}),
+          E('line',{key:'c',x1:16,y1:22,x2:16,y2:14}),
+          E('line',{key:'d',x1:22,y1:22,x2:22,y2:14})
+        ]);
+        if(kind==='split') return E('svg',{...sp,key:'i'},[
+          E('line',{key:'a',x1:5,y1:12,x2:27,y2:12}),
+          E('polyline',{key:'b',points:'22 7 27 12 22 17'}),
+          E('line',{key:'c',x1:27,y1:22,x2:5,y2:22}),
+          E('polyline',{key:'d',points:'10 17 5 22 10 27'})
+        ]);
+        return E('svg',{...sp,key:'i'},[
+          E('line',{key:'a',x1:4,y1:9,x2:4,y2:23}),
+          E('line',{key:'b',x1:28,y1:9,x2:28,y2:23}),
+          E('line',{key:'c',x1:4,y1:16,x2:13,y2:16}),
+          E('line',{key:'d',x1:19,y1:16,x2:28,y2:16})
+        ]);
+      };
+      const hv = this.state.hoverChip===c.key;
+      const help = chipHelp[c.key]||'';
+      const baseBg = on?'#FFFFFF':'#F9FAFB', baseBorder = on?'#D0D5DD':'#EAECF0', baseColor = on?'#344054':'#98A2B3';
+      const hvBg = on?'#F2F4F7':'#EFF1F5', hvColor = on?'#101828':'#667085';
+      return { label:c.label, hasHelp: hv && !!help, help,
+        onClick:()=>this.setState(st=>({ show:{...st.show, [c.key]: !st.show[c.key]} })),
+        onEnter:(e)=>this.setState({ hoverChip:c.key, tipFlip:this._tipFlip(e) }),
+        onLeave:()=>this.setState(s=> s.hoverChip===c.key ? { hoverChip:null } : {}),
+        style:{ display:'inline-flex', alignItems:'center', gap:'7px', padding:'6px 11px', borderRadius:'999px', cursor:'pointer', fontFamily:'inherit', fontSize:'12.5px', fontWeight:500, transition:'all 120ms', whiteSpace:'nowrap',
+          border:'1px solid '+(hv?'#B0B7C3':baseBorder), background: hv?hvBg:baseBg, color: hv?hvColor:baseColor, boxShadow: hv?'0 1px 2px rgba(16,24,40,0.06)':'none',
+          textDecoration:on?'none':'line-through', textDecorationColor:'#D0D5DD' },
+        icon: c.icon ? mkIcon(c.icon) : '',
+        dotStyle: c.icon ? iconStyle : { width:'9px', height:'9px', borderRadius:'3px', background:c.dot, flex:'none', opacity:on?1:0.4 },
+        tipStyle:{ position:'absolute', bottom:'calc(100% + 7px)', ...(this.state.tipFlip!=null?{right:this.state.tipFlip+'px'}:{left:0}), zIndex:40, width:'212px', background:'#101828', color:'#fff', borderRadius:'9px', padding:'9px 11px', fontSize:'11.5px', lineHeight:1.5, fontWeight:400, boxShadow:'0 10px 28px rgba(16,24,40,0.28)', pointerEvents:'none' } };
+    });
+
+    const typeHelp = {
+      amr:'A gene that makes the bacterium resistant to an antibiotic.',
+      mobile:'An insertion sequence or transposon that can relocate itself, taking neighbouring genes with it. Shown on the inner band because it can span coding sequences.',
+      integron:'A DNA element that captures and stockpiles gene cassettes, often carrying antibiotic resistance.',
+      orit:'The origin of transfer, where copying into another bacterium begins.',
+      conj:'Genes that build the machinery for transferring the plasmid to another bacterium.',
+      replicon:'Genes that let the plasmid copy itself and set which plasmid family it belongs to.',
+      virulence:'A gene that helps the bacterium cause disease.',
+
+      cds:'A protein-coding gene with no specialised annotation.',
+      rna:'A non-coding RNA gene. None were annotated on this plasmid.'
+    };
+    const typeChips = [
+      ['AMR', this.TYPES.amr.color, 'amr'],
+      ['IS', this.TYPES.mobile.color, 'mobile'],
+      ['Integron', this.TYPES.integron.color, 'integron'],
+      ['oriT', this.TYPES.orit.color, 'orit'],
+      ['Conjugation', this.TYPES.conj.color, 'conj'],
+      ['Replicon', this.TYPES.replicon.color, 'replicon'],
+      ['CDS', this.TYPES.cds.color, 'cds'],
+      ['Virulence', this.TYPES.virulence.color, 'virulence'],
+      ['RNA', this.TYPES.rna.color, 'rna']
+    ].map(([label,color,key])=>{
+      const on = !!tShow[key];
+      const hv = this.state.hoverType===key;
+      const baseBg = on?'#FFFFFF':'#F9FAFB', baseBorder = on?'#D0D5DD':'#EAECF0', baseColor = on?'#344054':'#98A2B3';
+      const hvBg = on?'#F2F4F7':'#EFF1F5', hvColor = on?'#101828':'#667085';
+      return { label, hasHelp: hv, help: typeHelp[key]||'',
+        onClick:()=>this.setState(st=>({ showType:{...st.showType, [key]: !st.showType[key]} })),
+        onEnter:(e)=>this.setState({ hoverType:key, tipFlip:this._tipFlip(e) }),
+        onLeave:()=>this.setState(s=> s.hoverType===key ? { hoverType:null } : {}),
+        style:{ display:'inline-flex', alignItems:'center', gap:'7px', padding:'6px 11px', borderRadius:'999px', cursor:'pointer', fontFamily:'inherit', fontSize:'12.5px', fontWeight:500, transition:'all 120ms', whiteSpace:'nowrap',
+          border:'1px solid '+(hv?'#B0B7C3':baseBorder), background: hv?hvBg:baseBg, color: hv?hvColor:baseColor, boxShadow: hv?'0 1px 2px rgba(16,24,40,0.06)':'none',
+          textDecoration:on?'none':'line-through', textDecorationColor:'#D0D5DD' },
+        dotStyle:{ width:'9px', height:'9px', borderRadius:'3px', background:color, flex:'none', opacity:on?1:0.4 },
+        tipStyle:{ position:'absolute', bottom:'calc(100% + 7px)', ...(this.state.tipFlip!=null?{right:this.state.tipFlip+'px'}:{left:0}), zIndex:40, width:'212px', background:'#101828', color:'#fff', borderRadius:'9px', padding:'9px 11px', fontSize:'11.5px', lineHeight:1.5, fontWeight:400, boxShadow:'0 10px 28px rgba(16,24,40,0.28)', pointerEvents:'none' } };
+    });
+
+    const amrItems = this.genes.filter(g=> g.res || g.vir).map(g=>{
+      const color = g.vir ? '#155EEF' : '#DD2590';
+      const active = (this.state.hoverGene===g.name) || (this.state.pinned===g.name);
+      return { name:g.name, posLabel: (g.mid*length/1000).toFixed(1)+' kb',
+        onEnter:()=>this.setState({ hoverGene:g.name, detailGene:g }), onLeave:()=>this.setState({ hoverGene:null }),
+        onClick:()=>this.setState(st=>({ pinned: st.pinned===g.name?null:g.name, detailGene:g })),
+        style:{ display:'flex', alignItems:'center', gap:'9px', width:'100%', textAlign:'left', padding:'4px 8px', borderRadius:'7px', border:'none', cursor:'pointer', fontFamily:'inherit', background: active?'#F2F4F7':'transparent', transition:'background 100ms' },
+        dotStyle:{ width:'8px', height:'8px', borderRadius:'999px', background:color, flex:'none' } };
+    });
+
+    const activeName = this.state.pinned;
+    const dg = activeName ? this.genes.find(g=>g.name===activeName) : null;
+    const dgStat = dg ? this._geneStats(dg) : null;
+    const detail = dg ? {
+      hasDetail:true, noDetail:false,
+      detailName:dg.name, detailCategory: dg.category,
+      detailPos: this.fmt(dg.s*length)+'\u2013'+this.fmt(dg.e*length),
+      detailLen: this.fmt((dg.e-dg.s)*length)+' bp',
+      detailStrand: dg.strand>0?'+ forward':'\u2212 reverse',
+      detailGc: (dgStat.gc*100).toFixed(1)+'% ('+(dgStat.dGc>=0?'+':'')+dgStat.dGc.toFixed(1)+' pts)',
+      detailSwatchStyle:{ width:'12px', height:'12px', borderRadius:'4px', background: dg.vir?'#155EEF':dg.color, flex:'none' },
+      clearPin:()=>this.setState({ pinned:null })
+    } : { hasDetail:false, noDetail:true, detailName:'', detailCategory:'', detailPos:'', detailLen:'', detailStrand:'', detailGc:'', detailSwatchStyle:{}, clearPin:()=>{} };
+
+    // value-specific explanations for the MOB-suite calls (fallback to the generic
+    // term blurb when the value isn't one we have a note for).
+    const valHelp = {
+      'IncX3':'A small, broad-host-range plasmid family notorious for spreading blaNDM carbapenemase genes across Enterobacterales worldwide.',
+      'IncF':'A large, low-copy F-like family common in E. coli; frequently carries resistance and virulence and is self-transmissible.',
+      'IncN':'A broad-host-range conjugative family that often carries carbapenemase and ESBL genes.',
+      'IncL/M':'A broad-host-range conjugative family strongly associated with the spread of OXA-48 and other carbapenemases.',
+      'MOB_F':'The MOB_F relaxase family, the enzyme that nicks the plasmid to start transfer; typical of large F-like conjugative plasmids.',
+      'MOB_P':'The MOB_P relaxase family, a broad, diverse group found on many mobilizable and conjugative plasmids.',
+      'MOB_Q':'The MOB_Q relaxase family, common on small mobilizable plasmids that rely on a helper plasmid\u2019s machinery.',
+      'MOB_H':'The MOB_H relaxase family, found on several large multidrug-resistance plasmids.',
+      'MPF_T':'A type-IV-secretion (T-type) mating channel, the class used by IncX and IncF conjugative systems to pump DNA into the recipient.',
+      'MPF_F':'The F-type mating channel of classic F plasmids.',
+      'MPF_I':'The I-type mating channel, associated with IncI plasmids.',
+      'Conjugative':'Has everything it needs to copy itself into another bacterium on its own.',
+      'Mobilizable':'Can move to another bacterium, but only with help from another plasmid in the same cell.',
+      'Non-mobilizable':'No machinery for moving to another bacterium was found.'
+    };
+    const relaxase = this.props.relaxaseType || 'MOB_F';
+    const mpf = this.props.mpfType || 'MPF_T';
+    const present = v => v && v!=='-' && v!=='None' && v!=='';
+    const metaCats = [
+      { label:'Replicon', value: this.props.repliconType || 'IncX3', subtitle:'Incompatibility group', term:'replicon / Inc type',
+        generic:'The system the plasmid uses to copy itself. It marks which plasmid family the plasmid belongs to.' },
+      { label:'Relaxase', value: present(relaxase) ? relaxase : 'None', subtitle:'Transfer enzyme (MOB)', term:'relaxase (MOB) type',
+        generic:'The enzyme that nicks the plasmid\u2019s DNA to start copying it into another bacterium. Its presence means the plasmid can at least be moved with help.' },
+      { label:'Mobility', value: this.props.predictedMobility || 'Conjugative', term:'predicted mobility',
+        generic:'Whether this plasmid can move itself to another bacterium, and how.' }
+    ];
+    const mobSub = { 'Conjugative':'Self-transmissible', 'Mobilizable':'Needs a helper plasmid', 'Non-mobilizable':'No transfer machinery' };
+    const mobDot = { 'Conjugative':'#16B364', 'Mobilizable':'#DC6803', 'Non-mobilizable':'#98A2B3' };
+    const mobDetail = c => {
+      const parts=[]; if(present(relaxase)) parts.push('relaxase '+relaxase); if(present(mpf)) parts.push('MPF '+mpf);
+      return parts.length ? 'Machinery: '+parts.join(' + ') : 'No transfer machinery detected';
+    };
+    const mobMeta = metaCats.map((c,i)=>{
+      const right = i>=2, hovered = this.state.hoverMeta===c.label;
+      const dot = c.label==='Mobility' ? (mobDot[c.value] || '#16B364') : (present(c.value) ? '#16B364' : '#D0D5DD');
+      return {
+        label:c.label, value:c.value,
+        subtitle: c.label==='Mobility' ? (mobSub[c.value] || c.subtitle || '') : c.subtitle,
+        help: valHelp[c.value] || c.generic,
+        hasDetail: c.label==='Mobility',
+        detail: c.label==='Mobility' ? mobDetail(c) : '',
+        method: 'MOB-suite v3.1.0',
+        hovered,
+        dotStyle:{ width:'8px', height:'8px', borderRadius:'999px', background:dot, flex:'none' },
+        cellStyle:{ flex:'1', minWidth:'0', padding:'13px 16px', paddingLeft: i===0?'22px':'16px', display:'flex', flexDirection:'column', justifyContent:'center', position:'relative', cursor:'help', transition:'background 120ms', borderLeft: i>0?'1px solid #EAECF0':'none', background: hovered?'#F2F4F7':'transparent' },
+        tipStyle:{ position:'absolute', top:'calc(100% + 9px)', [right?'right':'left']:'12px', zIndex:40, width:'272px', background:'#101828', borderRadius:'10px', padding:'11px 13px', boxShadow:'0 12px 30px rgba(16,24,40,0.3)' },
+        caretStyle:{ position:'absolute', top:'-4px', [right?'right':'left']:'22px', width:'9px', height:'9px', background:'#101828', transform:'rotate(45deg)' },
+        onEnter:()=>this.setState({ hoverMeta:c.label }), onLeave:()=>this.setState({ hoverMeta:null })
+      };
+    });
+    if(this.props.closestNeighbor){
+      const hovered = this.state.hoverMeta==='Closest match';
+      mobMeta.push({
+        label:'Closest match', value:this.props.closestNeighbor,
+        subtitle: this.props.closestAni ? this.props.closestAni+' ANI' : '',
+        help:'The most similar plasmid already in public databases. A very close match means the same plasmid has been seen elsewhere before.',
+        hasDetail:false, detail:'',
+        method:'Mash · NCBI RefSeq',
+        hovered,
+        dotStyle:{ width:'8px', height:'8px', borderRadius:'999px', background:'#16B364', flex:'none' },
+        cellStyle:{ flex:'1', minWidth:'0', padding:'13px 16px', display:'flex', flexDirection:'column', justifyContent:'center', position:'relative', cursor:'help', transition:'background 120ms', borderLeft:'1px solid #EAECF0', background: hovered?'#F2F4F7':'transparent' },
+        tipStyle:{ position:'absolute', top:'calc(100% + 9px)', right:'12px', zIndex:40, width:'272px', background:'#101828', borderRadius:'10px', padding:'11px 13px', boxShadow:'0 12px 30px rgba(16,24,40,0.3)' },
+        caretStyle:{ position:'absolute', top:'-4px', right:'22px', width:'9px', height:'9px', background:'#101828', transform:'rotate(45deg)' },
+        onEnter:()=>this.setState({ hoverMeta:'Closest match' }), onLeave:()=>this.setState({ hoverMeta:null })
+      });
+    }
+    const embedded = !!this.props.embedded;
+    const fontCss = "'IBM Plex Sans',system-ui,sans-serif";
+    const rootStyle = embedded
+      ? { height:'100%', minHeight:'100%', maxHeight:'100%', display:'flex', padding:0, background:'#FFFFFF', fontFamily:fontCss, color:'#101828', WebkitFontSmoothing:'antialiased', overflow:'hidden' }
+      : { height:'100%', minHeight:'100%', maxHeight:'100%', display:'flex', padding:'24px', background:'#F9FAFB', fontFamily:fontCss, color:'#101828', WebkitFontSmoothing:'antialiased', overflow:'hidden' };
+    const cardStyle = embedded
+      ? { flex:1, display:'flex', flexDirection:'column', background:'#FFFFFF', border:'none', borderRadius:0, boxShadow:'none', overflow:'hidden', minWidth:0 }
+      : { flex:1, display:'flex', flexDirection:'column', background:'#FFFFFF', border:'1px solid #EAECF0', borderRadius:'16px', boxShadow:'0 1px 3px rgba(16,24,40,0.06),0 12px 32px -8px rgba(16,24,40,0.08)', overflow:'hidden', minWidth:0 };
+    const exportWrapStyle = { marginLeft:'auto', position:'relative' };
+
+    const rstat = dg ? this._geneStats(dg) : null;
+    const dgs = dg;
+    const region = dgs ? {
+      hasRegion:true, noRegion:false,
+      regionName: dgs.name,
+      regionRange: this.fmt(rstat.startBp)+'\u2013'+this.fmt(rstat.endBp)+' bp',
+      regionSpan: this.fmt(rstat.lenBp)+' bp',
+      regionGc: (rstat.gc*100).toFixed(1)+'% ('+(rstat.dGc>=0?'+':'')+rstat.dGc.toFixed(1)+' pts)',
+      regionStrand: dgs.strand>0?'+ forward':'\u2212 reverse'
+    } : { hasRegion:false, noRegion:true };
+
+    return {
+      plasmidName:name, lengthLabel:this.fmt(length)+' bp',
+      showTeaser: !!this.props.teaser,
+      ...(()=>{ const plan=this.props.plan||'trial'; const limits={trial:3,research:10,surveillance:30}; const limit=limits[plan]||3; const used=Math.max(0,Math.min(limit, this.props.annotationsUsed==null?2:this.props.annotationsUsed)); const reached=used>=limit; return { quotaOk:!reached, quotaReached:reached, quotaLimit:limit }; })(),
+      noop:(e)=>{ e.preventDefault(); },
+      showInferredChip: !this.props.teaser && !!this.props.inferred,
+      startTeaser:()=>{ if(this.props.onStartAnalysis) this.props.onStartAnalysis(); },
+      startHover:(e)=>{ e.currentTarget.style.background='#087443'; },
+      startLeave:(e)=>{ e.currentTarget.style.background='#099250'; },
+      rootStyle, cardStyle, exportWrapStyle,
+      plot, wrapRef:this._wrapRef,
+      hintStyle:{ position:'absolute', bottom:'16px', left:'50%', transform:'translateX(-50%)', pointerEvents:'none', fontSize:'11.5px', color:'#98A2B3', whiteSpace:'nowrap', opacity:(this.state.tip||this.state.hoverGene)?0:1, transition:'opacity 180ms' },
+      onMove:(e)=>this.onMove(e), onDown:(e)=>this.onDown(e), onUp:(e)=>this.onUp(e), onLeave:()=>this.onLeave(), onClick:(e)=>this.onClick(e),
+      chips, typeChips, featuresOn: !!show.genes, hasAmrList: !!show.genes, amrItems,
+      mobMeta,
+      exportOpen: !!this.state.exportOpen,
+      toggleExport:()=>this.setState(st=>({ exportOpen:!st.exportOpen })),
+      closeExport:()=>this.setState({ exportOpen:false }),
+      onExportSVG:()=>this.onExportSVG(), onExportPNG:()=>this.onExportPNG(),
+      onExportRegionPNG:()=>this.onExportRegionPNG(),
+      hasRegionExport: !!this.state.pinned,
+      ...region,
+      exportHover:(e)=>{ e.currentTarget.style.background='#F9FAFB'; }, exportLeave:(e)=>{ e.currentTarget.style.background='#FFFFFF'; },
+      itemHover:(e)=>{ e.currentTarget.style.background='#F2F4F7'; }, itemLeave:(e)=>{ e.currentTarget.style.background='transparent'; },
+      sliderValue: (this.VB/this.state.vbW).toFixed(2),
+      zoomPct: Math.round(this.VB/this.state.vbW*100)+'%',
+      onSlider:(e)=>this._zoomTo(this.VB/parseFloat(e.target.value), null, null),
+      zoomIn:()=>this._zoomTo(this.state.vbW/1.4, null, null),
+      zoomOut:()=>this._zoomTo(this.state.vbW*1.4, null, null),
+      reset:()=>this.setState({ vbX:0, vbY:0, vbW:this.VB }),
+      ...detail
+    };
+  }
+}
+</script>
+</body>
+</html>

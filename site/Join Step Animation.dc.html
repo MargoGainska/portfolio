@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&amp;display=swap" rel="stylesheet">
+</helmet>
+<div ref="{{ outerRef }}" style="position:relative;width:100%;height:{{ outerH }};overflow:hidden;border-radius:12px"><div aria-label="Join data step switching between presets and a custom join" role="img" style="position:absolute;left:0;top:0;transform-origin:0 0;transform:scale({{ scale }});display:flex;width:1100px;height:600px;background:#fff;border-radius:12px;overflow:hidden;font-family:Lato,'Helvetica Neue',Arial,sans-serif;color:#2B2B2B;font-size:13px;line-height:1.35;letter-spacing:normal;font-weight:400;text-transform:none;-webkit-font-smoothing:antialiased">
+  <div style="flex:0 0 210px;background:#F7F7F7;border-right:1px solid #ECECEC;padding:28px 22px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+    <span style="font-size:20px;line-height:1.3">Create last-click attribution blend</span>
+    <div style="display:flex;flex-direction:column;gap:14px;font-size:14px">
+      <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:26px;border-radius:99px;border:1.5px solid #D6D6D6;display:flex;align-items:center;justify-content:center;box-sizing:border-box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2B2B2B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg></span>Select data sources</div>
+      <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:26px;border-radius:99px;border:1.5px solid #D6D6D6;display:flex;align-items:center;justify-content:center;box-sizing:border-box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2B2B2B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg></span>Review fields</div>
+      <div style="display:flex;align-items:center;gap:12px;color:#1D5D9B"><span style="width:26px;height:26px;border-radius:99px;border:1.5px solid #1D5D9B;display:flex;align-items:center;justify-content:center;box-sizing:border-box;font-size:12px">3</span>Join data</div>
+      <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:26px;border-radius:99px;border:1.5px solid #D6D6D6;display:flex;align-items:center;justify-content:center;box-sizing:border-box;font-size:12px">4</span>Finalize blend</div>
+    </div>
+  </div>
+  <div style="flex:1 1 0;min-width:0;padding:28px 32px;box-sizing:border-box;display:flex;flex-direction:column;gap:6px">
+    <span style="font-size:24px;line-height:1.2">Join data</span>
+    <span style="font-size:14px;color:#555">Decide how you want to split data in your report.</span>
+    <div style="margin-top:16px;flex:1;background:#FAFAFA;border:1px solid #EEEEEE;border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden">
+      <div style="display:flex;border-radius:6px;background:#F2F2F2;padding:0;position:relative;height:38px;flex:none">
+        <span style="position:absolute;top:0;bottom:0;width:50%;left:{{ pillLeft }};background:#EAF4FE;border:1.5px solid #2E7CD6;border-radius:6px;box-sizing:border-box;transition:left 450ms cubic-bezier(.45,0,.2,1)"></span>
+        <span data-tab="presets" style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;font-size:14px;color:{{ presetsColor }};transition:color 300ms">Presets</span>
+        <span data-tab="custom" style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;font-size:14px;color:{{ customColor }};transition:color 300ms">Custom</span>
+      </div>
+      <div style="position:relative;flex:1;min-height:0">
+        <div style="position:absolute;inset:0;display:flex;gap:10px;align-items:stretch;bottom:auto;opacity:{{ presetsOp }};transform:translateY({{ presetsY }});transition:opacity 350ms,transform 450ms cubic-bezier(.45,0,.2,1)">
+          <sc-for list="{{ presets }}" as="p" hint-placeholder-count="3">
+            <div style="flex:{{ p.flex }};min-width:0;background:#fff;border:{{ p.border }};border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:12px">
+              <div style="border:1px solid #EEEEEE;border-radius:4px;display:grid;grid-template-columns:{{ p.cols }};font-size:11px;text-align:center">
+                <sc-for list="{{ p.cells }}" as="c" hint-placeholder-count="9"><span style="padding:{{ p.pad }};white-space:nowrap;overflow:hidden;font-size:{{ p.fs }};border-bottom:1px solid #F2F2F2;font-weight:{{ c.w }};color:#444;display:flex;align-items:center;justify-content:center;min-height:14px"><span style="width:{{ c.barW }};height:7px;border-radius:9px;background:{{ c.bar }};display:{{ c.barD }}"></span>{{ c.t }}</span></sc-for>
+              </div>
+              <span style="display:flex;align-items:center;gap:8px;font-size:13px;margin-top:auto"><span style="width:16px;height:16px;border-radius:99px;border:1.5px solid #555;box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex:none"><span style="width:8px;height:8px;border-radius:99px;background:#333;display:{{ p.dot }}"></span></span>{{ p.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;opacity:{{ customOp }};transform:translateY({{ customY }});transition:opacity 350ms,transform 450ms cubic-bezier(.45,0,.2,1)">
+          <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:15px">Join keys <span style="color:#666">(matching dimensions)</span></span><span style="font-size:12px;color:#555">Select one or more dimensions from the left table that match the dimensions on the right.</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr) 20px;gap:6px 6px;align-items:center">
+            <span style="font-size:11px">Left table</span><span></span><span style="font-size:11px">Right table</span><span></span>
+            <span style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #DDD;border-radius:6px;padding:9px 10px;font-size:13px"><img src="assets/sm/logomark.png" alt="" style="width:20px;height:20px;display:block;flex:none;border-radius:99px">Paid channel mix</span>
+            <span style="display:flex;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h15M15 4l4 4-4 4M20 16H5M9 12l-4 4 4 4"></path></svg></span>
+            <span style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #DDD;border-radius:6px;padding:9px 10px;font-size:13px"><svg width="18" height="18" viewBox="0 0 24 24"><rect x="15" y="3" width="5" height="18" rx="2.5" fill="#F9AB00"></rect><rect x="9" y="10" width="5" height="11" rx="2.5" fill="#E37400"></rect><circle cx="5.5" cy="18.5" r="2.5" fill="#E37400"></circle></svg>Google Analytics 4</span>
+            <span></span>
+            <span style="display:flex;justify-content:space-between;background:#fff;border:1px solid #DDD;border-radius:6px;padding:8px 10px;font-size:12.5px">Campaign name<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M6 9l6 6 6-6"></path></svg></span>
+            <span style="display:flex;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.6" stroke-linecap="round"><path d="M9 17H7a5 5 0 0 1 0-10h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8"></path></svg></span>
+            <span style="display:flex;justify-content:space-between;background:#fff;border:1px solid #DDD;border-radius:6px;padding:8px 10px;font-size:12.5px">Session campaign name<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M6 9l6 6 6-6"></path></svg></span>
+            <span style="display:flex;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"></path></svg></span>
+          </div>
+          <span style="font-size:15px;margin-top:4px">Join operator <span style="color:#666">(how data is combined)</span></span>
+          <div style="display:flex;border:1px solid #DDD;border-radius:6px;background:#fff;padding:3px;gap:3px">
+            <sc-for list="{{ ops }}" as="o" hint-placeholder-count="4"><span style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 4px;border-radius:5px;font-size:12px;white-space:nowrap;background:{{ o.bg }};border:{{ o.border }};color:#1D3F66"><svg width="22" height="14" viewBox="0 0 22 14"><circle cx="7" cy="7" r="6" fill="{{ o.lf }}"></circle><circle cx="15" cy="7" r="6" fill="{{ o.rf }}"></circle><path d="M11 2.53A6 6 0 0 1 11 11.47A6 6 0 0 1 11 2.53Z" fill="{{ o.mf }}"></path><circle cx="7" cy="7" r="6" fill="none" stroke="#1D5D9B" stroke-width="1.2"></circle><circle cx="15" cy="7" r="6" fill="none" stroke="#1D5D9B" stroke-width="1.2"></circle></svg>{{ o.t }}</span></sc-for>
+          </div>
+          <span style="font-size:12px;color:#444">Left join takes all the data from the left table and the matching data from the right table where the join keys are the same.</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:0 6%">
+            <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:11px;text-align:center;padding-bottom:4px;border-bottom:1px solid #555">Left table</span>
+              <sc-for list="{{ leftRows }}" as="r" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><span style="font-size:11px;text-align:center;padding:3px;border-radius:5px;background:#D6EAFC;border:1px solid #6FB0EE;color:#1D5D9B">{{ r.a }}</span><span style="font-size:11px;text-align:center;padding:3px;border-radius:5px;background:#D6EAFC;border:1px solid #6FB0EE;color:#1D5D9B">{{ r.b }}</span></div></sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:11px;text-align:center;padding-bottom:4px;border-bottom:1px solid #555">Right table</span>
+              <sc-for list="{{ rightRows }}" as="r" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><span style="font-size:11px;text-align:center;padding:3px;border-radius:5px;background:{{ r.bg }};border:{{ r.bd }};color:{{ r.c }}">{{ r.a }}</span><span style="font-size:11px;text-align:center;padding:3px;border-radius:5px;background:{{ r.bg }};border:{{ r.bd }};color:{{ r.c }}">{{ r.b }}</span></div></sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:0;top:0;pointer-events:none;opacity:{{ curOp }};transition:transform 800ms cubic-bezier(.45,0,.2,1),opacity 300ms;transform:translate({{ curX }},{{ curY }})"><svg width="20" height="20" viewBox="0 0 24 24" style="display:block;transform:scale({{ curS }});transition:transform 140ms;filter:drop-shadow(0 2px 3px rgba(16,24,40,.3))"><path d="M5 3l14 7.5-6.2 1.6L10 18.5z" fill="#152F25" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"></path></svg></div>
+</div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:600}}">
+class Component extends DCLogic {
+  state = { custom: false, x: 0, y: 0, s: 1, k: 1 };
+  outerRef = React.createRef();
+  componentDidMount() {
+    const fit = () => { const el = this.outerRef.current; if (el) this.setState({ k: Math.min(1, el.clientWidth / 1100) || 1 }); };
+    fit(); this._ro = new ResizeObserver(fit); if (this.outerRef.current) this._ro.observe(this.outerRef.current);
+    this._root = null;
+    const wait = (ms) => new Promise((r) => (this._t = setTimeout(r, ms)));
+    const point = async (tab) => {
+      const el = document.querySelector('[data-tab="' + tab + '"]');
+      const root = el && el.closest('[role="img"]');
+      if (!el || !root) return;
+      const a = el.getBoundingClientRect(), b = root.getBoundingClientRect();
+      const k = this.state.k || 1; this.setState({ x: (a.left - b.left + a.width * 0.55) / k, y: (a.top - b.top + a.height * 0.5) / k });
+      await wait(900);
+    };
+    const click = async () => { this.setState({ s: 0.82 }); await wait(150); this.setState({ s: 1 }); };
+    const loop = async () => {
+      await wait(600);
+      while (!this._dead) {
+        await wait(1800); await point('custom'); await click(); this.setState({ custom: true });
+        await wait(3200); await point('presets'); await click(); this.setState({ custom: false });
+      }
+    };
+    loop();
+  }
+  componentWillUnmount() { this._dead = true; clearTimeout(this._t); this._ro && this._ro.disconnect(); }
+  renderVals() {
+    const c = this.state.custom;
+    const bar = (w, col) => ({ t: '', w: 400, barW: w, bar: col, barD: 'block' });
+    const txt = (t, h) => ({ t, w: h ? 700 : 400, barW: '0', bar: 'none', barD: 'none' });
+    const B = '#DDE3FB', G = '#BDEFD3';
+    const presets = [
+      { label: 'By campaign name', fs: '11px', flex: '1 1 0', pad: '5px 6px', cols: '1.3fr 1fr 1fr', dot: 'block', border: '1.5px solid #333',
+        cells: [txt('Campaign', 1), txt('Cost', 1), txt('Clicks', 1), txt('Campaign A'), bar('70%', B), bar('70%', G), txt('Campaign B'), bar('45%', B), bar('45%', G)] },
+      { label: 'By date', fs: '11px', flex: '1 1 0', pad: '5px 6px', cols: '1.3fr 1fr 1fr', dot: 'none', border: '1px solid #DDD',
+        cells: [txt('Date', 1), txt('Cost', 1), txt('Clicks', 1), txt('2024-01-01'), bar('70%', B), bar('70%', G), txt('2024-01-02'), bar('45%', B), bar('45%', G)] },
+      { label: 'By campaign and date', fs: '11px', flex: '1 1 0', pad: '5px 5px', cols: 'auto auto minmax(28px,1fr) minmax(28px,1fr)', dot: 'none', border: '1px solid #DDD',
+        cells: [txt('Campaign', 1), txt('Date', 1), txt('Cost', 1), txt('Clicks', 1), txt('Campaign A'), txt('2024-01-01'), bar('60%', B), bar('60%', G), txt('Campaign B'), txt('2024-01-02'), bar('40%', B), bar('40%', G)] },
+    ];
+    const F = '#9CC8F2', N = 'none'; const fills = [[F, N, F], [N, F, F], [N, N, F], [F, F, F]];
+    const ops = ['Left join', 'Right join', 'Inner join', 'Full outer join'].map((t, i) => ({ t, lf: fills[i][0], rf: fills[i][1], mf: fills[i][2], bg: i === 0 ? '#EAF4FE' : 'transparent', border: i === 0 ? '1px solid #6FB0EE' : '1px solid transparent' }));
+    const g = { bg: '#D3F2DE', bd: '1px solid #5CC489', c: '#1E7A46' }, n = { bg: '#fff', bd: '1px solid #CCC', c: '#999' };
+    return {
+      outerRef: this.outerRef, scale: this.state.k, outerH: Math.round(600 * this.state.k) + 'px',
+      pillLeft: c ? '50%' : '0%',
+      presetsColor: c ? '#777' : '#0D3B66', customColor: c ? '#0D3B66' : '#777',
+      presetsOp: c ? 0 : 1, presetsY: c ? '-8px' : '0px',
+      customOp: c ? 1 : 0, customY: c ? '0px' : '8px',
+      presets, ops,
+      leftRows: [{ a: 'Campaign A', b: '100' }, { a: 'Campaign B', b: '240' }, { a: 'Campaign C', b: '500' }],
+      rightRows: [{ a: 'Campaign B', b: '16', ...g }, { a: 'Campaign C', b: '8', ...g }, { a: 'Campaign D', b: '12', ...n }],
+      curOp: this.state.x ? 1 : 0, curX: this.state.x + 'px', curY: this.state.y + 'px', curS: this.state.s,
+    };
+  }
+}
+</script>
+</body>
+</html>

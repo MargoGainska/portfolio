@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Margo Gaińska — Lead Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('mg-theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+<script src="./image-slot.js"></script>
+<style>
+:root{--bg:#0d0d0e;--card:#161618;--card2:#1c1c1f;--fg:#f1f0ec;--mut:#9a9994;--line:rgba(241,240,236,.1);--line2:rgba(241,240,236,.24);--solu:oklch(0.82 0.13 158);--accent:oklch(0.78 0.14 295);--sm:oklch(0.76 0.12 280);--warn:oklch(0.82 0.13 88);--bad:oklch(0.72 0.15 25);--mark:var(--accent);color-scheme:dark}
+[data-theme=light]{--bg:#f3f2ee;--card:#e8e7e2;--card2:#dfded8;--fg:#121211;--mut:#5f5e59;--line:rgba(18,18,17,.1);--line2:rgba(18,18,17,.26);--solu:oklch(0.55 0.13 158);--accent:oklch(0.52 0.18 295);--sm:oklch(0.5 0.16 275);--warn:oklch(0.6 0.12 88);--bad:oklch(0.55 0.16 25);--mark:var(--accent);color-scheme:light}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Geist,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--fg)}
+:root{--ga1:oklch(0.72 0.16 295);--ga2:oklch(0.78 0.14 345);--ga3:oklch(0.86 0.11 55);--gs1:oklch(0.8 0.14 160);--gs2:oklch(0.84 0.11 195);--gs3:oklch(0.9 0.11 120);--gm1:oklch(0.82 0.08 265);--gm2:oklch(0.7 0.14 268);--gm3:oklch(0.6 0.17 272);--gsi1:oklch(0.5 0.13 160);--gsi2:oklch(0.52 0.1 200);--gsi3:oklch(0.58 0.12 130);--gmi1:oklch(0.5 0.14 268);--gmi2:oklch(0.42 0.16 270);--gmi3:oklch(0.34 0.15 272)}
+[data-theme=light]{--ga1:oklch(0.530 0.18 295);--ga2:oklch(0.530 0.17 345);--ga3:oklch(0.520 0.14 50);--gs1:oklch(0.490 0.13 160);--gs2:oklch(0.495 0.1 200);--gs3:oklch(0.500 0.12 130);--gm1:oklch(0.5 0.14 268);--gm2:oklch(0.42 0.16 270);--gm3:oklch(0.34 0.15 272);--gsi1:oklch(0.8 0.14 160);--gsi2:oklch(0.84 0.11 195);--gsi3:oklch(0.9 0.11 120);--gmi1:oklch(0.82 0.08 265);--gmi2:oklch(0.7 0.14 268);--gmi3:oklch(0.6 0.17 272)}
+[data-arrow-down]{transition:transform .55s cubic-bezier(.16,1,.3,1)}
+a:hover [data-arrow-down]{transform:translateY(.12em)}
+a[data-zoom]{transition:scale .7s cubic-bezier(.16,1,.3,1)}
+a[data-zoom]:hover{scale:1.018}
+::selection{background:var(--fg);color:var(--bg)}
+body.mg-cursor,body.mg-cursor *{cursor:none!important}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+</style>
+<style>@media (prefers-reduced-motion:no-preference){html:not(.mg-ready) [data-rise]{transform:translateY(108%) rotate(2deg)}html:not(.mg-ready) [data-reveal]{opacity:0}}</style>
+<script>setTimeout(function(){document.documentElement.classList.add('mg-ready')},3000)</script>
+<script src="motion.js"></script>
+</helmet>
+
+<div data-cursor-dot="" style="position:fixed;left:0;top:0;width:12px;height:12px;border-radius:999px;background:#fff;mix-blend-mode:difference;z-index:100;pointer-events:none;display:none;align-items:center;justify-content:center;will-change:transform">
+  <span data-cursor-label="" style="font-family:'Geist Mono',monospace;font-size:12px;color:#000;opacity:0;transition:opacity .2s"></span>
+  <svg data-cursor-arrow="" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:50%;top:50%;width:28px;height:28px;margin:-14px 0 0 -14px;opacity:0;transform:rotate(-45deg) scale(.3);transition:opacity .25s,transform .5s cubic-bezier(.16,1,.3,1)"><path d="M7 17 17 7"></path><path d="M8.5 7H17v8.5"></path></svg>
+</div>
+
+<header data-nav="" style="position:fixed;top:0;left:0;right:0;z-index:50;isolation:isolate;padding:16px clamp(32px,7.5vw,136px);display:flex;align-items:center;justify-content:space-between;gap:16px;transition:transform .6s cubic-bezier(.16,1,.3,1);pointer-events:none">
+  <div aria-hidden="true" style="position:absolute;inset:0 0 -28px 0;z-index:-1;pointer-events:none;background:linear-gradient(to bottom,var(--bg) 0%,color-mix(in oklab,var(--bg) 82%,transparent) 55%,transparent 100%);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);-webkit-mask-image:linear-gradient(to bottom,#000 60%,transparent);mask-image:linear-gradient(to bottom,#000 60%,transparent)"></div>
+  <a href="index.html" onMouseEnter="{{ logoIn }}" onMouseLeave="{{ logoOut }}" onMouseDown="{{ logoDown }}" onMouseUp="{{ logoUp }}" style="pointer-events:auto;display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;letter-spacing:-0.01em">
+    <span style="width:24px;height:22px;border-radius:{{ logoR }};background-image:url(assets/grain-light.svg),linear-gradient(135deg,var(--ga1),var(--ga2) 55%,var(--ga3));background-size:60px 60px,100% 100%;display:block;transform:{{ logoT }};transition:{{ logoTr }}"></span>
+    <span>Margo Gaińska</span>
+  </a>
+  <div style="pointer-events:auto;display:flex;align-items:center;gap:4px;padding:5px;border-radius:999px;border:1px solid var(--line);background:color-mix(in oklab,var(--bg) 72%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
+    <a href="#work" style="font-size:14px;padding:8px 14px;border-radius:999px;color:var(--mut);transition:background .3s,color .3s" style-hover="background:var(--line);color:var(--fg)">Work</a>
+    <a href="#about" style="font-size:14px;padding:8px 14px;border-radius:999px;color:var(--mut);transition:background .3s,color .3s" style-hover="background:var(--line);color:var(--fg)">About</a>
+    <a href="#contact" style="font-size:14px;padding:8px 14px;border-radius:999px;color:var(--mut);transition:background .3s,color .3s" style-hover="background:var(--line);color:var(--fg)">Contact</a>
+    <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="display:flex;align-items:center;gap:8px;font:inherit;font-size:14px;padding:8px 12px 8px 10px;border-radius:999px;border:0;background:var(--fg);color:var(--bg);cursor:pointer">
+      <span style="width:14px;height:14px;border-radius:999px;border:1.5px solid var(--bg);background:linear-gradient(90deg,var(--bg) 50%,transparent 50%);box-sizing:border-box;display:block"></span>
+      <span>{{ themeLabel }}</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section data-screen-label="Hero" style="position:relative;min-height:100svh;box-sizing:border-box;padding:clamp(120px,14vh,180px) clamp(32px,7.5vw,136px) clamp(64px,10vh,120px);display:flex;flex-direction:column;justify-content:center;gap:clamp(48px,7vh,88px);overflow:hidden">
+
+    <div data-scrub="" style="will-change:transform,opacity">
+      <h1 aria-label="I make complexity feel simple" style="margin:0;font-weight:500;font-size:clamp(48px,7.5vw,128px);line-height:.92;letter-spacing:-0.05em">
+        <span style="display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.22em"><span data-rise="0" style="display:block">I make</span></span>
+        <span style="display:block;overflow:{{ rollClip }};padding-bottom:.18em;margin-bottom:-.22em"><span data-rise="110" style="display:block"><span aria-hidden="true" style="display:inline-flex;flex-direction:column;height:1.06em;overflow:{{ rollClip }}"><span style="display:flex;flex-direction:column;transform:{{ rollT }};transition:transform .6s cubic-bezier(.77,0,.18,1)"><span style="height:1.06em;line-height:1.06em;color:var(--mut);opacity:{{ prevOp }}">data</span><span style="height:1.06em;line-height:1.06em;color:var(--mut);opacity:{{ prevOp }}">science</span><span style="height:1.06em;line-height:1.06em;color:var(--mut);opacity:{{ prevOp }}">systems</span><span style="height:1.06em;line-height:1.06em;padding-right:.04em;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--ga1),var(--ga2) 45%,var(--ga3));background-size:140px 140px,100% 100%;">complexity</span></span></span></span></span>
+        <span style="display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.22em"><span data-rise="220" style="display:block">feel simple</span></span>
+      </h1>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:32px 48px;align-items:end;border-top:1px solid var(--line);padding-top:28px">
+      <p data-reveal="" data-delay="500" style="flex:1 1 300px;min-width:min(100%,300px);margin:0;font-size:clamp(18px,1.6vw,23px);line-height:1.35;letter-spacing:-0.015em;max-width:26em;text-wrap:balance;display:flex;flex-direction:column;gap:14px"><span>I’m Margo, a lead product designer who turns complex systems into products people love coming back&nbsp;to.</span><span style="color:var(--mut)">Now at Solu, a biotech startup. Previously at Meta and&nbsp;Google.</span></p>
+      <a href="#work" onClick="{{ scrollToWork }}" data-reveal="" data-delay="800" data-magnetic="0.35" style="flex:1 1 300px;min-width:min(100%,300px);justify-self:end;position:relative;display:flex;align-items:center;justify-content:center;width:136px;height:136px;color:var(--fg);font-size:14px;flex-direction:column;gap:2px">
+        <svg viewBox="0 0 120 120" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible"><defs><linearGradient id="mg-blob-g" x1="0" y1="0" x2="1" y2="0.3"><stop offset="0" style="stop-color:var(--ga1)"></stop><stop offset="0.45" style="stop-color:var(--ga2)"></stop><stop offset="1" style="stop-color:var(--ga3)"></stop></linearGradient><filter id="mg-blob-n" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" stitchTiles="stitch" result="t"></feTurbulence><feColorMatrix in="t" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0" result="w"></feColorMatrix><feComposite in="w" in2="SourceGraphic" operator="in" result="g"></feComposite><feMerge><feMergeNode in="SourceGraphic"></feMergeNode><feMergeNode in="g"></feMergeNode></feMerge></filter></defs><path filter="url(#mg-blob-n)" d="M60.0 3.1C73.4 3.9 88.0 18.7 97.2 30.3C106.5 41.9 117.9 59.9 115.5 72.7C113.0 85.4 95.2 101.9 82.6 106.8C69.9 111.7 50.7 108.2 39.8 102.0C28.8 95.9 20.6 82.6 16.8 69.9C12.9 57.1 9.4 36.5 16.6 25.4C23.8 14.3 46.6 2.3 60.0 3.1Z" fill="none" stroke="url(#mg-blob-g)" stroke-width="2" vector-effect="non-scaling-stroke"><animate attributeName="d" dur="10s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="M60.0 3.1C73.4 3.9 88.0 18.7 97.2 30.3C106.5 41.9 117.9 59.9 115.5 72.7C113.0 85.4 95.2 101.9 82.6 106.8C69.9 111.7 50.7 108.2 39.8 102.0C28.8 95.9 20.6 82.6 16.8 69.9C12.9 57.1 9.4 36.5 16.6 25.4C23.8 14.3 46.6 2.3 60.0 3.1Z;M60.0 2.8C73.3 2.9 91.0 17.1 99.4 28.5C107.9 40.0 113.0 57.8 110.6 71.5C108.1 85.3 96.3 106.2 84.6 111.1C72.9 116.0 53.5 107.5 40.2 101.0C27.0 94.6 8.6 84.7 5.2 72.5C1.8 60.3 10.7 39.6 19.8 28.0C29.0 16.4 46.7 2.7 60.0 2.8Z;M60.0 4.2C73.2 4.9 89.0 19.5 96.8 30.6C104.7 41.7 109.9 58.6 107.3 70.8C104.6 82.9 92.6 97.5 81.0 103.5C69.3 109.6 49.0 112.5 37.3 107.1C25.6 101.7 14.1 84.7 10.8 71.2C7.5 57.7 9.4 37.4 17.6 26.2C25.8 15.0 46.8 3.4 60.0 4.2Z;M60.0 13.4C73.3 12.7 93.8 16.2 102.7 26.0C111.5 35.8 116.6 59.4 112.8 72.1C109.1 84.7 92.7 96.3 80.2 102.0C67.7 107.7 48.5 111.7 37.7 106.4C26.8 101.1 17.8 82.9 15.3 70.2C12.8 57.5 15.1 39.6 22.6 30.1C30.0 20.7 46.7 14.1 60.0 13.4Z;M60.0 3.1C73.4 3.9 88.0 18.7 97.2 30.3C106.5 41.9 117.9 59.9 115.5 72.7C113.0 85.4 95.2 101.9 82.6 106.8C69.9 111.7 50.7 108.2 39.8 102.0C28.8 95.9 20.6 82.6 16.8 69.9C12.9 57.1 9.4 36.5 16.6 25.4C23.8 14.3 46.6 2.3 60.0 3.1Z"></animate></path></svg>
+        <span style="position:relative">Selected</span><span style="position:relative;display:flex;align-items:center;gap:.18em">work<svg data-arrow-down="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:.8em;height:.8em;display:block"><path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path></svg></span>
+      </a>
+    </div>
+  </section>
+
+
+  <section id="work" data-screen-label="Selected work" style="padding:clamp(120px,15vw,240px) clamp(32px,7.5vw,136px) 40px">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,5vw,72px)">
+      <h2 data-reveal="" style="margin:0;font-weight:500;font-size:clamp(48px,8vw,128px);line-height:.9;letter-spacing:-0.05em">Selected <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--ga1),var(--ga2) 45%,var(--ga3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">work</span><sup style="font-family:'Geist Mono',monospace;font-size:14px;letter-spacing:0;vertical-align:top;margin-left:8px;color:var(--mut)">(02)</sup></h2>
+      
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div data-stack="" style="position:{{ stackPos }};top:{{ stackTop }};padding-bottom:{{ stackPad1 }}">
+        <a href="Solu Case Study.dc.html" data-cursor="Read case" data-zoom="" style="display:flex;flex-wrap:wrap;align-items:stretch;gap:clamp(32px,4vw,64px);background:var(--card);border-radius:32px;padding:clamp(32px,4vw,64px);box-sizing:border-box;transform-origin:50% 0">
+          <div style="flex:1 1 260px;display:flex;flex-direction:column;justify-content:space-between;gap:32px;min-width:0">
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <h3 style="margin:0;font-weight:500;font-size:clamp(28px,3vw,46px);line-height:1;letter-spacing:-0.04em;text-wrap:balance">Helping labs stop <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gs1),var(--gs2) 45%,var(--gs3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">epidemics early</span></h3>
+              <p style="margin:0;font-size:16px;line-height:1.5;color:var(--mut);max-width:440px;text-wrap:pretty">Solu tells labs in minutes which antibiotics will fail and whether infections are spreading. As its first designer, I set up how the team designs, and took the product from a single-sample tool to national surveillance pilots.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;white-space:nowrap">
+                <span style="display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line2)"><svg viewBox="4.5 1.9 15 24.2" role="img" aria-label="Solu" style="height:15px;width:auto;display:block;color:var(--fg)"><path fill="currentColor" d="M18.5901 7.35047C19.8033 6.12647 19.8033 4.14199 18.5901 2.91799C17.377 1.694 15.4101 1.694 14.1969 2.91799C12.9838 4.14199 12.9838 6.12647 14.1969 7.35047C15.4101 8.57445 17.377 8.57445 18.5901 7.35047Z"></path><path fill="currentColor" d="M9.80375 2.91799C11.0169 4.14199 11.0169 6.12646 9.80375 7.35047C8.62135 8.54349 8.59126 10.4673 9.71376 11.6968C9.74408 11.7251 9.7743 11.7452 9.80375 11.7749C11.0169 12.9992 12.9835 13.0081 14.1966 11.7838C15.4098 10.5598 17.3767 10.5598 18.5898 11.7838C19.803 13.0077 19.803 14.9922 18.5898 16.2162C17.4074 17.4093 17.3774 19.3331 18.4999 20.5626C18.5301 20.5908 18.56 20.6198 18.5895 20.6495C19.8026 21.8735 19.8026 23.858 18.5895 25.082C17.3763 26.306 15.4094 26.306 14.1963 25.082C12.9831 23.858 12.9831 21.8735 14.1963 20.6495C14.2266 20.6189 14.2574 20.5891 14.2886 20.56C15.4088 19.3304 15.3782 17.4084 14.1966 16.2162C14.1623 16.1816 14.129 16.1465 14.0967 16.1107C12.9105 15.0155 11.0843 15.0168 9.89969 16.1147C9.86848 16.149 9.83639 16.1829 9.80338 16.2162C8.59024 17.4402 6.62334 17.4402 5.41019 16.2162C4.19704 14.9922 4.19704 13.0077 5.41019 11.7837C5.44052 11.7531 5.47132 11.7233 5.50257 11.6942C6.62269 10.4646 6.5921 8.54267 5.41055 7.35047C4.1974 6.12646 4.1974 4.14199 5.41055 2.91799C6.6237 1.694 8.59059 1.694 9.80375 2.91799Z"></path><path fill="currentColor" d="M9.80306 20.6495C11.0162 21.8735 11.0162 23.858 9.80306 25.082C8.5899 26.306 6.62301 26.306 5.40986 25.082C4.19671 23.858 4.19671 21.8735 5.40986 20.6495C6.62301 19.4255 8.5899 19.4255 9.80306 20.6495Z"></path></svg><span>Solu</span></span>
+                <span style="font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line2)">Healthtech</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;border-top:1px solid var(--line);padding-top:20px">
+                <div style="display:flex;flex-direction:column;gap:12px"><span style="font-size:clamp(24px,2.4vw,34px);letter-spacing:-0.04em;font-weight:500">+307%</span><span style="font-size:13px;line-height:1.35;color:var(--mut)">more reports after builder launch</span></div>
+                <div style="display:flex;flex-direction:column;gap:12px"><span style="font-size:clamp(24px,2.4vw,34px);letter-spacing:-0.04em;font-weight:500">~2×</span><span style="font-size:13px;line-height:1.35;color:var(--mut)">uploads after launching plasmid analysis</span></div>
+                <div style="display:flex;flex-direction:column;gap:12px"><span style="font-size:clamp(24px,2.4vw,34px);letter-spacing:-0.04em;font-weight:500">172%</span><span style="font-size:13px;line-height:1.35;color:var(--mut)">net revenue retention</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1.7 1 340px;min-width:min(100%,340px);min-height:320px;position:relative;border-radius:22px;overflow:hidden;background:#095C37">
+            <div style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);aspect-ratio:16/9"><iframe src="embeds/demo/Solu%20Product%20Demo.dc.html?clean" title="Solu product film" tabindex="-1" style="position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none;background:#095C37"></iframe></div>
+          </div>
+        </a>
+      </div>
+
+      <div data-stack="" style="position:{{ stackPos }};top:{{ stackTop }};padding-bottom:clamp(48px,6vw,96px)">
+        <a href="Supermetrics Case Study.dc.html" data-cursor="Read case" data-zoom="" style="display:flex;flex-wrap:wrap;align-items:stretch;gap:clamp(32px,4vw,64px);background:var(--card);border-radius:32px;padding:clamp(32px,4vw,64px);box-sizing:border-box;transform-origin:50% 0">
+          <div style="flex:1 1 260px;display:flex;flex-direction:column;justify-content:space-between;gap:32px;min-width:0">
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <h3 style="margin:0;font-weight:500;font-size:clamp(28px,3vw,46px);line-height:1;letter-spacing:-0.04em;text-wrap:balance">Making complex data transformations <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--gm1),var(--gm2) 45%,var(--gm3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">easy</span> for marketers</h3>
+              <p style="margin:0;font-size:16px;line-height:1.5;color:var(--mut);max-width:440px;text-wrap:pretty">Four guided, code-free transformation features (blends, joins, custom fields and account tagging) that let marketers work with complex data without waiting on analysts.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;white-space:nowrap">
+                <span style="display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line2)"><img src="assets/sm/logomark.png" alt="" aria-hidden="true" style="height:15px;width:15px;display:block"><span>Supermetrics</span></span>
+                <span style="display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line2)">Martech<span style="width:1px;height:12px;background:var(--line2);display:block"></span>Analytics</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;border-top:1px solid var(--line);padding-top:20px">
+                <div style="display:flex;flex-direction:column;gap:12px"><span style="font-size:clamp(24px,2.4vw,34px);letter-spacing:-0.04em;font-weight:500">+125%</span><span style="font-size:13px;line-height:1.35;color:var(--mut)">custom fields use, year on year</span></div>
+                <div style="display:flex;flex-direction:column;gap:12px"><span style="font-size:clamp(24px,2.4vw,34px);letter-spacing:-0.04em;font-weight:500">~80%</span><span style="font-size:13px;line-height:1.35;color:var(--mut)">less setup time with account tagging</span></div>
+                <div style="display:flex;flex-direction:column;gap:12px"><span style="font-size:clamp(24px,2.4vw,34px);letter-spacing:-0.04em;font-weight:500">+224%</span><span style="font-size:13px;line-height:1.35;color:var(--mut)">data blending use, year on year</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1.7 1 340px;min-width:min(100%,340px);min-height:320px;position:relative;border-radius:22px;overflow:hidden;background:linear-gradient(180deg,#06050e 50%,transparent 50%),linear-gradient(90deg,#040507,#18132a 45%,#1a122e)">
+            <div data-zoom-target="" role="img" aria-label="Supermetrics connector builder with AI assistant" style="position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 85%,#7b7fd0 0%,#4d4a9a 30%,#241a4a 62%,#0b0812 100%);display:flex;align-items:center;justify-content:center;padding:clamp(16px,3vw,36px)"><div aria-hidden="true" style="position:absolute;inset:0;background:url(assets/grain-light.svg);background-size:140px 140px;opacity:.55;mix-blend-mode:overlay"></div><div style="position:relative;width:100%;max-width:1200px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)"><dc-import name="Connector Builder Animation" mode="ai" hint-size="100%,560px"></dc-import></div></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div style="margin-top:clamp(80px,10vw,140px);display:flex;flex-direction:column">
+      <div data-reveal="" style="display:flex;justify-content:space-between;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--line);font-size:14px;color:var(--mut)"><span>Earlier work</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:48px 24px;padding-top:32px;align-items:flex-start">
+        <div data-reveal="" data-delay="0" style="flex:1 1 360px;min-width:min(100%,360px);display:flex;flex-direction:column;gap:20px">
+          <div data-reveal="clip" style="aspect-ratio:2576/1427;border-radius:18px;overflow:hidden;background:var(--card2)"><img src="assets/earlier/youtube.png" alt="YouTube channel template creation" style="display:block;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.16,1,.3,1)" style-hover="transform:scale(1.04)"></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:clamp(22px,2.2vw,30px);letter-spacing:-0.03em;font-weight:500">YouTube <span style="color:var(--mut);font-weight:400">· Google</span></span>
+            <span style="font-size:16px;color:var(--mut);line-height:1.45;max-width:30em;text-wrap:pretty">Helping creators express themselves through channel personalisation</span>
+          </div>
+        </div>
+        <div data-reveal="" data-delay="100" style="flex:1 1 360px;min-width:min(100%,360px);display:flex;flex-direction:column;gap:20px">
+          <div data-reveal="clip" style="aspect-ratio:2212/1671;border-radius:18px;overflow:hidden;background:var(--card2)"><img src="assets/earlier/facebook.jpg" alt="Facebook app discovery flows" style="display:block;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.16,1,.3,1)" style-hover="transform:scale(1.04)"></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:clamp(22px,2.2vw,30px);letter-spacing:-0.03em;font-weight:500">Facebook <span style="color:var(--mut);font-weight:400">· Meta</span></span>
+            <span style="font-size:16px;color:var(--mut);line-height:1.45;max-width:30em;text-wrap:pretty">Rethinking how people organically discover new apps in overcrowded ecosystems</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" data-screen-label="About" style="padding:clamp(120px,15vw,240px) clamp(32px,7.5vw,136px)">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,96px);align-items:start">
+      <div style="flex:1 1 380px;min-width:min(100%,380px);display:flex;flex-direction:column;gap:44px">
+        <h2 data-reveal="" style="margin:0;font-weight:500;font-size:clamp(56px,8vw,128px);line-height:.9;letter-spacing:-0.055em">Hi, I’m <span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,var(--ga1),var(--ga2) 45%,var(--ga3));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">Margo</span></h2>
+        <p data-reveal="" data-delay="80" style="margin:0;font-size:clamp(19px,1.7vw,24px);line-height:1.4;letter-spacing:-0.015em;text-wrap:pretty;max-width:600px">I’m a designer who enjoys making sense of complex problems. I feel comfortable moving between strategy and detail: from messy, open problems to clear concepts and final execution.</p>
+        <p data-reveal="" data-delay="140" style="margin:0;font-size:17px;line-height:1.55;color:var(--mut);text-wrap:pretty;max-width:600px">Originally from Poland, I’ve lived in Berlin, Helsinki and other European countries, and worked at startups, scale-ups and big tech. I hold a BA in Design and an MA in International Design Business Management from Aalto University, one of the world’s top design schools. Outside work I cook, knit, explore new places and spend time with my puppy Taika (“magic” in Finnish).</p>
+      </div>
+      <div style="flex:1 1 380px;min-width:min(100%,380px);display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
+        <div data-reveal="clip" style="aspect-ratio:4/5;border-radius:20px;overflow:hidden;position:relative">
+          <div data-parallax="0.08" style="position:absolute;left:0;right:0;top:-8%;bottom:-8%"><img src="assets/margo-portrait.jpg" alt="Margo cross-country skiing in a snowy pine forest" style="display:block;width:100%;height:100%;object-fit:cover;object-position:50% 45%"></div>
+        </div>
+        <div data-reveal="clip" data-delay="120" style="aspect-ratio:4/5;border-radius:20px;overflow:hidden;position:relative;margin-top:30%">
+          <div data-parallax="0.16" style="position:absolute;left:0;right:0;top:-8%;bottom:-8%"><img src="assets/taika.png" alt="Taika, my puppy, playing with a rope toy" style="display:block;width:100%;height:100%;object-fit:cover;object-position:50% 45%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:clamp(104px,13vw,200px);display:flex;flex-wrap:wrap;gap:0 clamp(48px,7vw,120px)">
+      <div data-reveal="" style="flex:1 1 260px;min-width:min(100%,260px);display:flex;flex-direction:column;gap:12px;padding:24px 0;border-top:1px solid var(--line2)">
+        <span style="font-size:14px;color:var(--mut)">Design</span>
+        <span style="font-size:17px;line-height:1.5">0→1 design, interaction design, design systems, user flows, prototyping, UI, UX research</span>
+      </div>
+      <div data-reveal="" data-delay="80" style="flex:1 1 260px;min-width:min(100%,260px);display:flex;flex-direction:column;gap:12px;padding:24px 0;border-top:1px solid var(--line2)">
+        <span style="font-size:14px;color:var(--mut)">Strategy</span>
+        <span style="font-size:17px;line-height:1.5">Discovery &amp; validation, problem framing, competitive analysis, data-informed decision making</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact" data-screen-label="Contact" style="background:var(--fg);color:var(--bg);border-radius:32px 32px 0 0;padding:clamp(64px,10vw,140px) clamp(32px,7.5vw,136px) 32px;display:flex;flex-direction:column;gap:clamp(64px,10vw,140px)">
+  <div style="display:flex;flex-direction:column;gap:44px">
+    <a href="mailto:gainskam@gmail.com" data-reveal="" data-cursor="Write" style="font-size:clamp(40px,8.4vw,148px);font-weight:500;letter-spacing:-0.055em;line-height:.95;color:var(--bg);word-break:break-word">gainskam<span style="background-image:url(assets/grain-light.svg),linear-gradient(100deg,oklch(0.55 0.2 295),oklch(0.6 0.19 345) 50%,oklch(0.66 0.16 50));background-size:140px 140px,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em;margin-right:-.04em">@</span>gmail.com</a>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;border-top:1px solid color-mix(in oklab,var(--bg) 20%,transparent);padding-top:24px;font-size:15px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://www.linkedin.com/in/mgainska/" target="_blank" rel="noopener" data-magnetic="0.25" style="padding:10px 18px;border-radius:999px;border:1px solid color-mix(in oklab,var(--bg) 30%,transparent);color:var(--bg)">LinkedIn ↗</a>
+      <a href="Resume.dc.html" target="_blank" rel="noopener" data-magnetic="0.25" style="padding:10px 18px;border-radius:999px;border:1px solid color-mix(in oklab,var(--bg) 30%,transparent);color:var(--bg)">Resume ↗</a>
+    </div>
+    <span style="opacity:.7">© 2026 Margo Gaińska</span>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Expressive&quot;,&quot;Subtle&quot;],&quot;default&quot;:&quot;Expressive&quot;,&quot;tsType&quot;:&quot;'Expressive'|'Subtle'&quot;},&quot;customCursor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { theme: 'dark', roll: 0, wide: true };
+  componentDidMount() {
+    this._onResize = () => this.setState({ wide: window.innerWidth >= 1100 && window.innerHeight >= 700 });
+    this._onResize();
+    window.addEventListener('resize', this._onResize);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) this.setState({ roll: 3, rollDone: true });
+    else {
+      const tick = (n) => { this._rt = setTimeout(() => { this.setState({ roll: n }); if (n < 3) tick(n + 1); else this._rd = setTimeout(() => this.setState({ rollDone: true }), 700); }, n === 1 ? 1500 : 620); };
+      tick(1);
+    }
+    this.setState({ theme: document.documentElement.dataset.theme || 'dark' });
+    this._onTheme = (e) => this.setState({ theme: e.detail });
+    window.addEventListener('mg-theme', this._onTheme);
+    new Promise((res) => { const t = () => window.MGMotion ? res(window.MGMotion) : setTimeout(t, 20); t(); }).then((m) => Promise.race([document.fonts ? document.fonts.ready : null, new Promise((r) => setTimeout(r, 800))]).then(() => m)).then((m) => {
+      this.m = m;
+      this._cleanup = m.initMotion({ subtle: (this.props.motion ?? 'Expressive') === 'Subtle', cursor: this.props.customCursor ?? true });
+    });
+  }
+  componentDidUpdate(prev) {
+    if (this.m && (prev.motion !== this.props.motion || prev.customCursor !== this.props.customCursor)) {
+      this._cleanup && this._cleanup();
+      this._cleanup = this.m.initMotion({ subtle: (this.props.motion ?? 'Expressive') === 'Subtle', cursor: this.props.customCursor ?? true });
+    }
+  }
+  componentWillUnmount() {
+    clearTimeout(this._rt);
+    this._blobAnim && this._blobAnim.cancel();
+    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('mg-theme', this._onTheme);
+    this._cleanup && this._cleanup();
+  }
+  renderVals() {
+    return {
+      rollT: `translateY(-${this.state.roll * 1.06}em)`,
+      scrollToWork: (e) => {
+        const t = document.getElementById('work'); if (!t) return;
+        e.preventDefault();
+        const y0 = window.scrollY, y1 = t.getBoundingClientRect().top + y0 - 24;
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) { window.scrollTo(0, y1); return; }
+        const d = Math.min(1600, 700 + Math.abs(y1 - y0) * 0.4), t0 = performance.now();
+        const ease = (p) => p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        const step = (now) => { const p = Math.min(1, (now - t0) / d); window.scrollTo(0, y0 + (y1 - y0) * ease(p)); if (p < 1) requestAnimationFrame(step); };
+        requestAnimationFrame(step);
+      },
+      stackPos: 'relative',
+      stackTop: '0px',
+      stackPad1: '0px',
+      ...(() => { const st = this.state.logo || 0; const R = ['62% 38% 54% 46% / 48% 60% 40% 52%', '42% 58% 38% 62% / 60% 42% 58% 40%', '50% 50% 46% 54% / 54% 46% 54% 46%']; const T = ['rotate(-8deg)', 'rotate(14deg) scale(1.08)', 'rotate(30deg) scale(.86)']; return { logoR: R[st], logoT: T[st], logoTr: st === 2 ? 'border-radius .2s ease,transform .2s ease' : 'border-radius .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)', logoIn: () => this.setState({ logo: 1 }), logoOut: () => this.setState({ logo: 0 }), logoDown: () => this.setState({ logo: 2 }), logoUp: () => this.setState({ logo: 1 }) }; })(),
+      rollClip: this.state.rollDone ? 'visible' : 'hidden',
+      prevOp: this.state.rollDone ? 0 : 1,
+      themeLabel: this.state.theme === 'dark' ? 'Light' : 'Dark',
+      toggleTheme: (e) => this.m && this.m.toggleTheme(e),
+    };
+  }
+}
+</script>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0d0d0e"/><circle cx="50" cy="50" r="3" fill="#0d0d0e"/></svg></template>
+</body>
+</html>
