@@ -45,6 +45,7 @@ function initMotion(opts = {}) {
     const y0 = window.scrollY, y1 = Math.max(0, t.getBoundingClientRect().top + y0 - 96);
     if (prefersReduced()) { window.scrollTo(0, y1); return; }
     const d = Math.min(1600, 700 + Math.abs(y1 - y0) * 0.35), t0 = performance.now();
+    window.__mgOwnScroll = t0 + d + 150;
     const ease = (p) => p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
     const step = (now) => { const p = Math.min(1, (now - t0) / d); window.scrollTo(0, y0 + (y1 - y0) * ease(p)); if (p < 1) requestAnimationFrame(step); };
     requestAnimationFrame(step);
@@ -264,6 +265,22 @@ function initMotion(opts = {}) {
     clocks.forEach((c) => { c.textContent = s; });
   };
   if (clocks.length) { tick(); const iv = setInterval(tick, 15000); cleanups.push(() => clearInterval(iv)); }
+
+  // Block page jumps caused by prototypes (e.g. a field focusing inside an autoplaying iframe)
+  if (!window.__mgJumpGuard) {
+    window.__mgJumpGuard = true;
+    let lastUser = 0, lastY = window.scrollY;
+    const mark = () => { lastUser = performance.now(); };
+    ['wheel', 'touchstart', 'touchmove', 'keydown', 'pointerdown', 'mousedown'].forEach((ev) => window.addEventListener(ev, mark, { passive: true, capture: true }));
+    window.addEventListener('message', (e) => { if (e.data === 'mg-user') mark(); });
+    window.addEventListener('scroll', () => {
+      const now = performance.now(), y = window.scrollY;
+      const own = (window.__mgOwnScroll || 0) > now;
+      const modal = document.documentElement.style.overflow === 'hidden' || document.body.style.overflow === 'hidden';
+      if (!own && !modal && now - lastUser > 900 && Math.abs(y - lastY) > 160) { window.scrollTo(0, lastY); return; }
+      lastY = y;
+    }, { passive: true });
+  }
 
   // Fade prototypes in once loaded and painted
   q('iframe').forEach((f) => {

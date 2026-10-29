@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script>(function(){var f=HTMLElement.prototype.focus;HTMLElement.prototype.focus=function(o){return f.call(this,Object.assign({},o||{},{preventScroll:true}))};})();</script>
+<script>(function(){var f=HTMLElement.prototype.focus;HTMLElement.prototype.focus=function(o){return f.call(this,Object.assign({},o||{},{preventScroll:true}))};var p=function(){try{parent!==window&&parent.postMessage("mg-user","*")}catch(e){}};["wheel","touchstart","touchmove","keydown","pointerdown"].forEach(function(t){addEventListener(t,p,{passive:true,capture:true})});})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
