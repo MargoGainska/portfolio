@@ -277,8 +277,9 @@ function initMotion(opts = {}) {
       const now = performance.now(), y = window.scrollY;
       const own = (window.__mgOwnScroll || 0) > now;
       const modal = document.documentElement.style.overflow === 'hidden' || document.body.style.overflow === 'hidden';
-      if (own || modal || now - lastUser < 1200) { anchorY = y; return; }
-      if (Math.abs(y - anchorY) > 24) window.scrollTo({ top: anchorY, behavior: 'instant' });
+      const jump = Math.abs(y - anchorY);
+      if (!own && !modal && now - lastUser > 1500 && jump > 300) { window.scrollTo({ top: anchorY, behavior: 'instant' }); return; }
+      anchorY = y;
     }, { passive: true });
   }
 
