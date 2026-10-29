@@ -69,7 +69,7 @@ function setNative(el, v) {
 }
 async function typeInto(el, text, speed = 55) {
   if (!el) return;
-  el.focus();
+  el.focus({ preventScroll: true });
   for (let i = 1; i <= text.length; i++) { setNative(el, text.slice(0, i)); await wait(speed + (text[i - 1] === ' ' ? 40 : 0)); }
 }
 async function slide(el, to, steps = 8) {

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>(function(){var f=HTMLElement.prototype.focus;HTMLElement.prototype.focus=function(o){return f.call(this,Object.assign({},o||{},{preventScroll:true}))};})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
@@ -510,7 +511,7 @@ class Component extends DCLogic {
   }
   componentDidUpdate(pp, ps) {
     this.syncDemo();
-    if (this.state.adding && !(ps && ps.adding) && this.inputRef.current) setTimeout(() => this.inputRef.current && this.inputRef.current.focus(), 60);
+    if (this.state.adding && !(ps && ps.adding) && this.inputRef.current) setTimeout(() => this.inputRef.current && this.inputRef.current.focus({ preventScroll: true }), 60);
   }
   componentWillUnmount() { this._dead = true; clearInterval(this._demo); }
   syncDemo() {
