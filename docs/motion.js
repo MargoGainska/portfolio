@@ -266,19 +266,19 @@ function initMotion(opts = {}) {
   };
   if (clocks.length) { tick(); const iv = setInterval(tick, 15000); cleanups.push(() => clearInterval(iv)); }
 
-  // Block page jumps caused by prototypes (e.g. a field focusing inside an autoplaying iframe)
+  // Block page jumps caused by prototypes (focus / scrollIntoView inside autoplaying iframes)
   if (!window.__mgJumpGuard) {
     window.__mgJumpGuard = true;
-    let lastUser = 0, lastY = window.scrollY;
-    const mark = () => { lastUser = performance.now(); };
+    let lastUser = 0, anchorY = window.scrollY;
+    const mark = (e) => { if (!e || e.isTrusted !== false) { lastUser = performance.now(); } };
     ['wheel', 'touchstart', 'touchmove', 'keydown', 'pointerdown', 'mousedown'].forEach((ev) => window.addEventListener(ev, mark, { passive: true, capture: true }));
     window.addEventListener('message', (e) => { if (e.data === 'mg-user') mark(); });
     window.addEventListener('scroll', () => {
       const now = performance.now(), y = window.scrollY;
       const own = (window.__mgOwnScroll || 0) > now;
       const modal = document.documentElement.style.overflow === 'hidden' || document.body.style.overflow === 'hidden';
-      if (!own && !modal && now - lastUser > 900 && Math.abs(y - lastY) > 160) { window.scrollTo(0, lastY); return; }
-      lastY = y;
+      if (own || modal || now - lastUser < 1200) { anchorY = y; return; }
+      if (Math.abs(y - anchorY) > 24) window.scrollTo({ top: anchorY, behavior: 'instant' });
     }, { passive: true });
   }
 
